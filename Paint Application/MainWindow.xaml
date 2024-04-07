@@ -10,7 +10,8 @@
         WindowStartupLocation="CenterScreen"
         WindowStyle="None"
         AllowsTransparency="True"
-        Background="Transparent">
+        Background="Transparent"
+        Loaded="WindowLoaded">
     <Window.Resources>
         <ImageBrush x:Key="close-non" ImageSource="images/window-close.png"/>
         <ImageBrush x:Key="close-effect" ImageSource="images/window-close-effect.png"/>
@@ -66,6 +67,18 @@
                 </Setter.Value>
             </Setter>
         </Style>
+        <Style x:Key="buttonStyle" TargetType="Button">
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Grid Background="{TemplateBinding Background}">
+                            <ContentPresenter />
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
     </Window.Resources>
     <Grid Background="White">
         <Grid.RowDefinitions>
@@ -79,19 +92,110 @@
                 <TextBlock FontFamily="fonts/#Lobster" FontSize="22" Text="Paint Application" VerticalAlignment="Center"/>
             </StackPanel>
             <StackPanel DockPanel.Dock="Right" Orientation="Horizontal" HorizontalAlignment="Right">
-                <Button Name="minimizeButton" Style="{StaticResource minimizeButton}"/>
-                <Button Name="closeButton" Style="{StaticResource closeWindowButton}" Margin="10 5"/>
+                <Button Name="minimizeButton" Style="{StaticResource minimizeButton}" Click="minimizeButtonClick"/>
+                <Button Name="closeButton" Style="{StaticResource closeWindowButton}" Margin="10 5" Click="closeButtonClick"/>
             </StackPanel>
         </DockPanel>
-        <Grid Grid.Row="1">
+        <Grid Grid.Row="1" Background="LavenderBlush">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="0.5*"/>
+                <ColumnDefinition Width="0.5*"/>
                 <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="0.5*"/>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="0.5*"/>
             </Grid.ColumnDefinitions>
+            <Grid Grid.Column="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="3*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Grid Grid.Row="0">
+                    <StackPanel Name="selecionStackpanel" Cursor="Hand" MouseLeftButtonDown="selecionStackpanelMouseLeftButtonDown">
+                        <Image Name="selectionImage" Source="images/rec-selection.png" Width="50" Height="50" Margin="10"/>
+                        <Grid Height="30">
+                            <Button Name="selectionButton" Style="{StaticResource buttonStyle}" Width="120" Height="10" Opacity="0.5" Cursor="Hand" Click="selectionButtonClick" VerticalAlignment="Top">
+                                <Button.Content>
+                                    <Image Name="selectionButtonContent" Source="images/arrow-down.png"/>
+                                </Button.Content>
+                            </Button>
+                            <ComboBox Name="selectionCombobox" Width="150" Height="15" Visibility="Hidden" VerticalAlignment="Top" SelectionChanged="selectionComboboxSelectionChanged">
+                                <ComboBoxItem>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="2*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Image Grid.Column="0" Source="images/rec-selection.png" Width="30" Height="30" Margin="5"/>
+                                        <TextBlock Grid.Column="1" FontFamily="fonts/#Signika" Text="Rectangle" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    </Grid>
+                                </ComboBoxItem>
+                                <ComboBoxItem>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="2*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Image Grid.Column="0" Source="images/free-selection.png" Width="30" Height="30" Margin="5"/>
+                                        <TextBlock Grid.Column="1" FontFamily="fonts/#Signika" Text="Free-form" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    </Grid>
+                                </ComboBoxItem>
+                                <ComboBoxItem>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="2*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Image Grid.Column="0" Source="images/all-selection.png" Width="30" Height="30" Margin="5"/>
+                                        <TextBlock Grid.Column="1" FontFamily="fonts/#Signika" Text="Select all" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    </Grid>
+                                </ComboBoxItem>
+                                <ComboBox.ItemContainerStyle>
+                                    <Style TargetType="ComboBoxItem">
+                                        <EventSetter Event="PreviewMouseLeftButtonDown" Handler="selectionComboboxPreviewMouseLeftButtonDown"/>
+                                        <Setter Property="Background" Value="Transparent"/>
+                                        <Setter Property="Cursor" Value="Hand"/>
+                                        <Setter Property="Template">
+                                            <Setter.Value>
+                                                <ControlTemplate TargetType="{x:Type ComboBoxItem}">
+                                                    <ContentPresenter/>
+                                                </ControlTemplate>
+                                            </Setter.Value>
+                                        </Setter>
+                                        <Style.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter Property="Template">
+                                                    <Setter.Value>
+                                                        <ControlTemplate TargetType="ComboBoxItem">
+                                                            <Grid Background="Gainsboro">
+                                                                <ContentPresenter/>
+                                                            </Grid>
+                                                        </ControlTemplate>
+                                                    </Setter.Value>
+                                                </Setter>
+                                            </Trigger>
+                                            <Trigger Property="IsSelected" Value="True">
+                                                <Setter Property="Template">
+                                                    <Setter.Value>
+                                                        <ControlTemplate TargetType="ComboBoxItem">
+                                                            <Grid Background="WhiteSmoke">
+                                                                <ContentPresenter/>
+                                                            </Grid>
+                                                        </ControlTemplate>
+                                                    </Setter.Value>
+                                                </Setter>
+                                            </Trigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </ComboBox.ItemContainerStyle>
+                            </ComboBox>
+                        </Grid>
+                    </StackPanel>
+                    <Border Name="selectionBorder" CornerRadius="10" BorderBrush="CornflowerBlue" BorderThickness="2" Width="60" Height="80" Opacity="0"/>
+                </Grid>
+                <TextBlock Grid.Row="1" FontSize="15" FontFamily="fonts/#Signika" Text="Selection" VerticalAlignment="Center" HorizontalAlignment="Center" Opacity="0.5"/>
+            </Grid>
+            <Button Grid.Column="1" Click="Button_Click"/>
         </Grid>
     </Grid>
 </Window>

@@ -11,6 +11,13 @@
 
   <ItemGroup>
     <None Remove="fonts\Lobster-Regular.ttf" />
+    <None Remove="fonts\Roboto-Regular.ttf" />
+    <None Remove="fonts\Signika-Regular.ttf" />
+    <None Remove="images\all-selection.png" />
+    <None Remove="images\arrow-down.png" />
+    <None Remove="images\arrow-up.png" />
+    <None Remove="images\free-selection.png" />
+    <None Remove="images\rec-selection.png" />
     <None Remove="images\window-close-effect.png" />
     <None Remove="images\window-close.png" />
     <None Remove="images\window-icon.png" />
@@ -22,9 +29,23 @@
     <Content Include="fonts\Lobster-Regular.ttf">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="fonts\Signika-Regular.ttf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="images\all-selection.png" />
+    <Resource Include="images\arrow-up.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="images\arrow-down.png" />
+    <Resource Include="images\rec-selection.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="images\free-selection.png" />
     <Resource Include="images\window-close-effect.png" />
     <Resource Include="images\window-close.png" />
     <Resource Include="images\window-icon.png" />
