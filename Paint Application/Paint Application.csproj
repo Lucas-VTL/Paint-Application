@@ -9,4 +9,27 @@
     <UseWPF>true</UseWPF>
   </PropertyGroup>
 
+  <ItemGroup>
+    <None Remove="fonts\Lobster-Regular.ttf" />
+    <None Remove="images\window-close-effect.png" />
+    <None Remove="images\window-close.png" />
+    <None Remove="images\window-icon.png" />
+    <None Remove="images\window-minimize-effect.png" />
+    <None Remove="images\window-minimize.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="fonts\Lobster-Regular.ttf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="images\window-close-effect.png" />
+    <Resource Include="images\window-close.png" />
+    <Resource Include="images\window-icon.png" />
+    <Resource Include="images\window-minimize-effect.png" />
+    <Resource Include="images\window-minimize.png" />
+  </ItemGroup>
+
 </Project>
