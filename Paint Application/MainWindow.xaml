@@ -240,7 +240,51 @@
                                 <Image Source="images/textSize.png" Width="20" Height="20"/>
                             </Button.Content>
                         </Button>
-                        <ComboBox Name="textFontCombobox" Visibility="Hidden" Width="160"/>
+                        <ComboBox Name="textFontCombobox" Visibility="Hidden" Width="160" ScrollViewer.VerticalScrollBarVisibility="Hidden" Margin="-40 0 0 0">
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Margin="5" Text="{Binding fontName}" FontFamily="{Binding fontName}" VerticalAlignment="Center" Height="30"/>
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+                            <ComboBox.ItemContainerStyle>
+                                <Style TargetType="ComboBoxItem">
+                                    <EventSetter Event="PreviewMouseLeftButtonDown" Handler="textFontComboboxPreviewMouseLeftButtonDown"/>
+                                    <Setter Property="Background" Value="Transparent"/>
+                                    <Setter Property="Cursor" Value="Hand"/>
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="{x:Type ComboBoxItem}">
+                                                <ContentPresenter/>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                    <Style.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter Property="Template">
+                                                <Setter.Value>
+                                                    <ControlTemplate TargetType="ComboBoxItem">
+                                                        <Grid Background="Gainsboro">
+                                                            <ContentPresenter/>
+                                                        </Grid>
+                                                    </ControlTemplate>
+                                                </Setter.Value>
+                                            </Setter>
+                                        </Trigger>
+                                        <Trigger Property="IsSelected" Value="True">
+                                            <Setter Property="Template">
+                                                <Setter.Value>
+                                                    <ControlTemplate TargetType="ComboBoxItem">
+                                                        <Grid Background="WhiteSmoke">
+                                                            <ContentPresenter/>
+                                                        </Grid>
+                                                    </ControlTemplate>
+                                                </Setter.Value>
+                                            </Setter>
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </ComboBox.ItemContainerStyle>
+                        </ComboBox>
                     </Grid>
                     <Button Name="textFontButton" Grid.Row="1" Grid.Column="1" Style="{StaticResource buttonStyle}" Cursor="Hand" Click="textFontButtonClick">
                         <Button.Content>

@@ -9,6 +9,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Windows.Media;
 
 namespace Paint_Application
 {
@@ -33,6 +34,11 @@ namespace Paint_Application
         }
     }
 
+    public class Font()
+    {
+        public string fontName { get; set; }
+    }
+
     public partial class MainWindow : Window
     {
         private bool isSelectionOpen = false;
@@ -42,6 +48,7 @@ namespace Paint_Application
         private bool isTextFontOpen = false;
 
         private List<Border> function = new List<Border>();
+        private List<Font> fonts = new List<Font>();
 
         public MainWindow()
         {
@@ -50,7 +57,18 @@ namespace Paint_Application
 
         private void WindowLoaded(object sender, RoutedEventArgs e)
         {
+            var fontList = Fonts.SystemFontFamilies;
+            for (int i = 0; i < fontList.Count; i++)
+            {
+                Font tempFont = new Font {fontName = fontList.ElementAt(i).Source};
+                fonts.Add(tempFont);
+            }
+            textFontCombobox.ItemsSource = fonts;
+
             selectionCombobox.SelectedIndex = 0;
+            textFontCombobox.SelectedIndex = 0;
+
+            textFontCombobox.MaxDropDownHeight = 200;
 
             function.Add(selectionBorder);
             function.Add(textBorder);
@@ -86,6 +104,9 @@ namespace Paint_Application
                 selectionCombobox.IsDropDownOpen = true;
                 selectionButtonContent.Source = new BitmapImage(new Uri("images/arrow-up.png", UriKind.Relative));
                 isSelectionOpen = true;
+
+                textFontCombobox.IsDropDownOpen = false;
+                isTextFontOpen = false;
             } else
             {
                 selectionCombobox.IsDropDownOpen = false;
@@ -173,7 +194,24 @@ namespace Paint_Application
 
         private void textFontButtonClick(object sender, RoutedEventArgs e)
         {
-            textFontCombobox.IsDropDownOpen = true;
+            if (!isTextFontOpen)
+            {
+                textFontCombobox.IsDropDownOpen = true;
+                isTextFontOpen = true;
+
+                selectionCombobox.IsDropDownOpen = false;
+                selectionButtonContent.Source = new BitmapImage(new Uri("images/arrow-down.png", UriKind.Relative));
+                isSelectionOpen = false;
+            } else
+            {
+                textFontCombobox.IsDropDownOpen = false;
+                isTextFontOpen = false;
+            }
+        }
+
+        private void textFontComboboxPreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+
         }
     }
 }
