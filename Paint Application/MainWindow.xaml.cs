@@ -45,10 +45,14 @@ namespace Paint_Application
         private bool isTextBold = false;
         private bool isTextItalic = false;
         private bool isTextBackgroundFill = false;
-        private bool isTextFontOpen = false;
+        private bool isTextFontFamilyOpen = false;
+        private bool isTextFontSizeOpen = false;
 
         private List<Border> function = new List<Border>();
         private List<Font> fonts = new List<Font>();
+
+        private string globalFontFamily;
+        private int globalFontSize = 12;
 
         public MainWindow()
         {
@@ -68,7 +72,7 @@ namespace Paint_Application
             selectionCombobox.SelectedIndex = 0;
             textFontCombobox.SelectedIndex = 0;
 
-            textFontCombobox.MaxDropDownHeight = 200;
+            textFontCombobox.MaxDropDownHeight = 160;
 
             function.Add(selectionBorder);
             function.Add(textBorder);
@@ -106,7 +110,10 @@ namespace Paint_Application
                 isSelectionOpen = true;
 
                 textFontCombobox.IsDropDownOpen = false;
-                isTextFontOpen = false;
+                isTextFontFamilyOpen = false;
+
+                fontSizeStackpanel.Visibility = Visibility.Collapsed;
+                isTextFontSizeOpen = false;
             } else
             {
                 selectionCombobox.IsDropDownOpen = false;
@@ -194,24 +201,118 @@ namespace Paint_Application
 
         private void textFontButtonClick(object sender, RoutedEventArgs e)
         {
-            if (!isTextFontOpen)
+            if (!isTextFontFamilyOpen)
             {
                 textFontCombobox.IsDropDownOpen = true;
-                isTextFontOpen = true;
+                isTextFontFamilyOpen = true;
 
                 selectionCombobox.IsDropDownOpen = false;
                 selectionButtonContent.Source = new BitmapImage(new Uri("images/arrow-down.png", UriKind.Relative));
                 isSelectionOpen = false;
+
+                fontSizeStackpanel.Visibility = Visibility.Collapsed;
+                isTextFontSizeOpen = false;
             } else
             {
                 textFontCombobox.IsDropDownOpen = false;
-                isTextFontOpen = false;
+                isTextFontFamilyOpen = false;
             }
         }
 
         private void textFontComboboxPreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
+            isTextFontFamilyOpen = false;
+        }
 
+        private void textFontComboboxSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            dynamic item = textFontCombobox.SelectedItem as dynamic;
+            if (item != null)
+            {
+                globalFontFamily = item.fontName;
+            }
+        }
+
+        private void fontSizeButtonClick(object sender, RoutedEventArgs e)
+        {
+            if (!isTextFontSizeOpen)
+            {
+                string text = fontSizeTextbox.Text;
+                int number;
+
+                if (int.TryParse(text, out number))
+                {
+                    if (number >= 1 && number <= 72)
+                    {
+                        globalFontSize = number;
+                        fontSizeTextbox.Text = number.ToString();
+                    }
+                    else
+                    {
+                        fontSizeTextbox.Text = globalFontSize.ToString();
+                    }
+                }
+                else
+                {
+                    fontSizeTextbox.Text = globalFontSize.ToString();
+                }
+
+                fontSizeStackpanel.Visibility = Visibility.Visible;
+                isTextFontSizeOpen = true;
+
+                selectionCombobox.IsDropDownOpen = false;
+                selectionButtonContent.Source = new BitmapImage(new Uri("images/arrow-down.png", UriKind.Relative));
+                isSelectionOpen = false;
+
+                textFontCombobox.IsDropDownOpen = false;
+                isTextFontFamilyOpen = false;
+            } else
+            {
+                fontSizeStackpanel.Visibility = Visibility.Collapsed;
+                isTextFontSizeOpen = false;
+            }
+        }
+
+        private void inceaseFontSizeClick(object sender, RoutedEventArgs e)
+        {
+            string curSizeString = fontSizeTextbox.Text;
+            int curSizeInt = Int32.Parse(curSizeString);
+
+            globalFontSize = Math.Min(curSizeInt + 2, 72);
+            fontSizeTextbox.Text = globalFontSize.ToString();
+        }
+
+        private void decreaseFontSizeClick(object sender, RoutedEventArgs e)
+        {
+            string curSizeString = fontSizeTextbox.Text;
+            int curSizeInt = Int32.Parse(curSizeString);
+
+            globalFontSize = Math.Max(curSizeInt - 2, 1);
+            fontSizeTextbox.Text = globalFontSize.ToString();
+        }
+
+        private void fontSizeTextboxKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                string text = fontSizeTextbox.Text;
+                int number;
+
+                if (int.TryParse(text, out number))
+                {
+                    if (number >= 1 && number <= 72)
+                    {
+                        globalFontSize = number;
+                        fontSizeTextbox.Text = number.ToString();
+                    } else
+                    {
+                        fontSizeTextbox.Text = globalFontSize.ToString();
+                    }
+                } else
+                {
+                    fontSizeTextbox.Text = globalFontSize.ToString();
+                }
+            }
         }
     }
 }
