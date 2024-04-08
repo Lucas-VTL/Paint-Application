@@ -18,6 +18,13 @@
     <None Remove="images\arrow-up.png" />
     <None Remove="images\free-selection.png" />
     <None Remove="images\rec-selection.png" />
+    <None Remove="images\textBackground.png" />
+    <None Remove="images\textBackgroundEffect.png" />
+    <None Remove="images\textBold.png" />
+    <None Remove="images\textChoosing.png" />
+    <None Remove="images\textFont.png" />
+    <None Remove="images\textItalic.png" />
+    <None Remove="images\textSize.png" />
     <None Remove="images\window-close-effect.png" />
     <None Remove="images\window-close.png" />
     <None Remove="images\window-icon.png" />
@@ -46,6 +53,13 @@
 
   <ItemGroup>
     <Resource Include="images\free-selection.png" />
+    <Resource Include="images\textBackground.png" />
+    <Resource Include="images\textBackgroundEffect.png" />
+    <Resource Include="images\textBold.png" />
+    <Resource Include="images\textChoosing.png" />
+    <Resource Include="images\textFont.png" />
+    <Resource Include="images\textItalic.png" />
+    <Resource Include="images\textSize.png" />
     <Resource Include="images\window-close-effect.png" />
     <Resource Include="images\window-close.png" />
     <Resource Include="images\window-icon.png" />

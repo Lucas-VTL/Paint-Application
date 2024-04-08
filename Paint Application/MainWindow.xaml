@@ -195,7 +195,66 @@
                 </Grid>
                 <TextBlock Grid.Row="1" FontSize="15" FontFamily="fonts/#Signika" Text="Selection" VerticalAlignment="Center" HorizontalAlignment="Center" Opacity="0.5"/>
             </Grid>
-            <Button Grid.Column="1" Click="Button_Click"/>
+            <Grid Grid.Column="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="3*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Grid Grid.Row="0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Grid Grid.Row="0" Grid.Column="0">
+                        <Button Name="textButton" Style="{StaticResource buttonStyle}" Cursor="Hand" Click="textButtonClick">
+                            <Button.Content>
+                                <Image Source="images/textChoosing.png" Width="25" Height="25"/>
+                            </Button.Content>
+                        </Button>
+                        <Border Name="textBorder" CornerRadius="5" BorderBrush="CornflowerBlue" BorderThickness="2" Width="35" Height="35" Opacity="0"/>
+                    </Grid>
+                    <Grid Grid.Row="0" Grid.Column="1">
+                        <Button Name="textBoldButton" Style="{StaticResource buttonStyle}" Cursor="Hand" Click="textBoldButtonClick">
+                            <Button.Content>
+                                <Image Source="images/textBold.png" Width="20" Height="20"/>
+                            </Button.Content>
+                        </Button>
+                        <Border Name="textBoldBorder" CornerRadius="5" BorderBrush="CornflowerBlue" BorderThickness="2" Width="35" Height="35" Opacity="0"/>
+                    </Grid>
+                    <Grid Grid.Row="0" Grid.Column="2">
+                        <Button Name="textItalicButton" Style="{StaticResource buttonStyle}" Cursor="Hand" Click="textItalicButtonClick">
+                            <Button.Content>
+                                <Image Source="images/textItalic.png" Width="20" Height="20"/>
+                            </Button.Content>
+                        </Button>
+                        <Border Name="textItalicBorder" CornerRadius="5" BorderBrush="CornflowerBlue" BorderThickness="2" Width="35" Height="35" Opacity="0"/>
+                    </Grid>
+                    <Grid Grid.Row="1" Grid.Column="0">
+                        <Button Style="{StaticResource buttonStyle}" Cursor="Hand">
+                            <Button.Content>
+                                <Image Source="images/textSize.png" Width="20" Height="20"/>
+                            </Button.Content>
+                        </Button>
+                        <ComboBox Name="textFontCombobox" Visibility="Hidden" Width="160"/>
+                    </Grid>
+                    <Button Name="textFontButton" Grid.Row="1" Grid.Column="1" Style="{StaticResource buttonStyle}" Cursor="Hand" Click="textFontButtonClick">
+                        <Button.Content>
+                            <Image Source="images/textFont.png" Width="20" Height="20"/>
+                        </Button.Content>
+                    </Button>
+                    <Button Name="textBackgroundButton" Grid.Row="1" Grid.Column="2" Style="{StaticResource buttonStyle}" Cursor="Hand" Click="textBackgroundButtonClick">
+                        <Button.Content>
+                            <Image Name="textBackgroundImage" Source="images/textBackground.png" Width="25" Height="25"/>
+                        </Button.Content>
+                    </Button>
+                </Grid>
+                <TextBlock Grid.Row="1" FontSize="15" FontFamily="fonts/#Signika" Text="Text" VerticalAlignment="Center" HorizontalAlignment="Center" Opacity="0.5"/>
+            </Grid>
         </Grid>
     </Grid>
 </Window>

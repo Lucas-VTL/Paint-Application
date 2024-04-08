@@ -36,6 +36,12 @@ namespace Paint_Application
     public partial class MainWindow : Window
     {
         private bool isSelectionOpen = false;
+        private bool isTextBold = false;
+        private bool isTextItalic = false;
+        private bool isTextBackgroundFill = false;
+        private bool isTextFontOpen = false;
+
+        private List<Border> function = new List<Border>();
 
         public MainWindow()
         {
@@ -45,6 +51,9 @@ namespace Paint_Application
         private void WindowLoaded(object sender, RoutedEventArgs e)
         {
             selectionCombobox.SelectedIndex = 0;
+
+            function.Add(selectionBorder);
+            function.Add(textBorder);
         }
 
         private void minimizeButtonClick(object sender, RoutedEventArgs e)
@@ -55,6 +64,19 @@ namespace Paint_Application
         private void closeButtonClick(object sender, RoutedEventArgs e)
         {
             this.Close();
+        }
+
+        private void functionSelected(int index)
+        {
+            function[index].Opacity = 1;
+
+            for (int i = 0; i < function.Count; i++)
+            {
+                if (i != index)
+                {
+                    function[i].Opacity = 0;
+                }
+            }
         }
 
         private void selectionButtonClick(object sender, RoutedEventArgs e)
@@ -74,14 +96,14 @@ namespace Paint_Application
 
         private void selecionStackpanelMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            selectionBorder.Opacity = 1;
+            functionSelected(0);
         }
 
         private void selectionComboboxPreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             selectionButtonContent.Source = new BitmapImage(new Uri("images/arrow-down.png", UriKind.Relative));
             isSelectionOpen = false;
-            selectionBorder.Opacity = 1;
+            functionSelected(0);
         }
 
         private void selectionComboboxSelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -105,9 +127,53 @@ namespace Paint_Application
             isSelectionOpen = false;
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void textButtonClick(object sender, RoutedEventArgs e)
         {
-            selectionBorder.Opacity = 0;
+            functionSelected(1);
+        }
+
+        private void textBoldButtonClick(object sender, RoutedEventArgs e)
+        {
+            if (!isTextBold)
+            {
+                textBoldBorder.Opacity = 1;
+                isTextBold = true;
+            } else
+            {
+                textBoldBorder.Opacity = 0;
+                isTextBold = false;
+            }
+        }
+
+        private void textItalicButtonClick(object sender, RoutedEventArgs e)
+        {
+            if (!isTextItalic)
+            {
+                textItalicBorder.Opacity = 1;
+                isTextItalic = true;
+            } else
+            {
+                textItalicBorder.Opacity = 0;
+                isTextItalic= false;
+            }
+        }
+
+        private void textBackgroundButtonClick(object sender, RoutedEventArgs e)
+        {
+            if (!isTextBackgroundFill)
+            {
+                textBackgroundImage.Source = new BitmapImage(new Uri("images/textBackgroundEffect.png", UriKind.Relative));
+                isTextBackgroundFill = true;
+            } else
+            {
+                textBackgroundImage.Source = new BitmapImage(new Uri("images/textBackground.png", UriKind.Relative));
+                isTextBackgroundFill = false;
+            }
+        }
+
+        private void textFontButtonClick(object sender, RoutedEventArgs e)
+        {
+            textFontCombobox.IsDropDownOpen = true;
         }
     }
 }
