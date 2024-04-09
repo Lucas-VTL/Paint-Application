@@ -76,6 +76,18 @@ namespace Paint_Application
 
             function.Add(selectionBorder);
             function.Add(textBorder);
+            function.Add(lineBorder);
+            function.Add(rectangleBorder);
+            function.Add(ellipseBorder);
+            function.Add(fourstarBorder);
+            function.Add(fivestarBorder);
+            function.Add(heartBorder);
+            function.Add(arrowBorder);
+            function.Add(triangleBorder);
+            function.Add(rightTriangleBorder);
+            function.Add(rhombusBorder);
+            function.Add(pentagonBorder);
+            function.Add(hexagonBorder);
         }
 
         private void minimizeButtonClick(object sender, RoutedEventArgs e)
@@ -313,6 +325,66 @@ namespace Paint_Application
                     fontSizeTextbox.Text = globalFontSize.ToString();
                 }
             }
+        }
+
+        private void lineButtonClick(object sender, RoutedEventArgs e)
+        {
+            functionSelected(2);
+        }
+
+        private void rectangleButtonClick(object sender, RoutedEventArgs e)
+        {
+            functionSelected(3);
+        }
+
+        private void ellipseButtonClick(object sender, RoutedEventArgs e)
+        {
+            functionSelected(4);
+        }
+
+        private void fourStarButtonClick(object sender, RoutedEventArgs e)
+        {
+            functionSelected(5);
+        }
+
+        private void fiveStarButtonClick(object sender, RoutedEventArgs e)
+        {
+            functionSelected(6);
+        }
+
+        private void heartButtonClick(object sender, RoutedEventArgs e)
+        {
+            functionSelected(7);
+        }
+
+        private void arrowButtonClick(object sender, RoutedEventArgs e)
+        {
+            functionSelected(8);
+        }
+
+        private void triangleButtonClick(object sender, RoutedEventArgs e)
+        {
+            functionSelected(9);
+        }
+
+        private void rightTriangleButtonClick(object sender, RoutedEventArgs e)
+        {
+            functionSelected(10);
+        }
+
+        private void rhombusButtonClick(object sender, RoutedEventArgs e)
+        {
+            functionSelected(11);
+        }
+
+        private void pentagonButtonClick(object sender, RoutedEventArgs e)
+        {
+            functionSelected(12);
+        }
+
+        private void hexagonButtonClick(object sender, RoutedEventArgs e)
+        {
+            functionSelected(13);
         }
     }
 }
