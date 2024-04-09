@@ -51,6 +51,7 @@ namespace Paint_Application
         private bool isTextFontSizeOpen = false;
         private bool isFunctionSelected = false;
         private bool isStyleWidthOpen = false;
+        private bool isStyleStrokeOpen = false;
 
         private List<Border> function = new List<Border>();
         private List<Font> fonts = new List<Font>();
@@ -58,6 +59,7 @@ namespace Paint_Application
         private string globalFontFamily;
         private int globalFontSize = 12;
         private int globalWidth;
+        private int globalStroke;
 
         public MainWindow()
         {
@@ -76,6 +78,8 @@ namespace Paint_Application
 
             selectionCombobox.SelectedIndex = 0;
             textFontCombobox.SelectedIndex = 0;
+            styleWidthCombobox.SelectedIndex = 0;
+            styleStrokeCombobox.SelectedIndex = 0;
 
             textFontCombobox.MaxDropDownHeight = 160;
 
@@ -136,6 +140,9 @@ namespace Paint_Application
 
                 styleWidthCombobox.IsDropDownOpen = false;
                 isStyleWidthOpen = false;
+
+                styleStrokeCombobox.IsDropDownOpen = false;
+                isStyleStrokeOpen = false;
             } else
             {
                 selectionCombobox.IsDropDownOpen = false;
@@ -236,6 +243,9 @@ namespace Paint_Application
 
                 styleWidthCombobox.IsDropDownOpen = false;
                 isStyleWidthOpen = false;
+
+                styleStrokeCombobox.IsDropDownOpen = false;
+                isStyleStrokeOpen = false;
             } else
             {
                 textFontCombobox.IsDropDownOpen = false;
@@ -293,6 +303,9 @@ namespace Paint_Application
 
                 styleWidthCombobox.IsDropDownOpen = false;
                 isStyleWidthOpen = false;
+
+                styleStrokeCombobox.IsDropDownOpen = false;
+                isStyleStrokeOpen = false;
             } else
             {
                 fontSizeStackpanel.Visibility = Visibility.Collapsed;
@@ -420,6 +433,15 @@ namespace Paint_Application
 
             textFontCombobox.IsDropDownOpen = false;
             isTextFontFamilyOpen = false;
+
+            fontSizeStackpanel.Visibility = Visibility.Collapsed;
+            isTextFontSizeOpen = false;
+
+            styleWidthCombobox.IsDropDownOpen = false;
+            isStyleWidthOpen = false;
+
+            styleStrokeCombobox.IsDropDownOpen = false;
+            isStyleStrokeOpen = false;
         }
 
         private void drawAreaMouseMove(object sender, MouseEventArgs e)
@@ -449,6 +471,9 @@ namespace Paint_Application
 
                 fontSizeStackpanel.Visibility = Visibility.Collapsed;
                 isTextFontSizeOpen = false;
+
+                styleStrokeCombobox.IsDropDownOpen = false;
+                isStyleStrokeOpen = false;
             } else
             {
                 styleWidthCombobox.IsDropDownOpen = false;
@@ -485,6 +510,63 @@ namespace Paint_Application
         private void styleWidthComboboxPreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             isStyleWidthOpen = false;
+        }
+
+        private void styleStrokeButtonClick(object sender, RoutedEventArgs e)
+        {
+            if (!isStyleStrokeOpen)
+            {
+                styleStrokeCombobox.IsDropDownOpen = true;
+                isStyleStrokeOpen = true;
+
+                selectionCombobox.IsDropDownOpen = false;
+                selectionButtonContent.Source = new BitmapImage(new Uri("images/arrow-down.png", UriKind.Relative));
+                isSelectionOpen = false;
+
+                textFontCombobox.IsDropDownOpen = false;
+                isTextFontFamilyOpen = false;
+
+                fontSizeStackpanel.Visibility = Visibility.Collapsed;
+                isTextFontSizeOpen = false;
+
+                styleWidthCombobox.IsDropDownOpen = false;
+                isStyleWidthOpen = false;
+            } else
+            {
+                styleStrokeCombobox.IsDropDownOpen = false;
+                isStyleStrokeOpen = false;
+            }
+        }
+
+        private void styleStrokeComboboxSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            int index = styleStrokeCombobox.SelectedIndex;
+
+            switch (index)
+            {
+                case 0:
+                    globalStroke = 1;
+                    styleStrokeImage.Source = new BitmapImage(new Uri("images/styleBaseLine.png", UriKind.Relative));
+                    break;
+                case 1:
+                    globalStroke = 2;
+                    styleStrokeImage.Source = new BitmapImage(new Uri("images/styleStroke1.png", UriKind.Relative));
+                    break;
+                case 2:
+                    globalStroke = 3;
+                    styleStrokeImage.Source = new BitmapImage(new Uri("images/styleStroke2.png", UriKind.Relative));
+                    break;
+                case 3:
+                    globalStroke = 4;
+                    styleStrokeImage.Source = new BitmapImage(new Uri("images/styleStroke3.png", UriKind.Relative));
+                    break;
+                default: break;
+            }
+        }
+
+        private void styleStrokeComboboxPreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            isStyleStrokeOpen = false;
         }
     }
 }

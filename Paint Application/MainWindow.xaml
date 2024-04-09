@@ -467,34 +467,34 @@
                             <Button Name="styleWidthButton" Cursor="Hand" Style="{StaticResource buttonStyle}" Margin="5 0 0 0" Click="styleWidthButtonClick">
                                 <Button.Content>
                                     <StackPanel Orientation="Horizontal">
-                                        <Image Name="styleWidthImage" Source="images/styleBaseLine.png" Width="70" Height="30" Margin="0 20 0 0"/>
+                                        <Image Name="styleWidthImage" Source="images/styleBaseLine.png" Width="65" Height="30" Margin="0 20 5 0"/>
                                         <Image Source="images/styleWidth.png" Width="20" Height="20"/>
                                     </StackPanel>
                                 </Button.Content>
                             </Button>
                             <ComboBox Name="styleWidthCombobox" Visibility="Hidden" SelectionChanged="styleWidthComboboxSelectionChanged">
                                 <ComboBoxItem>
-                                    <StackPanel Orientation="Horizontal" Margin="5" Height="30">
-                                        <Image Source="images/styleBaseLine.png" Width="60"/>
-                                        <TextBlock Text="1px" FontFamily="fonts/#Signika" VerticalAlignment="Center" Margin="5 0 0 0"/>
+                                    <StackPanel Orientation="Horizontal" Height="40">
+                                        <Image Source="images/styleBaseLine.png" Width="60" Margin="5 0 0 0"/>
+                                        <TextBlock Text="1px" FontFamily="fonts/#Signika" VerticalAlignment="Center" Margin="5 0"/>
                                     </StackPanel>
                                 </ComboBoxItem>
                                 <ComboBoxItem>
-                                    <StackPanel Orientation="Horizontal" Margin="5" Height="30">
-                                        <Image Source="images/styleWidth1.png" Width="60"/>
-                                        <TextBlock Text="3px" FontFamily="fonts/#Signika" VerticalAlignment="Center" Margin="5 0 0 0"/>
+                                    <StackPanel Orientation="Horizontal" Height="40">
+                                        <Image Source="images/styleWidth1.png" Width="60" Margin="5 0 0 0"/>
+                                        <TextBlock Text="3px" FontFamily="fonts/#Signika" VerticalAlignment="Center" Margin="5 0"/>
                                     </StackPanel>
                                 </ComboBoxItem>
                                 <ComboBoxItem>
-                                    <StackPanel Orientation="Horizontal" Margin="5" Height="30">
-                                        <Image Source="images/styleWidth2.png" Width="60"/>
-                                        <TextBlock Text="5px" FontFamily="fonts/#Signika" VerticalAlignment="Center" Margin="5 0 0 0"/>
+                                    <StackPanel Orientation="Horizontal" Height="40">
+                                        <Image Source="images/styleWidth2.png" Width="60" Margin="5 0 0 0"/>
+                                        <TextBlock Text="5px" FontFamily="fonts/#Signika" VerticalAlignment="Center" Margin="5 0"/>
                                     </StackPanel>
                                 </ComboBoxItem>
                                 <ComboBoxItem>
-                                    <StackPanel Orientation="Horizontal" Margin="5" Height="30">
-                                        <Image Source="images/styleWidth3.png" Width="60"/>
-                                        <TextBlock Text="8px" FontFamily="fonts/#Signika" VerticalAlignment="Center" Margin="5 0 0 0"/>
+                                    <StackPanel Orientation="Horizontal" Height="40">
+                                        <Image Source="images/styleWidth3.png" Width="60" Margin="5 0 0 0"/>
+                                        <TextBlock Text="8px" FontFamily="fonts/#Signika" VerticalAlignment="Center" Margin="5 0"/>
                                     </StackPanel>
                                 </ComboBoxItem>
                                 <ComboBox.ItemContainerStyle>
@@ -538,14 +538,66 @@
                             </ComboBox>
                         </Grid>
                         <Grid Grid.Row="1">
-                            <Button Cursor="Hand" Style="{StaticResource buttonStyle}" Margin="5 0 0 0">
+                            <Button Name="styleStrokeButton" Cursor="Hand" Style="{StaticResource buttonStyle}" Margin="5 0 0 0" Click="styleStrokeButtonClick">
                                 <Button.Content>
                                     <StackPanel Orientation="Horizontal">
-                                        <Image Source="images/styleBaseLine.png" Width="70" Height="30" Margin="0 20 0 0"/>
+                                        <Image Name="styleStrokeImage" Source="images/styleBaseLine.png" Width="65" Height="30" Margin="0 20 5 0"/>
                                         <Image Source="images/styleStroke.png" Width="20" Height="20"/>
                                     </StackPanel>
                                 </Button.Content>
                             </Button>
+                            <ComboBox Name="styleStrokeCombobox" Visibility="Hidden" SelectionChanged="styleStrokeComboboxSelectionChanged">
+                                <ComboBoxItem>
+                                    <Image Source="images/styleBaseLine.png" Width="80" Height="20" Margin="5"/>
+                                </ComboBoxItem>
+                                <ComboBoxItem>
+                                    <Image Source="images/styleStroke1.png" Width="80" Height="20" Margin="5"/>
+                                </ComboBoxItem>
+                                <ComboBoxItem>
+                                    <Image Source="images/styleStroke2.png" Width="80" Height="20" Margin="5"/>
+                                </ComboBoxItem>
+                                <ComboBoxItem>
+                                    <Image Source="images/styleStroke3.png" Width="80" Height="20" Margin="5"/>
+                                </ComboBoxItem>
+                                <ComboBox.ItemContainerStyle>
+                                    <Style TargetType="ComboBoxItem">
+                                        <EventSetter Event="PreviewMouseLeftButtonDown" Handler="styleStrokeComboboxPreviewMouseLeftButtonDown"/>
+                                        <Setter Property="Background" Value="Transparent"/>
+                                        <Setter Property="Cursor" Value="Hand"/>
+                                        <Setter Property="Template">
+                                            <Setter.Value>
+                                                <ControlTemplate TargetType="{x:Type ComboBoxItem}">
+                                                    <ContentPresenter/>
+                                                </ControlTemplate>
+                                            </Setter.Value>
+                                        </Setter>
+                                        <Style.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter Property="Template">
+                                                    <Setter.Value>
+                                                        <ControlTemplate TargetType="ComboBoxItem">
+                                                            <Grid Background="Gainsboro">
+                                                                <ContentPresenter/>
+                                                            </Grid>
+                                                        </ControlTemplate>
+                                                    </Setter.Value>
+                                                </Setter>
+                                            </Trigger>
+                                            <Trigger Property="IsSelected" Value="True">
+                                                <Setter Property="Template">
+                                                    <Setter.Value>
+                                                        <ControlTemplate TargetType="ComboBoxItem">
+                                                            <Grid Background="WhiteSmoke">
+                                                                <ContentPresenter/>
+                                                            </Grid>
+                                                        </ControlTemplate>
+                                                    </Setter.Value>
+                                                </Setter>
+                                            </Trigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </ComboBox.ItemContainerStyle>
+                            </ComboBox>
                         </Grid>
                     </Grid>
                     <TextBlock Grid.Row="1" FontSize="15" FontFamily="fonts/#Signika" Text="Style" VerticalAlignment="Center" HorizontalAlignment="Center" Opacity="0.5"/>

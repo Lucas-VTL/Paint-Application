@@ -32,6 +32,9 @@
     <None Remove="images\shapeTriangle.png" />
     <None Remove="images\styleBaseLine.png" />
     <None Remove="images\styleStroke.png" />
+    <None Remove="images\styleStroke1.png" />
+    <None Remove="images\styleStroke2.png" />
+    <None Remove="images\styleStroke3.png" />
     <None Remove="images\styleWidth.png" />
     <None Remove="images\styleWidth1.png" />
     <None Remove="images\styleWidth2.png" />
@@ -85,6 +88,9 @@
     <Resource Include="images\shapeTriangle.png" />
     <Resource Include="images\styleBaseLine.png" />
     <Resource Include="images\styleStroke.png" />
+    <Resource Include="images\styleStroke1.png" />
+    <Resource Include="images\styleStroke2.png" />
+    <Resource Include="images\styleStroke3.png" />
     <Resource Include="images\styleWidth.png" />
     <Resource Include="images\styleWidth1.png" />
     <Resource Include="images\styleWidth2.png" />
