@@ -160,7 +160,9 @@
                                             <Setter Property="Template">
                                                 <Setter.Value>
                                                     <ControlTemplate TargetType="{x:Type ComboBoxItem}">
-                                                        <ContentPresenter/>
+                                                        <Grid Background="Transparent">
+                                                            <ContentPresenter/>
+                                                        </Grid>
                                                     </ControlTemplate>
                                                 </Setter.Value>
                                             </Setter>
@@ -260,7 +262,9 @@
                                         <Setter Property="Template">
                                             <Setter.Value>
                                                 <ControlTemplate TargetType="{x:Type ComboBoxItem}">
-                                                    <ContentPresenter/>
+                                                    <Grid Background="Transparent">
+                                                        <ContentPresenter/>
+                                                    </Grid>
                                                 </ControlTemplate>
                                             </Setter.Value>
                                         </Setter>
@@ -505,7 +509,9 @@
                                         <Setter Property="Template">
                                             <Setter.Value>
                                                 <ControlTemplate TargetType="{x:Type ComboBoxItem}">
-                                                    <ContentPresenter/>
+                                                    <Grid Background="Transparent">
+                                                        <ContentPresenter/>
+                                                    </Grid>
                                                 </ControlTemplate>
                                             </Setter.Value>
                                         </Setter>
@@ -567,7 +573,9 @@
                                         <Setter Property="Template">
                                             <Setter.Value>
                                                 <ControlTemplate TargetType="{x:Type ComboBoxItem}">
-                                                    <ContentPresenter/>
+                                                    <Grid Background="Transparent">
+                                                        <ContentPresenter/>
+                                                    </Grid>
                                                 </ControlTemplate>
                                             </Setter.Value>
                                         </Setter>
