@@ -100,8 +100,8 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="0.4*"/>
                 <ColumnDefinition Width="0.6*"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="0.5*"/>
+                <ColumnDefinition Width="0.8*"/>
+                <ColumnDefinition Width="0.6*"/>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="0.5*"/>
             </Grid.ColumnDefinitions>
@@ -331,6 +331,131 @@
                         </StackPanel>
                     </Grid>
                 </Grid>
+            </Border>
+            <Border Grid.Column="2" BorderBrush="LightGray" BorderThickness="0 0 2 0">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="3*"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Grid Grid.Row="0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid Grid.Row="0" Grid.Column="0">
+                            <Button Cursor="Hand" Style="{StaticResource buttonStyle}">
+                                <Button.Content>
+                                    <Image Source="images/shapeLine.png" Width="25" Height="25"/>
+                                </Button.Content>
+                            </Button>
+                            <Border CornerRadius="5" BorderBrush="CornflowerBlue" BorderThickness="2" Width="35" Height="35" Opacity="0"/>
+                        </Grid>
+                        <Grid Grid.Row="0" Grid.Column="1" >
+                            <Button Cursor="Hand" Style="{StaticResource buttonStyle}">
+                                <Button.Content>
+                                    <Image Source="images/shapeRectangle.png" Width="25" Height="25"/>
+                                </Button.Content>
+                            </Button>
+                            <Border CornerRadius="5" BorderBrush="CornflowerBlue" BorderThickness="2" Width="35" Height="35" Opacity="0"/>
+                        </Grid>
+                        <Grid Grid.Row="0" Grid.Column="2">
+                            <Button Cursor="Hand" Style="{StaticResource buttonStyle}">
+                                <Button.Content>
+                                    <Image Source="images/shapeEllipse.png" Width="25" Height="25"/>
+                                </Button.Content>
+                            </Button>
+                            <Border CornerRadius="5" BorderBrush="CornflowerBlue" BorderThickness="2" Width="35" Height="35" Opacity="0"/>
+                        </Grid>
+                        <Grid Grid.Row="0" Grid.Column="3">
+                            <Button Cursor="Hand" Style="{StaticResource buttonStyle}">
+                                <Button.Content>
+                                    <Image Source="images/shape4Star.png" Width="25" Height="25"/>
+                                </Button.Content>
+                            </Button>
+                            <Border CornerRadius="5" BorderBrush="CornflowerBlue" BorderThickness="2" Width="35" Height="35" Opacity="0"/>
+                        </Grid>
+                        <Grid Grid.Row="0" Grid.Column="4">
+                            <Button Cursor="Hand" Style="{StaticResource buttonStyle}">
+                                <Button.Content>
+                                    <Image Source="images/shape5Star.png" Width="25" Height="25"/>
+                                </Button.Content>
+                            </Button>
+                            <Border CornerRadius="5" BorderBrush="CornflowerBlue" BorderThickness="2" Width="35" Height="35" Opacity="0"/>
+                        </Grid>
+                        <Grid Grid.Row="0" Grid.Column="5">
+                            <Button Cursor="Hand" Style="{StaticResource buttonStyle}">
+                                <Button.Content>
+                                    <Image Source="images/shapeHeart.png" Width="25" Height="25"/>
+                                </Button.Content>
+                            </Button>
+                            <Border CornerRadius="5" BorderBrush="CornflowerBlue" BorderThickness="2" Width="35" Height="35" Opacity="0"/>
+                        </Grid>
+                        <Grid Grid.Row="1" Grid.Column="0">
+                            <Button Cursor="Hand" Style="{StaticResource buttonStyle}">
+                                <Button.Content>
+                                    <Image Source="images/shapeArrow.png" Width="25" Height="25"/>
+                                </Button.Content>
+                            </Button>
+                            <Border CornerRadius="5" BorderBrush="CornflowerBlue" BorderThickness="2" Width="35" Height="35" Opacity="0"/>
+                        </Grid>
+                        <Grid Grid.Row="1" Grid.Column="1">
+                            <Button Cursor="Hand" Style="{StaticResource buttonStyle}">
+                                <Button.Content>
+                                    <Image Source="images/shapeTriangle.png" Width="25" Height="25"/>
+                                </Button.Content>
+                            </Button>
+                            <Border CornerRadius="5" BorderBrush="CornflowerBlue" BorderThickness="2" Width="35" Height="35" Opacity="0"/>
+                        </Grid>
+                        <Grid Grid.Row="1" Grid.Column="2">
+                            <Button Cursor="Hand" Style="{StaticResource buttonStyle}">
+                                <Button.Content>
+                                    <Image Source="images/shapeRightTriangle.png" Width="25" Height="25"/>
+                                </Button.Content>
+                            </Button>
+                            <Border CornerRadius="5" BorderBrush="CornflowerBlue" BorderThickness="2" Width="35" Height="35" Opacity="0"/>
+                        </Grid>
+                        <Grid Grid.Row="1" Grid.Column="3">
+                            <Button Cursor="Hand" Style="{StaticResource buttonStyle}">
+                                <Button.Content>
+                                    <Image Source="images/shapeRhombus.png" Width="25" Height="25"/>
+                                </Button.Content>
+                            </Button>
+                            <Border CornerRadius="5" BorderBrush="CornflowerBlue" BorderThickness="2" Width="35" Height="35" Opacity="0"/>
+                        </Grid>
+                        <Grid Grid.Row="1" Grid.Column="4">
+                            <Button Cursor="Hand" Style="{StaticResource buttonStyle}">
+                                <Button.Content>
+                                    <Image Source="images/shapePentagon.png" Width="25" Height="25"/>
+                                </Button.Content>
+                            </Button>
+                            <Border CornerRadius="5" BorderBrush="CornflowerBlue" BorderThickness="2" Width="35" Height="35" Opacity="0"/>
+                        </Grid>
+                        <Grid Grid.Row="1" Grid.Column="5">
+                            <Button Cursor="Hand" Style="{StaticResource buttonStyle}">
+                                <Button.Content>
+                                    <Image Source="images/shapeHexagon.png" Width="25" Height="25"/>
+                                </Button.Content>
+                            </Button>
+                            <Border CornerRadius="5" BorderBrush="CornflowerBlue" BorderThickness="2" Width="35" Height="35" Opacity="0"/>
+                        </Grid>
+                    </Grid>
+                    <TextBlock Grid.Row="1" FontSize="15" FontFamily="fonts/#Signika" Text="Shape" VerticalAlignment="Center" HorizontalAlignment="Center" Opacity="0.5"/>
+                </Grid>
+            </Border>
+            <Border Grid.Column="3" BorderBrush="LightGray" BorderThickness="0 0 2 0">
+
+            </Border>
+            <Border Grid.Column="4" BorderBrush="LightGray" BorderThickness="0 0 2 0">
+
             </Border>
         </Grid>
     </Grid>

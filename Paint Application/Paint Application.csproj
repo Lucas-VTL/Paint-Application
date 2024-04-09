@@ -18,6 +18,18 @@
     <None Remove="images\arrow-up.png" />
     <None Remove="images\free-selection.png" />
     <None Remove="images\rec-selection.png" />
+    <None Remove="images\shape4Star.png" />
+    <None Remove="images\shape5Star.png" />
+    <None Remove="images\shapeArrow.png" />
+    <None Remove="images\shapeEllipse.png" />
+    <None Remove="images\shapeHeart.png" />
+    <None Remove="images\shapeHexagon.png" />
+    <None Remove="images\shapeLine.png" />
+    <None Remove="images\shapePentagon.png" />
+    <None Remove="images\shapeRectangle.png" />
+    <None Remove="images\shapeRhombus.png" />
+    <None Remove="images\shapeRightTriangle.png" />
+    <None Remove="images\shapeTriangle.png" />
     <None Remove="images\textBackground.png" />
     <None Remove="images\textBackgroundEffect.png" />
     <None Remove="images\textBold.png" />
@@ -53,6 +65,18 @@
 
   <ItemGroup>
     <Resource Include="images\free-selection.png" />
+    <Resource Include="images\shape4Star.png" />
+    <Resource Include="images\shape5Star.png" />
+    <Resource Include="images\shapeArrow.png" />
+    <Resource Include="images\shapeEllipse.png" />
+    <Resource Include="images\shapeHeart.png" />
+    <Resource Include="images\shapeHexagon.png" />
+    <Resource Include="images\shapeLine.png" />
+    <Resource Include="images\shapePentagon.png" />
+    <Resource Include="images\shapeRectangle.png" />
+    <Resource Include="images\shapeRhombus.png" />
+    <Resource Include="images\shapeRightTriangle.png" />
+    <Resource Include="images\shapeTriangle.png" />
     <Resource Include="images\textBackground.png" />
     <Resource Include="images\textBackgroundEffect.png" />
     <Resource Include="images\textBold.png" />
