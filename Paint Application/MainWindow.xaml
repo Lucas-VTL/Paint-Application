@@ -101,7 +101,8 @@
                 <ColumnDefinition Width="0.4*"/>
                 <ColumnDefinition Width="0.6*"/>
                 <ColumnDefinition Width="0.8*"/>
-                <ColumnDefinition Width="0.6*"/>
+                <ColumnDefinition Width="0.3*"/>
+                <ColumnDefinition Width="0.3*"/>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="0.5*"/>
             </Grid.ColumnDefinitions>
@@ -314,7 +315,7 @@
                                     <RowDefinition Height="*"/>
                                 </Grid.RowDefinitions>
                                 <Border Grid.Row="0" BorderBrush="Black" BorderThickness="1">
-                                    <Button Cursor="Hand" Click="inceaseFontSizeClick">
+                                    <Button Cursor="Hand" Click="increaseFontSizeClick">
                                         <Button.Content>
                                             <Image Source="images/arrow-up.png"/>
                                         </Button.Content>
@@ -452,11 +453,111 @@
                 </Grid>
             </Border>
             <Border Grid.Column="3" BorderBrush="LightGray" BorderThickness="0 0 2 0">
-
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="3*"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Grid Grid.Row="0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <Grid Grid.Row="0">
+                            <Button Name="styleWidthButton" Cursor="Hand" Style="{StaticResource buttonStyle}" Margin="5 0 0 0" Click="styleWidthButtonClick">
+                                <Button.Content>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Image Name="styleWidthImage" Source="images/styleBaseLine.png" Width="70" Height="30" Margin="0 20 0 0"/>
+                                        <Image Source="images/styleWidth.png" Width="20" Height="20"/>
+                                    </StackPanel>
+                                </Button.Content>
+                            </Button>
+                            <ComboBox Name="styleWidthCombobox" Visibility="Hidden" SelectionChanged="styleWidthComboboxSelectionChanged">
+                                <ComboBoxItem>
+                                    <StackPanel Orientation="Horizontal" Margin="5" Height="30">
+                                        <Image Source="images/styleBaseLine.png" Width="60"/>
+                                        <TextBlock Text="1px" FontFamily="fonts/#Signika" VerticalAlignment="Center" Margin="5 0 0 0"/>
+                                    </StackPanel>
+                                </ComboBoxItem>
+                                <ComboBoxItem>
+                                    <StackPanel Orientation="Horizontal" Margin="5" Height="30">
+                                        <Image Source="images/styleWidth1.png" Width="60"/>
+                                        <TextBlock Text="3px" FontFamily="fonts/#Signika" VerticalAlignment="Center" Margin="5 0 0 0"/>
+                                    </StackPanel>
+                                </ComboBoxItem>
+                                <ComboBoxItem>
+                                    <StackPanel Orientation="Horizontal" Margin="5" Height="30">
+                                        <Image Source="images/styleWidth2.png" Width="60"/>
+                                        <TextBlock Text="5px" FontFamily="fonts/#Signika" VerticalAlignment="Center" Margin="5 0 0 0"/>
+                                    </StackPanel>
+                                </ComboBoxItem>
+                                <ComboBoxItem>
+                                    <StackPanel Orientation="Horizontal" Margin="5" Height="30">
+                                        <Image Source="images/styleWidth3.png" Width="60"/>
+                                        <TextBlock Text="8px" FontFamily="fonts/#Signika" VerticalAlignment="Center" Margin="5 0 0 0"/>
+                                    </StackPanel>
+                                </ComboBoxItem>
+                                <ComboBox.ItemContainerStyle>
+                                    <Style TargetType="ComboBoxItem">
+                                        <EventSetter Event="PreviewMouseLeftButtonDown" Handler="styleWidthComboboxPreviewMouseLeftButtonDown"/>
+                                        <Setter Property="Background" Value="Transparent"/>
+                                        <Setter Property="Cursor" Value="Hand"/>
+                                        <Setter Property="Template">
+                                            <Setter.Value>
+                                                <ControlTemplate TargetType="{x:Type ComboBoxItem}">
+                                                    <ContentPresenter/>
+                                                </ControlTemplate>
+                                            </Setter.Value>
+                                        </Setter>
+                                        <Style.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter Property="Template">
+                                                    <Setter.Value>
+                                                        <ControlTemplate TargetType="ComboBoxItem">
+                                                            <Grid Background="Gainsboro">
+                                                                <ContentPresenter/>
+                                                            </Grid>
+                                                        </ControlTemplate>
+                                                    </Setter.Value>
+                                                </Setter>
+                                            </Trigger>
+                                            <Trigger Property="IsSelected" Value="True">
+                                                <Setter Property="Template">
+                                                    <Setter.Value>
+                                                        <ControlTemplate TargetType="ComboBoxItem">
+                                                            <Grid Background="WhiteSmoke">
+                                                                <ContentPresenter/>
+                                                            </Grid>
+                                                        </ControlTemplate>
+                                                    </Setter.Value>
+                                                </Setter>
+                                            </Trigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </ComboBox.ItemContainerStyle>
+                            </ComboBox>
+                        </Grid>
+                        <Grid Grid.Row="1">
+                            <Button Cursor="Hand" Style="{StaticResource buttonStyle}" Margin="5 0 0 0">
+                                <Button.Content>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Image Source="images/styleBaseLine.png" Width="70" Height="30" Margin="0 20 0 0"/>
+                                        <Image Source="images/styleStroke.png" Width="20" Height="20"/>
+                                    </StackPanel>
+                                </Button.Content>
+                            </Button>
+                        </Grid>
+                    </Grid>
+                    <TextBlock Grid.Row="1" FontSize="15" FontFamily="fonts/#Signika" Text="Style" VerticalAlignment="Center" HorizontalAlignment="Center" Opacity="0.5"/>
+                </Grid>
             </Border>
             <Border Grid.Column="4" BorderBrush="LightGray" BorderThickness="0 0 2 0">
 
             </Border>
+            <Border Grid.Column="5" BorderBrush="LightGray" BorderThickness="0 0 2 0">
+
+            </Border>
         </Grid>
+        <Canvas Name="drawArea" Grid.Row="2" Background="Transparent" MouseLeftButtonDown="drawAreaMouseLeftButtonDown" MouseMove="drawAreaMouseMove"/>
     </Grid>
 </Window>

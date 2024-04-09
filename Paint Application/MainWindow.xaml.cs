@@ -10,6 +10,8 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Media;
+using static System.Net.Mime.MediaTypeNames;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Paint_Application
 {
@@ -47,12 +49,15 @@ namespace Paint_Application
         private bool isTextBackgroundFill = false;
         private bool isTextFontFamilyOpen = false;
         private bool isTextFontSizeOpen = false;
+        private bool isFunctionSelected = false;
+        private bool isStyleWidthOpen = false;
 
         private List<Border> function = new List<Border>();
         private List<Font> fonts = new List<Font>();
 
         private string globalFontFamily;
         private int globalFontSize = 12;
+        private int globalWidth;
 
         public MainWindow()
         {
@@ -111,6 +116,8 @@ namespace Paint_Application
                     function[i].Opacity = 0;
                 }
             }
+
+            isFunctionSelected = true;
         }
 
         private void selectionButtonClick(object sender, RoutedEventArgs e)
@@ -126,6 +133,9 @@ namespace Paint_Application
 
                 fontSizeStackpanel.Visibility = Visibility.Collapsed;
                 isTextFontSizeOpen = false;
+
+                styleWidthCombobox.IsDropDownOpen = false;
+                isStyleWidthOpen = false;
             } else
             {
                 selectionCombobox.IsDropDownOpen = false;
@@ -164,7 +174,6 @@ namespace Paint_Application
             }
 
             selectionButtonContent.Source = new BitmapImage(new Uri("images/arrow-down.png", UriKind.Relative));
-            isSelectionOpen = false;
         }
 
         private void textButtonClick(object sender, RoutedEventArgs e)
@@ -224,6 +233,9 @@ namespace Paint_Application
 
                 fontSizeStackpanel.Visibility = Visibility.Collapsed;
                 isTextFontSizeOpen = false;
+
+                styleWidthCombobox.IsDropDownOpen = false;
+                isStyleWidthOpen = false;
             } else
             {
                 textFontCombobox.IsDropDownOpen = false;
@@ -278,6 +290,9 @@ namespace Paint_Application
 
                 textFontCombobox.IsDropDownOpen = false;
                 isTextFontFamilyOpen = false;
+
+                styleWidthCombobox.IsDropDownOpen = false;
+                isStyleWidthOpen = false;
             } else
             {
                 fontSizeStackpanel.Visibility = Visibility.Collapsed;
@@ -285,22 +300,32 @@ namespace Paint_Application
             }
         }
 
-        private void inceaseFontSizeClick(object sender, RoutedEventArgs e)
+        private void increaseFontSizeClick(object sender, RoutedEventArgs e)
         {
             string curSizeString = fontSizeTextbox.Text;
-            int curSizeInt = Int32.Parse(curSizeString);
-
-            globalFontSize = Math.Min(curSizeInt + 2, 72);
-            fontSizeTextbox.Text = globalFontSize.ToString();
+            if (int.TryParse(curSizeString, out _))
+            {
+                int curSizeInt = Int32.Parse(curSizeString);
+                globalFontSize = Math.Min(curSizeInt + 2, 72);
+                fontSizeTextbox.Text = globalFontSize.ToString();
+            } else
+            {
+                fontSizeTextbox.Text = globalFontSize.ToString();
+            }
         }
 
         private void decreaseFontSizeClick(object sender, RoutedEventArgs e)
         {
             string curSizeString = fontSizeTextbox.Text;
-            int curSizeInt = Int32.Parse(curSizeString);
-
-            globalFontSize = Math.Max(curSizeInt - 2, 1);
-            fontSizeTextbox.Text = globalFontSize.ToString();
+            if (int.TryParse(curSizeString, out _))
+            {
+                int curSizeInt = Int32.Parse(curSizeString);
+                globalFontSize = Math.Max(curSizeInt - 2, 1);
+                fontSizeTextbox.Text = globalFontSize.ToString();
+            } else
+            {
+                fontSizeTextbox.Text = globalFontSize.ToString();
+            }
         }
 
         private void fontSizeTextboxKeyDown(object sender, KeyEventArgs e)
@@ -385,6 +410,81 @@ namespace Paint_Application
         private void hexagonButtonClick(object sender, RoutedEventArgs e)
         {
             functionSelected(13);
+        }
+
+        private void drawAreaMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            selectionCombobox.IsDropDownOpen = false;
+            selectionButtonContent.Source = new BitmapImage(new Uri("images/arrow-down.png", UriKind.Relative));
+            isSelectionOpen = false;
+
+            textFontCombobox.IsDropDownOpen = false;
+            isTextFontFamilyOpen = false;
+        }
+
+        private void drawAreaMouseMove(object sender, MouseEventArgs e)
+        {
+            if (isFunctionSelected)
+            {
+                drawArea.Cursor = Cursors.Cross;
+            } else
+            {
+                drawArea.Cursor = null;
+            }
+        }
+
+        private void styleWidthButtonClick(object sender, RoutedEventArgs e)
+        {
+            if (!isStyleWidthOpen)
+            {
+                styleWidthCombobox.IsDropDownOpen = true;
+                isStyleWidthOpen = true;
+
+                selectionCombobox.IsDropDownOpen = false;
+                selectionButtonContent.Source = new BitmapImage(new Uri("images/arrow-down.png", UriKind.Relative));
+                isSelectionOpen = false;
+
+                textFontCombobox.IsDropDownOpen = false;
+                isTextFontFamilyOpen = false;
+
+                fontSizeStackpanel.Visibility = Visibility.Collapsed;
+                isTextFontSizeOpen = false;
+            } else
+            {
+                styleWidthCombobox.IsDropDownOpen = false;
+                isStyleWidthOpen = false;
+            }
+        }
+
+        private void styleWidthComboboxSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            int index = styleWidthCombobox.SelectedIndex;
+
+            switch (index)
+            {
+                case 0:
+                    globalWidth = 1;
+                    styleWidthImage.Source = new BitmapImage(new Uri("images/styleBaseLine.png", UriKind.Relative));
+                    break;
+                case 1:
+                    globalWidth = 3;
+                    styleWidthImage.Source = new BitmapImage(new Uri("images/styleWidth1.png", UriKind.Relative));
+                    break;
+                case 2:
+                    globalWidth = 5;
+                    styleWidthImage.Source = new BitmapImage(new Uri("images/styleWidth2.png", UriKind.Relative));
+                    break;
+                case 3:
+                    globalWidth = 8;
+                    styleWidthImage.Source = new BitmapImage(new Uri("images/styleWidth3.png", UriKind.Relative));
+                    break;
+                default: break;
+            }
+        }
+
+        private void styleWidthComboboxPreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            isStyleWidthOpen = false;
         }
     }
 }

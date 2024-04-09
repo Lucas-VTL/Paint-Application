@@ -30,6 +30,12 @@
     <None Remove="images\shapeRhombus.png" />
     <None Remove="images\shapeRightTriangle.png" />
     <None Remove="images\shapeTriangle.png" />
+    <None Remove="images\styleBaseLine.png" />
+    <None Remove="images\styleStroke.png" />
+    <None Remove="images\styleWidth.png" />
+    <None Remove="images\styleWidth1.png" />
+    <None Remove="images\styleWidth2.png" />
+    <None Remove="images\styleWidth3.png" />
     <None Remove="images\textBackground.png" />
     <None Remove="images\textBackgroundEffect.png" />
     <None Remove="images\textBold.png" />
@@ -77,6 +83,12 @@
     <Resource Include="images\shapeRhombus.png" />
     <Resource Include="images\shapeRightTriangle.png" />
     <Resource Include="images\shapeTriangle.png" />
+    <Resource Include="images\styleBaseLine.png" />
+    <Resource Include="images\styleStroke.png" />
+    <Resource Include="images\styleWidth.png" />
+    <Resource Include="images\styleWidth1.png" />
+    <Resource Include="images\styleWidth2.png" />
+    <Resource Include="images\styleWidth3.png" />
     <Resource Include="images\textBackground.png" />
     <Resource Include="images\textBackgroundEffect.png" />
     <Resource Include="images\textBold.png" />
