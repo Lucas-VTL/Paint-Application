@@ -14,30 +14,12 @@ using static System.Net.Mime.MediaTypeNames;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 using System.Windows.Resources;
 using System.IO;
+using Shape;
+using System.Reflection;
+using System;
 
 namespace Paint_Application
 {
-    public class ShapeFactory()
-    {
-        public enum ShapeType
-        {
-            Line, Rectangle, Ellipse, Square, Circle
-        }
-
-        public static Shape getShapeType(ShapeType shapeType)
-        {
-            switch (shapeType)
-            {
-                case ShapeType.Line: return new Line();
-                case ShapeType.Rectangle: return new Rectangle();
-                case ShapeType.Ellipse: return new Ellipse();
-                case ShapeType.Square: return new Square();
-                case ShapeType.Circle: return new Circle();
-                default: return null;
-            }
-        }
-    }
-
     public class Font()
     {
         public string fontName { get; set; }
@@ -64,6 +46,8 @@ namespace Paint_Application
         private int globalWidth;
         private int globalStroke;
 
+        private List<IShape> shapeList = new List<IShape>();
+
         public MainWindow()
         {
             InitializeComponent();
@@ -88,20 +72,26 @@ namespace Paint_Application
 
             function.Add(selectionBorder);
             function.Add(textBorder);
-            function.Add(lineBorder);
-            function.Add(rectangleBorder);
-            function.Add(ellipseBorder);
-            function.Add(fourstarBorder);
-            function.Add(fivestarBorder);
-            function.Add(heartBorder);
-            function.Add(arrowBorder);
-            function.Add(triangleBorder);
-            function.Add(rightTriangleBorder);
-            function.Add(rhombusBorder);
-            function.Add(pentagonBorder);
-            function.Add(hexagonBorder);
             function.Add(toolEraseBorder);
             function.Add(toolMouseBorder);
+
+            string folder = AppDomain.CurrentDomain.BaseDirectory;
+            var fis = new DirectoryInfo(folder).GetFiles("*.dll");
+
+            foreach (var fi in fis)
+            {
+                var assembly = Assembly.LoadFrom(fi.FullName);
+                var types = assembly.GetTypes();
+
+                foreach (var type in types)
+                {
+                    if ((type.IsClass)
+                        && (typeof(IShape).IsAssignableFrom(type)))
+                    {
+                        shapeList.Add((IShape)Activator.CreateInstance(type)!);
+                    }
+                }
+            }
         }
 
         private void minimizeButtonClick(object sender, RoutedEventArgs e)
@@ -126,7 +116,7 @@ namespace Paint_Application
                 }
             }
 
-            if (index == 14)
+            if (index == 2)
             {
                 isToolEraseOpen = true;
             } else
@@ -134,7 +124,7 @@ namespace Paint_Application
                 isToolEraseOpen = false;
             }
 
-            if (index == 15)
+            if (index == 3)
             {
                 isFunctionSelected = false;
             } else
@@ -384,66 +374,6 @@ namespace Paint_Application
             }
         }
 
-        private void lineButtonClick(object sender, RoutedEventArgs e)
-        {
-            functionSelected(2);
-        }
-
-        private void rectangleButtonClick(object sender, RoutedEventArgs e)
-        {
-            functionSelected(3);
-        }
-
-        private void ellipseButtonClick(object sender, RoutedEventArgs e)
-        {
-            functionSelected(4);
-        }
-
-        private void fourStarButtonClick(object sender, RoutedEventArgs e)
-        {
-            functionSelected(5);
-        }
-
-        private void fiveStarButtonClick(object sender, RoutedEventArgs e)
-        {
-            functionSelected(6);
-        }
-
-        private void heartButtonClick(object sender, RoutedEventArgs e)
-        {
-            functionSelected(7);
-        }
-
-        private void arrowButtonClick(object sender, RoutedEventArgs e)
-        {
-            functionSelected(8);
-        }
-
-        private void triangleButtonClick(object sender, RoutedEventArgs e)
-        {
-            functionSelected(9);
-        }
-
-        private void rightTriangleButtonClick(object sender, RoutedEventArgs e)
-        {
-            functionSelected(10);
-        }
-
-        private void rhombusButtonClick(object sender, RoutedEventArgs e)
-        {
-            functionSelected(11);
-        }
-
-        private void pentagonButtonClick(object sender, RoutedEventArgs e)
-        {
-            functionSelected(12);
-        }
-
-        private void hexagonButtonClick(object sender, RoutedEventArgs e)
-        {
-            functionSelected(13);
-        }
-
         private void drawAreaMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             selectionCombobox.IsDropDownOpen = false;
@@ -593,12 +523,12 @@ namespace Paint_Application
 
         private void toolEraseButtonClick(object sender, RoutedEventArgs e)
         {
-            functionSelected(14);
+            functionSelected(2);
         }
 
         private void toolMouseButtonClick(object sender, RoutedEventArgs e)
         {
-            functionSelected(15);
+            functionSelected(3);
         }
     }
 }

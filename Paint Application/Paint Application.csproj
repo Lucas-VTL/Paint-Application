@@ -132,4 +132,8 @@
     </EmbeddedResource>
   </ItemGroup>
 
+	<ItemGroup>
+		<ProjectReference Include="..\Shape\Shape.csproj" />
+	</ItemGroup>
+
 </Project>
