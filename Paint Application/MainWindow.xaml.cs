@@ -14,9 +14,9 @@ using static System.Net.Mime.MediaTypeNames;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 using System.Windows.Resources;
 using System.IO;
-using Shape;
 using System.Reflection;
 using System;
+using myShape;
 
 namespace Paint_Application
 {
@@ -78,20 +78,25 @@ namespace Paint_Application
             string folder = AppDomain.CurrentDomain.BaseDirectory;
             var fis = new DirectoryInfo(folder).GetFiles("*.dll");
 
-            foreach (var fi in fis)
+            for (int i = 0; i < 6; i++)
             {
-                var assembly = Assembly.LoadFrom(fi.FullName);
-                var types = assembly.GetTypes();
-
-                foreach (var type in types)
+                foreach (var fi in fis)
                 {
-                    if ((type.IsClass)
-                        && (typeof(IShape).IsAssignableFrom(type)))
+                    var assembly = Assembly.LoadFrom(fi.FullName);
+                    var types = assembly.GetTypes();
+
+                    foreach (var type in types)
                     {
-                        shapeList.Add((IShape)Activator.CreateInstance(type)!);
+                        if ((type.IsClass)
+                            && (typeof(IShape).IsAssignableFrom(type)))
+                        {
+                            shapeList.Add((IShape)Activator.CreateInstance(type)!);
+                        }
                     }
                 }
             }
+
+            shapeListview.ItemsSource = shapeList;
         }
 
         private void minimizeButtonClick(object sender, RoutedEventArgs e)
@@ -106,6 +111,7 @@ namespace Paint_Application
 
         private void functionSelected(int index)
         {
+            shapeListview.SelectedItem = null;
             function[index].Opacity = 1;
 
             for (int i = 0; i < function.Count; i++)
@@ -529,6 +535,26 @@ namespace Paint_Application
         private void toolMouseButtonClick(object sender, RoutedEventArgs e)
         {
             functionSelected(3);
+        }
+
+        private void removeAllFunctionSelectedToSelectShape()
+        {
+            for (int i = 0; i < function.Count; i++)
+            {
+                if (function[i].Opacity != 0)
+                {
+                    function[i].Opacity = 0;
+                }
+            }
+        }
+
+        private void shapeListviewPreviewMouseButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            removeAllFunctionSelectedToSelectShape();
+            isFunctionSelected = true;
+            isToolEraseOpen = false;
+            ListViewItem item = (ListViewItem)sender;
+            shapeListview.SelectedItem = item;
         }
     }
 }

@@ -5,11 +5,11 @@ VisualStudioVersion = 17.9.34622.214
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Paint Application", "Paint Application\Paint Application.csproj", "{94E8654F-E1A2-4BB2-9D34-524D25C6ADFE}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shape", "Shape\Shape.csproj", "{B2E6352E-93B5-44B9-BAF8-774A79949F99}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "myShape", "myShape\myShape.csproj", "{AD12813E-EEF7-4161-B3B6-E5FC196C4228}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Line", "Line\Line.csproj", "{463B623A-F34A-4C82-BD17-1C7BFA1AE449}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "myLine", "myLine\myLine.csproj", "{63425A93-2F76-430D-ABE7-9D1395DB534D}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Rectangle", "Rectangle\Rectangle.csproj", "{4A7D3980-FC22-4501-853F-27666A8658BB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "myRectangle", "myRectangle\myRectangle.csproj", "{BC0FF2AB-E046-4C10-83ED-FEF6901EAD29}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,18 +21,18 @@ Global
 		{94E8654F-E1A2-4BB2-9D34-524D25C6ADFE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{94E8654F-E1A2-4BB2-9D34-524D25C6ADFE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{94E8654F-E1A2-4BB2-9D34-524D25C6ADFE}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B2E6352E-93B5-44B9-BAF8-774A79949F99}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B2E6352E-93B5-44B9-BAF8-774A79949F99}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B2E6352E-93B5-44B9-BAF8-774A79949F99}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B2E6352E-93B5-44B9-BAF8-774A79949F99}.Release|Any CPU.Build.0 = Release|Any CPU
-		{463B623A-F34A-4C82-BD17-1C7BFA1AE449}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{463B623A-F34A-4C82-BD17-1C7BFA1AE449}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{463B623A-F34A-4C82-BD17-1C7BFA1AE449}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{463B623A-F34A-4C82-BD17-1C7BFA1AE449}.Release|Any CPU.Build.0 = Release|Any CPU
-		{4A7D3980-FC22-4501-853F-27666A8658BB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4A7D3980-FC22-4501-853F-27666A8658BB}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4A7D3980-FC22-4501-853F-27666A8658BB}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4A7D3980-FC22-4501-853F-27666A8658BB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AD12813E-EEF7-4161-B3B6-E5FC196C4228}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AD12813E-EEF7-4161-B3B6-E5FC196C4228}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AD12813E-EEF7-4161-B3B6-E5FC196C4228}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AD12813E-EEF7-4161-B3B6-E5FC196C4228}.Release|Any CPU.Build.0 = Release|Any CPU
+		{63425A93-2F76-430D-ABE7-9D1395DB534D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{63425A93-2F76-430D-ABE7-9D1395DB534D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{63425A93-2F76-430D-ABE7-9D1395DB534D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{63425A93-2F76-430D-ABE7-9D1395DB534D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BC0FF2AB-E046-4C10-83ED-FEF6901EAD29}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BC0FF2AB-E046-4C10-83ED-FEF6901EAD29}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BC0FF2AB-E046-4C10-83ED-FEF6901EAD29}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BC0FF2AB-E046-4C10-83ED-FEF6901EAD29}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

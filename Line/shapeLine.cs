@@ -1,4 +1,6 @@
 ﻿using System.Windows;
+using System.Windows.Media;
+using System.Windows.Shapes;
 using Shape;
 
 namespace Line
@@ -29,7 +31,15 @@ namespace Line
 
         public UIElement convertShape()
         {
-            return null;
+            return new Line()
+            {
+                X1 = _start.X,
+                Y1 = _start.Y,
+                X2 = _end.X,
+                Y2 = _end.Y,
+                StrokeThickness = 1,
+                Stroke = new SolidColorBrush(Colors.Red)
+            }; ;
         }
     }
 }

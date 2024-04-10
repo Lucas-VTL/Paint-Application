@@ -3,7 +3,7 @@
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
     <TargetFramework>net8.0-windows</TargetFramework>
-    <RootNamespace>Paint_Application</RootNamespace>
+	  <RootNamespace>Paint_Application</RootNamespace>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UseWPF>true</UseWPF>
@@ -133,7 +133,8 @@
   </ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\Shape\Shape.csproj" />
+		<ProjectReference Include="..\myShape\myShape.csproj" />
+		<ProjectReference Include="..\myLine\myLine.csproj" />
+		<ProjectReference Include="..\myRectangle\myRectangle.csproj" />
 	</ItemGroup>
-
 </Project>
