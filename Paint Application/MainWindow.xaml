@@ -548,7 +548,35 @@
                 </Grid>
             </Border>
             <Border Grid.Column="5" BorderBrush="LightGray" BorderThickness="0 0 2 0">
-
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="1.5*"/>
+                        <RowDefinition Height="1.5*"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <StackPanel Grid.Row="0" Orientation="Horizontal">
+                        <Button Background="Red" Width="20" Height="20" Margin="10 0" Click="Red_Click"/>
+                        <Button Background="Blue" Width="20" Height="20" Margin="10 0" Click="Blue_Click"/>
+                        <Button Background="Yellow" Width="20" Height="20" Margin="10 0" Click="Yellow_Click"/>
+                    </StackPanel>
+                    <StackPanel Grid.Row="1" Orientation="Horizontal">
+                        <Button Background="LimeGreen" Width="20" Height="20" Margin="10 0" Click="Green_Click"/>
+                        <Button Background="Orange" Width="20" Height="20" Margin="10 0" Click="Orange_Click"/>
+                        <Button Background="MediumPurple" Width="20" Height="20" Margin="10 0" Click="Purple_Click"/>
+                    </StackPanel>
+                    <TextBlock Grid.Row="2" FontSize="15" FontFamily="fonts/#Signika" Text="Color" VerticalAlignment="Center" HorizontalAlignment="Center" Opacity="0.5"/>
+                </Grid>
+            </Border>
+            <Border Grid.Column="6" BorderBrush="LightGray" BorderThickness="0 0 2 0">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="1.5*"/>
+                        <RowDefinition Height="1.5*"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    
+                    <TextBlock Grid.Row="2" FontSize="15" FontFamily="fonts/#Signika" Text="Layers" VerticalAlignment="Center" HorizontalAlignment="Center" Opacity="0.5"/>
+                </Grid>
             </Border>
         </Grid>
         <Canvas Name="drawArea" Grid.Row="2" Background="Transparent" MouseLeftButtonDown="drawAreaMouseLeftButtonDown" MouseMove="drawAreaMouseMove"/>
