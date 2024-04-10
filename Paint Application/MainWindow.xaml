@@ -612,7 +612,49 @@
                 </Grid>
             </Border>
             <Border Grid.Column="4" BorderBrush="LightGray" BorderThickness="0 0 2 0">
-
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="3*"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Grid Grid.Row="0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <Grid Grid.Row="0" Grid.Column="0">
+                            <Button Name="toolMouseButton" Cursor="Hand" Style="{StaticResource buttonStyle}" Click="toolMouseButtonClick" >
+                                <Button.Content>
+                                    <Image Source="images/toolMouse.png" Width="25" Height="25"/>
+                                </Button.Content>
+                            </Button>
+                            <Border Name="toolMouseBorder" CornerRadius="5" BorderBrush="CornflowerBlue" BorderThickness="2" Width="35" Height="35" Opacity="1"/>
+                        </Grid>
+                        <Grid Grid.Row="0" Grid.Column="1">
+                            <Button Name="toolEraseButton" Cursor="Hand" Style="{StaticResource buttonStyle}" Click="toolEraseButtonClick">
+                                <Button.Content>
+                                    <Image Source="images/toolErase.png" Width="25" Height="25"/>
+                                </Button.Content>
+                            </Button>
+                            <Border Name="toolEraseBorder" CornerRadius="5" BorderBrush="CornflowerBlue" BorderThickness="2" Width="35" Height="35" Opacity="0"/>
+                        </Grid>
+                        <Button Grid.Row="1" Grid.Column="0" Cursor="Hand" Style="{StaticResource buttonStyle}">
+                            <Button.Content>
+                                <Image Source="images/toolFileImport.png" Width="25" Height="25"/>
+                            </Button.Content>
+                        </Button>
+                        <Button Grid.Row="1" Grid.Column="1" Cursor="Hand" Style="{StaticResource buttonStyle}">
+                            <Button.Content>
+                                <Image Source="images/toolFileExport.png" Width="25" Height="25"/>
+                            </Button.Content>
+                        </Button>
+                        </Grid>
+                    <TextBlock Grid.Row="1" FontSize="15" FontFamily="fonts/#Signika" Text="Tool" VerticalAlignment="Center" HorizontalAlignment="Center" Opacity="0.5"/>
+                </Grid>
             </Border>
             <Border Grid.Column="5" BorderBrush="LightGray" BorderThickness="0 0 2 0">
 

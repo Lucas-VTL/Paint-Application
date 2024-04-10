@@ -12,6 +12,8 @@ using System.Windows.Shapes;
 using System.Windows.Media;
 using static System.Net.Mime.MediaTypeNames;
 using static System.Runtime.InteropServices.JavaScript.JSType;
+using System.Windows.Resources;
+using System.IO;
 
 namespace Paint_Application
 {
@@ -52,6 +54,7 @@ namespace Paint_Application
         private bool isFunctionSelected = false;
         private bool isStyleWidthOpen = false;
         private bool isStyleStrokeOpen = false;
+        private bool isToolEraseOpen = false;
 
         private List<Border> function = new List<Border>();
         private List<Font> fonts = new List<Font>();
@@ -97,6 +100,8 @@ namespace Paint_Application
             function.Add(rhombusBorder);
             function.Add(pentagonBorder);
             function.Add(hexagonBorder);
+            function.Add(toolEraseBorder);
+            function.Add(toolMouseBorder);
         }
 
         private void minimizeButtonClick(object sender, RoutedEventArgs e)
@@ -115,13 +120,27 @@ namespace Paint_Application
 
             for (int i = 0; i < function.Count; i++)
             {
-                if (i != index)
+                if (i != index && function[i].Opacity != 0)
                 {
                     function[i].Opacity = 0;
                 }
             }
 
-            isFunctionSelected = true;
+            if (index == 14)
+            {
+                isToolEraseOpen = true;
+            } else
+            {
+                isToolEraseOpen = false;
+            }
+
+            if (index == 15)
+            {
+                isFunctionSelected = false;
+            } else
+            {
+                isFunctionSelected = true;
+            }
         }
 
         private void selectionButtonClick(object sender, RoutedEventArgs e)
@@ -446,10 +465,13 @@ namespace Paint_Application
 
         private void drawAreaMouseMove(object sender, MouseEventArgs e)
         {
-            if (isFunctionSelected)
+            if (isFunctionSelected && !isToolEraseOpen)
             {
                 drawArea.Cursor = Cursors.Cross;
-            } else
+            } else if (isFunctionSelected && isToolEraseOpen)
+            {
+                drawArea.Cursor = new Cursor(new MemoryStream(Properties.Resources.toolErase));
+            } else 
             {
                 drawArea.Cursor = null;
             }
@@ -567,6 +589,16 @@ namespace Paint_Application
         private void styleStrokeComboboxPreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             isStyleStrokeOpen = false;
+        }
+
+        private void toolEraseButtonClick(object sender, RoutedEventArgs e)
+        {
+            functionSelected(14);
+        }
+
+        private void toolMouseButtonClick(object sender, RoutedEventArgs e)
+        {
+            functionSelected(15);
         }
     }
 }
