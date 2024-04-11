@@ -141,5 +141,14 @@
 		<ProjectReference Include="..\myLine\myLine.csproj" />
 		<ProjectReference Include="..\myRectangle\myRectangle.csproj" />
 		<ProjectReference Include="..\myEllipse\myEllipse.csproj" />
+		<ProjectReference Include="..\myFourPointStar\myFourPointStar.csproj" />
+		<ProjectReference Include="..\myFivePointStar\myFivePointStar.csproj" />
+		<ProjectReference Include="..\myHeart\myHeart.csproj" />
+		<ProjectReference Include="..\myTriangle\myTriangle.csproj" />
+		<ProjectReference Include="..\myRightTriangle\myRightTriangle.csproj" />
+		<ProjectReference Include="..\myArrow\myArrow.csproj" />
+		<ProjectReference Include="..\myRhombus\myRhombus.csproj" />
+		<ProjectReference Include="..\myPentagon\myPentagon.csproj" />
+		<ProjectReference Include="..\myHexagon\myHexagon.csproj" />
 	</ItemGroup>
 </Project>
