@@ -79,6 +79,57 @@
                 </Setter.Value>
             </Setter>
         </Style>
+        <Style x:Key="CircleButton" TargetType="Button">
+            <Setter Property="OverridesDefaultStyle" Value="True"/>
+            <Setter Property="Margin" Value="2"/>
+            <Setter Property="Background" Value="#FF6DB4EF"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Grid>
+                            <Ellipse Fill="{TemplateBinding Background}"/>
+                            <Ellipse>
+                                <Ellipse.Fill>
+                                    <RadialGradientBrush>
+                                        <GradientStop Offset="0" Color="#00000000"/>
+                                        <GradientStop Offset="0.88" Color="#00000000"/>
+                                        <GradientStop Offset="1" Color="#80000000"/>
+                                    </RadialGradientBrush>
+                                </Ellipse.Fill>
+                            </Ellipse>
+                            <Ellipse Margin="10" x:Name="highlightCircle" >
+                                <Ellipse.Fill >
+                                    <LinearGradientBrush >
+                                        <GradientStop Offset="0" Color="#50FFFFFF"/>
+                                        <GradientStop Offset="0.5" Color="#00FFFFFF"/>
+                                        <GradientStop Offset="1" Color="#50FFFFFF"/>
+                                    </LinearGradientBrush>
+                                </Ellipse.Fill>
+                            </Ellipse>
+                            <ContentPresenter x:Name="content" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="highlightCircle" Property="Fill">
+                                    <Setter.Value>
+                                        <LinearGradientBrush StartPoint="0.3,0" EndPoint="0.7,1">
+                                            <GradientStop Offset="0" Color="#50FFFFFF"/>
+                                            <GradientStop Offset="0.5" Color="#00FFFFFF"/>
+                                            <GradientStop Offset="1" Color="#50FFFFFF"/>
+                                        </LinearGradientBrush>
+                                    </Setter.Value>
+                                </Setter>
+                                <Setter TargetName="content" Property="RenderTransform">
+                                    <Setter.Value>
+                                        <TranslateTransform Y="0.5" X="0.5"/>
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
     </Window.Resources>
     <Grid Background="White">
         <Grid.RowDefinitions>
@@ -103,7 +154,7 @@
                 <ColumnDefinition Width="0.8*"/>
                 <ColumnDefinition Width="0.3*"/>
                 <ColumnDefinition Width="0.3*"/>
-                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="0.95*"/>
                 <ColumnDefinition Width="0.5*"/>
             </Grid.ColumnDefinitions>
             <Border Grid.Column="0" BorderBrush="LightGray" BorderThickness="0 0 2 0">
@@ -555,28 +606,22 @@
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
                     <StackPanel Grid.Row="0" Orientation="Horizontal">
-                        <Button Background="Red" Width="20" Height="20" Margin="10 0" Click="Red_Click"/>
-                        <Button x:Name="btnRed"  Content="Red" Height="23" Width="30" Background="#FFCA6969" Click="colors_Click" FontSize="0.01" BorderBrush="Black" >
-                            <Button.Template >
-                                <ControlTemplate TargetType="{x:Type Button}" >
-                                    <Grid >
-                                        <Path Stretch="Uniform" UseLayoutRounding="False" Fill="Red">
-                                            <Path.Data>
-                                                <EllipseGeometry RadiusX="1" RadiusY="1"/>
-                                            </Path.Data>
-                                        </Path>
-                                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                    </Grid>
-                                </ControlTemplate>
-                            </Button.Template>
-                        </Button>
-                        <Button Background="Blue" Width="20" Height="20" Margin="10 0" Click="Blue_Click"/>
-                        <Button Background="Yellow" Width="20" Height="20" Margin="10 0" Click="Yellow_Click"/>
+                        <Button Background="Red" Width="25" Height="25" Margin="10 0" Click="Red_Click" Style="{DynamicResource CircleButton}"/>
+                        <Button Background="Orange" Width="25" Height="25" Margin="10 0" Click="Blue_Click" Style="{DynamicResource CircleButton}"/>
+                        <Button Background="Yellow" Width="25" Height="25" Margin="10 0" Click="Yellow_Click" Style="{DynamicResource CircleButton}"/>
+                        <Button Background="LimeGreen" Width="25" Height="25" Margin="10 0" Click="Green_Click" Style="{DynamicResource CircleButton}"/>
+                        <Button Background="Blue" Width="25" Height="25" Margin="10 0" Click="Orange_Click" Style="{DynamicResource CircleButton}"/>
+                        <Button Background="CornflowerBlue" Width="25" Height="25" Margin="10 0" Click="Purple_Click" Style="{DynamicResource CircleButton}"/>
+                        <Button Background="MediumPurple" Width="25" Height="25" Margin="10 0" Click="Purple_Click" Style="{DynamicResource CircleButton}"/>
                     </StackPanel>
                     <StackPanel Grid.Row="1" Orientation="Horizontal">
-                        <Button Background="LimeGreen" Width="20" Height="20" Margin="10 0" Click="Green_Click"/>
-                        <Button Background="Orange" Width="20" Height="20" Margin="10 0" Click="Orange_Click"/>
-                        <Button Background="MediumPurple" Width="20" Height="20" Margin="10 0" Click="Purple_Click"/>
+                        <Button Background="White" Width="25" Height="25" Margin="10 0" Click="Red_Click" Style="{DynamicResource CircleButton}"/>
+                        <Button Background="Black" Width="25" Height="25" Margin="10 0" Click="Blue_Click" Style="{DynamicResource CircleButton}"/>
+                        <Button Background="Gray" Width="25" Height="25" Margin="10 0" Click="Yellow_Click" Style="{DynamicResource CircleButton}"/>
+                        <Button Background="RosyBrown" Width="25" Height="25" Margin="10 0" Click="Green_Click" Style="{DynamicResource CircleButton}"/>
+                        <Button Background="Brown" Width="25" Height="25" Margin="10 0" Click="Orange_Click" Style="{DynamicResource CircleButton}"/>
+                        <Button Background="DeepPink" Width="25" Height="25" Margin="10 0" Click="Purple_Click" Style="{DynamicResource CircleButton}"/>
+                        <Button Background="Pink" Width="25" Height="25" Margin="10 0" Click="Purple_Click" Style="{DynamicResource CircleButton}"/>
                     </StackPanel>
                     <TextBlock Grid.Row="2" FontSize="15" FontFamily="fonts/#Signika" Text="Color" VerticalAlignment="Center" HorizontalAlignment="Center" Opacity="0.5"/>
                 </Grid>
@@ -584,12 +629,15 @@
             <Border Grid.Column="6" BorderBrush="LightGray" BorderThickness="0 0 2 0">
                 <Grid>
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="1.5*"/>
-                        <RowDefinition Height="1.5*"/>
+                        <RowDefinition Height="3*"/>
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
-
-                    <TextBlock Grid.Row="2" FontSize="15" FontFamily="fonts/#Signika" Text="Layers" VerticalAlignment="Center" HorizontalAlignment="Center" Opacity="0.5"/>
+                    <Button Grid.Row="0"  Cursor="Hand" Style="{StaticResource buttonStyle}">
+                        <Button.Content>
+                            <Image Source="images/layers.png" Width="45" Height="45"/>
+                        </Button.Content>
+                    </Button>
+                    <TextBlock Grid.Row="1" FontSize="15" FontFamily="fonts/#Signika" Text="Layers" VerticalAlignment="Center" HorizontalAlignment="Center" Opacity="0.5"/>
                 </Grid>
             </Border>
         </Grid>

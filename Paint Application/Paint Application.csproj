@@ -17,6 +17,7 @@
     <None Remove="images\arrow-down.png" />
     <None Remove="images\arrow-up.png" />
     <None Remove="images\free-selection.png" />
+    <None Remove="images\layers.png" />
     <None Remove="images\rec-selection.png" />
     <None Remove="images\shape4Star.png" />
     <None Remove="images\shape5Star.png" />
@@ -73,6 +74,9 @@
 
   <ItemGroup>
     <Resource Include="images\arrow-down.png" />
+    <Resource Include="images\layers.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="images\rec-selection.png" />
   </ItemGroup>
 
