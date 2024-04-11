@@ -78,9 +78,7 @@ namespace Paint_Application
             string folder = AppDomain.CurrentDomain.BaseDirectory;
             var fis = new DirectoryInfo(folder).GetFiles("*.dll");
 
-            for (int i = 0; i < 12; i++)
-            {
-                foreach (var fi in fis)
+            foreach (var fi in fis)
                 {
                     var assembly = Assembly.LoadFrom(fi.FullName);
                     var types = assembly.GetTypes();
@@ -94,7 +92,6 @@ namespace Paint_Application
                         }
                     }
                 }
-            }
 
             shapeListview.ItemsSource = shapeList;
         }

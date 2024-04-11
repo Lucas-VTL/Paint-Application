@@ -140,5 +140,6 @@
 		<ProjectReference Include="..\myShape\myShape.csproj" />
 		<ProjectReference Include="..\myLine\myLine.csproj" />
 		<ProjectReference Include="..\myRectangle\myRectangle.csproj" />
+		<ProjectReference Include="..\myEllipse\myEllipse.csproj" />
 	</ItemGroup>
 </Project>
