@@ -343,7 +343,7 @@
                         <RowDefinition Height="3*"/>
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
-                    
+
                     <TextBlock Grid.Row="1" FontSize="15" FontFamily="fonts/#Signika" Text="Shape" VerticalAlignment="Center" HorizontalAlignment="Center" Opacity="0.5"/>
                 </Grid>
             </Border>
@@ -543,7 +543,7 @@
                                 <Image Source="images/toolFileExport.png" Width="25" Height="25"/>
                             </Button.Content>
                         </Button>
-                        </Grid>
+                    </Grid>
                     <TextBlock Grid.Row="1" FontSize="15" FontFamily="fonts/#Signika" Text="Tool" VerticalAlignment="Center" HorizontalAlignment="Center" Opacity="0.5"/>
                 </Grid>
             </Border>
@@ -556,6 +556,20 @@
                     </Grid.RowDefinitions>
                     <StackPanel Grid.Row="0" Orientation="Horizontal">
                         <Button Background="Red" Width="20" Height="20" Margin="10 0" Click="Red_Click"/>
+                        <Button x:Name="btnRed"  Content="Red" Height="23" Width="30" Background="#FFCA6969" Click="colors_Click" FontSize="0.01" BorderBrush="Black" >
+                            <Button.Template >
+                                <ControlTemplate TargetType="{x:Type Button}" >
+                                    <Grid >
+                                        <Path Stretch="Uniform" UseLayoutRounding="False" Fill="Red">
+                                            <Path.Data>
+                                                <EllipseGeometry RadiusX="1" RadiusY="1"/>
+                                            </Path.Data>
+                                        </Path>
+                                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    </Grid>
+                                </ControlTemplate>
+                            </Button.Template>
+                        </Button>
                         <Button Background="Blue" Width="20" Height="20" Margin="10 0" Click="Blue_Click"/>
                         <Button Background="Yellow" Width="20" Height="20" Margin="10 0" Click="Yellow_Click"/>
                     </StackPanel>
@@ -574,7 +588,7 @@
                         <RowDefinition Height="1.5*"/>
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
-                    
+
                     <TextBlock Grid.Row="2" FontSize="15" FontFamily="fonts/#Signika" Text="Layers" VerticalAlignment="Center" HorizontalAlignment="Center" Opacity="0.5"/>
                 </Grid>
             </Border>
