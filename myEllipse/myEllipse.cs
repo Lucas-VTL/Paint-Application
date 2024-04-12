@@ -1,4 +1,8 @@
-﻿using System.Windows;
+﻿using System.Configuration;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Media;
+using System.Windows.Shapes;
 using myShape;
 
 namespace myEllipse
@@ -19,6 +23,34 @@ namespace myEllipse
             return MemberwiseClone();
         }
 
-        public UIElement convertShapeType() { return null; }
+        public UIElement convertShapeType() {
+
+            var start = startPoint;
+            var end = endPoint;
+
+            var left = Math.Min(end.X, start.X);
+            var right = Math.Max(end.X, start.X);
+
+            var top = Math.Min(end.Y, start.Y);
+            var bottom = Math.Max(end.Y, start.Y);
+
+            var width = right - left;
+            var height = bottom - top;
+
+            var element = new Ellipse
+            {
+                Fill = Brushes.AliceBlue,
+                Stroke = Brushes.Black,
+                StrokeThickness = 2,
+                HorizontalAlignment = HorizontalAlignment.Left,
+                VerticalAlignment = VerticalAlignment.Center,
+                Width = width,
+                Height = height
+            };
+
+            Canvas.SetLeft(element, left);
+            Canvas.SetTop(element, top);
+            return element;
+        }
     }
 }

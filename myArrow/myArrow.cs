@@ -19,6 +19,9 @@ namespace myArrow
             return MemberwiseClone();
         }
 
-        public UIElement convertShapeType() { return null; }
+        public UIElement convertShapeType() {
+
+            return null;
+        }
     }
 }
