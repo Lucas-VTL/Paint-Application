@@ -1,5 +1,8 @@
 ﻿using myShape;
+using System.Configuration;
 using System.Windows;
+using System.Windows.Media;
+using System.Windows.Shapes;
 
 namespace myLine
 {
@@ -19,6 +22,17 @@ namespace myLine
             return MemberwiseClone();
         }
 
-        public UIElement convertShapeType() { return null; }
+        public UIElement convertShapeType() {
+            return new Line()
+            {
+                X1 = startPoint.X,
+                Y1 = startPoint.Y,
+                X2 = endPoint.X,
+                Y2 = endPoint.Y,
+                Fill = Brushes.AliceBlue,
+                Stroke = Brushes.Black,
+                StrokeThickness = 2,
+            };
+        }
     }
 }
