@@ -11,7 +11,9 @@
         WindowStyle="None"
         AllowsTransparency="True"
         Background="Transparent"
-        Loaded="WindowLoaded">
+        Loaded="WindowLoaded"
+        KeyDown="WindowKeyDown"
+        KeyUp="WindowKeyUp">
     <Window.Resources>
         <ImageBrush x:Key="close-non" ImageSource="images/window-close.png"/>
         <ImageBrush x:Key="close-effect" ImageSource="images/window-close-effect.png"/>

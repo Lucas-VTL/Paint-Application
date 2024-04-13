@@ -150,5 +150,7 @@
 		<ProjectReference Include="..\myRhombus\myRhombus.csproj" />
 		<ProjectReference Include="..\myPentagon\myPentagon.csproj" />
 		<ProjectReference Include="..\myHexagon\myHexagon.csproj" />
+		<ProjectReference Include="..\mySquare\mySquare.csproj" />
+		<ProjectReference Include="..\myCircle\myCircle.csproj" />
 	</ItemGroup>
 </Project>

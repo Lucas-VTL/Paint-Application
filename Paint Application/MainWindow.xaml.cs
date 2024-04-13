@@ -17,6 +17,7 @@ using System.IO;
 using System.Reflection;
 using System;
 using myShape;
+using mySquare;
 
 namespace Paint_Application
 {
@@ -39,6 +40,7 @@ namespace Paint_Application
         private bool isStyleStrokeOpen = false;
         private bool isToolEraseOpen = false;
         private bool isDrawing = false;
+        private bool isShiftDown = false;
 
         //Lưu giữ điểm bắt đầu và kết thúc của nét vẽ
         Point startPoint;
@@ -49,6 +51,12 @@ namespace Paint_Application
 
         //List fonts lưu giữ các kiểu fonts
         private List<Font> fonts = new List<Font>();
+
+        //Biến để lưu trữ 4 kiểu IShape đặt biệt - hình vuông <> hình chữ nhật và hình tròn <> hình ellipse
+        IShape rectangleShape;
+        IShape squareShape;
+        IShape ellipseShape;
+        IShape circleShape;
 
         //Các biến global lưu giữ các thông số của ứng dụng
         private string globalFontFamily;
@@ -100,10 +108,32 @@ namespace Paint_Application
 
                     foreach (var type in types)
                     {
-                        if ((type.IsClass)
-                            && (typeof(IShape).IsAssignableFrom(type)))
+                        if ((type.IsClass) && (typeof(IShape).IsAssignableFrom(type)))
                         {
-                            shapeList.Add((IShape)Activator.CreateInstance(type)!);
+                            if (type.Name == "myRectangle")
+                            {
+                                rectangleShape = (IShape)Activator.CreateInstance(type)!;
+                            }
+
+                            if (type.Name == "mySquare")
+                            {
+                                squareShape = (IShape)Activator.CreateInstance(type)!;
+                            }
+
+                            if (type.Name == "myEllipse")
+                            {
+                                ellipseShape = (IShape)Activator.CreateInstance(type)!;
+                            }
+
+                            if (type.Name == "myCircle")
+                            {
+                                circleShape = (IShape)Activator.CreateInstance(type)!;
+                            }
+
+                            if (type.Name != "mySquare" && type.Name != "myCircle")
+                            {
+                                shapeList.Add((IShape)Activator.CreateInstance(type)!);
+                            }
                         }
                     }
                 }
@@ -572,6 +602,26 @@ namespace Paint_Application
                     drawArea.Children.Add(item.convertShapeType());
                 }
 
+                if (selectedShape.shapeName == "Square" && isShiftDown == false)
+                {
+                    selectedShape = rectangleShape;
+                }
+
+/*                if (selectedShape.shapeName == "Circle" && isShiftDown == false)
+                {
+
+                }*/
+
+                if (selectedShape.shapeName == "Rectangle" && isShiftDown == true)
+                {
+                    selectedShape = squareShape;
+                } 
+
+/*                if (selectedShape.shapeName == "Ellipse" && isShiftDown == true)
+                {
+
+                }*/
+
                 selectedShape.addStartPoint(startPoint);
                 selectedShape.addEndPoint(endPoint);
                 drawArea.Children.Add(selectedShape.convertShapeType());
@@ -598,6 +648,19 @@ namespace Paint_Application
 
             isDrawing = true;
             startPoint = e.GetPosition(drawArea);
+        }
+
+        private void WindowKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.LeftShift || e.Key == Key.RightShift) 
+            { 
+                isShiftDown = true;
+            }
+        }
+
+        private void WindowKeyUp(object sender, KeyEventArgs e)
+        {
+            isShiftDown = false;
         }
     }
 }
