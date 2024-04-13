@@ -682,6 +682,9 @@
                 </Grid>
             </Border>
         </Grid>
-        <Canvas Name="drawArea" Grid.Row="2" Background="Transparent" MouseLeftButtonDown="drawAreaMouseLeftButtonDown" MouseMove="drawAreaMouseMove"/>
+        <Grid Grid.Row="2">
+            <Canvas Name="drawArea"/>
+            <Canvas Name="drawBackGround" Background="Transparent" MouseLeftButtonDown="drawAreaMouseLeftButtonDown" MouseMove="drawAreaMouseMove" MouseLeftButtonUp="drawAreaMouseLeftButtonUp"/>
+        </Grid>
     </Grid>
 </Window>

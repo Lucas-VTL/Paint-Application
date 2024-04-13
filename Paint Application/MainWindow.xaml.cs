@@ -27,6 +27,7 @@ namespace Paint_Application
 
     public partial class MainWindow : Window
     {
+        //Các bước boolean kiểm tra tình trạng đóng/mở của các combobox hoặc các function
         private bool isSelectionOpen = false;
         private bool isTextBold = false;
         private bool isTextItalic = false;
@@ -37,16 +38,30 @@ namespace Paint_Application
         private bool isStyleWidthOpen = false;
         private bool isStyleStrokeOpen = false;
         private bool isToolEraseOpen = false;
+        private bool isDrawing = false;
 
+        //Lưu giữ điểm bắt đầu và kết thúc của nét vẽ
+        Point startPoint;
+        Point endPoint;
+
+        //List border giúp xác định các border khi người dùng chọn vào các function
         private List<Border> function = new List<Border>();
+
+        //List fonts lưu giữ các kiểu fonts
         private List<Font> fonts = new List<Font>();
 
+        //Các biến global lưu giữ các thông số của ứng dụng
         private string globalFontFamily;
         private int globalFontSize = 12;
         private int globalWidth;
         private int globalStroke;
+        private IShape selectedShape = null;
 
+        //Các list lưu trữ các data được load từ file dll
         private List<IShape> shapeList = new List<IShape>();
+
+        //List drawSurface giúp lưu trữ các nét vẽ trên 1 bề mặt
+        private List<IShape> drawSurface = new List<IShape>();
 
         public MainWindow()
         {
@@ -109,6 +124,7 @@ namespace Paint_Application
         private void functionSelected(int index)
         {
             shapeListview.SelectedItem = null;
+            selectedShape = null;
             function[index].Opacity = 1;
 
             for (int i = 0; i < function.Count; i++)
@@ -377,39 +393,6 @@ namespace Paint_Application
             }
         }
 
-        private void drawAreaMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            selectionCombobox.IsDropDownOpen = false;
-            selectionButtonContent.Source = new BitmapImage(new Uri("images/arrow-down.png", UriKind.Relative));
-            isSelectionOpen = false;
-
-            textFontCombobox.IsDropDownOpen = false;
-            isTextFontFamilyOpen = false;
-
-            fontSizeStackpanel.Visibility = Visibility.Collapsed;
-            isTextFontSizeOpen = false;
-
-            styleWidthCombobox.IsDropDownOpen = false;
-            isStyleWidthOpen = false;
-
-            styleStrokeCombobox.IsDropDownOpen = false;
-            isStyleStrokeOpen = false;
-        }
-
-        private void drawAreaMouseMove(object sender, MouseEventArgs e)
-        {
-            if (isFunctionSelected && !isToolEraseOpen)
-            {
-                drawArea.Cursor = Cursors.Cross;
-            } else if (isFunctionSelected && isToolEraseOpen)
-            {
-                drawArea.Cursor = new Cursor(new MemoryStream(Properties.Resources.toolErase));
-            } else 
-            {
-                drawArea.Cursor = null;
-            }
-        }
-
         private void styleWidthButtonClick(object sender, RoutedEventArgs e)
         {
             if (!isStyleWidthOpen)
@@ -550,8 +533,71 @@ namespace Paint_Application
             removeAllFunctionSelectedToSelectShape();
             isFunctionSelected = true;
             isToolEraseOpen = false;
-            ListViewItem item = (ListViewItem)sender;
-            shapeListview.SelectedItem = item;
+            ListViewItem selectedItem = (ListViewItem)sender;
+            shapeListview.SelectedItem = selectedItem;
+
+            selectedShape = (IShape)selectedItem.Content;
+        }
+
+        private void drawAreaMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            isDrawing = false;
+            if (selectedShape != null)
+            {
+                drawSurface.Add((IShape)selectedShape.Clone());
+            }
+        }
+
+        private void drawAreaMouseMove(object sender, MouseEventArgs e)
+        {
+            if (isFunctionSelected && !isToolEraseOpen)
+            {
+                drawBackGround.Cursor = Cursors.Cross;
+            }
+            else if (isFunctionSelected && isToolEraseOpen)
+            {
+                drawBackGround.Cursor = new Cursor(new MemoryStream(Properties.Resources.toolErase));
+            }
+            else
+            {
+                drawBackGround.Cursor = null;
+            }
+
+            if (isDrawing && selectedShape != null)
+            {
+                endPoint = e.GetPosition(drawArea);
+                drawArea.Children.Clear();
+                foreach (var item in drawSurface)
+                {
+                    drawArea.Children.Add(item.convertShapeType());
+                }
+
+                selectedShape.addStartPoint(startPoint);
+                selectedShape.addEndPoint(endPoint);
+                drawArea.Children.Add(selectedShape.convertShapeType());
+            }
+        }
+
+        private void drawAreaMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            selectionCombobox.IsDropDownOpen = false;
+            selectionButtonContent.Source = new BitmapImage(new Uri("images/arrow-down.png", UriKind.Relative));
+            isSelectionOpen = false;
+
+            textFontCombobox.IsDropDownOpen = false;
+            isTextFontFamilyOpen = false;
+
+            fontSizeStackpanel.Visibility = Visibility.Collapsed;
+            isTextFontSizeOpen = false;
+
+            styleWidthCombobox.IsDropDownOpen = false;
+            isStyleWidthOpen = false;
+
+            styleStrokeCombobox.IsDropDownOpen = false;
+            isStyleStrokeOpen = false;
+
+            isDrawing = true;
+            startPoint = e.GetPosition(drawArea);
         }
     }
 }
