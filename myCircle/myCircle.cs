@@ -2,10 +2,11 @@
 using System.Windows.Media;
 using System.Windows.Shapes;
 using System.Windows;
+using myShape;
 
 namespace myCircle
 {
-    public class myCircle
+    public class myCircle : IShape
     {
         private Point startPoint;
         private Point endPoint;

@@ -40,6 +40,7 @@ namespace Paint_Application
         private bool isStyleStrokeOpen = false;
         private bool isToolEraseOpen = false;
         private bool isDrawing = false;
+        private bool isMouseLeftButtonDown = false;
         private bool isShiftDown = false;
 
         //Lưu giữ điểm bắt đầu và kết thúc của nét vẽ
@@ -607,20 +608,20 @@ namespace Paint_Application
                     selectedShape = rectangleShape;
                 }
 
-/*                if (selectedShape.shapeName == "Circle" && isShiftDown == false)
+                if (selectedShape.shapeName == "Circle" && isShiftDown == false)
                 {
-
-                }*/
+                    selectedShape = ellipseShape;
+                }
 
                 if (selectedShape.shapeName == "Rectangle" && isShiftDown == true)
                 {
                     selectedShape = squareShape;
                 } 
 
-/*                if (selectedShape.shapeName == "Ellipse" && isShiftDown == true)
+                if (selectedShape.shapeName == "Ellipse" && isShiftDown == true)
                 {
-
-                }*/
+                    selectedShape = circleShape;
+                }
 
                 selectedShape.addStartPoint(startPoint);
                 selectedShape.addEndPoint(endPoint);
@@ -661,6 +662,40 @@ namespace Paint_Application
         private void WindowKeyUp(object sender, KeyEventArgs e)
         {
             isShiftDown = false;
+        }
+
+        private void WindowMouseLeave(object sender, MouseEventArgs e)
+        {
+            isDrawing = false;
+            if (selectedShape != null)
+            {
+                drawSurface.Add((IShape)selectedShape.Clone());
+            }
+        }
+
+        private void toolBarMouseMove(object sender, MouseEventArgs e)
+        {
+            if (isDrawing && isMouseLeftButtonDown)
+            {
+                isDrawing = true;
+            } else
+            {
+                isDrawing = false;
+                if (selectedShape != null)
+                {
+                    drawSurface.Add((IShape)selectedShape.Clone());
+                }
+            }
+        }
+
+        private void WindowMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            isMouseLeftButtonDown = true;
+        }
+
+        private void WindowMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            isMouseLeftButtonDown = false;
         }
     }
 }
