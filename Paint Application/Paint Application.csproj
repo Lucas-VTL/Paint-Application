@@ -150,7 +150,17 @@
 		<ProjectReference Include="..\myRhombus\myRhombus.csproj" />
 		<ProjectReference Include="..\myPentagon\myPentagon.csproj" />
 		<ProjectReference Include="..\myHexagon\myHexagon.csproj" />
-		<ProjectReference Include="..\mySquare\mySquare.csproj" />
-		<ProjectReference Include="..\myCircle\myCircle.csproj" />
+		<ProjectReference Include="..\myShiftArrow\myShiftArrow.csproj" />
+		<ProjectReference Include="..\myShiftEllipse\myShiftEllipse.csproj" />
+		<ProjectReference Include="..\myShiftFivePointStar\myShiftFivePointStar.csproj" />
+		<ProjectReference Include="..\myShiftFourPointStar\myShiftFourPointStar.csproj" />
+		<ProjectReference Include="..\myShiftHeart\myShiftHeart.csproj" />
+		<ProjectReference Include="..\myShiftHexagon\myShiftHexagon.csproj" />
+		<ProjectReference Include="..\myShiftLine\myShiftLine.csproj" />
+		<ProjectReference Include="..\myShiftPentagon\myShiftPentagon.csproj" />
+		<ProjectReference Include="..\myShiftRectangle\myShiftRectangle.csproj" />
+		<ProjectReference Include="..\myShiftRhombus\myShiftRhombus.csproj" />
+		<ProjectReference Include="..\myShiftRightTriangle\myShiftRightTriangle.csproj" />
+		<ProjectReference Include="..\myShiftTriangle\myShiftTriangle.csproj" />
 	</ItemGroup>
 </Project>

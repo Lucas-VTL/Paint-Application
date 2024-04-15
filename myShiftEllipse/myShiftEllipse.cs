@@ -4,14 +4,14 @@ using System.Windows.Shapes;
 using System.Windows;
 using myShape;
 
-namespace myCircle
+namespace myShiftEllipse
 {
-    public class myCircle : IShape
+    public class myShiftEllipse : IShape
     {
         private Point startPoint;
         private Point endPoint;
 
-        public string shapeName => "Circle";
+        public string shapeName => "ShiftEllipse";
         public string shapeImage => "";
 
         public void addStartPoint(Point point) { startPoint = point; }
@@ -36,14 +36,6 @@ namespace myCircle
 
             var width = right - left;
             var height = bottom - top;
-
-            if (width > height)
-            {
-                width = height;
-            } else
-            {
-                height = width;
-            }
 
             var element = new Ellipse
             {

@@ -1,17 +1,17 @@
-﻿using System.Windows;
+﻿using myShape;
 using System.Windows.Controls;
 using System.Windows.Media;
+using System.Windows;
 using System.Windows.Shapes;
-using myShape;
 
-namespace mySquare
+namespace myShiftRectangle
 {
-    public class mySquare : IShape
+    public class myShiftRectangle : IShape
     {
         private Point startPoint;
         private Point endPoint;
 
-        public string shapeName => "Square";
+        public string shapeName => "ShiftRectangle";
         public string shapeImage => "";
 
         public void addStartPoint(Point point) { startPoint = point; }
@@ -24,6 +24,7 @@ namespace mySquare
 
         public UIElement convertShapeType()
         {
+
             var start = startPoint;
             var end = endPoint;
 
@@ -35,14 +36,6 @@ namespace mySquare
 
             var width = right - left;
             var height = bottom - top;
-
-            if (width > height)
-            {
-                width = height;
-            } else
-            {
-                height = width;
-            }
 
             var element = new Rectangle()
             {
