@@ -18,6 +18,7 @@ using System.Reflection;
 using System;
 using myShape;
 using myWidthness;
+using myStroke;
 
 namespace Paint_Application
 {
@@ -64,6 +65,7 @@ namespace Paint_Application
         //Các list lưu trữ các data được load từ file dll
         private List<IShape> shapeList = new List<IShape>();
         private List<IWidthness> widthnessList = new List<IWidthness>();
+        private List<IStroke> strokeList = new List<IStroke>();
 
         //List drawSurface giúp lưu trữ các nét vẽ trên 1 bề mặt
         private List<IShape> drawSurface = new List<IShape>();
@@ -119,11 +121,17 @@ namespace Paint_Application
                     {
                         widthnessList.Add((IWidthness)Activator.CreateInstance(type)!);
                     }
+
+                    if ((type.IsClass) && (typeof(IStroke).IsAssignableFrom(type)))
+                    {
+                        strokeList.Add((IStroke)Activator.CreateInstance(type)!);
+                    }
                 }
             }
 
             shapeListview.ItemsSource = shapeList;
             styleWidthCombobox.ItemsSource = widthnessList;
+            styleStrokeCombobox.ItemsSource = strokeList;
         }
 
         private void minimizeButtonClick(object sender, RoutedEventArgs e)

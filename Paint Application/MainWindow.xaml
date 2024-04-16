@@ -523,18 +523,11 @@
                                 </Button.Content>
                             </Button>
                             <ComboBox Name="styleStrokeCombobox" Visibility="Hidden" SelectionChanged="styleStrokeComboboxSelectionChanged">
-                                <ComboBoxItem>
-                                    <Image Source="images/styleBaseLine.png" Width="80" Height="20" Margin="5"/>
-                                </ComboBoxItem>
-                                <ComboBoxItem>
-                                    <Image Source="images/styleStroke1.png" Width="80" Height="20" Margin="5"/>
-                                </ComboBoxItem>
-                                <ComboBoxItem>
-                                    <Image Source="images/styleStroke2.png" Width="80" Height="20" Margin="5"/>
-                                </ComboBoxItem>
-                                <ComboBoxItem>
-                                    <Image Source="images/styleStroke3.png" Width="80" Height="20" Margin="5"/>
-                                </ComboBoxItem>
+                                <ComboBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <Image Source="{Binding strokeImage}" Width="80" Height="20" Margin="5"/>
+                                    </DataTemplate>
+                                </ComboBox.ItemTemplate>
                                 <ComboBox.ItemContainerStyle>
                                     <Style TargetType="ComboBoxItem">
                                         <EventSetter Event="PreviewMouseLeftButtonDown" Handler="styleStrokeComboboxPreviewMouseLeftButtonDown"/>

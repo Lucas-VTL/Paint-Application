@@ -36,6 +36,7 @@
     <None Remove="images\styleStroke1.png" />
     <None Remove="images\styleStroke2.png" />
     <None Remove="images\styleStroke3.png" />
+    <None Remove="images\styleStroke4.png" />
     <None Remove="images\styleWidth.png" />
     <None Remove="images\styleWidth1.png" />
     <None Remove="images\styleWidth2.png" />
@@ -99,6 +100,7 @@
     <Resource Include="images\styleStroke1.png" />
     <Resource Include="images\styleStroke2.png" />
     <Resource Include="images\styleStroke3.png" />
+    <Resource Include="images\styleStroke4.png" />
     <Resource Include="images\styleWidth.png" />
     <Resource Include="images\styleWidth1.png" />
     <Resource Include="images\styleWidth2.png" />
@@ -169,5 +171,12 @@
         <ProjectReference Include="..\my3PixelWidthness\my3PixelWidthness.csproj" />
         <ProjectReference Include="..\my5PixelWidthness\my5PixelWidthness.csproj" />
         <ProjectReference Include="..\my8PixelWidthness\my8PixelWidthness.csproj" />
+		
+        <ProjectReference Include="..\myStroke\myStroke.csproj" />
+        <ProjectReference Include="..\myBaseStroke\myBaseStroke.csproj" />
+        <ProjectReference Include="..\myDashDotDotStroke\myDashDotDotStroke.csproj" />
+        <ProjectReference Include="..\myDotStroke\myDotStroke.csproj" />
+        <ProjectReference Include="..\myLongDashStroke\myLongDashStroke.csproj" />
+        <ProjectReference Include="..\myShortDashStroke\myShortDashStroke.csproj" />
 	</ItemGroup>
 </Project>
