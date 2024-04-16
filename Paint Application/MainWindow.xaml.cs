@@ -40,7 +40,6 @@ namespace Paint_Application
         private bool isStyleStrokeOpen = false;
         private bool isToolEraseOpen = false;
         private bool isDrawing = false;
-        private bool isMouseLeftButtonDown = false;
         private bool isShiftDown = false;
 
         //Lưu giữ điểm bắt đầu và kết thúc của nét vẽ
@@ -637,32 +636,16 @@ namespace Paint_Application
             }
         }
 
-        private void toolBarMouseMove(object sender, MouseEventArgs e)
+        private void toolBarMouseUp(object sender, MouseButtonEventArgs e)
         {
             if (isDrawing)
             {
-                if (isMouseLeftButtonDown)
+                isDrawing = false;
+                if (selectedShape != null)
                 {
-                    isDrawing = true;
-                } else
-                {
-                    isDrawing = false;
-                    if (selectedShape != null)
-                    {
-                        drawSurface.Add((IShape)selectedShape.Clone());
-                    }
+                    drawSurface.Add((IShape)selectedShape.Clone());
                 }
             }
-        }
-
-        private void WindowMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            isMouseLeftButtonDown = true;
-        }
-
-        private void WindowMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
-        {
-            isMouseLeftButtonDown = false;
         }
     }
 }

@@ -14,9 +14,7 @@
         Loaded="WindowLoaded"
         KeyDown="WindowKeyDown"
         KeyUp="WindowKeyUp"
-        MouseLeave="WindowMouseLeave"
-        MouseLeftButtonDown="WindowMouseLeftButtonDown"
-        MouseLeftButtonUp="WindowMouseLeftButtonUp">
+        MouseLeave="WindowMouseLeave">
     <Window.Resources>
         <ImageBrush x:Key="close-non" ImageSource="images/window-close.png"/>
         <ImageBrush x:Key="close-effect" ImageSource="images/window-close-effect.png"/>
@@ -152,7 +150,7 @@
                 <Button Name="closeButton" Style="{StaticResource closeWindowButton}" Margin="10 5" Click="closeButtonClick"/>
             </StackPanel>
         </DockPanel>
-        <Grid Grid.Row="1" Background="LavenderBlush" MouseMove="toolBarMouseMove">
+        <Grid Grid.Row="1" Background="LavenderBlush" PreviewMouseUp="toolBarMouseUp">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="0.4*"/>
                 <ColumnDefinition Width="0.6*"/>
