@@ -33,9 +33,8 @@ namespace myLine
                 Y1 = startPoint.Y,
                 X2 = endPoint.X,
                 Y2 = endPoint.Y,
-                Fill = Brushes.AliceBlue,
                 Stroke = Brushes.Black,
-                StrokeThickness = 2,
+                StrokeThickness = widthness.widthnessValue,
             };
         }
     }

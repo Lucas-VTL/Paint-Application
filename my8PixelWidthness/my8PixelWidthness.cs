@@ -7,7 +7,7 @@ namespace my8PixelWidthness
     {
         public string widthnessName => "8px";
         public string widthnessImage => "images/styleWidth3.png";
-        public Thickness widthnessValue => new Thickness(8);
+        public double widthnessValue => 8.0;
         public object Clone()
         {
             return MemberwiseClone();

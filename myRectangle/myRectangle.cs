@@ -44,9 +44,8 @@ namespace myRectangle
 
             var element = new Rectangle()
             {
-                Fill = Brushes.AliceBlue,
                 Stroke = Brushes.Black,
-                StrokeThickness = 2,
+                StrokeThickness = widthness.widthnessValue,
                 Width = width,
                 Height = height
             };

@@ -56,7 +56,6 @@ namespace Paint_Application
         //Các biến global lưu giữ các thông số của ứng dụng
         private string globalFontFamily;
         private int globalFontSize = 12;
-        private int globalWidth;
         private int globalStroke;
         private IShape selectedShape = null;
 
@@ -443,19 +442,15 @@ namespace Paint_Application
             switch (index)
             {
                 case 0:
-                    globalWidth = 1;
                     styleWidthImage.Source = new BitmapImage(new Uri("images/styleBaseLine.png", UriKind.Relative));
                     break;
                 case 1:
-                    globalWidth = 3;
                     styleWidthImage.Source = new BitmapImage(new Uri("images/styleWidth1.png", UriKind.Relative));
                     break;
                 case 2:
-                    globalWidth = 5;
                     styleWidthImage.Source = new BitmapImage(new Uri("images/styleWidth2.png", UriKind.Relative));
                     break;
                 case 3:
-                    globalWidth = 8;
                     styleWidthImage.Source = new BitmapImage(new Uri("images/styleWidth3.png", UriKind.Relative));
                     break;
                 default: break;
@@ -584,6 +579,7 @@ namespace Paint_Application
             {
                 endPoint = e.GetPosition(drawArea);
                 drawArea.Children.Clear();
+                selectedShape.addWidthness((IWidthness)styleWidthCombobox.SelectedItem);
 
                 foreach (var item in drawSurface)
                 {
@@ -592,6 +588,7 @@ namespace Paint_Application
 
                 selectedShape.addStartPoint(startPoint);
                 selectedShape.addEndPoint(endPoint);
+
                 drawArea.Children.Add(selectedShape.convertShapeType());
             }
         }
@@ -642,15 +639,18 @@ namespace Paint_Application
 
         private void toolBarMouseMove(object sender, MouseEventArgs e)
         {
-            if (isDrawing && isMouseLeftButtonDown)
+            if (isDrawing)
             {
-                isDrawing = true;
-            } else
-            {
-                isDrawing = false;
-                if (selectedShape != null)
+                if (isMouseLeftButtonDown)
                 {
-                    drawSurface.Add((IShape)selectedShape.Clone());
+                    isDrawing = true;
+                } else
+                {
+                    isDrawing = false;
+                    if (selectedShape != null)
+                    {
+                        drawSurface.Add((IShape)selectedShape.Clone());
+                    }
                 }
             }
         }

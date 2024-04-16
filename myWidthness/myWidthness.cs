@@ -6,6 +6,6 @@ namespace myWidthness
     {
         string widthnessName { get; }
         string widthnessImage { get; }
-        Thickness widthnessValue { get; }
+        double widthnessValue { get; }
     }
 }

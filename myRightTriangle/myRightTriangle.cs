@@ -35,14 +35,12 @@ namespace myRightTriangle
 
             var center = new Point((start.X + end.X) / 2, (start.Y + end.Y) / 2);
 
-            // Determine the length of the hypotenuse (the longest side of the right triangle)
             var hypotenuseLength = Math.Sqrt(width * width + height * height);
 
             var rightTriangle = new Polygon
             {
-                Fill = Brushes.Magenta,
                 Stroke = Brushes.Black,
-                StrokeThickness = 2,
+                StrokeThickness = widthness.widthnessValue,
                 Points = CreateRightTrianglePoints(center, width, height, hypotenuseLength)
             };
 

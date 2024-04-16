@@ -38,9 +38,8 @@ namespace myRhombus
 
             var rhombus = new Polygon
             {
-                Fill = Brushes.Orange,
                 Stroke = Brushes.Black,
-                StrokeThickness = 2,
+                StrokeThickness = widthness.widthnessValue,
                 Points = CreateRhombusPoints(center, halfWidth, halfHeight)
             };
 

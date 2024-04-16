@@ -44,9 +44,8 @@ namespace myEllipse
 
             var element = new Ellipse
             {
-                Fill = Brushes.AliceBlue,
                 Stroke = Brushes.Black,
-                StrokeThickness = 2,
+                StrokeThickness = widthness.widthnessValue,
                 HorizontalAlignment = HorizontalAlignment.Left,
                 VerticalAlignment = VerticalAlignment.Center,
                 Width = width,
