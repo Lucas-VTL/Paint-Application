@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using myWidthness;
+using System.Windows;
 
 namespace myShape
 {
@@ -6,6 +7,7 @@ namespace myShape
     {
         void addStartPoint(Point point);
         void addEndPoint(Point point);
+        void addWidthness(IWidthness widthness);
         UIElement convertShapeType();
         string shapeName { get;}
         string shapeImage { get;}

@@ -1,4 +1,5 @@
 ﻿using myShape;
+using myWidthness;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Shapes;
@@ -9,13 +10,16 @@ namespace myHexagon
     {
         private Point startPoint;
         private Point endPoint;
-
+        IWidthness widthness;
         public string shapeName => "Hexagon";
         public string shapeImage => "images/shapeHexagon.png";
 
         public void addStartPoint(Point point) { startPoint = point; }
         public void addEndPoint(Point point) { endPoint = point; }
-
+        public void addWidthness(IWidthness width)
+        {
+            widthness = width;
+        }
         public object Clone()
         {
             return MemberwiseClone();

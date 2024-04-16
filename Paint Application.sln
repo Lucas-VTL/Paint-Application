@@ -55,15 +55,17 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "myShiftRightTriangle", "myS
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "myShiftTriangle", "myShiftTriangle\myShiftTriangle.csproj", "{1C96DAA2-E7E4-4072-9147-1B8CD95810AD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "myWidthness", "myWidthness\myWidthness.csproj", "{2B8719FE-F67E-45C5-8830-DC5D41723949}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "myWidthness", "myWidthness\myWidthness.csproj", "{2B8719FE-F67E-45C5-8830-DC5D41723949}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "my1PixelWidthness", "my1PixelWidthness\my1PixelWidthness.csproj", "{187DC8AA-2807-4C48-84DB-A6FCB2A3DBB0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "my1PixelWidthness", "my1PixelWidthness\my1PixelWidthness.csproj", "{187DC8AA-2807-4C48-84DB-A6FCB2A3DBB0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "my3PixelWidthness", "my3PixelWidthness\my3PixelWidthness.csproj", "{5B7AB14A-25E4-4386-A6BB-92FA1F444E56}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "my3PixelWidthness", "my3PixelWidthness\my3PixelWidthness.csproj", "{5B7AB14A-25E4-4386-A6BB-92FA1F444E56}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "my5PixelWidthness", "my5PixelWidthness\my5PixelWidthness.csproj", "{872293EE-C9D5-4FAE-9027-B8A4BF6FAD59}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "my5PixelWidthness", "my5PixelWidthness\my5PixelWidthness.csproj", "{872293EE-C9D5-4FAE-9027-B8A4BF6FAD59}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "my8PixelWidthness", "my8PixelWidthness\my8PixelWidthness.csproj", "{D7153209-5357-4FE1-8D3F-362404E2D086}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "my8PixelWidthness", "my8PixelWidthness\my8PixelWidthness.csproj", "{D7153209-5357-4FE1-8D3F-362404E2D086}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "myStroke", "myStroke\myStroke.csproj", "{F099FD06-3FB1-4D09-9295-510D3D989629}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -195,6 +197,10 @@ Global
 		{D7153209-5357-4FE1-8D3F-362404E2D086}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D7153209-5357-4FE1-8D3F-362404E2D086}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D7153209-5357-4FE1-8D3F-362404E2D086}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F099FD06-3FB1-4D09-9295-510D3D989629}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F099FD06-3FB1-4D09-9295-510D3D989629}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F099FD06-3FB1-4D09-9295-510D3D989629}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F099FD06-3FB1-4D09-9295-510D3D989629}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

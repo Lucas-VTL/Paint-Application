@@ -3,6 +3,7 @@ using System.Windows.Media;
 using System.Windows.Shapes;
 using System.Windows;
 using myShape;
+using myWidthness;
 
 namespace myShiftEllipse
 {
@@ -10,13 +11,16 @@ namespace myShiftEllipse
     {
         private Point startPoint;
         private Point endPoint;
-
+        IWidthness widthness;
         public string shapeName => "ShiftEllipse";
         public string shapeImage => "";
 
         public void addStartPoint(Point point) { startPoint = point; }
         public void addEndPoint(Point point) { endPoint = point; }
-
+        public void addWidthness(IWidthness width)
+        {
+            widthness = width;
+        }
         public object Clone()
         {
             return MemberwiseClone();

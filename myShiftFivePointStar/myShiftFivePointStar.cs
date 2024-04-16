@@ -2,6 +2,7 @@
 using System.Windows;
 using myShape;
 using System.Windows.Shapes;
+using myWidthness;
 
 namespace myShiftFivePointStar
 {
@@ -9,13 +10,16 @@ namespace myShiftFivePointStar
     {
         private Point startPoint;
         private Point endPoint;
-
+        IWidthness widthness;
         public string shapeName => "ShiftFivePointStar";
         public string shapeImage => "";
 
         public void addStartPoint(Point point) { startPoint = point; }
         public void addEndPoint(Point point) { endPoint = point; }
-
+        public void addWidthness(IWidthness width)
+        {
+            widthness = width;
+        }
         public object Clone()
         {
             return MemberwiseClone();
