@@ -465,30 +465,14 @@
                                 </Button.Content>
                             </Button>
                             <ComboBox Name="styleWidthCombobox" Visibility="Hidden" SelectionChanged="styleWidthComboboxSelectionChanged">
-                                <ComboBoxItem>
-                                    <StackPanel Orientation="Horizontal" Height="40">
-                                        <Image Source="images/styleBaseLine.png" Width="60" Margin="5 0 0 0"/>
-                                        <TextBlock Text="1px" FontFamily="fonts/#Signika" VerticalAlignment="Center" Margin="5 0"/>
-                                    </StackPanel>
-                                </ComboBoxItem>
-                                <ComboBoxItem>
-                                    <StackPanel Orientation="Horizontal" Height="40">
-                                        <Image Source="images/styleWidth1.png" Width="60" Margin="5 0 0 0"/>
-                                        <TextBlock Text="3px" FontFamily="fonts/#Signika" VerticalAlignment="Center" Margin="5 0"/>
-                                    </StackPanel>
-                                </ComboBoxItem>
-                                <ComboBoxItem>
-                                    <StackPanel Orientation="Horizontal" Height="40">
-                                        <Image Source="images/styleWidth2.png" Width="60" Margin="5 0 0 0"/>
-                                        <TextBlock Text="5px" FontFamily="fonts/#Signika" VerticalAlignment="Center" Margin="5 0"/>
-                                    </StackPanel>
-                                </ComboBoxItem>
-                                <ComboBoxItem>
-                                    <StackPanel Orientation="Horizontal" Height="40">
-                                        <Image Source="images/styleWidth3.png" Width="60" Margin="5 0 0 0"/>
-                                        <TextBlock Text="8px" FontFamily="fonts/#Signika" VerticalAlignment="Center" Margin="5 0"/>
-                                    </StackPanel>
-                                </ComboBoxItem>
+                                <ComboBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal" Height="40">
+                                            <Image Source="{Binding widthnessImage}" Width="60" Margin="5 0 0 0"/>
+                                            <TextBlock Text="{Binding widthnessName}" FontFamily="fonts/#Signika" VerticalAlignment="Center" Margin="5 0"/>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </ComboBox.ItemTemplate>
                                 <ComboBox.ItemContainerStyle>
                                     <Style TargetType="ComboBoxItem">
                                         <EventSetter Event="PreviewMouseLeftButtonDown" Handler="styleWidthComboboxPreviewMouseLeftButtonDown"/>

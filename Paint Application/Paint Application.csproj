@@ -136,7 +136,8 @@
     </EmbeddedResource>
   </ItemGroup>
 
-	<ItemGroup>
+	
+	<ItemGroup>	
 		<ProjectReference Include="..\myShape\myShape.csproj" />
 		<ProjectReference Include="..\myLine\myLine.csproj" />
 		<ProjectReference Include="..\myRectangle\myRectangle.csproj" />
@@ -162,5 +163,11 @@
 		<ProjectReference Include="..\myShiftRhombus\myShiftRhombus.csproj" />
 		<ProjectReference Include="..\myShiftRightTriangle\myShiftRightTriangle.csproj" />
 		<ProjectReference Include="..\myShiftTriangle\myShiftTriangle.csproj" />
+	
+        <ProjectReference Include="..\myWidthness\myWidthness.csproj" />
+        <ProjectReference Include="..\my1PixelWidthness\my1PixelWidthness.csproj" />
+        <ProjectReference Include="..\my3PixelWidthness\my3PixelWidthness.csproj" />
+        <ProjectReference Include="..\my5PixelWidthness\my5PixelWidthness.csproj" />
+        <ProjectReference Include="..\my8PixelWidthness\my8PixelWidthness.csproj" />
 	</ItemGroup>
 </Project>

@@ -17,6 +17,7 @@ using System.IO;
 using System.Reflection;
 using System;
 using myShape;
+using myWidthness;
 
 namespace Paint_Application
 {
@@ -60,10 +61,11 @@ namespace Paint_Application
         private IShape selectedShape = null;
 
         //List lưu giữ tất cả các loại hình vẽ được load từ file dll (bao gồm các hình vẽ + phiên bản ấn shift của chúng)
-        private List<IShape> allShapeList = new List<IShape> ();
+        private List<IShape> allShapeList = new List<IShape>();
 
         //Các list lưu trữ các data được load từ file dll
         private List<IShape> shapeList = new List<IShape>();
+        private List<IWidthness> widthnessList = new List<IWidthness>();
 
         //List drawSurface giúp lưu trữ các nét vẽ trên 1 bề mặt
         private List<IShape> drawSurface = new List<IShape>();
@@ -99,25 +101,31 @@ namespace Paint_Application
             var fis = new DirectoryInfo(folder).GetFiles("*.dll");
 
             foreach (var fi in fis)
+            {
+                var assembly = Assembly.LoadFrom(fi.FullName);
+                var types = assembly.GetTypes();
+
+                foreach (var type in types)
                 {
-                    var assembly = Assembly.LoadFrom(fi.FullName);
-                    var types = assembly.GetTypes();
-
-                    foreach (var type in types)
+                    if ((type.IsClass) && (typeof(IShape).IsAssignableFrom(type)))
                     {
-                        if ((type.IsClass) && (typeof(IShape).IsAssignableFrom(type)))
+                        if (!type.Name.Contains("Shift"))
                         {
-                            if (!type.Name.Contains("Shift"))
-                            {
-                                shapeList.Add((IShape)Activator.CreateInstance(type)!);
-                            }
-
-                            allShapeList.Add((IShape)Activator.CreateInstance(type)!);
+                            shapeList.Add((IShape)Activator.CreateInstance(type)!);
                         }
+
+                        allShapeList.Add((IShape)Activator.CreateInstance(type)!);
+                    }
+
+                    if ((type.IsClass) && (typeof(IWidthness).IsAssignableFrom(type)))
+                    {
+                        widthnessList.Add((IWidthness)Activator.CreateInstance(type)!);
                     }
                 }
+            }
 
             shapeListview.ItemsSource = shapeList;
+            styleWidthCombobox.ItemsSource = widthnessList;
         }
 
         private void minimizeButtonClick(object sender, RoutedEventArgs e)

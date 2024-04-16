@@ -31,29 +31,39 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "myPentagon", "myPentagon\my
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "myHexagon", "myHexagon\myHexagon.csproj", "{8F8CA313-D318-46C1-B1E2-E098FEBE7972}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "myShiftArrow", "myShiftArrow\myShiftArrow.csproj", "{D3BEFB86-E09C-46E8-9489-9356CE981BB3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "myShiftArrow", "myShiftArrow\myShiftArrow.csproj", "{D3BEFB86-E09C-46E8-9489-9356CE981BB3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "myShiftEllipse", "myShiftEllipse\myShiftEllipse.csproj", "{2D84BDEF-68CF-43EC-BD08-C2CB9C0C9861}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "myShiftEllipse", "myShiftEllipse\myShiftEllipse.csproj", "{2D84BDEF-68CF-43EC-BD08-C2CB9C0C9861}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "myShiftFivePointStar", "myShiftFivePointStar\myShiftFivePointStar.csproj", "{FF3E3CF0-5010-4849-9C01-2F54E0073843}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "myShiftFivePointStar", "myShiftFivePointStar\myShiftFivePointStar.csproj", "{FF3E3CF0-5010-4849-9C01-2F54E0073843}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "myShiftFourPointStar", "myShiftFourPointStar\myShiftFourPointStar.csproj", "{7901C753-29E0-4A13-A732-8FC97E6C4205}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "myShiftFourPointStar", "myShiftFourPointStar\myShiftFourPointStar.csproj", "{7901C753-29E0-4A13-A732-8FC97E6C4205}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "myShiftHeart", "myShiftHeart\myShiftHeart.csproj", "{F17522AF-FA1E-4303-8A65-B011060637C8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "myShiftHeart", "myShiftHeart\myShiftHeart.csproj", "{F17522AF-FA1E-4303-8A65-B011060637C8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "myShiftHexagon", "myShiftHexagon\myShiftHexagon.csproj", "{C0F2961B-791E-48DC-87BA-36BD32EBBAB0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "myShiftHexagon", "myShiftHexagon\myShiftHexagon.csproj", "{C0F2961B-791E-48DC-87BA-36BD32EBBAB0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "myShiftLine", "myShiftLine\myShiftLine.csproj", "{9AA8CEE4-AE9A-4A9B-8FCA-5B63737E3D0D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "myShiftLine", "myShiftLine\myShiftLine.csproj", "{9AA8CEE4-AE9A-4A9B-8FCA-5B63737E3D0D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "myShiftPentagon", "myShiftPentagon\myShiftPentagon.csproj", "{F1836BAF-C33A-44E3-BAFF-C69D231CF88B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "myShiftPentagon", "myShiftPentagon\myShiftPentagon.csproj", "{F1836BAF-C33A-44E3-BAFF-C69D231CF88B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "myShiftRectangle", "myShiftRectangle\myShiftRectangle.csproj", "{194B4EFB-6A82-4E86-924B-038631010375}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "myShiftRectangle", "myShiftRectangle\myShiftRectangle.csproj", "{194B4EFB-6A82-4E86-924B-038631010375}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "myShiftRhombus", "myShiftRhombus\myShiftRhombus.csproj", "{F9E883F3-1EF9-4326-A8A5-E06A2FE65FBA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "myShiftRhombus", "myShiftRhombus\myShiftRhombus.csproj", "{F9E883F3-1EF9-4326-A8A5-E06A2FE65FBA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "myShiftRightTriangle", "myShiftRightTriangle\myShiftRightTriangle.csproj", "{80674F80-40D4-4323-9D79-610D01C8B6B4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "myShiftRightTriangle", "myShiftRightTriangle\myShiftRightTriangle.csproj", "{80674F80-40D4-4323-9D79-610D01C8B6B4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "myShiftTriangle", "myShiftTriangle\myShiftTriangle.csproj", "{1C96DAA2-E7E4-4072-9147-1B8CD95810AD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "myShiftTriangle", "myShiftTriangle\myShiftTriangle.csproj", "{1C96DAA2-E7E4-4072-9147-1B8CD95810AD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "myWidthness", "myWidthness\myWidthness.csproj", "{2B8719FE-F67E-45C5-8830-DC5D41723949}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "my1PixelWidthness", "my1PixelWidthness\my1PixelWidthness.csproj", "{187DC8AA-2807-4C48-84DB-A6FCB2A3DBB0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "my3PixelWidthness", "my3PixelWidthness\my3PixelWidthness.csproj", "{5B7AB14A-25E4-4386-A6BB-92FA1F444E56}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "my5PixelWidthness", "my5PixelWidthness\my5PixelWidthness.csproj", "{872293EE-C9D5-4FAE-9027-B8A4BF6FAD59}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "my8PixelWidthness", "my8PixelWidthness\my8PixelWidthness.csproj", "{D7153209-5357-4FE1-8D3F-362404E2D086}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -165,6 +175,26 @@ Global
 		{1C96DAA2-E7E4-4072-9147-1B8CD95810AD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1C96DAA2-E7E4-4072-9147-1B8CD95810AD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1C96DAA2-E7E4-4072-9147-1B8CD95810AD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2B8719FE-F67E-45C5-8830-DC5D41723949}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2B8719FE-F67E-45C5-8830-DC5D41723949}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2B8719FE-F67E-45C5-8830-DC5D41723949}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2B8719FE-F67E-45C5-8830-DC5D41723949}.Release|Any CPU.Build.0 = Release|Any CPU
+		{187DC8AA-2807-4C48-84DB-A6FCB2A3DBB0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{187DC8AA-2807-4C48-84DB-A6FCB2A3DBB0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{187DC8AA-2807-4C48-84DB-A6FCB2A3DBB0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{187DC8AA-2807-4C48-84DB-A6FCB2A3DBB0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5B7AB14A-25E4-4386-A6BB-92FA1F444E56}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5B7AB14A-25E4-4386-A6BB-92FA1F444E56}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5B7AB14A-25E4-4386-A6BB-92FA1F444E56}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5B7AB14A-25E4-4386-A6BB-92FA1F444E56}.Release|Any CPU.Build.0 = Release|Any CPU
+		{872293EE-C9D5-4FAE-9027-B8A4BF6FAD59}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{872293EE-C9D5-4FAE-9027-B8A4BF6FAD59}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{872293EE-C9D5-4FAE-9027-B8A4BF6FAD59}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{872293EE-C9D5-4FAE-9027-B8A4BF6FAD59}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D7153209-5357-4FE1-8D3F-362404E2D086}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D7153209-5357-4FE1-8D3F-362404E2D086}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D7153209-5357-4FE1-8D3F-362404E2D086}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D7153209-5357-4FE1-8D3F-362404E2D086}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
