@@ -1,13 +1,12 @@
 ﻿using myColor;
+using System.Windows.Media;
 
 namespace myYellow
 {
     public class myYellow : IColor
     {
         public string colorName => "Yellow";
-        public byte colorRed => 255;
-        public byte colorGreen => 255;
-        public byte colorBlue => 0;
+        public SolidColorBrush colorValue => new SolidColorBrush(Color.FromRgb(255, 255, 0));
         public object Clone()
         {
             return MemberwiseClone();

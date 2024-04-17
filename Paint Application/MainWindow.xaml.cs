@@ -59,6 +59,7 @@ namespace Paint_Application
         private int globalFontSize = 12;
         private int globalStroke;
         private IShape selectedShape = null;
+        private IColor selectedColor = null;
 
         //List lưu giữ tất cả các loại hình vẽ được load từ file dll (bao gồm các hình vẽ + phiên bản ấn shift của chúng)
         private List<IShape> allShapeList = new List<IShape>();
@@ -139,6 +140,10 @@ namespace Paint_Application
             shapeListview.ItemsSource = shapeList;
             styleWidthCombobox.ItemsSource = widthnessList;
             styleStrokeCombobox.ItemsSource = strokeList;
+            colorListview.ItemsSource = colorList;
+
+            selectedColor = colorList[0];
+            colorListview.SelectedIndex = 0;
         }
 
         private void minimizeButtonClick(object sender, RoutedEventArgs e)
@@ -662,6 +667,14 @@ namespace Paint_Application
                     drawSurface.Add((IShape)selectedShape.Clone());
                 }
             }
+        }
+
+        private void colorListviewPreviewMouseButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            ListViewItem selectedItem = (ListViewItem)sender;
+            colorListview.SelectedItem = selectedItem;
+
+            selectedColor = (IColor)selectedItem.Content;
         }
     }
 }

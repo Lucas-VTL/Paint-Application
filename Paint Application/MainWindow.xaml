@@ -82,57 +82,6 @@
                 </Setter.Value>
             </Setter>
         </Style>
-        <Style x:Key="CircleButton" TargetType="Button">
-            <Setter Property="OverridesDefaultStyle" Value="True"/>
-            <Setter Property="Margin" Value="2"/>
-            <Setter Property="Background" Value="#FF6DB4EF"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="Button">
-                        <Grid>
-                            <Ellipse Fill="{TemplateBinding Background}"/>
-                            <Ellipse>
-                                <Ellipse.Fill>
-                                    <RadialGradientBrush>
-                                        <GradientStop Offset="0" Color="#00000000"/>
-                                        <GradientStop Offset="0.88" Color="#00000000"/>
-                                        <GradientStop Offset="1" Color="#80000000"/>
-                                    </RadialGradientBrush>
-                                </Ellipse.Fill>
-                            </Ellipse>
-                            <Ellipse Margin="10" x:Name="highlightCircle" >
-                                <Ellipse.Fill >
-                                    <LinearGradientBrush >
-                                        <GradientStop Offset="0" Color="#50FFFFFF"/>
-                                        <GradientStop Offset="0.5" Color="#00FFFFFF"/>
-                                        <GradientStop Offset="1" Color="#50FFFFFF"/>
-                                    </LinearGradientBrush>
-                                </Ellipse.Fill>
-                            </Ellipse>
-                            <ContentPresenter x:Name="content" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                        </Grid>
-                        <ControlTemplate.Triggers>
-                            <Trigger Property="IsPressed" Value="True">
-                                <Setter TargetName="highlightCircle" Property="Fill">
-                                    <Setter.Value>
-                                        <LinearGradientBrush StartPoint="0.3,0" EndPoint="0.7,1">
-                                            <GradientStop Offset="0" Color="#50FFFFFF"/>
-                                            <GradientStop Offset="0.5" Color="#00FFFFFF"/>
-                                            <GradientStop Offset="1" Color="#50FFFFFF"/>
-                                        </LinearGradientBrush>
-                                    </Setter.Value>
-                                </Setter>
-                                <Setter TargetName="content" Property="RenderTransform">
-                                    <Setter.Value>
-                                        <TranslateTransform Y="0.5" X="0.5"/>
-                                    </Setter.Value>
-                                </Setter>
-                            </Trigger>
-                        </ControlTemplate.Triggers>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
     </Window.Resources>
     <Grid Background="White">
         <Grid.RowDefinitions>
@@ -156,9 +105,9 @@
                 <ColumnDefinition Width="0.6*"/>
                 <ColumnDefinition Width="0.8*"/>
                 <ColumnDefinition Width="0.3*"/>
-                <ColumnDefinition Width="0.3*"/>
-                <ColumnDefinition Width="0.95*"/>
-                <ColumnDefinition Width="0.5*"/>
+                <ColumnDefinition Width="0.45*"/>
+                <ColumnDefinition Width="0.9*"/>
+                <ColumnDefinition Width="0.4*"/>
             </Grid.ColumnDefinitions>
             <Border Grid.Column="0" BorderBrush="LightGray" BorderThickness="0 0 2 0">
                 <Grid>
@@ -622,28 +571,63 @@
             <Border Grid.Column="5" BorderBrush="LightGray" BorderThickness="0 0 2 0">
                 <Grid>
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="1.5*"/>
-                        <RowDefinition Height="1.5*"/>
+                        <RowDefinition Height="3*"/>
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
-                    <StackPanel Grid.Row="0" Orientation="Horizontal">
-                        <Button Background="Red" Width="25" Height="25" Margin="10 0" Style="{DynamicResource CircleButton}"/>
-                        <Button Background="Orange" Width="25" Height="25" Margin="10 0" Style="{DynamicResource CircleButton}"/>
-                        <Button Background="Yellow" Width="25" Height="25" Margin="10 0" Style="{DynamicResource CircleButton}"/>
-                        <Button Background="LimeGreen" Width="25" Height="25" Margin="10 0" Style="{DynamicResource CircleButton}"/>
-                        <Button Background="Blue" Width="25" Height="25" Margin="10 0" Style="{DynamicResource CircleButton}"/>
-                        <Button Background="CornflowerBlue" Width="25" Height="25" Margin="10 0" Style="{DynamicResource CircleButton}"/>
-                        <Button Background="MediumPurple" Width="25" Height="25" Margin="10 0" Style="{DynamicResource CircleButton}"/>
-                    </StackPanel>
-                    <StackPanel Grid.Row="1" Orientation="Horizontal">
-                        <Button Background="White" Width="25" Height="25" Margin="10 0" Style="{DynamicResource CircleButton}"/>
-                        <Button Background="Black" Width="25" Height="25" Margin="10 0" Style="{DynamicResource CircleButton}"/>
-                        <Button Background="Gray" Width="25" Height="25" Margin="10 0" Style="{DynamicResource CircleButton}"/>
-                        <Button Background="RosyBrown" Width="25" Height="25" Margin="10 0" Style="{DynamicResource CircleButton}"/>
-                        <Button Background="Brown" Width="25" Height="25" Margin="10 0" Style="{DynamicResource CircleButton}"/>
-                        <Button Background="DeepPink" Width="25" Height="25" Margin="10 0" Style="{DynamicResource CircleButton}"/>
-                        <Button Background="Pink" Width="25" Height="25" Margin="10 0" Style="{DynamicResource CircleButton}"/>
-                    </StackPanel>
+                    <Grid Grid.Row="0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="3*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <ListView Name="colorListview" Grid.Column="0" Background="Transparent" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Hidden" BorderThickness="0">
+                            <ListView.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <WrapPanel/>
+                                </ItemsPanelTemplate>
+                            </ListView.ItemsPanel>
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <Border Width="25" Height="25" CornerRadius="25" Margin="3 7" BorderThickness="1" BorderBrush="Black">
+                                        <Border.Style>
+                                            <Style TargetType="Border">
+                                                <Setter Property="Background" Value="{Binding colorValue}"/>
+                                            </Style>
+                                        </Border.Style>
+                                    </Border>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                            <ListView.ItemContainerStyle>
+                                <Style TargetType="{x:Type ListViewItem}">
+                                    <EventSetter Event="PreviewMouseLeftButtonDown" Handler="colorListviewPreviewMouseButtonDown"/>
+                                    <EventSetter Event="PreviewMouseRightButtonDown" Handler="colorListviewPreviewMouseButtonDown"/>
+                                    <Setter Property="Cursor" Value="Hand"/>
+                                    <Setter Property="Background" Value="Transparent"/>
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="ListViewItem">
+                                                <WrapPanel>
+                                                    <ContentPresenter Margin="5 1"/>
+                                                </WrapPanel>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                    <Style.Triggers>
+                                        <Trigger Property="IsSelected" Value="True">
+                                            <Setter Property="Template">
+                                                <Setter.Value>
+                                                    <ControlTemplate TargetType="ListBoxItem">
+                                                        <Border CornerRadius="5" BorderBrush="CornflowerBlue" BorderThickness="2" Width="35" Height="35" Margin="3 0">
+                                                            <ContentPresenter Margin="-4 -7"/>
+                                                        </Border>
+                                                    </ControlTemplate>
+                                                </Setter.Value>
+                                            </Setter>
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </ListView.ItemContainerStyle>
+                        </ListView>
+                    </Grid>
                     <TextBlock Grid.Row="2" FontSize="15" FontFamily="fonts/#Signika" Text="Color" VerticalAlignment="Center" HorizontalAlignment="Center" Opacity="0.5"/>
                 </Grid>
             </Border>
