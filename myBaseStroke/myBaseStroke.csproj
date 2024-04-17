@@ -8,6 +8,6 @@
   </PropertyGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\myShape\myShape.csproj" />
+		<ProjectReference Include="..\myStroke\myStroke.csproj" />
 	</ItemGroup>
 </Project>

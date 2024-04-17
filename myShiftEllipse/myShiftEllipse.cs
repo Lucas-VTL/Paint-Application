@@ -1,22 +1,32 @@
-﻿using System.Windows;
-using System.Windows.Controls;
+﻿using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Shapes;
+using System.Windows;
 using myShape;
+using myWidthness;
+using myStroke;
 
-namespace mySquare
+namespace myShiftEllipse
 {
-    public class mySquare : IShape
+    public class myShiftEllipse : IShape
     {
         private Point startPoint;
         private Point endPoint;
-
-        public string shapeName => "Square";
+        IWidthness widthness;
+        IStroke strokeStyle;
+        public string shapeName => "ShiftEllipse";
         public string shapeImage => "";
 
         public void addStartPoint(Point point) { startPoint = point; }
         public void addEndPoint(Point point) { endPoint = point; }
-
+        public void addWidthness(IWidthness width)
+        {
+            widthness = width;
+        }
+        public void addStrokeStyle(IStroke stroke)
+        {
+            strokeStyle = stroke;
+        }
         public object Clone()
         {
             return MemberwiseClone();
@@ -24,38 +34,32 @@ namespace mySquare
 
         public UIElement convertShapeType()
         {
+
             var start = startPoint;
             var end = endPoint;
 
-            var left = Math.Min(start.X, end.X);
-            var right = Math.Max(start.X, end.X);
+            var left = Math.Min(end.X, start.X);
+            var right = Math.Max(end.X, start.X);
 
-            var top = Math.Min(start.Y, end.Y);
-            var bottom = Math.Max(start.Y, end.Y);
+            var top = Math.Min(end.Y, start.Y);
+            var bottom = Math.Max(end.Y, start.Y);
 
             var width = right - left;
             var height = bottom - top;
 
-            if (width > height)
-            {
-                width = height;
-            } else
-            {
-                height = width;
-            }
-
-            var element = new Rectangle()
+            var element = new Ellipse
             {
                 Fill = Brushes.AliceBlue,
                 Stroke = Brushes.Black,
                 StrokeThickness = 2,
+                HorizontalAlignment = HorizontalAlignment.Left,
+                VerticalAlignment = VerticalAlignment.Center,
                 Width = width,
                 Height = height
             };
 
             Canvas.SetLeft(element, left);
             Canvas.SetTop(element, top);
-
             return element;
         }
     }

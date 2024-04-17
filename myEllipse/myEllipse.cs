@@ -4,6 +4,8 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Shapes;
 using myShape;
+using myStroke;
+using myWidthness;
 
 namespace myEllipse
 {
@@ -11,13 +13,22 @@ namespace myEllipse
     {
         private Point startPoint;
         private Point endPoint;
+        private IWidthness widthness;
+        private IStroke strokeStyle;
 
         public string shapeName => "Ellipse";
         public string shapeImage => "images/shapeEllipse.png";
 
         public void addStartPoint(Point point) { startPoint = point; }
         public void addEndPoint(Point point) { endPoint = point; }
-
+        public void addWidthness(IWidthness width) 
+        {
+            widthness = width;
+        }
+        public void addStrokeStyle(IStroke stroke)
+        {
+            strokeStyle = stroke;
+        }
         public object Clone()
         {
             return MemberwiseClone();
@@ -39,9 +50,9 @@ namespace myEllipse
 
             var element = new Ellipse
             {
-                Fill = Brushes.AliceBlue,
                 Stroke = Brushes.Black,
-                StrokeThickness = 2,
+                StrokeThickness = widthness.widthnessValue,
+                StrokeDashArray = strokeStyle.strokeValue,
                 HorizontalAlignment = HorizontalAlignment.Left,
                 VerticalAlignment = VerticalAlignment.Center,
                 Width = width,

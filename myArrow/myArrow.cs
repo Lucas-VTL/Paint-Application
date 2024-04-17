@@ -1,4 +1,6 @@
 ﻿using myShape;
+using myStroke;
+using myWidthness;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Shapes;
@@ -9,12 +11,22 @@ namespace myArrow
     {
         private Point startPoint;
         private Point endPoint;
+        private IWidthness widthness;
+        private IStroke strokeStyle;
 
         public string shapeName => "Arrow";
         public string shapeImage => "images/shapeArrow.png";
 
         public void addStartPoint(Point point) { startPoint = point; }
         public void addEndPoint(Point point) { endPoint = point; }
+        public void addWidthness (IWidthness width)
+        {
+            widthness = width;
+        }
+        public void addStrokeStyle(IStroke stroke) 
+        {
+            strokeStyle = stroke;
+        }
 
         public object Clone()
         {

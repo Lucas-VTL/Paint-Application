@@ -17,7 +17,9 @@ using System.IO;
 using System.Reflection;
 using System;
 using myShape;
-using mySquare;
+using myWidthness;
+using myStroke;
+using myColor;
 
 namespace Paint_Application
 {
@@ -40,7 +42,6 @@ namespace Paint_Application
         private bool isStyleStrokeOpen = false;
         private bool isToolEraseOpen = false;
         private bool isDrawing = false;
-        private bool isMouseLeftButtonDown = false;
         private bool isShiftDown = false;
 
         //Lưu giữ điểm bắt đầu và kết thúc của nét vẽ
@@ -53,21 +54,20 @@ namespace Paint_Application
         //List fonts lưu giữ các kiểu fonts
         private List<Font> fonts = new List<Font>();
 
-        //Biến để lưu trữ 4 kiểu IShape đặt biệt - hình vuông <> hình chữ nhật và hình tròn <> hình ellipse
-        IShape rectangleShape;
-        IShape squareShape;
-        IShape ellipseShape;
-        IShape circleShape;
-
         //Các biến global lưu giữ các thông số của ứng dụng
         private string globalFontFamily;
         private int globalFontSize = 12;
-        private int globalWidth;
         private int globalStroke;
         private IShape selectedShape = null;
 
+        //List lưu giữ tất cả các loại hình vẽ được load từ file dll (bao gồm các hình vẽ + phiên bản ấn shift của chúng)
+        private List<IShape> allShapeList = new List<IShape>();
+
         //Các list lưu trữ các data được load từ file dll
         private List<IShape> shapeList = new List<IShape>();
+        private List<IWidthness> widthnessList = new List<IWidthness>();
+        private List<IStroke> strokeList = new List<IStroke>();
+        private List<IColor> colorList = new List<IColor>();
 
         //List drawSurface giúp lưu trữ các nét vẽ trên 1 bề mặt
         private List<IShape> drawSurface = new List<IShape>();
@@ -103,43 +103,42 @@ namespace Paint_Application
             var fis = new DirectoryInfo(folder).GetFiles("*.dll");
 
             foreach (var fi in fis)
+            {
+                var assembly = Assembly.LoadFrom(fi.FullName);
+                var types = assembly.GetTypes();
+
+                foreach (var type in types)
                 {
-                    var assembly = Assembly.LoadFrom(fi.FullName);
-                    var types = assembly.GetTypes();
-
-                    foreach (var type in types)
+                    if ((type.IsClass) && (typeof(IShape).IsAssignableFrom(type)))
                     {
-                        if ((type.IsClass) && (typeof(IShape).IsAssignableFrom(type)))
+                        if (!type.Name.Contains("Shift"))
                         {
-                            if (type.Name == "myRectangle")
-                            {
-                                rectangleShape = (IShape)Activator.CreateInstance(type)!;
-                            }
-
-                            if (type.Name == "mySquare")
-                            {
-                                squareShape = (IShape)Activator.CreateInstance(type)!;
-                            }
-
-                            if (type.Name == "myEllipse")
-                            {
-                                ellipseShape = (IShape)Activator.CreateInstance(type)!;
-                            }
-
-                            if (type.Name == "myCircle")
-                            {
-                                circleShape = (IShape)Activator.CreateInstance(type)!;
-                            }
-
-                            if (type.Name != "mySquare" && type.Name != "myCircle")
-                            {
-                                shapeList.Add((IShape)Activator.CreateInstance(type)!);
-                            }
+                            shapeList.Add((IShape)Activator.CreateInstance(type)!);
                         }
+
+                        allShapeList.Add((IShape)Activator.CreateInstance(type)!);
+                    }
+
+                    if ((type.IsClass) && (typeof(IWidthness).IsAssignableFrom(type)))
+                    {
+                        widthnessList.Add((IWidthness)Activator.CreateInstance(type)!);
+                    }
+
+                    if ((type.IsClass) && (typeof(IStroke).IsAssignableFrom(type)))
+                    {
+                        strokeList.Add((IStroke)Activator.CreateInstance(type)!);
+                    }
+
+                    if ((type.IsClass) && (typeof(IColor).IsAssignableFrom(type)))
+                    {
+                        colorList.Add((IColor)Activator.CreateInstance(type)!);
                     }
                 }
+            }
 
             shapeListview.ItemsSource = shapeList;
+            styleWidthCombobox.ItemsSource = widthnessList;
+            styleStrokeCombobox.ItemsSource = strokeList;
         }
 
         private void minimizeButtonClick(object sender, RoutedEventArgs e)
@@ -457,19 +456,15 @@ namespace Paint_Application
             switch (index)
             {
                 case 0:
-                    globalWidth = 1;
                     styleWidthImage.Source = new BitmapImage(new Uri("images/styleBaseLine.png", UriKind.Relative));
                     break;
                 case 1:
-                    globalWidth = 3;
                     styleWidthImage.Source = new BitmapImage(new Uri("images/styleWidth1.png", UriKind.Relative));
                     break;
                 case 2:
-                    globalWidth = 5;
                     styleWidthImage.Source = new BitmapImage(new Uri("images/styleWidth2.png", UriKind.Relative));
                     break;
                 case 3:
-                    globalWidth = 8;
                     styleWidthImage.Source = new BitmapImage(new Uri("images/styleWidth3.png", UriKind.Relative));
                     break;
                 default: break;
@@ -598,33 +593,17 @@ namespace Paint_Application
             {
                 endPoint = e.GetPosition(drawArea);
                 drawArea.Children.Clear();
+                selectedShape.addWidthness((IWidthness)styleWidthCombobox.SelectedItem);
+                selectedShape.addStrokeStyle((IStroke)styleStrokeCombobox.SelectedItem);
+
                 foreach (var item in drawSurface)
                 {
                     drawArea.Children.Add(item.convertShapeType());
                 }
 
-                if (selectedShape.shapeName == "Square" && isShiftDown == false)
-                {
-                    selectedShape = rectangleShape;
-                }
-
-                if (selectedShape.shapeName == "Circle" && isShiftDown == false)
-                {
-                    selectedShape = ellipseShape;
-                }
-
-                if (selectedShape.shapeName == "Rectangle" && isShiftDown == true)
-                {
-                    selectedShape = squareShape;
-                } 
-
-                if (selectedShape.shapeName == "Ellipse" && isShiftDown == true)
-                {
-                    selectedShape = circleShape;
-                }
-
                 selectedShape.addStartPoint(startPoint);
                 selectedShape.addEndPoint(endPoint);
+
                 drawArea.Children.Add(selectedShape.convertShapeType());
             }
         }
@@ -673,12 +652,9 @@ namespace Paint_Application
             }
         }
 
-        private void toolBarMouseMove(object sender, MouseEventArgs e)
+        private void toolBarMouseUp(object sender, MouseButtonEventArgs e)
         {
-            if (isDrawing && isMouseLeftButtonDown)
-            {
-                isDrawing = true;
-            } else
+            if (isDrawing)
             {
                 isDrawing = false;
                 if (selectedShape != null)
@@ -686,16 +662,6 @@ namespace Paint_Application
                     drawSurface.Add((IShape)selectedShape.Clone());
                 }
             }
-        }
-
-        private void WindowMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            isMouseLeftButtonDown = true;
-        }
-
-        private void WindowMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
-        {
-            isMouseLeftButtonDown = false;
         }
     }
 }

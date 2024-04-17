@@ -14,9 +14,7 @@
         Loaded="WindowLoaded"
         KeyDown="WindowKeyDown"
         KeyUp="WindowKeyUp"
-        MouseLeave="WindowMouseLeave"
-        MouseLeftButtonDown="WindowMouseLeftButtonDown"
-        MouseLeftButtonUp="WindowMouseLeftButtonUp">
+        MouseLeave="WindowMouseLeave">
     <Window.Resources>
         <ImageBrush x:Key="close-non" ImageSource="images/window-close.png"/>
         <ImageBrush x:Key="close-effect" ImageSource="images/window-close-effect.png"/>
@@ -152,7 +150,7 @@
                 <Button Name="closeButton" Style="{StaticResource closeWindowButton}" Margin="10 5" Click="closeButtonClick"/>
             </StackPanel>
         </DockPanel>
-        <Grid Grid.Row="1" Background="LavenderBlush" MouseMove="toolBarMouseMove">
+        <Grid Grid.Row="1" Background="LavenderBlush" PreviewMouseUp="toolBarMouseUp">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="0.4*"/>
                 <ColumnDefinition Width="0.6*"/>
@@ -465,30 +463,14 @@
                                 </Button.Content>
                             </Button>
                             <ComboBox Name="styleWidthCombobox" Visibility="Hidden" SelectionChanged="styleWidthComboboxSelectionChanged">
-                                <ComboBoxItem>
-                                    <StackPanel Orientation="Horizontal" Height="40">
-                                        <Image Source="images/styleBaseLine.png" Width="60" Margin="5 0 0 0"/>
-                                        <TextBlock Text="1px" FontFamily="fonts/#Signika" VerticalAlignment="Center" Margin="5 0"/>
-                                    </StackPanel>
-                                </ComboBoxItem>
-                                <ComboBoxItem>
-                                    <StackPanel Orientation="Horizontal" Height="40">
-                                        <Image Source="images/styleWidth1.png" Width="60" Margin="5 0 0 0"/>
-                                        <TextBlock Text="3px" FontFamily="fonts/#Signika" VerticalAlignment="Center" Margin="5 0"/>
-                                    </StackPanel>
-                                </ComboBoxItem>
-                                <ComboBoxItem>
-                                    <StackPanel Orientation="Horizontal" Height="40">
-                                        <Image Source="images/styleWidth2.png" Width="60" Margin="5 0 0 0"/>
-                                        <TextBlock Text="5px" FontFamily="fonts/#Signika" VerticalAlignment="Center" Margin="5 0"/>
-                                    </StackPanel>
-                                </ComboBoxItem>
-                                <ComboBoxItem>
-                                    <StackPanel Orientation="Horizontal" Height="40">
-                                        <Image Source="images/styleWidth3.png" Width="60" Margin="5 0 0 0"/>
-                                        <TextBlock Text="8px" FontFamily="fonts/#Signika" VerticalAlignment="Center" Margin="5 0"/>
-                                    </StackPanel>
-                                </ComboBoxItem>
+                                <ComboBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal" Height="40">
+                                            <Image Source="{Binding widthnessImage}" Width="60" Margin="5 0 0 0"/>
+                                            <TextBlock Text="{Binding widthnessName}" FontFamily="fonts/#Signika" VerticalAlignment="Center" Margin="5 0"/>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </ComboBox.ItemTemplate>
                                 <ComboBox.ItemContainerStyle>
                                     <Style TargetType="ComboBoxItem">
                                         <EventSetter Event="PreviewMouseLeftButtonDown" Handler="styleWidthComboboxPreviewMouseLeftButtonDown"/>
@@ -541,18 +523,11 @@
                                 </Button.Content>
                             </Button>
                             <ComboBox Name="styleStrokeCombobox" Visibility="Hidden" SelectionChanged="styleStrokeComboboxSelectionChanged">
-                                <ComboBoxItem>
-                                    <Image Source="images/styleBaseLine.png" Width="80" Height="20" Margin="5"/>
-                                </ComboBoxItem>
-                                <ComboBoxItem>
-                                    <Image Source="images/styleStroke1.png" Width="80" Height="20" Margin="5"/>
-                                </ComboBoxItem>
-                                <ComboBoxItem>
-                                    <Image Source="images/styleStroke2.png" Width="80" Height="20" Margin="5"/>
-                                </ComboBoxItem>
-                                <ComboBoxItem>
-                                    <Image Source="images/styleStroke3.png" Width="80" Height="20" Margin="5"/>
-                                </ComboBoxItem>
+                                <ComboBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <Image Source="{Binding strokeImage}" Width="80" Height="20" Margin="5"/>
+                                    </DataTemplate>
+                                </ComboBox.ItemTemplate>
                                 <ComboBox.ItemContainerStyle>
                                     <Style TargetType="ComboBoxItem">
                                         <EventSetter Event="PreviewMouseLeftButtonDown" Handler="styleStrokeComboboxPreviewMouseLeftButtonDown"/>

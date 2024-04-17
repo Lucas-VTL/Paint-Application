@@ -1,4 +1,6 @@
 ﻿using myShape;
+using myStroke;
+using myWidthness;
 using System.Configuration;
 using System.Windows;
 using System.Windows.Media;
@@ -10,13 +12,21 @@ namespace myLine
     {
         private Point startPoint;
         private Point endPoint;
-
+        IWidthness widthness;
+        IStroke strokeStyle;
         public string shapeName => "Line";
         public string shapeImage => "images/shapeLine.png";
 
         public void addStartPoint (Point point) {startPoint = point;}
         public void addEndPoint (Point point) {endPoint = point;}
-
+        public void addWidthness(IWidthness width)
+        {
+            widthness = width;
+        }
+        public void addStrokeStyle(IStroke stroke)
+        {
+            strokeStyle = stroke;
+        }
         public object Clone()
         {
             return MemberwiseClone();
@@ -29,9 +39,9 @@ namespace myLine
                 Y1 = startPoint.Y,
                 X2 = endPoint.X,
                 Y2 = endPoint.Y,
-                Fill = Brushes.AliceBlue,
                 Stroke = Brushes.Black,
-                StrokeThickness = 2,
+                StrokeThickness = widthness.widthnessValue,
+                StrokeDashArray = strokeStyle.strokeValue,
             };
         }
     }

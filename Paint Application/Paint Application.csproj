@@ -36,6 +36,7 @@
     <None Remove="images\styleStroke1.png" />
     <None Remove="images\styleStroke2.png" />
     <None Remove="images\styleStroke3.png" />
+    <None Remove="images\styleStroke4.png" />
     <None Remove="images\styleWidth.png" />
     <None Remove="images\styleWidth1.png" />
     <None Remove="images\styleWidth2.png" />
@@ -99,6 +100,7 @@
     <Resource Include="images\styleStroke1.png" />
     <Resource Include="images\styleStroke2.png" />
     <Resource Include="images\styleStroke3.png" />
+    <Resource Include="images\styleStroke4.png" />
     <Resource Include="images\styleWidth.png" />
     <Resource Include="images\styleWidth1.png" />
     <Resource Include="images\styleWidth2.png" />
@@ -136,7 +138,8 @@
     </EmbeddedResource>
   </ItemGroup>
 
-	<ItemGroup>
+	
+	<ItemGroup>	
 		<ProjectReference Include="..\myShape\myShape.csproj" />
 		<ProjectReference Include="..\myLine\myLine.csproj" />
 		<ProjectReference Include="..\myRectangle\myRectangle.csproj" />
@@ -150,7 +153,42 @@
 		<ProjectReference Include="..\myRhombus\myRhombus.csproj" />
 		<ProjectReference Include="..\myPentagon\myPentagon.csproj" />
 		<ProjectReference Include="..\myHexagon\myHexagon.csproj" />
-		<ProjectReference Include="..\mySquare\mySquare.csproj" />
-		<ProjectReference Include="..\myCircle\myCircle.csproj" />
+		<ProjectReference Include="..\myShiftArrow\myShiftArrow.csproj" />
+		<ProjectReference Include="..\myShiftEllipse\myShiftEllipse.csproj" />
+		<ProjectReference Include="..\myShiftFivePointStar\myShiftFivePointStar.csproj" />
+		<ProjectReference Include="..\myShiftFourPointStar\myShiftFourPointStar.csproj" />
+		<ProjectReference Include="..\myShiftHeart\myShiftHeart.csproj" />
+		<ProjectReference Include="..\myShiftHexagon\myShiftHexagon.csproj" />
+		<ProjectReference Include="..\myShiftLine\myShiftLine.csproj" />
+		<ProjectReference Include="..\myShiftPentagon\myShiftPentagon.csproj" />
+		<ProjectReference Include="..\myShiftRectangle\myShiftRectangle.csproj" />
+		<ProjectReference Include="..\myShiftRhombus\myShiftRhombus.csproj" />
+		<ProjectReference Include="..\myShiftRightTriangle\myShiftRightTriangle.csproj" />
+		<ProjectReference Include="..\myShiftTriangle\myShiftTriangle.csproj" />
+	
+        <ProjectReference Include="..\myWidthness\myWidthness.csproj" />
+        <ProjectReference Include="..\my1PixelWidthness\my1PixelWidthness.csproj" />
+        <ProjectReference Include="..\my3PixelWidthness\my3PixelWidthness.csproj" />
+        <ProjectReference Include="..\my5PixelWidthness\my5PixelWidthness.csproj" />
+        <ProjectReference Include="..\my8PixelWidthness\my8PixelWidthness.csproj" />
+		
+        <ProjectReference Include="..\myStroke\myStroke.csproj" />
+        <ProjectReference Include="..\myBaseStroke\myBaseStroke.csproj" />
+        <ProjectReference Include="..\myDashDotDotStroke\myDashDotDotStroke.csproj" />
+        <ProjectReference Include="..\myDotStroke\myDotStroke.csproj" />
+        <ProjectReference Include="..\myLongDashStroke\myLongDashStroke.csproj" />
+        <ProjectReference Include="..\myShortDashStroke\myShortDashStroke.csproj" />
+
+		<ProjectReference Include="..\myColor\myColor.csproj" />
+		<ProjectReference Include="..\myBlack\myBlack.csproj" />
+		<ProjectReference Include="..\myWhite\myWhite.csproj" />
+		<ProjectReference Include="..\myBrown\myBrown.csproj" />
+		<ProjectReference Include="..\myBlue\myBlue.csproj" />
+		<ProjectReference Include="..\myRed\myRed.csproj" />
+		<ProjectReference Include="..\myGreen\myGreen.csproj" />
+		<ProjectReference Include="..\myYellow\myYellow.csproj" />
+		<ProjectReference Include="..\myGray\myGray.csproj" />
+		<ProjectReference Include="..\myPurple\myPurple.csproj" />
+		<ProjectReference Include="..\myOrange\myOrange.csproj" />
 	</ItemGroup>
 </Project>
