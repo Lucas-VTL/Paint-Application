@@ -19,6 +19,7 @@ using System;
 using myShape;
 using myWidthness;
 using myStroke;
+using myColor;
 
 namespace Paint_Application
 {
@@ -66,6 +67,7 @@ namespace Paint_Application
         private List<IShape> shapeList = new List<IShape>();
         private List<IWidthness> widthnessList = new List<IWidthness>();
         private List<IStroke> strokeList = new List<IStroke>();
+        private List<IColor> colorList = new List<IColor>();
 
         //List drawSurface giúp lưu trữ các nét vẽ trên 1 bề mặt
         private List<IShape> drawSurface = new List<IShape>();
@@ -125,6 +127,11 @@ namespace Paint_Application
                     if ((type.IsClass) && (typeof(IStroke).IsAssignableFrom(type)))
                     {
                         strokeList.Add((IStroke)Activator.CreateInstance(type)!);
+                    }
+
+                    if ((type.IsClass) && (typeof(IColor).IsAssignableFrom(type)))
+                    {
+                        colorList.Add((IColor)Activator.CreateInstance(type)!);
                     }
                 }
             }

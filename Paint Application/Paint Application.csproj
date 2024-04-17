@@ -178,5 +178,17 @@
         <ProjectReference Include="..\myDotStroke\myDotStroke.csproj" />
         <ProjectReference Include="..\myLongDashStroke\myLongDashStroke.csproj" />
         <ProjectReference Include="..\myShortDashStroke\myShortDashStroke.csproj" />
+
+		<ProjectReference Include="..\myColor\myColor.csproj" />
+		<ProjectReference Include="..\myBlack\myBlack.csproj" />
+		<ProjectReference Include="..\myWhite\myWhite.csproj" />
+		<ProjectReference Include="..\myBrown\myBrown.csproj" />
+		<ProjectReference Include="..\myBlue\myBlue.csproj" />
+		<ProjectReference Include="..\myRed\myRed.csproj" />
+		<ProjectReference Include="..\myGreen\myGreen.csproj" />
+		<ProjectReference Include="..\myYellow\myYellow.csproj" />
+		<ProjectReference Include="..\myGray\myGray.csproj" />
+		<ProjectReference Include="..\myPurple\myPurple.csproj" />
+		<ProjectReference Include="..\myOrange\myOrange.csproj" />
 	</ItemGroup>
 </Project>
