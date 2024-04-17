@@ -49,14 +49,25 @@ namespace myFourPointStar
                 IsClosed = true
             };
 
-            for (int i = 1; i <= 4; i++)
+            for (int i = 1; i <= 5; i++)
             {
                 double outerAngle = i * 2 * Math.PI / 4 - Math.PI / 2;
-                double innerAngle = outerAngle + Math.PI / 4;
+                double innerAngle = outerAngle + Math.PI / 5;
 
-                figure.Segments.Add(new LineSegment(new Point(center.X + radius * Math.Cos(outerAngle), center.Y + radius * Math.Sin(outerAngle)), true));
-                figure.Segments.Add(new LineSegment(new Point(center.X + radius / 2 * Math.Cos(innerAngle), center.Y + radius / 2 * Math.Sin(innerAngle)), true));
+                if (i == 5)
+                {
+                    figure.Segments.Add(new LineSegment(new Point(center.X + radius * Math.Cos(outerAngle), center.Y + radius  * Math.Sin(outerAngle)), true));
+                    figure.Segments.Add(new LineSegment(new Point(center.X + radius / 2 * Math.Cos(innerAngle), center.Y + radius / 2 * Math.Sin(innerAngle)), true));
+
+                }
+                else
+                {
+                    figure.Segments.Add(new LineSegment(new Point(center.X + radius * Math.Cos(outerAngle), center.Y + radius * Math.Sin(outerAngle)), true));
+                    figure.Segments.Add(new LineSegment(new Point(center.X + radius / 2 * Math.Cos(innerAngle), center.Y + radius / 2 * Math.Sin(innerAngle)), true));
+                }
+
             }
+
 
             geometry.Figures.Add(figure);
             return geometry;

@@ -25,7 +25,6 @@ namespace myRectangle
 
         public UIElement convertShapeType()
         {
-
             var start = startPoint;
             var end = endPoint;
 
