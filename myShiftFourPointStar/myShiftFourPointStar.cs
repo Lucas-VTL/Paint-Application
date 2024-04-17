@@ -3,6 +3,7 @@ using System.Windows;
 using myShape;
 using System.Windows.Shapes;
 using myWidthness;
+using myStroke;
 
 namespace myShiftFourPointStar
 {
@@ -11,6 +12,7 @@ namespace myShiftFourPointStar
         private Point startPoint;
         private Point endPoint;
         IWidthness widthness;
+        IStroke strokeStyle;
         public string shapeName => "ShiftFourPointStar";
         public string shapeImage => "";
 
@@ -19,6 +21,10 @@ namespace myShiftFourPointStar
         public void addWidthness(IWidthness width)
         {
             widthness = width;
+        }
+        public void addStrokeStyle(IStroke stroke)
+        {
+            strokeStyle = stroke;
         }
         public object Clone()
         {

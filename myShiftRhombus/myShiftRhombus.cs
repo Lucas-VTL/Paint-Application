@@ -3,6 +3,7 @@ using System.Windows.Media;
 using System.Windows.Shapes;
 using System.Windows;
 using myWidthness;
+using myStroke;
 
 namespace myShiftRhombus
 {
@@ -11,6 +12,7 @@ namespace myShiftRhombus
         private Point startPoint;
         private Point endPoint;
         IWidthness widthness;
+        IStroke strokeStyle;
         public string shapeName => "ShiftRhombus";
         public string shapeImage => "";
 
@@ -19,6 +21,10 @@ namespace myShiftRhombus
         public void addWidthness(IWidthness width)
         {
             widthness = width;
+        }
+        public void addStrokeStyle(IStroke stroke)
+        {
+            strokeStyle = stroke;
         }
         public object Clone()
         {

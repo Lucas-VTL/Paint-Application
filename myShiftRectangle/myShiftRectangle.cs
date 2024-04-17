@@ -4,6 +4,7 @@ using System.Windows.Media;
 using System.Windows;
 using System.Windows.Shapes;
 using myWidthness;
+using myStroke;
 
 namespace myShiftRectangle
 {
@@ -12,6 +13,7 @@ namespace myShiftRectangle
         private Point startPoint;
         private Point endPoint;
         IWidthness widthness;
+        IStroke strokeStyle;
         public string shapeName => "ShiftRectangle";
         public string shapeImage => "";
 
@@ -20,6 +22,10 @@ namespace myShiftRectangle
         public void addWidthness(IWidthness width)
         {
             widthness = width;
+        }
+        public void addStrokeStyle(IStroke stroke)
+        {
+            strokeStyle = stroke;
         }
         public object Clone()
         {

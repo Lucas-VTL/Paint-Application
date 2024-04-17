@@ -4,6 +4,7 @@ using System.Windows.Shapes;
 using System.Windows;
 using myShape;
 using myWidthness;
+using myStroke;
 
 namespace myShiftEllipse
 {
@@ -12,6 +13,7 @@ namespace myShiftEllipse
         private Point startPoint;
         private Point endPoint;
         IWidthness widthness;
+        IStroke strokeStyle;
         public string shapeName => "ShiftEllipse";
         public string shapeImage => "";
 
@@ -20,6 +22,10 @@ namespace myShiftEllipse
         public void addWidthness(IWidthness width)
         {
             widthness = width;
+        }
+        public void addStrokeStyle(IStroke stroke)
+        {
+            strokeStyle = stroke;
         }
         public object Clone()
         {

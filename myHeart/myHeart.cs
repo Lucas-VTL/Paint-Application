@@ -2,6 +2,7 @@
 using System.Windows.Media;
 using System.Windows.Shapes;
 using myShape;
+using myStroke;
 using myWidthness;
 
 namespace myHeart
@@ -11,6 +12,7 @@ namespace myHeart
         private Point startPoint;
         private Point endPoint;
         IWidthness widthness;
+        IStroke strokeStyle;
         public string shapeName => "Heart";
         public string shapeImage => "images/shapeHeart.png";
 
@@ -19,6 +21,10 @@ namespace myHeart
         public void addWidthness(IWidthness width)
         {
             widthness = width;
+        }
+        public void addStrokeStyle(IStroke stroke)
+        {
+            strokeStyle = stroke;
         }
         public object Clone()
         {

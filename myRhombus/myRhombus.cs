@@ -1,4 +1,5 @@
 ﻿using myShape;
+using myStroke;
 using myWidthness;
 using System.Windows;
 using System.Windows.Media;
@@ -11,6 +12,7 @@ namespace myRhombus
         private Point startPoint;
         private Point endPoint;
         IWidthness widthness;
+        IStroke strokeStyle;
         public string shapeName => "Rhombus";
         public string shapeImage => "images/shapeRhombus.png";
 
@@ -19,6 +21,10 @@ namespace myRhombus
         public void addWidthness(IWidthness width)
         {
             widthness = width;
+        }
+        public void addStrokeStyle(IStroke stroke)
+        {
+            strokeStyle = stroke;
         }
         public object Clone()
         {
@@ -40,6 +46,7 @@ namespace myRhombus
             {
                 Stroke = Brushes.Black,
                 StrokeThickness = widthness.widthnessValue,
+                StrokeDashArray = strokeStyle.strokeValue,
                 Points = CreateRhombusPoints(center, halfWidth, halfHeight)
             };
 

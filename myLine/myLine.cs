@@ -1,4 +1,5 @@
 ﻿using myShape;
+using myStroke;
 using myWidthness;
 using System.Configuration;
 using System.Windows;
@@ -12,6 +13,7 @@ namespace myLine
         private Point startPoint;
         private Point endPoint;
         IWidthness widthness;
+        IStroke strokeStyle;
         public string shapeName => "Line";
         public string shapeImage => "images/shapeLine.png";
 
@@ -20,6 +22,10 @@ namespace myLine
         public void addWidthness(IWidthness width)
         {
             widthness = width;
+        }
+        public void addStrokeStyle(IStroke stroke)
+        {
+            strokeStyle = stroke;
         }
         public object Clone()
         {
@@ -35,6 +41,7 @@ namespace myLine
                 Y2 = endPoint.Y,
                 Stroke = Brushes.Black,
                 StrokeThickness = widthness.widthnessValue,
+                StrokeDashArray = strokeStyle.strokeValue,
             };
         }
     }

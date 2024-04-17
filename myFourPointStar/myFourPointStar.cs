@@ -2,6 +2,7 @@
 using System.Windows.Media;
 using System.Windows.Shapes;
 using myShape;
+using myStroke;
 using myWidthness;
 
 namespace myFourPointStar
@@ -11,6 +12,7 @@ namespace myFourPointStar
         private Point startPoint;
         private Point endPoint;
         IWidthness widthness;
+        IStroke strokeStyle;
 
         public string shapeName => "FourPointStar";
         public string shapeImage => "images/shape4Star.png";
@@ -20,6 +22,10 @@ namespace myFourPointStar
         public void addWidthness(IWidthness width)
         {
             widthness = width;
+        }
+        public void addStrokeStyle(IStroke stroke)
+        {
+            strokeStyle = stroke;
         }
         public object Clone()
         {

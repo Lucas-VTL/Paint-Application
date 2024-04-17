@@ -3,6 +3,7 @@ using System.Windows.Media;
 using System.Windows;
 using System.Windows.Shapes;
 using myWidthness;
+using myStroke;
 
 namespace myShiftHeart
 {
@@ -11,6 +12,7 @@ namespace myShiftHeart
         private Point startPoint;
         private Point endPoint;
         IWidthness widthness;
+        IStroke strokeStyle;
         public string shapeName => "ShiftHeart";
         public string shapeImage => "";
 
@@ -19,6 +21,10 @@ namespace myShiftHeart
         public void addWidthness(IWidthness width)
         {
             widthness = width;
+        }
+        public void addStrokeStyle(IStroke stroke)
+        {
+            strokeStyle = stroke;
         }
         public object Clone()
         {

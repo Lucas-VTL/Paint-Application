@@ -1,4 +1,5 @@
 ﻿using myShape;
+using myStroke;
 using myWidthness;
 using System.Windows;
 using System.Windows.Media;
@@ -11,6 +12,7 @@ namespace myTriangle
         private Point startPoint;
         private Point endPoint;
         IWidthness widthness;
+        IStroke strokeStyle;
         public string shapeName => "Triangle";
         public string shapeImage => "images/shapeTriangle.png";
 
@@ -19,6 +21,10 @@ namespace myTriangle
         public void addWidthness(IWidthness width)
         {
             widthness = width;
+        }
+        public void addStrokeStyle(IStroke stroke)
+        {
+            strokeStyle = stroke;
         }
         public object Clone()
         {

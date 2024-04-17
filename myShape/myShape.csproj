@@ -9,5 +9,6 @@
 
 	<ItemGroup>
 		<ProjectReference Include="..\myWidthness\myWidthness.csproj" />
+		<ProjectReference Include="..\myStroke\myStroke.csproj" />
 	</ItemGroup>
 </Project>

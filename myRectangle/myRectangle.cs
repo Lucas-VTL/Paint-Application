@@ -1,4 +1,5 @@
 ﻿using myShape;
+using myStroke;
 using myWidthness;
 using System.Configuration;
 using System.Windows;
@@ -13,6 +14,7 @@ namespace myRectangle
         private Point startPoint;
         private Point endPoint;
         IWidthness widthness;
+        IStroke strokeStyle;
         public string shapeName => "Rectangle";
         public string shapeImage => "images/shapeRectangle.png";
 
@@ -21,6 +23,10 @@ namespace myRectangle
         public void addWidthness(IWidthness width)
         {
             widthness = width;
+        }
+        public void addStrokeStyle(IStroke stroke)
+        {
+            strokeStyle = stroke;
         }
         public object Clone()
         {
@@ -46,6 +52,7 @@ namespace myRectangle
             {
                 Stroke = Brushes.Black,
                 StrokeThickness = widthness.widthnessValue,
+                StrokeDashArray = strokeStyle.strokeValue,
                 Width = width,
                 Height = height
             };

@@ -1,4 +1,5 @@
 ﻿using myShape;
+using myStroke;
 using myWidthness;
 using System.Windows;
 
@@ -9,6 +10,7 @@ namespace myArrow
         private Point startPoint;
         private Point endPoint;
         private IWidthness widthness;
+        private IStroke strokeStyle;
 
         public string shapeName => "Arrow";
         public string shapeImage => "images/shapeArrow.png";
@@ -18,6 +20,10 @@ namespace myArrow
         public void addWidthness (IWidthness width)
         {
             widthness = width;
+        }
+        public void addStrokeStyle(IStroke stroke) 
+        {
+            strokeStyle = stroke;
         }
 
         public object Clone()

@@ -587,6 +587,7 @@ namespace Paint_Application
                 endPoint = e.GetPosition(drawArea);
                 drawArea.Children.Clear();
                 selectedShape.addWidthness((IWidthness)styleWidthCombobox.SelectedItem);
+                selectedShape.addStrokeStyle((IStroke)styleStrokeCombobox.SelectedItem);
 
                 foreach (var item in drawSurface)
                 {
