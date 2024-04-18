@@ -1,25 +1,21 @@
-﻿using System.Diagnostics;
-using System.Text;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using System.Windows.Media;
-using static System.Net.Mime.MediaTypeNames;
-using static System.Runtime.InteropServices.JavaScript.JSType;
-using System.Windows.Resources;
 using System.IO;
 using System.Reflection;
-using System;
 using myShape;
 using myWidthness;
 using myStroke;
 using myColor;
+
+using KeyEventArgs = System.Windows.Input.KeyEventArgs;
+using MouseEventArgs = System.Windows.Input.MouseEventArgs;
+using Cursors = System.Windows.Input.Cursors;
+using Cursor = System.Windows.Input.Cursor;
+using ListViewItem = System.Windows.Controls.ListViewItem;
+using Point = System.Windows.Point;
 
 namespace Paint_Application
 {
@@ -48,6 +44,7 @@ namespace Paint_Application
         //Lưu giữ điểm bắt đầu và kết thúc của nét vẽ
         Point startPoint;
         Point endPoint;
+        IColor customColor;
 
         //List border giúp xác định các border khi người dùng chọn vào các function
         private List<Border> function = new List<Border>();
@@ -133,7 +130,13 @@ namespace Paint_Application
 
                     if ((type.IsClass) && (typeof(IColor).IsAssignableFrom(type)))
                     {
-                        colorList.Add((IColor)Activator.CreateInstance(type)!);
+                        if (!type.Name.Equals("myCustomColor"))
+                        {
+                            colorList.Add((IColor)Activator.CreateInstance(type)!);
+                        } else
+                        {
+                            customColor = (IColor)Activator.CreateInstance(type)!;
+                        }
                     }
                 }
             }
@@ -689,6 +692,84 @@ namespace Paint_Application
                 styleFillButton.Opacity = 1;
                 isShapeFill = true;
             }
+        }
+
+        private void customColorButtonClick(object sender, RoutedEventArgs e)
+        {
+            selectedColor = customColor;
+            ColorDialog colorDialog = new ColorDialog();
+
+            if (colorDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                System.Drawing.Color color = colorDialog.Color;
+
+                byte colorRed = color.R;
+                byte colorGreen = color.G;
+                byte colorBlue = color.B;
+            
+                if (!checkExistedColor(colorRed, colorGreen, colorBlue))
+                {
+                    IColor newCustomColor = (IColor)selectedColor.Clone();
+
+                    newCustomColor.addColorRGB(colorRed, colorGreen, colorBlue);
+                    colorList.Add(newCustomColor);
+
+                    colorListview.ItemsSource = "";
+                    colorListview.ItemsSource = colorList;
+
+                    selectedColor = colorList[colorList.Count - 1];
+                    colorListview.SelectedIndex = colorList.Count - 1;
+
+                    colorListview.ScrollIntoView(colorListview.Items[colorListview.Items.Count - 1]);
+                } else
+                {
+                    int index = getExistedColorByRGB(colorRed, colorGreen, colorBlue);
+                    if (index != -1)
+                    {
+                        selectedColor = colorList[index];
+                        colorListview.SelectedIndex = index;
+                        colorListview.ScrollIntoView(colorListview.Items[index]);
+                    }
+                }
+            }
+        }
+
+        private bool checkExistedColor(byte r, byte g, byte b)
+        {
+            for (int i = 0; i < colorList.Count; i++)
+            {
+                SolidColorBrush colorBrush = colorList[i].colorValue;
+                System.Windows.Media.Color color = colorBrush.Color;
+
+                byte colorRed = color.R;
+                byte colorGreen = color.G;
+                byte colorBlue = color.B;
+
+                if (colorRed == r && colorGreen == g && colorBlue == b)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        private int getExistedColorByRGB(byte r, byte g, byte b) 
+        {
+            for (int i = 0; i < colorList.Count; i++)
+            {
+                SolidColorBrush colorBrush = colorList[i].colorValue;
+                System.Windows.Media.Color color = colorBrush.Color;
+
+                byte colorRed = color.R;
+                byte colorGreen = color.G;
+                byte colorBlue = color.B;
+
+                if (colorRed == r && colorGreen == g && colorBlue == b)
+                {
+                    return i;
+                }
+            }
+            return -1;
         }
     }
 }

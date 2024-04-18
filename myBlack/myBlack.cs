@@ -7,6 +7,7 @@ namespace myBlack
     {
         public string colorName => "Black";
         public SolidColorBrush colorValue => new SolidColorBrush(Color.FromRgb(0, 0, 0));
+        public void addColorRGB(byte r, byte g, byte b) {}
         public object Clone()
         {
             return MemberwiseClone();

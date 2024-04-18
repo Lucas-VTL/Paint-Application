@@ -661,7 +661,7 @@
                                 </Style>
                             </ListView.ItemContainerStyle>
                         </ListView>
-                        <Button Grid.Column="1" Style="{StaticResource buttonStyle}" Cursor="Hand" Margin="-5 0 0 0">
+                        <Button Name="customColorButton" Grid.Column="1" Style="{StaticResource buttonStyle}" Cursor="Hand" Margin="-5 0 0 0" Click="customColorButtonClick">
                             <Button.Content>
                                 <Grid>
                                     <Image Source="images/colorCustom.png" Width="55" Height="55"/>
