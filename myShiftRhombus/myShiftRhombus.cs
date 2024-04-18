@@ -4,6 +4,7 @@ using System.Windows.Shapes;
 using System.Windows;
 using myWidthness;
 using myStroke;
+using myColor;
 
 namespace myShiftRhombus
 {
@@ -13,6 +14,7 @@ namespace myShiftRhombus
         private Point endPoint;
         IWidthness widthness;
         IStroke strokeStyle;
+        IColor colorValue;
         public string shapeName => "ShiftRhombus";
         public string shapeImage => "";
 
@@ -25,6 +27,10 @@ namespace myShiftRhombus
         public void addStrokeStyle(IStroke stroke)
         {
             strokeStyle = stroke;
+        }
+        public void addColor(IColor color)
+        {
+            colorValue = color;
         }
         public object Clone()
         {

@@ -604,6 +604,7 @@ namespace Paint_Application
                 drawArea.Children.Clear();
                 selectedShape.addWidthness((IWidthness)styleWidthCombobox.SelectedItem);
                 selectedShape.addStrokeStyle((IStroke)styleStrokeCombobox.SelectedItem);
+                selectedShape.addColor(selectedColor);
 
                 foreach (var item in drawSurface)
                 {

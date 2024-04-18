@@ -1,4 +1,5 @@
-﻿using myShape;
+﻿using myColor;
+using myShape;
 using myStroke;
 using myWidthness;
 using System.Windows;
@@ -13,6 +14,7 @@ namespace myHexagon
         private Point endPoint;
         IWidthness widthness;
         IStroke strokeStyle;
+        IColor colorValue;
         public string shapeName => "Hexagon";
         public string shapeImage => "images/shapeHexagon.png";
 
@@ -25,6 +27,10 @@ namespace myHexagon
         public void addStrokeStyle(IStroke stroke)
         {
             strokeStyle = stroke;
+        }
+        public void addColor(IColor color)
+        {
+            colorValue = color;
         }
         public object Clone()
         {

@@ -1,4 +1,5 @@
-﻿using myShape;
+﻿using myColor;
+using myShape;
 using myStroke;
 using myWidthness;
 using System.Configuration;
@@ -14,6 +15,7 @@ namespace myLine
         private Point endPoint;
         IWidthness widthness;
         IStroke strokeStyle;
+        IColor colorValue;
         public string shapeName => "Line";
         public string shapeImage => "images/shapeLine.png";
 
@@ -27,6 +29,10 @@ namespace myLine
         {
             strokeStyle = stroke;
         }
+        public void addColor(IColor color)
+        {
+            colorValue = color;
+        }
         public object Clone()
         {
             return MemberwiseClone();
@@ -39,7 +45,7 @@ namespace myLine
                 Y1 = startPoint.Y,
                 X2 = endPoint.X,
                 Y2 = endPoint.Y,
-                Stroke = Brushes.Black,
+                Stroke = colorValue.colorValue,
                 StrokeThickness = widthness.widthnessValue,
                 StrokeDashArray = strokeStyle.strokeValue,
             };
