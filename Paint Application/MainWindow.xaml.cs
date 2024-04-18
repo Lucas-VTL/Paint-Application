@@ -43,6 +43,7 @@ namespace Paint_Application
         private bool isToolEraseOpen = false;
         private bool isDrawing = false;
         private bool isShiftDown = false;
+        private bool isShapeFill = false;
 
         //Lưu giữ điểm bắt đầu và kết thúc của nét vẽ
         Point startPoint;
@@ -675,6 +676,19 @@ namespace Paint_Application
             colorListview.SelectedItem = selectedItem;
 
             selectedColor = (IColor)selectedItem.Content;
+        }
+
+        private void styleFillButtonClick(object sender, RoutedEventArgs e)
+        {
+            if (isShapeFill)
+            {
+                styleFillButton.Opacity = 0.3;
+                isShapeFill = false;
+            } else
+            {
+                styleFillButton.Opacity = 1;
+                isShapeFill = true;
+            }
         }
     }
 }

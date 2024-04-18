@@ -105,8 +105,8 @@
                 <ColumnDefinition Width="0.6*"/>
                 <ColumnDefinition Width="0.8*"/>
                 <ColumnDefinition Width="0.3*"/>
-                <ColumnDefinition Width="0.45*"/>
-                <ColumnDefinition Width="0.9*"/>
+                <ColumnDefinition Width="0.55*"/>
+                <ColumnDefinition Width="0.8*"/>
                 <ColumnDefinition Width="0.4*"/>
             </Grid.ColumnDefinitions>
             <Border Grid.Column="0" BorderBrush="LightGray" BorderThickness="0 0 2 0">
@@ -401,6 +401,7 @@
                         <Grid.RowDefinitions>
                             <RowDefinition Height="*"/>
                             <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
                         </Grid.RowDefinitions>
                         <Grid Grid.Row="0">
                             <Button Name="styleWidthButton" Cursor="Hand" Style="{StaticResource buttonStyle}" Margin="5 0 0 0" Click="styleWidthButtonClick">
@@ -519,6 +520,17 @@
                                 </ComboBox.ItemContainerStyle>
                             </ComboBox>
                         </Grid>
+                        <Grid Grid.Row="2">
+                            <Button Name="styleFillButton" Cursor="Hand" Style="{StaticResource buttonStyle}" Margin="5 0 0 0" Click="styleFillButtonClick"  Opacity="0.3">
+                                <Button.Content>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Image Source="images/styleFillLine.png" Width="65" Height="20" Margin="0 10 5 0"/>
+                                        <Image Source="images/styleFill.png" Width="20" Height="20"/>
+                                    </StackPanel>
+                                </Button.Content>
+                            </Button>
+                            
+                        </Grid>
                     </Grid>
                     <TextBlock Grid.Row="1" FontSize="15" FontFamily="fonts/#Signika" Text="Style" VerticalAlignment="Center" HorizontalAlignment="Center" Opacity="0.5"/>
                 </Grid>
@@ -531,6 +543,7 @@
                     </Grid.RowDefinitions>
                     <Grid Grid.Row="0">
                         <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="*"/>
@@ -570,9 +583,19 @@
                                 <Image Source="images/toolUndo.png" Width="25" Height="25"/>
                             </Button.Content>
                         </Button>
-                        <Button Grid.Row="1" Grid.Column="2" Cursor="Hand" Style="{StaticResource buttonStyle}">
+                        <Button Grid.Row="0" Grid.Column="3" Cursor="Hand" Style="{StaticResource buttonStyle}">
                             <Button.Content>
                                 <Image Source="images/toolRedo.png" Width="25" Height="25"/>
+                            </Button.Content>
+                        </Button>
+                        <Button Grid.Row="1" Grid.Column="2" Cursor="Hand" Style="{StaticResource buttonStyle}">
+                            <Button.Content>
+                                <Image Source="images/toolHorizontal.png" Width="25" Height="25"/>
+                            </Button.Content>
+                        </Button>
+                        <Button Grid.Row="1" Grid.Column="3" Cursor="Hand" Style="{StaticResource buttonStyle}">
+                            <Button.Content>
+                                <Image Source="images/toolVertical.png" Width="25" Height="25"/>
                             </Button.Content>
                         </Button>
                     </Grid>
@@ -587,7 +610,7 @@
                     </Grid.RowDefinitions>
                     <Grid Grid.Row="0">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="3*"/>
+                            <ColumnDefinition Width="4*"/>
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
                         <ListView Name="colorListview" Grid.Column="0" Background="Transparent" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Hidden" BorderThickness="0">
@@ -638,6 +661,14 @@
                                 </Style>
                             </ListView.ItemContainerStyle>
                         </ListView>
+                        <Button Grid.Column="1" Style="{StaticResource buttonStyle}" Cursor="Hand" Margin="-5 0 0 0">
+                            <Button.Content>
+                                <Grid>
+                                    <Image Source="images/colorCustom.png" Width="55" Height="55"/>
+                                    <Border BorderBrush="Black" BorderThickness="1" CornerRadius="40" Width="44" Height="44"/>
+                                </Grid>
+                            </Button.Content>
+                        </Button>
                     </Grid>
                     <TextBlock Grid.Row="2" FontSize="15" FontFamily="fonts/#Signika" Text="Color" VerticalAlignment="Center" HorizontalAlignment="Center" Opacity="0.5"/>
                 </Grid>
