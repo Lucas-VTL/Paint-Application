@@ -602,17 +602,48 @@ namespace Paint_Application
             {
                 endPoint = e.GetPosition(drawArea);
                 drawArea.Children.Clear();
-                selectedShape.addWidthness((IWidthness)styleWidthCombobox.SelectedItem);
-                selectedShape.addStrokeStyle((IStroke)styleStrokeCombobox.SelectedItem);
-                selectedShape.addColor(selectedColor);
 
                 foreach (var item in drawSurface)
                 {
                     drawArea.Children.Add(item.convertShapeType());
                 }
 
+                if (isShiftDown)
+                {
+                    if (!selectedShape.shapeName.Contains("Shift"))
+                    {
+                        for (int i = 0; i < allShapeList.Count; i++)
+                        {
+                            string shiftShapeName = "Shift" + selectedShape.shapeName;
+                            if (allShapeList[i].shapeName.Equals(shiftShapeName))
+                            {
+                                selectedShape = allShapeList[i];
+                                break;
+                            }
+                        }
+                    }
+                } else
+                {
+                    if (selectedShape.shapeName.Contains("Shift"))
+                    {
+                        for (int i = 0; i < allShapeList.Count; i++)
+                        {
+                            string[] shapeNameSplit = selectedShape.shapeName.Split("Shift");
+                            string shapeName = shapeNameSplit[1];
+                            if (allShapeList[i].shapeName.Equals(shapeName))
+                            {
+                                selectedShape = allShapeList[i];
+                                break;
+                            }
+                        }
+                    }
+                }
+
                 selectedShape.addStartPoint(startPoint);
                 selectedShape.addEndPoint(endPoint);
+                selectedShape.addWidthness((IWidthness)styleWidthCombobox.SelectedItem);
+                selectedShape.addStrokeStyle((IStroke)styleStrokeCombobox.SelectedItem);
+                selectedShape.addColor(selectedColor);
 
                 drawArea.Children.Add(selectedShape.convertShapeType());
             }
