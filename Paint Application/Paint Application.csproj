@@ -52,6 +52,8 @@
     <None Remove="images\toolFileExport.png" />
     <None Remove="images\toolFileImport.png" />
     <None Remove="images\toolMouse.png" />
+    <None Remove="images\toolRedo.png" />
+    <None Remove="images\toolUndo.png" />
     <None Remove="images\window-close-effect.png" />
     <None Remove="images\window-close.png" />
     <None Remove="images\window-icon.png" />
@@ -116,6 +118,8 @@
     <Resource Include="images\toolFileExport.png" />
     <Resource Include="images\toolFileImport.png" />
     <Resource Include="images\toolMouse.png" />
+    <Resource Include="images\toolRedo.png" />
+    <Resource Include="images\toolUndo.png" />
     <Resource Include="images\window-close-effect.png" />
     <Resource Include="images\window-close.png" />
     <Resource Include="images\window-icon.png" />

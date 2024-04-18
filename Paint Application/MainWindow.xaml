@@ -533,6 +533,7 @@
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="*"/>
@@ -564,6 +565,16 @@
                                 <Image Source="images/toolFileExport.png" Width="25" Height="25"/>
                             </Button.Content>
                         </Button>
+                        <Button Grid.Row="0" Grid.Column="2" Cursor="Hand" Style="{StaticResource buttonStyle}">
+                            <Button.Content>
+                                <Image Source="images/toolUndo.png" Width="25" Height="25"/>
+                            </Button.Content>
+                        </Button>
+                        <Button Grid.Row="1" Grid.Column="2" Cursor="Hand" Style="{StaticResource buttonStyle}">
+                            <Button.Content>
+                                <Image Source="images/toolRedo.png" Width="25" Height="25"/>
+                            </Button.Content>
+                        </Button>
                     </Grid>
                     <TextBlock Grid.Row="1" FontSize="15" FontFamily="fonts/#Signika" Text="Tool" VerticalAlignment="Center" HorizontalAlignment="Center" Opacity="0.5"/>
                 </Grid>
@@ -587,7 +598,7 @@
                             </ListView.ItemsPanel>
                             <ListView.ItemTemplate>
                                 <DataTemplate>
-                                    <Border Width="25" Height="25" CornerRadius="25" Margin="3 7" BorderThickness="1" BorderBrush="Black">
+                                    <Border Width="25" Height="25" CornerRadius="25" Margin="3 8.3" BorderThickness="1" BorderBrush="Black">
                                         <Border.Style>
                                             <Style TargetType="Border">
                                                 <Setter Property="Background" Value="{Binding colorValue}"/>
