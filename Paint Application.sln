@@ -101,6 +101,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "myOrange", "myOrange\myOran
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "myCustomColor", "myCustomColor\myCustomColor.csproj", "{D3454830-E8F8-41C4-A1DA-FC18F967C384}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "myFreeLine", "myFreeLine\myFreeLine.csproj", "{45C93731-8376-4D68-852B-80F41E8429F5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -303,6 +305,10 @@ Global
 		{D3454830-E8F8-41C4-A1DA-FC18F967C384}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D3454830-E8F8-41C4-A1DA-FC18F967C384}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D3454830-E8F8-41C4-A1DA-FC18F967C384}.Release|Any CPU.Build.0 = Release|Any CPU
+		{45C93731-8376-4D68-852B-80F41E8429F5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{45C93731-8376-4D68-852B-80F41E8429F5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{45C93731-8376-4D68-852B-80F41E8429F5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{45C93731-8376-4D68-852B-80F41E8429F5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

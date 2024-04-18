@@ -1,0 +1,58 @@
+﻿using myColor;
+using myShape;
+using myStroke;
+using myWidthness;
+using System.Drawing;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Media;
+using System.Windows.Shapes;
+using Point = System.Windows.Point;
+
+namespace myFreeLine
+{
+    public class myFreeLine : IShape
+    {
+        List<Point> list = new List<Point>();
+        public string shapeName => "Free Line";
+        public string shapeImage => "";
+
+        public void addStartPoint(Point point) {}
+        public void addEndPoint(Point point) {}
+        public void addWidthness(IWidthness width) {}
+        public void addStrokeStyle(IStroke stroke) {}
+        public void addColor(IColor color) {}
+        public void addPointList(List<Point> pointList) 
+        {
+            list.AddRange(pointList);
+        }
+        public object Clone()
+        {
+            return MemberwiseClone();
+        }
+
+        public UIElement convertShapeType()
+        {
+            return null;
+        }
+        public List<UIElement> convertShapePoints() { 
+            List<UIElement> listUI = new List<UIElement>();
+
+            for (int i = 0; i < list.Count; i++)
+            {
+                Ellipse dot = new Ellipse();
+                dot.Fill = Brushes.White;
+                dot.Width = dot.Height = 20;
+                Canvas.SetLeft(dot, list[i].X);
+                if (list[i].Y > 20)
+                {
+                    Canvas.SetTop(dot, list[i].Y - 20);
+                }
+
+                listUI.Add(dot);
+            }
+
+            return listUI;
+        }
+    }
+}

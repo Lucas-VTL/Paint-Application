@@ -12,7 +12,9 @@ namespace myShape
         void addWidthness(IWidthness widthness);
         void addStrokeStyle(IStroke strokeStyle);
         void addColor(IColor color);
+        void addPointList(List<Point> pointList);
         UIElement convertShapeType();
+        List<UIElement> convertShapePoints();
         string shapeName { get;}
         string shapeImage { get;}
     }

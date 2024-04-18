@@ -31,14 +31,14 @@ namespace myArrow
         {
             colorValue = color;
         }
-
+        public void addPointList(List<Point> pointList) { }
+        public List<UIElement> convertShapePoints() { return null; }
         public object Clone()
         {
             return MemberwiseClone();
         }
 
         public UIElement convertShapeType() {
-
             return null;
         }
     }

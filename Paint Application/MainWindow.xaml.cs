@@ -17,6 +17,8 @@ using Cursor = System.Windows.Input.Cursor;
 using ListViewItem = System.Windows.Controls.ListViewItem;
 using Point = System.Windows.Point;
 using System.Diagnostics;
+using System.Windows.Shapes;
+using Brushes = System.Windows.Media.Brushes;
 
 namespace Paint_Application
 {
@@ -46,6 +48,7 @@ namespace Paint_Application
         Point startPoint;
         Point endPoint;
         IColor customColor;
+        IShape freeLine;
 
         //List border giúp xác định các border khi người dùng chọn vào các function
         private List<Border> function = new List<Border>();
@@ -74,6 +77,9 @@ namespace Paint_Application
 
         //List recoverList giúp lưu trữ lại các nét vẽ đã bị xóa hoặc undo
         private List<IShape> recoverList = new List<IShape>();
+
+        //List eraseList giúp lưu giữ các hình vẽ bị xóa
+        private List<Point> eraseList = new List<Point>();
 
         public MainWindow()
         {
@@ -114,9 +120,14 @@ namespace Paint_Application
                 {
                     if ((type.IsClass) && (typeof(IShape).IsAssignableFrom(type)))
                     {
-                        if (!type.Name.Contains("Shift"))
+                        if (!type.Name.Contains("Shift") && !type.Name.Equals("myFreeLine"))
                         {
                             shapeList.Add((IShape)Activator.CreateInstance(type)!);
+                        }
+
+                        if (type.Name.Equals("myFreeLine"))
+                        {
+                            freeLine = (IShape)Activator.CreateInstance(type)!;
                         }
 
                         allShapeList.Add((IShape)Activator.CreateInstance(type)!);
@@ -581,12 +592,24 @@ namespace Paint_Application
         private void drawAreaMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             isDrawing = false;
+
             if (selectedShape != null)
             {
                 drawSurface.Add((IShape)selectedShape.Clone());
                 toolUndoButton.Opacity = 1;
                 toolRedoButton.Opacity = 0.3;
                 recoverList.Clear();
+            }
+
+            if (selectedShape == null && isToolEraseOpen)
+            {
+                selectedShape = freeLine;
+                IShape newFreeLine = (IShape)selectedShape.Clone();
+                newFreeLine.addPointList(eraseList);
+                drawSurface.Add(newFreeLine);
+
+                eraseList.Clear();
+                selectedShape = null;
             }
         }
 
@@ -612,7 +635,17 @@ namespace Paint_Application
 
                 foreach (var item in drawSurface)
                 {
-                    drawArea.Children.Add(item.convertShapeType());
+                    if (!item.shapeName.Equals("Free Line"))
+                    {
+                        drawArea.Children.Add(item.convertShapeType());
+                    } else
+                    {
+                        List<UIElement> listUI = item.convertShapePoints();
+                        for (int i = 0; i < listUI.Count; i++)
+                        {
+                            drawArea.Children.Add(listUI[i]);
+                        }
+                    }
                 }
 
                 if (isShiftDown)
@@ -653,6 +686,23 @@ namespace Paint_Application
                 selectedShape.addColor(selectedColor);
 
                 drawArea.Children.Add(selectedShape.convertShapeType());
+            }
+
+            if (isDrawing && selectedShape == null && isToolEraseOpen) 
+            {
+                Point point = e.GetPosition(drawArea);
+                eraseList.Add(point);
+
+                Ellipse dot = new Ellipse();
+                dot.Fill = Brushes.White;
+                dot.Width = dot.Height = 20;
+                Canvas.SetLeft(dot, point.X);
+                if (point.Y > 20)
+                {
+                    Canvas.SetTop(dot, point.Y - 20);
+                }
+
+                drawArea.Children.Add(dot);
             }
         }
 
