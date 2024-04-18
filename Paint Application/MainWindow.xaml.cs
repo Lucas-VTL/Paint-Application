@@ -16,6 +16,7 @@ using Cursors = System.Windows.Input.Cursors;
 using Cursor = System.Windows.Input.Cursor;
 using ListViewItem = System.Windows.Controls.ListViewItem;
 using Point = System.Windows.Point;
+using System.Diagnostics;
 
 namespace Paint_Application
 {
@@ -70,6 +71,9 @@ namespace Paint_Application
 
         //List drawSurface giúp lưu trữ các nét vẽ trên 1 bề mặt
         private List<IShape> drawSurface = new List<IShape>();
+
+        //List recoverList giúp lưu trữ lại các nét vẽ đã bị xóa hoặc undo
+        private List<IShape> recoverList = new List<IShape>();
 
         public MainWindow()
         {
@@ -580,6 +584,9 @@ namespace Paint_Application
             if (selectedShape != null)
             {
                 drawSurface.Add((IShape)selectedShape.Clone());
+                toolUndoButton.Opacity = 1;
+                toolRedoButton.Opacity = 0.3;
+                recoverList.Clear();
             }
         }
 
@@ -677,6 +684,52 @@ namespace Paint_Application
             { 
                 isShiftDown = true;
             }
+
+            if ((e.Key == Key.Z) && (System.Windows.Forms.Control.ModifierKeys & Keys.Control) == Keys.Control) 
+            {
+                if (toolUndoButton.Opacity != 0.3)
+                {
+                    recoverList.Add(drawSurface[drawSurface.Count - 1]);
+                    drawSurface.RemoveAt(drawSurface.Count - 1);
+
+                    drawArea.Children.Clear();
+
+                    foreach (var item in drawSurface)
+                    {
+                        drawArea.Children.Add(item.convertShapeType());
+                    }
+
+                    if (drawSurface.Count == 0)
+                    {
+                        toolUndoButton.Opacity = 0.3;
+                    }
+
+                    toolRedoButton.Opacity = 1;
+                }
+            }
+
+            if ((e.Key == Key.Y) && (System.Windows.Forms.Control.ModifierKeys & Keys.Control) == Keys.Control)
+            {
+                if (toolRedoButton.Opacity != 0.3)
+                {
+                    drawSurface.Add(recoverList[recoverList.Count - 1]);
+                    recoverList.RemoveAt(recoverList.Count - 1);
+
+                    drawArea.Children.Clear();
+
+                    foreach (var item in drawSurface)
+                    {
+                        drawArea.Children.Add(item.convertShapeType());
+                    }
+
+                    if (recoverList.Count == 0)
+                    {
+                        toolRedoButton.Opacity = 0.3;
+                    }
+
+                    toolUndoButton.Opacity = 1;
+                }
+            }
         }
 
         private void WindowKeyUp(object sender, KeyEventArgs e)
@@ -686,10 +739,15 @@ namespace Paint_Application
 
         private void WindowMouseLeave(object sender, MouseEventArgs e)
         {
-            isDrawing = false;
-            if (selectedShape != null)
-            {
-                drawSurface.Add((IShape)selectedShape.Clone());
+            if (isDrawing) {
+                isDrawing = false;
+                if (selectedShape != null)
+                {
+                    drawSurface.Add((IShape)selectedShape.Clone());
+                    toolUndoButton.Opacity = 1;
+                    toolRedoButton.Opacity = 0.3;
+                    recoverList.Clear();
+                }
             }
         }
 
@@ -701,6 +759,9 @@ namespace Paint_Application
                 if (selectedShape != null)
                 {
                     drawSurface.Add((IShape)selectedShape.Clone());
+                    toolUndoButton.Opacity = 1;
+                    toolRedoButton.Opacity = 0.3;
+                    recoverList.Clear();
                 }
             }
         }
@@ -802,6 +863,85 @@ namespace Paint_Application
                 }
             }
             return -1;
+        }
+
+        private void toolUndoButtonMouseEnter(object sender, MouseEventArgs e)
+        {
+            if (toolUndoButton.Opacity == 0.3)
+            {
+                toolUndoButton.Cursor = null;
+            } else
+            {
+                toolUndoButton.Cursor = Cursors.Hand;
+            }
+        }
+
+        private void toolUndoButtonMouseLeave(object sender, MouseEventArgs e)
+        {
+            toolUndoButton.Cursor = null;
+        }
+
+        private void toolRedoButtonMouseEnter(object sender, MouseEventArgs e)
+        {
+            if (toolRedoButton.Opacity == 0.3)
+            {
+                toolRedoButton.Cursor = null;
+            }
+            else
+            {
+                toolRedoButton.Cursor = Cursors.Hand;
+            }
+        }
+
+        private void toolRedoButtonMouseLeave(object sender, MouseEventArgs e)
+        {
+            toolRedoButton.Cursor = null;
+        }
+
+        private void toolUndoButtonClick(object sender, RoutedEventArgs e)
+        {
+            if (toolUndoButton.Opacity != 0.3)
+            {
+                recoverList.Add(drawSurface[drawSurface.Count - 1]);
+                drawSurface.RemoveAt(drawSurface.Count - 1);
+
+                drawArea.Children.Clear();
+
+                foreach (var item in drawSurface)
+                {
+                    drawArea.Children.Add(item.convertShapeType());
+                }
+
+                if (drawSurface.Count == 0)
+                {
+                    toolUndoButton.Opacity = 0.3;
+                }
+
+                toolRedoButton.Opacity = 1;
+            }
+        }
+
+        private void toolRedoButtonClick(object sender, RoutedEventArgs e)
+        {
+            if (toolRedoButton.Opacity != 0.3)
+            {
+                drawSurface.Add(recoverList[recoverList.Count - 1]);
+                recoverList.RemoveAt(recoverList.Count - 1);
+
+                drawArea.Children.Clear();
+
+                foreach (var item in drawSurface)
+                {
+                    drawArea.Children.Add(item.convertShapeType());
+                }
+
+                if (recoverList.Count == 0)
+                {
+                    toolRedoButton.Opacity = 0.3;
+                }
+
+                toolUndoButton.Opacity = 1;
+            }
         }
     }
 }
