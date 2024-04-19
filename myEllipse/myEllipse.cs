@@ -36,7 +36,6 @@ namespace myEllipse
             colorValue = color;
         }
         public void addPointList(List<Point> pointList) { }
-        public List<UIElement> convertShapePoints() { return null; }
         public object Clone()
         {
             return MemberwiseClone();

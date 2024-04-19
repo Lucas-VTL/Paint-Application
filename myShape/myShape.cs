@@ -14,7 +14,6 @@ namespace myShape
         void addColor(IColor color);
         void addPointList(List<Point> pointList);
         UIElement convertShapeType();
-        List<UIElement> convertShapePoints();
         string shapeName { get;}
         string shapeImage { get;}
     }

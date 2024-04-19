@@ -635,17 +635,7 @@ namespace Paint_Application
 
                 foreach (var item in drawSurface)
                 {
-                    if (!item.shapeName.Equals("Free Line"))
-                    {
-                        drawArea.Children.Add(item.convertShapeType());
-                    } else
-                    {
-                        List<UIElement> listUI = item.convertShapePoints();
-                        for (int i = 0; i < listUI.Count; i++)
-                        {
-                            drawArea.Children.Add(listUI[i]);
-                        }
-                    }
+                    drawArea.Children.Add(item.convertShapeType());
                 }
 
                 if (isShiftDown)
@@ -692,17 +682,17 @@ namespace Paint_Application
             {
                 Point point = e.GetPosition(drawArea);
                 eraseList.Add(point);
-
-                Ellipse dot = new Ellipse();
-                dot.Fill = Brushes.White;
-                dot.Width = dot.Height = 20;
-                Canvas.SetLeft(dot, point.X);
-                if (point.Y > 20)
+                
+                 Ellipse dot = new Ellipse();
+                 dot.Fill = Brushes.White;
+                 dot.Width = dot.Height = 20;
+                 Canvas.SetLeft(dot, point.X);
+                if (point.Y >= 20) 
                 {
                     Canvas.SetTop(dot, point.Y - 20);
                 }
 
-                drawArea.Children.Add(dot);
+                 drawArea.Children.Add(dot);
             }
         }
 
@@ -726,6 +716,22 @@ namespace Paint_Application
 
             isDrawing = true;
             startPoint = e.GetPosition(drawArea);
+
+            if (selectedShape == null && isToolEraseOpen)
+            {
+                eraseList.Add(startPoint);
+
+                Ellipse dot = new Ellipse();
+                dot.Fill = Brushes.White;
+                dot.Width = dot.Height = 20;
+                Canvas.SetLeft(dot, startPoint.X);
+                if (startPoint.Y >= 20)
+                {
+                    Canvas.SetTop(dot, startPoint.Y - 20);
+                }
+
+                drawArea.Children.Add(dot);
+            }
         }
 
         private void WindowKeyDown(object sender, KeyEventArgs e)

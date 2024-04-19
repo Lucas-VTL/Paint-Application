@@ -13,7 +13,9 @@ namespace myFreeLine
 {
     public class myFreeLine : IShape
     {
-        List<Point> list = new List<Point>();
+        List<Point> list;
+
+        Canvas cloneDrawSurface;
         public string shapeName => "Free Line";
         public string shapeImage => "";
 
@@ -24,6 +26,7 @@ namespace myFreeLine
         public void addColor(IColor color) {}
         public void addPointList(List<Point> pointList) 
         {
+            list = new List<Point>(0);
             list.AddRange(pointList);
         }
         public object Clone()
@@ -33,26 +36,31 @@ namespace myFreeLine
 
         public UIElement convertShapeType()
         {
-            return null;
-        }
-        public List<UIElement> convertShapePoints() { 
-            List<UIElement> listUI = new List<UIElement>();
-
-            for (int i = 0; i < list.Count; i++)
+            if (cloneDrawSurface == null)
             {
-                Ellipse dot = new Ellipse();
-                dot.Fill = Brushes.White;
-                dot.Width = dot.Height = 20;
-                Canvas.SetLeft(dot, list[i].X);
-                if (list[i].Y > 20)
+                cloneDrawSurface = new Canvas();
+                cloneDrawSurface.Background = Brushes.Transparent;
+                cloneDrawSurface.IsHitTestVisible = false;
+
+                for (int i = 0; i < list.Count; i++)
                 {
-                    Canvas.SetTop(dot, list[i].Y - 20);
+                    Ellipse dot = new Ellipse();
+                    dot.Fill = Brushes.White;
+                    dot.Width = dot.Height = 20;
+                    Canvas.SetLeft(dot, list[i].X);
+                    if (list[i].Y >= 20)
+                    {
+                        Canvas.SetTop(dot, list[i].Y - 20);
+                    }
+
+                    cloneDrawSurface.Children.Add(dot);
                 }
 
-                listUI.Add(dot);
+                return cloneDrawSurface;
+            } else
+            {
+                return cloneDrawSurface;
             }
-
-            return listUI;
         }
     }
 }
