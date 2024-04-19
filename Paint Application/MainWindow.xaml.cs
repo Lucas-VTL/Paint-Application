@@ -59,7 +59,6 @@ namespace Paint_Application
         //Các biến global lưu giữ các thông số của ứng dụng
         private string globalFontFamily;
         private int globalFontSize = 12;
-        private int globalStroke;
         private IShape selectedShape = null;
         private IColor selectedColor = null;
 
@@ -475,24 +474,8 @@ namespace Paint_Application
 
         private void styleWidthComboboxSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            int index = styleWidthCombobox.SelectedIndex;
-
-            switch (index)
-            {
-                case 0:
-                    styleWidthImage.Source = new BitmapImage(new Uri("images/styleBaseLine.png", UriKind.Relative));
-                    break;
-                case 1:
-                    styleWidthImage.Source = new BitmapImage(new Uri("images/styleWidth1.png", UriKind.Relative));
-                    break;
-                case 2:
-                    styleWidthImage.Source = new BitmapImage(new Uri("images/styleWidth2.png", UriKind.Relative));
-                    break;
-                case 3:
-                    styleWidthImage.Source = new BitmapImage(new Uri("images/styleWidth3.png", UriKind.Relative));
-                    break;
-                default: break;
-            }
+            IWidthness selectedWidthness = (IWidthness)styleWidthCombobox.SelectedItem;
+            styleWidthImage.Source = new BitmapImage(new Uri(selectedWidthness.widthnessImage, UriKind.Relative));
         }
 
         private void styleWidthComboboxPreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -528,28 +511,8 @@ namespace Paint_Application
 
         private void styleStrokeComboboxSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            int index = styleStrokeCombobox.SelectedIndex;
-
-            switch (index)
-            {
-                case 0:
-                    globalStroke = 1;
-                    styleStrokeImage.Source = new BitmapImage(new Uri("images/styleBaseLine.png", UriKind.Relative));
-                    break;
-                case 1:
-                    globalStroke = 2;
-                    styleStrokeImage.Source = new BitmapImage(new Uri("images/styleStroke1.png", UriKind.Relative));
-                    break;
-                case 2:
-                    globalStroke = 3;
-                    styleStrokeImage.Source = new BitmapImage(new Uri("images/styleStroke2.png", UriKind.Relative));
-                    break;
-                case 3:
-                    globalStroke = 4;
-                    styleStrokeImage.Source = new BitmapImage(new Uri("images/styleStroke3.png", UriKind.Relative));
-                    break;
-                default: break;
-            }
+            IStroke selectedStroke = (IStroke)styleStrokeCombobox.SelectedItem;
+            styleStrokeImage.Source = new BitmapImage(new Uri(selectedStroke.strokeImage, UriKind.Relative));
         }
 
         private void styleStrokeComboboxPreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
