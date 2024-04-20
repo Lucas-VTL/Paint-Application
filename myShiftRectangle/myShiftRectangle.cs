@@ -50,9 +50,9 @@ namespace myShiftRectangle
 
             Rectangle square = new Rectangle()
             {
-                Stroke = Brushes.Black,
+                Stroke = colorValue.colorValue,
                 StrokeDashArray = strokeStyle.strokeValue,
-                StrokeThickness = 2,
+                StrokeThickness = widthness.widthnessValue,
                 Width = side,
                 Height = side
             };

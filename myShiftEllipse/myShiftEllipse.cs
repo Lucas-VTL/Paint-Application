@@ -50,8 +50,9 @@ namespace myShiftEllipse
 
             Ellipse circle = new Ellipse()
             {
-                Stroke = Brushes.Black,
-                StrokeThickness = 2,
+                Stroke = colorValue.colorValue,
+                StrokeDashArray = strokeStyle.strokeValue,
+                StrokeThickness = widthness.widthnessValue,
                 Width = radius * 2,
                 Height = radius * 2
             };
