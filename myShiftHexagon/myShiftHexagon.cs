@@ -45,15 +45,16 @@ namespace myShiftHexagon
 
             var width = Math.Abs(end.X - start.X);
             var height = Math.Abs(end.Y - start.Y);
+            //var height = width;
 
             var center = new Point((start.X + end.X) / 2, (start.Y + end.Y) / 2);
             var sideLength = Math.Min(width / 2, height / 2);
 
             var hexagon = new Polygon
             {
-                Fill = Brushes.Green,
-                Stroke = Brushes.Black,
-                StrokeThickness = 2,
+                Stroke = colorValue.colorValue,
+                StrokeThickness = widthness.widthnessValue,
+                StrokeDashArray = strokeStyle.strokeValue,
                 Points = CreateHexagonPoints(center, sideLength)
             };
 
@@ -64,11 +65,18 @@ namespace myShiftHexagon
         {
             var points = new PointCollection();
 
-            for (int i = 0; i < 6; i++)
-            {
-                double angle = Math.PI / 3 * i;
-                points.Add(new Point(center.X + sideLength * Math.Cos(angle), center.Y + sideLength * Math.Sin(angle)));
-            }
+            points.Add(new Point(center.X, center.Y - sideLength / 2.5));
+            points.Add(new Point(center.X - sideLength, center.Y + sideLength / 4));
+            points.Add(new Point(center.X - sideLength, center.Y + 1.3 * sideLength));
+            points.Add(new Point(center.X, center.Y + 2 * sideLength));
+            points.Add(new Point(center.X + sideLength, center.Y + 1.3 * sideLength));
+            points.Add(new Point(center.X + sideLength, center.Y + sideLength / 4));
+
+            //for (int i = 0; i < 6; i++)
+            //{
+            //    double angle = Math.PI / 3 * i;
+            //    points.Add(new Point(center.X + sideLength * Math.Cos(angle), center.Y + sideLength * Math.Sin(angle)));
+            //}
 
             return points;
         }

@@ -44,17 +44,26 @@ namespace myShiftTriangle
             var end = endPoint;
 
             var width = Math.Abs(end.X - start.X);
-            var height = width * Math.Sin(Math.PI / 3); // Calculate height for equilateral triangle
+            var height = Math.Abs(end.Y - start.Y);
+
+            // Find the side length of the equiangular triangle
+            var sideLength = Math.Min(width, height);
+
+            // Calculate the height of the equilateral triangle
+            var equilateralHeight = Math.Sqrt(3) / 2 * sideLength;
+
+            // Set the height to be the same as the calculated equilateral height
+            var value = equilateralHeight;
 
             var center = new Point((start.X + end.X) / 2, (start.Y + end.Y) / 2);
-            var halfWidth = width / 2;
-            var halfHeight = height / 2;
+            var halfWidth = value / 2;
+            var halfHeight = value / 2;
 
             var triangle = new Polygon
             {
-                Fill = Brushes.Yellow,
-                Stroke = Brushes.Black,
-                StrokeThickness = 2,
+                Stroke = colorValue.colorValue,
+                StrokeDashArray = strokeStyle.strokeValue,
+                StrokeThickness = widthness.widthnessValue,
                 Points = CreateTrianglePoints(center, halfWidth, halfHeight)
             };
 

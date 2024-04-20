@@ -45,18 +45,19 @@ namespace myShiftRightTriangle
 
             var width = Math.Abs(end.X - start.X);
             var height = Math.Abs(end.Y - start.Y);
+            var value = Math.Min(width, height);
 
             var center = new Point((start.X + end.X) / 2, (start.Y + end.Y) / 2);
 
             // Determine the length of the hypotenuse (the longest side of the right triangle)
-            var hypotenuseLength = Math.Sqrt(width * width + height * height);
+            var hypotenuseLength = Math.Sqrt(value * value + value * value);
 
             var rightTriangle = new Polygon
             {
-                Fill = Brushes.Magenta,
-                Stroke = Brushes.Black,
-                StrokeThickness = 2,
-                Points = CreateRightTrianglePoints(center, width, height, hypotenuseLength)
+                Stroke = colorValue.colorValue,
+                StrokeThickness = widthness.widthnessValue,
+                StrokeDashArray = strokeStyle.strokeValue,
+                Points = CreateRightTrianglePoints(center, value, value, hypotenuseLength)
             };
 
             return rightTriangle;
