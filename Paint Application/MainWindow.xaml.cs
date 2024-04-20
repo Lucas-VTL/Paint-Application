@@ -1,25 +1,24 @@
-﻿using System.Diagnostics;
-using System.Text;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using System.Windows.Media;
-using static System.Net.Mime.MediaTypeNames;
-using static System.Runtime.InteropServices.JavaScript.JSType;
-using System.Windows.Resources;
 using System.IO;
 using System.Reflection;
-using System;
 using myShape;
 using myWidthness;
 using myStroke;
 using myColor;
+
+using KeyEventArgs = System.Windows.Input.KeyEventArgs;
+using MouseEventArgs = System.Windows.Input.MouseEventArgs;
+using Cursors = System.Windows.Input.Cursors;
+using Cursor = System.Windows.Input.Cursor;
+using ListViewItem = System.Windows.Controls.ListViewItem;
+using Point = System.Windows.Point;
+using System.Diagnostics;
+using System.Windows.Shapes;
+using Brushes = System.Windows.Media.Brushes;
 
 namespace Paint_Application
 {
@@ -43,10 +42,13 @@ namespace Paint_Application
         private bool isToolEraseOpen = false;
         private bool isDrawing = false;
         private bool isShiftDown = false;
+        private bool isShapeFill = false;
 
         //Lưu giữ điểm bắt đầu và kết thúc của nét vẽ
         Point startPoint;
         Point endPoint;
+        IColor customColor;
+        IShape freeLine;
 
         //List border giúp xác định các border khi người dùng chọn vào các function
         private List<Border> function = new List<Border>();
@@ -57,8 +59,8 @@ namespace Paint_Application
         //Các biến global lưu giữ các thông số của ứng dụng
         private string globalFontFamily;
         private int globalFontSize = 12;
-        private int globalStroke;
         private IShape selectedShape = null;
+        private IColor selectedColor = null;
 
         //List lưu giữ tất cả các loại hình vẽ được load từ file dll (bao gồm các hình vẽ + phiên bản ấn shift của chúng)
         private List<IShape> allShapeList = new List<IShape>();
@@ -71,6 +73,12 @@ namespace Paint_Application
 
         //List drawSurface giúp lưu trữ các nét vẽ trên 1 bề mặt
         private List<IShape> drawSurface = new List<IShape>();
+
+        //List recoverList giúp lưu trữ lại các nét vẽ đã bị xóa hoặc undo
+        private List<IShape> recoverList = new List<IShape>();
+
+        //List eraseList giúp lưu giữ các hình vẽ bị xóa
+        private List<Point> eraseList = new List<Point>();
 
         public MainWindow()
         {
@@ -111,9 +119,14 @@ namespace Paint_Application
                 {
                     if ((type.IsClass) && (typeof(IShape).IsAssignableFrom(type)))
                     {
-                        if (!type.Name.Contains("Shift"))
+                        if (!type.Name.Contains("Shift") && !type.Name.Equals("myFreeLine"))
                         {
                             shapeList.Add((IShape)Activator.CreateInstance(type)!);
+                        }
+
+                        if (type.Name.Equals("myFreeLine"))
+                        {
+                            freeLine = (IShape)Activator.CreateInstance(type)!;
                         }
 
                         allShapeList.Add((IShape)Activator.CreateInstance(type)!);
@@ -131,7 +144,13 @@ namespace Paint_Application
 
                     if ((type.IsClass) && (typeof(IColor).IsAssignableFrom(type)))
                     {
-                        colorList.Add((IColor)Activator.CreateInstance(type)!);
+                        if (!type.Name.Equals("myCustomColor"))
+                        {
+                            colorList.Add((IColor)Activator.CreateInstance(type)!);
+                        } else
+                        {
+                            customColor = (IColor)Activator.CreateInstance(type)!;
+                        }
                     }
                 }
             }
@@ -139,6 +158,10 @@ namespace Paint_Application
             shapeListview.ItemsSource = shapeList;
             styleWidthCombobox.ItemsSource = widthnessList;
             styleStrokeCombobox.ItemsSource = strokeList;
+            colorListview.ItemsSource = colorList;
+
+            selectedColor = colorList[0];
+            colorListview.SelectedIndex = 0;
         }
 
         private void minimizeButtonClick(object sender, RoutedEventArgs e)
@@ -451,24 +474,8 @@ namespace Paint_Application
 
         private void styleWidthComboboxSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            int index = styleWidthCombobox.SelectedIndex;
-
-            switch (index)
-            {
-                case 0:
-                    styleWidthImage.Source = new BitmapImage(new Uri("images/styleBaseLine.png", UriKind.Relative));
-                    break;
-                case 1:
-                    styleWidthImage.Source = new BitmapImage(new Uri("images/styleWidth1.png", UriKind.Relative));
-                    break;
-                case 2:
-                    styleWidthImage.Source = new BitmapImage(new Uri("images/styleWidth2.png", UriKind.Relative));
-                    break;
-                case 3:
-                    styleWidthImage.Source = new BitmapImage(new Uri("images/styleWidth3.png", UriKind.Relative));
-                    break;
-                default: break;
-            }
+            IWidthness selectedWidthness = (IWidthness)styleWidthCombobox.SelectedItem;
+            styleWidthImage.Source = new BitmapImage(new Uri(selectedWidthness.widthnessImage, UriKind.Relative));
         }
 
         private void styleWidthComboboxPreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -504,28 +511,8 @@ namespace Paint_Application
 
         private void styleStrokeComboboxSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            int index = styleStrokeCombobox.SelectedIndex;
-
-            switch (index)
-            {
-                case 0:
-                    globalStroke = 1;
-                    styleStrokeImage.Source = new BitmapImage(new Uri("images/styleBaseLine.png", UriKind.Relative));
-                    break;
-                case 1:
-                    globalStroke = 2;
-                    styleStrokeImage.Source = new BitmapImage(new Uri("images/styleStroke1.png", UriKind.Relative));
-                    break;
-                case 2:
-                    globalStroke = 3;
-                    styleStrokeImage.Source = new BitmapImage(new Uri("images/styleStroke2.png", UriKind.Relative));
-                    break;
-                case 3:
-                    globalStroke = 4;
-                    styleStrokeImage.Source = new BitmapImage(new Uri("images/styleStroke3.png", UriKind.Relative));
-                    break;
-                default: break;
-            }
+            IStroke selectedStroke = (IStroke)styleStrokeCombobox.SelectedItem;
+            styleStrokeImage.Source = new BitmapImage(new Uri(selectedStroke.strokeImage, UriKind.Relative));
         }
 
         private void styleStrokeComboboxPreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -568,9 +555,24 @@ namespace Paint_Application
         private void drawAreaMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             isDrawing = false;
+
             if (selectedShape != null)
             {
                 drawSurface.Add((IShape)selectedShape.Clone());
+                toolUndoButton.Opacity = 1;
+                toolRedoButton.Opacity = 0.3;
+                recoverList.Clear();
+            }
+
+            if (selectedShape == null && isToolEraseOpen)
+            {
+                selectedShape = freeLine;
+                IShape newFreeLine = (IShape)selectedShape.Clone();
+                newFreeLine.addPointList(eraseList);
+                drawSurface.Add(newFreeLine);
+
+                eraseList.Clear();
+                selectedShape = null;
             }
         }
 
@@ -593,18 +595,67 @@ namespace Paint_Application
             {
                 endPoint = e.GetPosition(drawArea);
                 drawArea.Children.Clear();
-                selectedShape.addWidthness((IWidthness)styleWidthCombobox.SelectedItem);
-                selectedShape.addStrokeStyle((IStroke)styleStrokeCombobox.SelectedItem);
 
                 foreach (var item in drawSurface)
                 {
                     drawArea.Children.Add(item.convertShapeType());
                 }
 
+                if (isShiftDown)
+                {
+                    if (!selectedShape.shapeName.Contains("Shift"))
+                    {
+                        for (int i = 0; i < allShapeList.Count; i++)
+                        {
+                            string shiftShapeName = "Shift" + selectedShape.shapeName;
+                            if (allShapeList[i].shapeName.Equals(shiftShapeName))
+                            {
+                                selectedShape = allShapeList[i];
+                                break;
+                            }
+                        }
+                    }
+                } else
+                {
+                    if (selectedShape.shapeName.Contains("Shift"))
+                    {
+                        for (int i = 0; i < allShapeList.Count; i++)
+                        {
+                            string[] shapeNameSplit = selectedShape.shapeName.Split("Shift");
+                            string shapeName = shapeNameSplit[1];
+                            if (allShapeList[i].shapeName.Equals(shapeName))
+                            {
+                                selectedShape = allShapeList[i];
+                                break;
+                            }
+                        }
+                    }
+                }
+
                 selectedShape.addStartPoint(startPoint);
                 selectedShape.addEndPoint(endPoint);
+                selectedShape.addWidthness((IWidthness)styleWidthCombobox.SelectedItem);
+                selectedShape.addStrokeStyle((IStroke)styleStrokeCombobox.SelectedItem);
+                selectedShape.addColor(selectedColor);
 
                 drawArea.Children.Add(selectedShape.convertShapeType());
+            }
+
+            if (isDrawing && selectedShape == null && isToolEraseOpen) 
+            {
+                Point point = e.GetPosition(drawArea);
+                eraseList.Add(point);
+                
+                 Ellipse dot = new Ellipse();
+                 dot.Fill = Brushes.White;
+                 dot.Width = dot.Height = 20;
+                 Canvas.SetLeft(dot, point.X);
+                if (point.Y >= 20) 
+                {
+                    Canvas.SetTop(dot, point.Y - 20);
+                }
+
+                 drawArea.Children.Add(dot);
             }
         }
 
@@ -628,6 +679,22 @@ namespace Paint_Application
 
             isDrawing = true;
             startPoint = e.GetPosition(drawArea);
+
+            if (selectedShape == null && isToolEraseOpen)
+            {
+                eraseList.Add(startPoint);
+
+                Ellipse dot = new Ellipse();
+                dot.Fill = Brushes.White;
+                dot.Width = dot.Height = 20;
+                Canvas.SetLeft(dot, startPoint.X);
+                if (startPoint.Y >= 20)
+                {
+                    Canvas.SetTop(dot, startPoint.Y - 20);
+                }
+
+                drawArea.Children.Add(dot);
+            }
         }
 
         private void WindowKeyDown(object sender, KeyEventArgs e)
@@ -635,6 +702,52 @@ namespace Paint_Application
             if (e.Key == Key.LeftShift || e.Key == Key.RightShift) 
             { 
                 isShiftDown = true;
+            }
+
+            if ((e.Key == Key.Z) && (System.Windows.Forms.Control.ModifierKeys & Keys.Control) == Keys.Control) 
+            {
+                if (toolUndoButton.Opacity != 0.3)
+                {
+                    recoverList.Add(drawSurface[drawSurface.Count - 1]);
+                    drawSurface.RemoveAt(drawSurface.Count - 1);
+
+                    drawArea.Children.Clear();
+
+                    foreach (var item in drawSurface)
+                    {
+                        drawArea.Children.Add(item.convertShapeType());
+                    }
+
+                    if (drawSurface.Count == 0)
+                    {
+                        toolUndoButton.Opacity = 0.3;
+                    }
+
+                    toolRedoButton.Opacity = 1;
+                }
+            }
+
+            if ((e.Key == Key.Y) && (System.Windows.Forms.Control.ModifierKeys & Keys.Control) == Keys.Control)
+            {
+                if (toolRedoButton.Opacity != 0.3)
+                {
+                    drawSurface.Add(recoverList[recoverList.Count - 1]);
+                    recoverList.RemoveAt(recoverList.Count - 1);
+
+                    drawArea.Children.Clear();
+
+                    foreach (var item in drawSurface)
+                    {
+                        drawArea.Children.Add(item.convertShapeType());
+                    }
+
+                    if (recoverList.Count == 0)
+                    {
+                        toolRedoButton.Opacity = 0.3;
+                    }
+
+                    toolUndoButton.Opacity = 1;
+                }
             }
         }
 
@@ -645,10 +758,15 @@ namespace Paint_Application
 
         private void WindowMouseLeave(object sender, MouseEventArgs e)
         {
-            isDrawing = false;
-            if (selectedShape != null)
-            {
-                drawSurface.Add((IShape)selectedShape.Clone());
+            if (isDrawing) {
+                isDrawing = false;
+                if (selectedShape != null)
+                {
+                    drawSurface.Add((IShape)selectedShape.Clone());
+                    toolUndoButton.Opacity = 1;
+                    toolRedoButton.Opacity = 0.3;
+                    recoverList.Clear();
+                }
             }
         }
 
@@ -660,7 +778,188 @@ namespace Paint_Application
                 if (selectedShape != null)
                 {
                     drawSurface.Add((IShape)selectedShape.Clone());
+                    toolUndoButton.Opacity = 1;
+                    toolRedoButton.Opacity = 0.3;
+                    recoverList.Clear();
                 }
+            }
+        }
+
+        private void colorListviewPreviewMouseButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            ListViewItem selectedItem = (ListViewItem)sender;
+            colorListview.SelectedItem = selectedItem;
+
+            selectedColor = (IColor)selectedItem.Content;
+        }
+
+        private void styleFillButtonClick(object sender, RoutedEventArgs e)
+        {
+            if (isShapeFill)
+            {
+                styleFillButton.Opacity = 0.3;
+                isShapeFill = false;
+            } else
+            {
+                styleFillButton.Opacity = 1;
+                isShapeFill = true;
+            }
+        }
+
+        private void customColorButtonClick(object sender, RoutedEventArgs e)
+        {
+            selectedColor = customColor;
+            ColorDialog colorDialog = new ColorDialog();
+
+            if (colorDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                System.Drawing.Color color = colorDialog.Color;
+
+                byte colorRed = color.R;
+                byte colorGreen = color.G;
+                byte colorBlue = color.B;
+            
+                if (!checkExistedColor(colorRed, colorGreen, colorBlue))
+                {
+                    IColor newCustomColor = (IColor)selectedColor.Clone();
+
+                    newCustomColor.addColorRGB(colorRed, colorGreen, colorBlue);
+                    colorList.Add(newCustomColor);
+
+                    colorListview.ItemsSource = "";
+                    colorListview.ItemsSource = colorList;
+
+                    selectedColor = colorList[colorList.Count - 1];
+                    colorListview.SelectedIndex = colorList.Count - 1;
+
+                    colorListview.ScrollIntoView(colorListview.Items[colorListview.Items.Count - 1]);
+                } else
+                {
+                    int index = getExistedColorByRGB(colorRed, colorGreen, colorBlue);
+                    if (index != -1)
+                    {
+                        selectedColor = colorList[index];
+                        colorListview.SelectedIndex = index;
+                        colorListview.ScrollIntoView(colorListview.Items[index]);
+                    }
+                }
+            }
+        }
+
+        private bool checkExistedColor(byte r, byte g, byte b)
+        {
+            for (int i = 0; i < colorList.Count; i++)
+            {
+                SolidColorBrush colorBrush = colorList[i].colorValue;
+                System.Windows.Media.Color color = colorBrush.Color;
+
+                byte colorRed = color.R;
+                byte colorGreen = color.G;
+                byte colorBlue = color.B;
+
+                if (colorRed == r && colorGreen == g && colorBlue == b)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        private int getExistedColorByRGB(byte r, byte g, byte b) 
+        {
+            for (int i = 0; i < colorList.Count; i++)
+            {
+                SolidColorBrush colorBrush = colorList[i].colorValue;
+                System.Windows.Media.Color color = colorBrush.Color;
+
+                byte colorRed = color.R;
+                byte colorGreen = color.G;
+                byte colorBlue = color.B;
+
+                if (colorRed == r && colorGreen == g && colorBlue == b)
+                {
+                    return i;
+                }
+            }
+            return -1;
+        }
+
+        private void toolUndoButtonMouseEnter(object sender, MouseEventArgs e)
+        {
+            if (toolUndoButton.Opacity == 0.3)
+            {
+                toolUndoButton.Cursor = null;
+            } else
+            {
+                toolUndoButton.Cursor = Cursors.Hand;
+            }
+        }
+
+        private void toolUndoButtonMouseLeave(object sender, MouseEventArgs e)
+        {
+            toolUndoButton.Cursor = null;
+        }
+
+        private void toolRedoButtonMouseEnter(object sender, MouseEventArgs e)
+        {
+            if (toolRedoButton.Opacity == 0.3)
+            {
+                toolRedoButton.Cursor = null;
+            }
+            else
+            {
+                toolRedoButton.Cursor = Cursors.Hand;
+            }
+        }
+
+        private void toolRedoButtonMouseLeave(object sender, MouseEventArgs e)
+        {
+            toolRedoButton.Cursor = null;
+        }
+
+        private void toolUndoButtonClick(object sender, RoutedEventArgs e)
+        {
+            if (toolUndoButton.Opacity != 0.3)
+            {
+                recoverList.Add(drawSurface[drawSurface.Count - 1]);
+                drawSurface.RemoveAt(drawSurface.Count - 1);
+
+                drawArea.Children.Clear();
+
+                foreach (var item in drawSurface)
+                {
+                    drawArea.Children.Add(item.convertShapeType());
+                }
+
+                if (drawSurface.Count == 0)
+                {
+                    toolUndoButton.Opacity = 0.3;
+                }
+
+                toolRedoButton.Opacity = 1;
+            }
+        }
+
+        private void toolRedoButtonClick(object sender, RoutedEventArgs e)
+        {
+            if (toolRedoButton.Opacity != 0.3)
+            {
+                drawSurface.Add(recoverList[recoverList.Count - 1]);
+                recoverList.RemoveAt(recoverList.Count - 1);
+
+                drawArea.Children.Clear();
+
+                foreach (var item in drawSurface)
+                {
+                    drawArea.Children.Add(item.convertShapeType());
+                }
+
+                if (recoverList.Count == 0)
+                {
+                    toolRedoButton.Opacity = 0.3;
+                }
+
+                toolUndoButton.Opacity = 1;
             }
         }
     }

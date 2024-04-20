@@ -1,4 +1,5 @@
-﻿using myShape;
+﻿using myColor;
+using myShape;
 using myStroke;
 using myWidthness;
 using System.Windows;
@@ -11,6 +12,7 @@ namespace myShiftArrow
         private Point endPoint;
         IWidthness widthness;
         IStroke strokeStyle;
+        IColor colorValue;
         public string shapeName => "ShiftArrow";
         public string shapeImage => "";
 
@@ -24,6 +26,11 @@ namespace myShiftArrow
         {
             strokeStyle = stroke;
         }
+        public void addColor(IColor color)
+        {
+            colorValue = color;
+        }
+        public void addPointList(List<Point> pointList) { }
         public object Clone()
         {
             return MemberwiseClone();

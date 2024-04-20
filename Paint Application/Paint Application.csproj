@@ -7,6 +7,7 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UseWPF>true</UseWPF>
+    <UseWindowsForms>True</UseWindowsForms>
   </PropertyGroup>
 
   <ItemGroup>
@@ -16,6 +17,7 @@
     <None Remove="images\all-selection.png" />
     <None Remove="images\arrow-down.png" />
     <None Remove="images\arrow-up.png" />
+    <None Remove="images\colorCustom.png" />
     <None Remove="images\free-selection.png" />
     <None Remove="images\layers.png" />
     <None Remove="images\rec-selection.png" />
@@ -32,6 +34,8 @@
     <None Remove="images\shapeRightTriangle.png" />
     <None Remove="images\shapeTriangle.png" />
     <None Remove="images\styleBaseLine.png" />
+    <None Remove="images\styleFill.png" />
+    <None Remove="images\styleFillLine.png" />
     <None Remove="images\styleStroke.png" />
     <None Remove="images\styleStroke1.png" />
     <None Remove="images\styleStroke2.png" />
@@ -51,12 +55,25 @@
     <None Remove="images\toolErase.png" />
     <None Remove="images\toolFileExport.png" />
     <None Remove="images\toolFileImport.png" />
+    <None Remove="images\toolHorizontal.png" />
     <None Remove="images\toolMouse.png" />
+    <None Remove="images\toolRedo.png" />
+    <None Remove="images\toolUndo.png" />
+    <None Remove="images\toolVertical.png" />
     <None Remove="images\window-close-effect.png" />
     <None Remove="images\window-close.png" />
     <None Remove="images\window-icon.png" />
     <None Remove="images\window-minimize-effect.png" />
     <None Remove="images\window-minimize.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <COMReference Include="{215d64d2-031c-33c7-96e3-61794cd1ee61}">
+      <WrapperTool>tlbimp</WrapperTool>
+      <VersionMinor>4</VersionMinor>
+      <VersionMajor>2</VersionMajor>
+      <Guid>215d64d2-031c-33c7-96e3-61794cd1ee61</Guid>
+    </COMReference>
   </ItemGroup>
 
   <ItemGroup>
@@ -69,12 +86,19 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="images\styleFill.png" />
+    <Resource Include="images\styleFillLine.png" />
+    <Resource Include="images\toolHorizontal.png" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Resource Include="images\all-selection.png" />
     <Resource Include="images\arrow-up.png" />
   </ItemGroup>
 
   <ItemGroup>
     <Resource Include="images\arrow-down.png" />
+    <Resource Include="images\colorCustom.png" />
     <Resource Include="images\layers.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
@@ -116,6 +140,9 @@
     <Resource Include="images\toolFileExport.png" />
     <Resource Include="images\toolFileImport.png" />
     <Resource Include="images\toolMouse.png" />
+    <Resource Include="images\toolRedo.png" />
+    <Resource Include="images\toolUndo.png" />
+    <Resource Include="images\toolVertical.png" />
     <Resource Include="images\window-close-effect.png" />
     <Resource Include="images\window-close.png" />
     <Resource Include="images\window-icon.png" />
@@ -165,6 +192,7 @@
 		<ProjectReference Include="..\myShiftRhombus\myShiftRhombus.csproj" />
 		<ProjectReference Include="..\myShiftRightTriangle\myShiftRightTriangle.csproj" />
 		<ProjectReference Include="..\myShiftTriangle\myShiftTriangle.csproj" />
+		<ProjectReference Include="..\myFreeLine\myFreeLine.csproj" />
 	
         <ProjectReference Include="..\myWidthness\myWidthness.csproj" />
         <ProjectReference Include="..\my1PixelWidthness\my1PixelWidthness.csproj" />
@@ -190,5 +218,6 @@
 		<ProjectReference Include="..\myGray\myGray.csproj" />
 		<ProjectReference Include="..\myPurple\myPurple.csproj" />
 		<ProjectReference Include="..\myOrange\myOrange.csproj" />
+		<ProjectReference Include="..\myCustomColor\myCustomColor.csproj" />
 	</ItemGroup>
 </Project>

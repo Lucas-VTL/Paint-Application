@@ -2,6 +2,7 @@
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Shapes;
+using myColor;
 using myShape;
 using myStroke;
 using myWidthness;
@@ -17,6 +18,7 @@ namespace myHeart
 
         IWidthness widthness;
         IStroke strokeStyle;
+        IColor colorValue;
         public string shapeName => "Heart";
         public string shapeImage => "images/shapeHeart.png";
 
@@ -30,6 +32,11 @@ namespace myHeart
         {
             strokeStyle = stroke;
         }
+        public void addColor(IColor color)
+        {
+            colorValue = color;
+        }
+        public void addPointList(List<Point> pointList) { }
         public object Clone()
         {
             return MemberwiseClone();

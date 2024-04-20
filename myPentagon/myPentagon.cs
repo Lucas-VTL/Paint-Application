@@ -1,4 +1,5 @@
-﻿using myShape;
+﻿using myColor;
+using myShape;
 using myStroke;
 using myWidthness;
 using System.Windows;
@@ -13,6 +14,7 @@ namespace myPentagon
         private Point endPoint;
         IWidthness widthness;
         IStroke strokeStyle;
+        IColor colorValue;
         public string shapeName => "Pentagon";
         public string shapeImage => "images/shapePentagon.png";
 
@@ -26,6 +28,11 @@ namespace myPentagon
         {
             strokeStyle = stroke;
         }
+        public void addColor(IColor color)
+        {
+            colorValue = color;
+        }
+        public void addPointList(List<Point> pointList) { }
         public object Clone()
         {
             return MemberwiseClone();

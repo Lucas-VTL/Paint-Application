@@ -4,6 +4,7 @@ using System.Windows.Shapes;
 using System.Windows;
 using myWidthness;
 using myStroke;
+using myColor;
 
 namespace myShiftRightTriangle
 {
@@ -13,6 +14,7 @@ namespace myShiftRightTriangle
         private Point endPoint;
         IWidthness widthness;
         IStroke strokeStyle;
+        IColor colorValue;
         public string shapeName => "ShiftRightTriangle";
         public string shapeImage => "";
 
@@ -26,6 +28,11 @@ namespace myShiftRightTriangle
         {
             strokeStyle = stroke;
         }
+        public void addColor(IColor color)
+        {
+            colorValue = color;
+        }
+        public void addPointList(List<Point> pointList) { }
         public object Clone()
         {
             return MemberwiseClone();

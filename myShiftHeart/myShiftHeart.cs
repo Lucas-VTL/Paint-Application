@@ -4,6 +4,7 @@ using System.Windows;
 using System.Windows.Shapes;
 using myWidthness;
 using myStroke;
+using myColor;
 
 namespace myShiftHeart
 {
@@ -13,6 +14,7 @@ namespace myShiftHeart
         private Point endPoint;
         IWidthness widthness;
         IStroke strokeStyle;
+        IColor colorValue;
         public string shapeName => "ShiftHeart";
         public string shapeImage => "";
 
@@ -26,6 +28,11 @@ namespace myShiftHeart
         {
             strokeStyle = stroke;
         }
+        public void addColor(IColor color)
+        {
+            colorValue = color;
+        }
+        public void addPointList(List<Point> pointList) { }
         public object Clone()
         {
             return MemberwiseClone();

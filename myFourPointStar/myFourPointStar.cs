@@ -1,6 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Media;
 using System.Windows.Shapes;
+using myColor;
 using myShape;
 using myStroke;
 using myWidthness;
@@ -13,6 +14,7 @@ namespace myFourPointStar
         private Point endPoint;
         IWidthness widthness;
         IStroke strokeStyle;
+        IColor colorValue;
 
         public string shapeName => "FourPointStar";
         public string shapeImage => "images/shape4Star.png";
@@ -27,6 +29,11 @@ namespace myFourPointStar
         {
             strokeStyle = stroke;
         }
+        public void addColor(IColor color)
+        {
+            colorValue = color;
+        }
+        public void addPointList(List<Point> pointList) { }
         public object Clone()
         {
             return MemberwiseClone();

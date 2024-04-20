@@ -4,6 +4,7 @@ using myShape;
 using System.Windows.Shapes;
 using myWidthness;
 using myStroke;
+using myColor;
 
 namespace myShiftFivePointStar
 {
@@ -13,6 +14,7 @@ namespace myShiftFivePointStar
         private Point endPoint;
         IWidthness widthness;
         IStroke strokeStyle;
+        IColor colorValue;
         public string shapeName => "ShiftFivePointStar";
         public string shapeImage => "";
 
@@ -26,6 +28,11 @@ namespace myShiftFivePointStar
         {
             strokeStyle = stroke;
         }
+        public void addColor(IColor color)
+        {
+            colorValue = color;
+        }
+        public void addPointList(List<Point> pointList) { }
         public object Clone()
         {
             return MemberwiseClone();

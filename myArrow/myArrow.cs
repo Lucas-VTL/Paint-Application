@@ -1,9 +1,8 @@
-﻿using myShape;
+﻿using myColor;
+using myShape;
 using myStroke;
 using myWidthness;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Ink;
 using System.Windows.Media;
 using System.Windows.Shapes;
 
@@ -15,6 +14,7 @@ namespace myArrow
         private Point endPoint;
         private IWidthness widthness;
         private IStroke strokeStyle;
+        private IColor colorValue;
 
         public string shapeName => "Arrow";
         public string shapeImage => "images/shapeArrow.png";
@@ -29,90 +29,60 @@ namespace myArrow
         {
             strokeStyle = stroke;
         }
-
+        public void addColor(IColor color)
+        {
+            colorValue = color;
+        }
+        public void addPointList(List<Point> pointList) { }
         public object Clone()
         {
             return MemberwiseClone();
         }
 
-        public UIElement convertShapeType()
+        public UIElement convertShapeType() {
+            Point start = startPoint;
+            Point end = endPoint;
+            Point center = new Point((startPoint.X + endPoint.X) / 2, (startPoint.Y + endPoint.Y) / 2);
+
+            var left = Math.Min(startPoint.X, endPoint.X);
+            var right = Math.Max(startPoint.X, endPoint.X);
+
+            var top = Math.Min(startPoint.Y, endPoint.Y);
+            var bottom = Math.Max(startPoint.Y, endPoint.Y);
+
+            var width = right - left;
+            var height = bottom - top;
+
+            var element = new Path
+            {
+                StrokeThickness = widthness.widthnessValue,
+                StrokeDashArray = strokeStyle.strokeValue,
+                Stroke = colorValue.colorValue,
+                Data = CreateArrowGeometry(center, start, end, width, height)
+            };
+
+            return element;
+        }
+
+        private Geometry CreateArrowGeometry(Point center, Point start, Point end, double width, double height)
         {
-            // find the arrow shaft unit vector
-            double vx = endPoint.X - startPoint.X;
-            double vy = endPoint.Y - startPoint.Y;
-            double dist = (double)Math.Sqrt(vx * vx + vy * vy);
-            vx /= dist;
-            vy /= dist;
+            var geometry = new PathGeometry();
 
-            double wingLength = Math.Max(7, widthness.widthnessValue * 2);
-
-            double ax = wingLength * (-vy - vx);
-            double ay = wingLength * (vx - vy);
-
-            Point wing1 = new Point(endPoint.X + ax, endPoint.Y + ay);
-            Point wing2 = new Point(endPoint.X - ay, endPoint.Y + ax);
-
-            // calculate the bounding box of the arrow
-            double minX = Math.Min(startPoint.X, Math.Min(endPoint.X, Math.Min(wing1.X, wing2.X)));
-            double minY = Math.Min(startPoint.Y, Math.Min(endPoint.Y, Math.Min(wing1.Y, wing2.Y)));
-            double maxX = Math.Max(startPoint.X, Math.Max(endPoint.X, Math.Max(wing1.X, wing2.X)));
-            double maxY = Math.Max(startPoint.Y, Math.Max(endPoint.Y, Math.Max(wing1.Y, wing2.Y)));
-
-            double width = maxX - minX;
-            double height = maxY - minY;
-
-            // create the arrow shaft
-            Line line = new Line
+            var figure = new PathFigure
             {
-                X1 = startPoint.X - minX,
-                Y1 = startPoint.Y - minY,
-                X2 = endPoint.X - minX,
-                Y2 = endPoint.Y - minY,
+                StartPoint = new Point(center.X, startPoint.Y),
+                IsClosed = true
             };
 
-            // create the arrowhead
-            PathFigure arrowHeadPath = new PathFigure();
-            arrowHeadPath.StartPoint = new Point(wing1.X - minX, wing1.Y - minY);
-            arrowHeadPath.Segments.Add(new LineSegment(new Point(endPoint.X - minX, endPoint.Y - minY), true));
-            arrowHeadPath.Segments.Add(new LineSegment(new Point(wing2.X - minX, wing2.Y - minY), true));
+            figure.Segments.Add(new LineSegment(new Point(endPoint.X, center.Y - height / 6), true));
+            figure.Segments.Add(new LineSegment(new Point(center.X + width / 6, center.Y - height / 6), true));
+            figure.Segments.Add(new LineSegment(new Point(center.X + width / 6, endPoint.Y), true));
+            figure.Segments.Add(new LineSegment(new Point(center.X - width / 6, endPoint.Y), true));
+            figure.Segments.Add(new LineSegment(new Point(center.X - width / 6, center.Y - height / 6), true));
+            figure.Segments.Add(new LineSegment(new Point(startPoint.X, center.Y - height / 6), true));
 
-            PathGeometry arrowGeometry = new PathGeometry();
-            arrowGeometry.Figures.Add(arrowHeadPath);
-
-            Path arrowHead = new Path
-            {
-                Data = arrowGeometry,
-            };
-
-            // combine arrow line and arrowhead into a single container
-            Canvas container = new Canvas
-            {
-                Width = width,
-                Height = height
-            };
-
-            container.Children.Add(line);
-            container.Children.Add(arrowHead);
-
-            if (endPoint.X >= startPoint.X)
-            {
-                container.SetValue(Canvas.LeftProperty, startPoint.X);
-            }
-            else
-            {
-                container.SetValue(Canvas.LeftProperty, startPoint.X - width);
-            }
-
-            if (endPoint.Y >= startPoint.Y)
-            {
-                container.SetValue(Canvas.TopProperty, startPoint.Y);
-            }
-            else
-            {
-                container.SetValue(Canvas.TopProperty, startPoint.Y - height);
-            }
-
-            return container;
+            geometry.Figures.Add(figure);
+            return geometry;
         }
     }
 }

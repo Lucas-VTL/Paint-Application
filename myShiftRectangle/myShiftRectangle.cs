@@ -5,6 +5,7 @@ using System.Windows;
 using System.Windows.Shapes;
 using myWidthness;
 using myStroke;
+using myColor;
 
 namespace myShiftRectangle
 {
@@ -14,6 +15,7 @@ namespace myShiftRectangle
         private Point endPoint;
         IWidthness widthness;
         IStroke strokeStyle;
+        IColor colorValue;
         public string shapeName => "ShiftRectangle";
         public string shapeImage => "";
 
@@ -27,12 +29,17 @@ namespace myShiftRectangle
         {
             strokeStyle = stroke;
         }
+        public void addColor(IColor color)
+        {
+            colorValue = color;
+        }
+        public void addPointList(List<Point> pointList) { }
         public object Clone()
         {
             return MemberwiseClone();
         }
 
-        public UIElement convertShapeType()
+       public UIElement convertShapeType()
         {
             var start = startPoint;
             var end = endPoint;
@@ -43,9 +50,9 @@ namespace myShiftRectangle
 
             Rectangle square = new Rectangle()
             {
-                Stroke = Brushes.Black,
+                Stroke = colorValue.colorValue,
                 StrokeDashArray = strokeStyle.strokeValue,
-                StrokeThickness = 2,
+                StrokeThickness = widthness.widthnessValue,
                 Width = side,
                 Height = side
             };

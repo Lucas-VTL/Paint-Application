@@ -4,12 +4,10 @@
     <TargetFramework>net8.0-windows</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-	<UseWPF>true</UseWPF>
+	  <UseWPF>true</UseWPF>
   </PropertyGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\myWidthness\myWidthness.csproj" />
-		<ProjectReference Include="..\myStroke\myStroke.csproj" />
 		<ProjectReference Include="..\myColor\myColor.csproj" />
 	</ItemGroup>
 </Project>

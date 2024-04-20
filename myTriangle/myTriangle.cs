@@ -1,4 +1,5 @@
-﻿using myShape;
+﻿using myColor;
+using myShape;
 using myStroke;
 using myWidthness;
 using System.Windows;
@@ -13,6 +14,7 @@ namespace myTriangle
         private Point endPoint;
         IWidthness widthness;
         IStroke strokeStyle;
+        IColor colorValue;
         public string shapeName => "Triangle";
         public string shapeImage => "images/shapeTriangle.png";
 
@@ -26,6 +28,11 @@ namespace myTriangle
         {
             strokeStyle = stroke;
         }
+        public void addColor(IColor color)
+        {
+            colorValue = color;
+        }
+        public void addPointList(List<Point> pointList) { }
         public object Clone()
         {
             return MemberwiseClone();
@@ -45,9 +52,9 @@ namespace myTriangle
 
             var triangle = new Polygon
             {
-                Fill = Brushes.Yellow,
-                Stroke = Brushes.Black,
-                StrokeThickness = 2,
+                Stroke = colorValue.colorValue,
+                StrokeThickness = widthness.widthnessValue,
+                StrokeDashArray = strokeStyle.strokeValue,
                 Points = CreateTrianglePoints(center, halfWidth, halfHeight)
             };
 

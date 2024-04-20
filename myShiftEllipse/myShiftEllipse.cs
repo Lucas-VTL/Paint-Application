@@ -5,6 +5,7 @@ using System.Windows;
 using myShape;
 using myWidthness;
 using myStroke;
+using myColor;
 
 namespace myShiftEllipse
 {
@@ -14,6 +15,7 @@ namespace myShiftEllipse
         private Point endPoint;
         IWidthness widthness;
         IStroke strokeStyle;
+        IColor colorValue;
         public string shapeName => "ShiftEllipse";
         public string shapeImage => "";
 
@@ -27,6 +29,11 @@ namespace myShiftEllipse
         {
             strokeStyle = stroke;
         }
+        public void addColor(IColor color)
+        {
+            colorValue = color;
+        }
+        public void addPointList(List<Point> pointList) { }
         public object Clone()
         {
             return MemberwiseClone();
@@ -43,8 +50,9 @@ namespace myShiftEllipse
 
             Ellipse circle = new Ellipse()
             {
-                Stroke = Brushes.Black,
-                StrokeThickness = 2,
+                Stroke = colorValue.colorValue,
+                StrokeDashArray = strokeStyle.strokeValue,
+                StrokeThickness = widthness.widthnessValue,
                 Width = radius * 2,
                 Height = radius * 2
             };
@@ -54,5 +62,6 @@ namespace myShiftEllipse
 
             return circle;
         }
+
     }
 }

@@ -1,4 +1,5 @@
-﻿using myShape;
+﻿using myColor;
+using myShape;
 using myStroke;
 using myWidthness;
 using System.Configuration;
@@ -15,6 +16,7 @@ namespace myRectangle
         private Point endPoint;
         IWidthness widthness;
         IStroke strokeStyle;
+        IColor colorValue;
         public string shapeName => "Rectangle";
         public string shapeImage => "images/shapeRectangle.png";
 
@@ -28,6 +30,11 @@ namespace myRectangle
         {
             strokeStyle = stroke;
         }
+        public void addColor(IColor color)
+        {
+            colorValue = color;
+        }
+        public void addPointList(List<Point> pointList) { }
         public object Clone()
         {
             return MemberwiseClone();
@@ -48,7 +55,7 @@ namespace myRectangle
 
             var element = new Rectangle()
             {
-                Stroke = Brushes.Black,
+                Stroke = colorValue.colorValue,
                 StrokeThickness = widthness.widthnessValue,
                 StrokeDashArray = strokeStyle.strokeValue,
                 Width = width,

@@ -77,27 +77,31 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "myBaseStroke", "myBaseStrok
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "myDashDotDotStroke", "myDashDotDotStroke\myDashDotDotStroke.csproj", "{2839A297-9FA5-4F4E-9FC9-58954CDE845A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "myColor", "myColor\myColor.csproj", "{C06BEA5D-08F7-4996-BBE7-702F95647864}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "myColor", "myColor\myColor.csproj", "{C06BEA5D-08F7-4996-BBE7-702F95647864}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "myBlack", "myBlack\myBlack.csproj", "{93A3AE5A-BE55-465B-8FF9-C36157C49ADE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "myBlack", "myBlack\myBlack.csproj", "{93A3AE5A-BE55-465B-8FF9-C36157C49ADE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "myWhite", "myWhite\myWhite.csproj", "{C1132013-D407-4401-9030-CAB5E696F608}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "myWhite", "myWhite\myWhite.csproj", "{C1132013-D407-4401-9030-CAB5E696F608}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "myBrown", "myBrown\myBrown.csproj", "{9859A7EB-8609-49FB-968B-8B184CCE6EC5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "myBrown", "myBrown\myBrown.csproj", "{9859A7EB-8609-49FB-968B-8B184CCE6EC5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "myBlue", "myBlue\myBlue.csproj", "{3420FC44-869C-4AFD-93F5-9F6F31B52CB1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "myBlue", "myBlue\myBlue.csproj", "{3420FC44-869C-4AFD-93F5-9F6F31B52CB1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "myRed", "myRed\myRed.csproj", "{C70F6453-35B5-4730-A940-131AF89BCB9A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "myRed", "myRed\myRed.csproj", "{C70F6453-35B5-4730-A940-131AF89BCB9A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "myGreen", "myGreen\myGreen.csproj", "{345D592B-D9C2-406E-8D1F-F7ACD6DCD43E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "myGreen", "myGreen\myGreen.csproj", "{345D592B-D9C2-406E-8D1F-F7ACD6DCD43E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "myYellow", "myYellow\myYellow.csproj", "{8BA28E45-92C0-4371-A429-9EBD4B925294}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "myYellow", "myYellow\myYellow.csproj", "{8BA28E45-92C0-4371-A429-9EBD4B925294}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "myGray", "myGray\myGray.csproj", "{FA825235-D6A8-4E2A-9924-6874B308ADD4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "myGray", "myGray\myGray.csproj", "{FA825235-D6A8-4E2A-9924-6874B308ADD4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "myPurple", "myPurple\myPurple.csproj", "{CCCEA457-3325-4F55-B9D5-A1043730B2CB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "myPurple", "myPurple\myPurple.csproj", "{CCCEA457-3325-4F55-B9D5-A1043730B2CB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "myOrange", "myOrange\myOrange.csproj", "{BBE44DF6-2761-40CF-8282-3EBE514589A4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "myOrange", "myOrange\myOrange.csproj", "{BBE44DF6-2761-40CF-8282-3EBE514589A4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "myCustomColor", "myCustomColor\myCustomColor.csproj", "{D3454830-E8F8-41C4-A1DA-FC18F967C384}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "myFreeLine", "myFreeLine\myFreeLine.csproj", "{45C93731-8376-4D68-852B-80F41E8429F5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -297,6 +301,14 @@ Global
 		{BBE44DF6-2761-40CF-8282-3EBE514589A4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BBE44DF6-2761-40CF-8282-3EBE514589A4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BBE44DF6-2761-40CF-8282-3EBE514589A4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D3454830-E8F8-41C4-A1DA-FC18F967C384}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D3454830-E8F8-41C4-A1DA-FC18F967C384}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D3454830-E8F8-41C4-A1DA-FC18F967C384}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D3454830-E8F8-41C4-A1DA-FC18F967C384}.Release|Any CPU.Build.0 = Release|Any CPU
+		{45C93731-8376-4D68-852B-80F41E8429F5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{45C93731-8376-4D68-852B-80F41E8429F5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{45C93731-8376-4D68-852B-80F41E8429F5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{45C93731-8376-4D68-852B-80F41E8429F5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -4,6 +4,7 @@ using System.Windows.Shapes;
 using System.Windows;
 using myWidthness;
 using myStroke;
+using myColor;
 
 namespace myShiftPentagon
 {
@@ -13,6 +14,7 @@ namespace myShiftPentagon
         private Point endPoint;
         IWidthness widthness;
         IStroke strokeStyle;
+        IColor colorValue;
         public string shapeName => "ShiftPentagon";
         public string shapeImage => "";
 
@@ -26,6 +28,11 @@ namespace myShiftPentagon
         {
             strokeStyle = stroke;
         }
+        public void addColor(IColor color)
+        {
+            colorValue = color;
+        }
+        public void addPointList(List<Point> pointList) { }
         public object Clone()
         {
             return MemberwiseClone();

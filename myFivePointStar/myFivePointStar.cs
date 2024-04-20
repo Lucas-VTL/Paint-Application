@@ -1,6 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Media;
 using System.Windows.Shapes;
+using myColor;
 using myShape;
 using myStroke;
 using myWidthness;
@@ -13,6 +14,7 @@ namespace myFivePointStar
         private Point endPoint;
         private IWidthness widthness;
         private IStroke strokeStyle;
+        private IColor colorValue;
 
         public string shapeName => "FivePointStar";
         public string shapeImage => "images/shape5Star.png";
@@ -27,6 +29,11 @@ namespace myFivePointStar
         {
             strokeStyle = stroke;
         }
+        public void addColor(IColor color)
+        {
+            colorValue = color;
+        }
+        public void addPointList(List<Point> pointList) { }
         public object Clone()
         {
             return MemberwiseClone();

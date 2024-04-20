@@ -1,4 +1,5 @@
-﻿using myStroke;
+﻿using myColor;
+using myStroke;
 using myWidthness;
 using System.Windows;
 
@@ -10,6 +11,8 @@ namespace myShape
         void addEndPoint(Point point);
         void addWidthness(IWidthness widthness);
         void addStrokeStyle(IStroke strokeStyle);
+        void addColor(IColor color);
+        void addPointList(List<Point> pointList);
         UIElement convertShapeType();
         string shapeName { get;}
         string shapeImage { get;}
