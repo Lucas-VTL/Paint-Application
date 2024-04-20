@@ -3,6 +3,7 @@ using myShape;
 using myStroke;
 using myWidthness;
 using System.Windows;
+using System.Windows.Documents;
 using System.Windows.Media;
 using System.Windows.Shapes;
 
@@ -53,33 +54,85 @@ namespace myArrow
             var width = right - left;
             var height = bottom - top;
 
+            string status = "";
+
+            if (start.X < end.X && start.Y < end.Y) 
+            {
+                status = "normal";
+            } else if (start.X < end.X && start.Y > end.Y)
+            {
+                status = "upside";
+            } else if (start.X > end.X && start.Y < end.Y)
+            {
+                status = "reverse";
+            } else if (start.X > end.X && start.Y > end.Y)
+            {
+                status = "upside-reverse";
+            }
+
             var element = new Path
             {
                 StrokeThickness = widthness.widthnessValue,
                 StrokeDashArray = strokeStyle.strokeValue,
                 Stroke = colorValue.colorValue,
-                Data = CreateArrowGeometry(center, start, end, width, height)
+                Data = CreateArrowGeometry(center, start, end, width, height, status)
             };
 
             return element;
         }
 
-        private Geometry CreateArrowGeometry(Point center, Point start, Point end, double width, double height)
+        private Geometry CreateArrowGeometry(Point center, Point start, Point end, double width, double height, string status)
         {
             var geometry = new PathGeometry();
+            var figure = new PathFigure();
 
-            var figure = new PathFigure
+            if (status == "normal")
             {
-                StartPoint = new Point(center.X, startPoint.Y),
-                IsClosed = true
-            };
+                figure.StartPoint = new Point(center.X, startPoint.Y);
+                figure.IsClosed = true;
 
-            figure.Segments.Add(new LineSegment(new Point(endPoint.X, center.Y - height / 6), true));
-            figure.Segments.Add(new LineSegment(new Point(center.X + width / 6, center.Y - height / 6), true));
-            figure.Segments.Add(new LineSegment(new Point(center.X + width / 6, endPoint.Y), true));
-            figure.Segments.Add(new LineSegment(new Point(center.X - width / 6, endPoint.Y), true));
-            figure.Segments.Add(new LineSegment(new Point(center.X - width / 6, center.Y - height / 6), true));
-            figure.Segments.Add(new LineSegment(new Point(startPoint.X, center.Y - height / 6), true));
+                figure.Segments.Add(new LineSegment(new Point(endPoint.X, center.Y - height / 6), true));
+                figure.Segments.Add(new LineSegment(new Point(center.X + width / 6, center.Y - height / 6), true));
+                figure.Segments.Add(new LineSegment(new Point(center.X + width / 6, endPoint.Y), true));
+                figure.Segments.Add(new LineSegment(new Point(center.X - width / 6, endPoint.Y), true));
+                figure.Segments.Add(new LineSegment(new Point(center.X - width / 6, center.Y - height / 6), true));
+                figure.Segments.Add(new LineSegment(new Point(startPoint.X, center.Y - height / 6), true));
+            } else if (status == "upside")
+            {
+                figure.StartPoint = new Point(center.X, endPoint.Y);
+                figure.IsClosed = true;
+
+                figure.Segments.Add(new LineSegment(new Point(endPoint.X, center.Y - height / 6), true));
+                figure.Segments.Add(new LineSegment(new Point(center.X + width / 6, center.Y - height / 6), true));
+                figure.Segments.Add(new LineSegment(new Point(center.X + width / 6, startPoint.Y), true));
+                figure.Segments.Add(new LineSegment(new Point(center.X - width / 6, startPoint.Y), true)); 
+                figure.Segments.Add(new LineSegment(new Point(center.X - width / 6, center.Y - height / 6), true));
+                figure.Segments.Add(new LineSegment(new Point(startPoint.X, center.Y - height / 6), true));
+            } else if (status == "reverse")
+            {
+                figure.StartPoint = new Point(center.X, startPoint.Y);
+                figure.IsClosed = true;
+
+                figure.Segments.Add(new LineSegment(new Point(endPoint.X, center.Y - height / 6), true));
+                figure.Segments.Add(new LineSegment(new Point(center.X - width / 6, center.Y - height / 6), true));
+                figure.Segments.Add(new LineSegment(new Point(center.X - width / 6, endPoint.Y), true));
+                figure.Segments.Add(new LineSegment(new Point(center.X + width / 6, endPoint.Y), true));
+                figure.Segments.Add(new LineSegment(new Point(center.X + width / 6, center.Y - height / 6), true));
+                figure.Segments.Add(new LineSegment(new Point(startPoint.X, center.Y - height / 6), true));
+            } else  if (status == "upside-reverse")
+            {
+                figure.StartPoint = new Point(center.X, endPoint.Y);
+                figure.IsClosed = true;
+
+                figure.Segments.Add(new LineSegment(new Point(endPoint.X, center.Y - height / 6), true));
+
+                figure.Segments.Add(new LineSegment(new Point(center.X - width / 6, center.Y - height / 6), true));
+                figure.Segments.Add(new LineSegment(new Point(center.X - width / 6, startPoint.Y), true));
+                figure.Segments.Add(new LineSegment(new Point(center.X + width / 6, startPoint.Y), true));
+
+                figure.Segments.Add(new LineSegment(new Point(center.X + width / 6, center.Y - height / 6), true));
+                figure.Segments.Add(new LineSegment(new Point(startPoint.X, center.Y - height / 6), true));
+            }
 
             geometry.Figures.Add(figure);
             return geometry;
