@@ -37,7 +37,7 @@ namespace myShiftTriangle
             var end = endPoint;
 
             var width = Math.Abs(end.X - start.X);
-            var height = Math.Abs(end.Y - start.Y);
+            var height = width * Math.Sin(Math.PI / 3); // Calculate height for equilateral triangle
 
             var center = new Point((start.X + end.X) / 2, (start.Y + end.Y) / 2);
             var halfWidth = width / 2;
