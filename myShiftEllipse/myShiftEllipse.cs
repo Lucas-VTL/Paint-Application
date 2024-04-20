@@ -41,33 +41,26 @@ namespace myShiftEllipse
 
         public UIElement convertShapeType()
         {
-
             var start = startPoint;
             var end = endPoint;
 
-            var left = Math.Min(end.X, start.X);
-            var right = Math.Max(end.X, start.X);
+            double radius = Math.Min(Math.Abs(end.X - start.X), Math.Abs(end.Y - start.Y)) / 2;
+            double centerX = start.X + (end.X - start.X) / 2;
+            double centerY = start.Y + (end.Y - start.Y) / 2;
 
-            var top = Math.Min(end.Y, start.Y);
-            var bottom = Math.Max(end.Y, start.Y);
-
-            var width = right - left;
-            var height = bottom - top;
-
-            var element = new Ellipse
+            Ellipse circle = new Ellipse()
             {
-                Fill = Brushes.AliceBlue,
                 Stroke = Brushes.Black,
                 StrokeThickness = 2,
-                HorizontalAlignment = HorizontalAlignment.Left,
-                VerticalAlignment = VerticalAlignment.Center,
-                Width = width,
-                Height = height
+                Width = radius * 2,
+                Height = radius * 2
             };
 
-            Canvas.SetLeft(element, left);
-            Canvas.SetTop(element, top);
-            return element;
+            circle.SetValue(Canvas.LeftProperty, centerX - radius);
+            circle.SetValue(Canvas.TopProperty, centerY - radius);
+
+            return circle;
         }
+
     }
 }
