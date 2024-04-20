@@ -2,6 +2,8 @@
 using myStroke;
 using myWidthness;
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Ink;
 using System.Windows.Media;
 using System.Windows.Shapes;
 
@@ -35,60 +37,82 @@ namespace myArrow
 
         public UIElement convertShapeType()
         {
-            var start = startPoint;
-            var end = endPoint;
+            // find the arrow shaft unit vector
+            double vx = endPoint.X - startPoint.X;
+            double vy = endPoint.Y - startPoint.Y;
+            double dist = (double)Math.Sqrt(vx * vx + vy * vy);
+            vx /= dist;
+            vy /= dist;
 
-            // Calculate arrow properties
-            var arrowLength = 20;
-            var arrowWidth = 10;
-            var tailLength = 10;
+            double wingLength = Math.Max(7, widthness.widthnessValue * 2);
 
-            var angle = Math.Atan2(end.Y - start.Y, end.X - start.X);
+            double ax = wingLength * (-vy - vx);
+            double ay = wingLength * (vx - vy);
 
-            // Calculate points for the arrow shape
-            var arrowPoints = new Point[]
+            Point wing1 = new Point(endPoint.X + ax, endPoint.Y + ay);
+            Point wing2 = new Point(endPoint.X - ay, endPoint.Y + ax);
+
+            // calculate the bounding box of the arrow
+            double minX = Math.Min(startPoint.X, Math.Min(endPoint.X, Math.Min(wing1.X, wing2.X)));
+            double minY = Math.Min(startPoint.Y, Math.Min(endPoint.Y, Math.Min(wing1.Y, wing2.Y)));
+            double maxX = Math.Max(startPoint.X, Math.Max(endPoint.X, Math.Max(wing1.X, wing2.X)));
+            double maxY = Math.Max(startPoint.Y, Math.Max(endPoint.Y, Math.Max(wing1.Y, wing2.Y)));
+
+            double width = maxX - minX;
+            double height = maxY - minY;
+
+            // create the arrow shaft
+            Line line = new Line
             {
-                new Point(end.X - arrowLength * Math.Cos(angle), end.Y - arrowLength * Math.Sin(angle)),
-                new Point(end.X - arrowWidth * Math.Cos(angle + Math.PI / 2), end.Y - arrowWidth * Math.Sin(angle + Math.PI / 2)),
-                new Point(end.X + arrowWidth * Math.Cos(angle + Math.PI / 2), end.Y + arrowWidth * Math.Sin(angle + Math.PI / 2))
+                X1 = startPoint.X - minX,
+                Y1 = startPoint.Y - minY,
+                X2 = endPoint.X - minX,
+                Y2 = endPoint.Y - minY,
             };
 
-            var tailPoint1 = new Point(start.X + tailLength * Math.Cos(angle + Math.PI / 2), start.Y + tailLength * Math.Sin(angle + Math.PI / 2));
-            var tailPoint2 = new Point(start.X - tailLength * Math.Cos(angle + Math.PI / 2), start.Y - tailLength * Math.Sin(angle + Math.PI / 2));
+            // create the arrowhead
+            PathFigure arrowHeadPath = new PathFigure();
+            arrowHeadPath.StartPoint = new Point(wing1.X - minX, wing1.Y - minY);
+            arrowHeadPath.Segments.Add(new LineSegment(new Point(endPoint.X - minX, endPoint.Y - minY), true));
+            arrowHeadPath.Segments.Add(new LineSegment(new Point(wing2.X - minX, wing2.Y - minY), true));
 
-            // Create a PathGeometry to contain the arrow shape
-            var arrowGeometry = new PathGeometry();
+            PathGeometry arrowGeometry = new PathGeometry();
+            arrowGeometry.Figures.Add(arrowHeadPath);
 
-            // Create a PathFigure to define the arrow shape
-            var figure = new PathFigure
+            Path arrowHead = new Path
             {
-                StartPoint = arrowPoints[0],
-                IsClosed = true
+                Data = arrowGeometry,
             };
 
-            // Add arrow points to the PathFigure
-            figure.Segments.Add(new LineSegment(arrowPoints[1], true));
-            figure.Segments.Add(new LineSegment(end, true));
-            figure.Segments.Add(new LineSegment(arrowPoints[2], true));
-
-            // Create a tail for the arrow
-            figure.Segments.Add(new LineSegment(tailPoint1, true));
-            figure.Segments.Add(new LineSegment(start, true));
-            figure.Segments.Add(new LineSegment(tailPoint2, true));
-
-            // Add the PathFigure to the PathGeometry
-            arrowGeometry.Figures.Add(figure);
-
-            // Create a Path element to represent the arrow shape
-            var path = new Path
+            // combine arrow line and arrowhead into a single container
+            Canvas container = new Canvas
             {
-                Fill = Brushes.LightGray,
-                Stroke = Brushes.Black,
-                StrokeThickness = 1,
-                Data = arrowGeometry
+                Width = width,
+                Height = height
             };
 
-            return path;
+            container.Children.Add(line);
+            container.Children.Add(arrowHead);
+
+            if (endPoint.X >= startPoint.X)
+            {
+                container.SetValue(Canvas.LeftProperty, startPoint.X);
+            }
+            else
+            {
+                container.SetValue(Canvas.LeftProperty, startPoint.X - width);
+            }
+
+            if (endPoint.Y >= startPoint.Y)
+            {
+                container.SetValue(Canvas.TopProperty, startPoint.Y);
+            }
+            else
+            {
+                container.SetValue(Canvas.TopProperty, startPoint.Y - height);
+            }
+
+            return container;
         }
     }
 }

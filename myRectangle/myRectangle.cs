@@ -40,7 +40,6 @@ namespace myRectangle
 
             var left = Math.Min(start.X, end.X);
             var right = Math.Max(start.X, end.X);
-
             var top = Math.Min(start.Y, end.Y);
             var bottom = Math.Max(start.Y, end.Y);
 

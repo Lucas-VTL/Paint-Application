@@ -12,6 +12,9 @@ namespace myHeart
     {
         private Point startPoint;
         private Point endPoint;
+
+        private bool _isShiftPressed = false;
+
         IWidthness widthness;
         IStroke strokeStyle;
         public string shapeName => "Heart";
@@ -49,14 +52,14 @@ namespace myHeart
             //}
 
             Point center = new Point((startPoint.X + endPoint.X) / 2, (startPoint.Y + endPoint.Y) / 2);
-            double minX = center.X - width / 2 - width / 30 ;
-            double maxX = center.X + width / 2 + width / 30 ;
-            double minY = center.Y - height / 2 - height / 6.25 ;
-            double maxY = center.Y + height / 2 ;
+            double minX = center.X - width / 2 - width / 30;
+            double maxX = center.X + width / 2 + width / 30;
+            double minY = center.Y - height / 2 - height / 6.25;
+            double maxY = center.Y + height / 2;
 
             // Create ArcSegments
-            var arc1 = new ArcSegment(new Point(center.X, center.Y - height / 2), new Size(width/4, width/4), 0, false, SweepDirection.Clockwise, true);
-            var arc2 = new ArcSegment(new Point(center.X + width/2, center.Y - height / 4), new Size(width/4, height/4), 0, false, SweepDirection.Clockwise, true);
+            var arc1 = new ArcSegment(new Point(center.X, center.Y - height / 2), new Size(width / 4, width / 4), 0, false, SweepDirection.Clockwise, true);
+            var arc2 = new ArcSegment(new Point(center.X + width / 2, center.Y - height / 4), new Size(width / 4, height / 4), 0, false, SweepDirection.Clockwise, true);
 
             // Create LineSegments
             var line1 = new LineSegment(new Point(center.X - width / 2, center.Y - height / 4), true);
@@ -65,8 +68,8 @@ namespace myHeart
             // Create PathGeometry
             var pathGeometry = new PathGeometry();
             var pathFigure = new PathFigure();
-            pathFigure.StartPoint = new Point(center.X, center.Y + height/4);
-            
+            pathFigure.StartPoint = new Point(center.X, center.Y + height / 4);
+
             pathFigure.Segments.Add(line1);
             pathFigure.Segments.Add(arc1);
             pathFigure.Segments.Add(arc2);

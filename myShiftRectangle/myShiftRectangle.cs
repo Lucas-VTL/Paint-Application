@@ -34,32 +34,26 @@ namespace myShiftRectangle
 
         public UIElement convertShapeType()
         {
-
             var start = startPoint;
             var end = endPoint;
 
-            var left = Math.Min(start.X, end.X);
-            var right = Math.Max(start.X, end.X);
+            double side = Math.Min(Math.Abs(end.X - start.X), Math.Abs(end.Y - start.Y));
+            double startX = Math.Min(start.X, end.X);
+            double startY = Math.Min(start.Y, end.Y);
 
-            var top = Math.Min(start.Y, end.Y);
-            var bottom = Math.Max(start.Y, end.Y);
-
-            var width = right - left;
-            var height = bottom - top;
-
-            var element = new Rectangle()
+            Rectangle square = new Rectangle()
             {
-                Fill = Brushes.AliceBlue,
                 Stroke = Brushes.Black,
+                StrokeDashArray = strokeStyle.strokeValue,
                 StrokeThickness = 2,
-                Width = width,
-                Height = height
+                Width = side,
+                Height = side
             };
 
-            Canvas.SetLeft(element, left);
-            Canvas.SetTop(element, top);
+            square.SetValue(Canvas.LeftProperty, startX);
+            square.SetValue(Canvas.TopProperty, startY);
 
-            return element;
+            return square;
         }
     }
 }
