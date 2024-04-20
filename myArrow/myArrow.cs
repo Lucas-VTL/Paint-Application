@@ -41,8 +41,6 @@ namespace myArrow
         }
 
         public UIElement convertShapeType() {
-            Point start = startPoint;
-            Point end = endPoint;
             Point center = new Point((startPoint.X + endPoint.X) / 2, (startPoint.Y + endPoint.Y) / 2);
 
             var left = Math.Min(startPoint.X, endPoint.X);
@@ -56,16 +54,16 @@ namespace myArrow
 
             string status = "";
 
-            if (start.X < end.X && start.Y < end.Y) 
+            if (startPoint.X < endPoint.X && startPoint.Y < endPoint.Y) 
             {
                 status = "normal";
-            } else if (start.X < end.X && start.Y > end.Y)
+            } else if (startPoint.X < endPoint.X && startPoint.Y > endPoint.Y)
             {
                 status = "upside";
-            } else if (start.X > end.X && start.Y < end.Y)
+            } else if (startPoint.X > endPoint.X && startPoint.Y < endPoint.Y)
             {
                 status = "reverse";
-            } else if (start.X > end.X && start.Y > end.Y)
+            } else if (startPoint.X > endPoint.X && startPoint.Y > endPoint.Y)
             {
                 status = "upside-reverse";
             }
@@ -75,7 +73,7 @@ namespace myArrow
                 StrokeThickness = widthness.widthnessValue,
                 StrokeDashArray = strokeStyle.strokeValue,
                 Stroke = colorValue.colorValue,
-                Data = CreateArrowGeometry(center, start, end, width, height, status)
+                Data = CreateArrowGeometry(center, startPoint, endPoint, width, height, status)
             };
 
             return element;
