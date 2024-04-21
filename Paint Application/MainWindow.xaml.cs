@@ -569,7 +569,20 @@ namespace Paint_Application
                 selectedShape = freeLine;
                 IShape newFreeLine = (IShape)selectedShape.Clone();
                 newFreeLine.addPointList(eraseList);
-                drawSurface.Add(newFreeLine);
+
+                if (!checkIfDrawSurfaceEmpty(drawSurface))
+                {
+                    drawSurface.Add(newFreeLine);
+
+                    toolUndoButton.Opacity = 1;
+                    toolRedoButton.Opacity = 0.3;
+                    recoverList.Clear();
+                } else
+                {
+                    toolUndoButton.Opacity = 0.3;
+                    toolRedoButton.Opacity = 0.3;
+                    recoverList.Clear();
+                }
 
                 eraseList.Clear();
                 selectedShape = null;
@@ -931,7 +944,7 @@ namespace Paint_Application
                     drawArea.Children.Add(item.convertShapeType());
                 }
 
-                if (drawSurface.Count == 0)
+                if (checkIfDrawSurfaceEmpty(drawSurface))
                 {
                     toolUndoButton.Opacity = 0.3;
                 }
@@ -961,6 +974,24 @@ namespace Paint_Application
 
                 toolUndoButton.Opacity = 1;
             }
+        }
+
+        private bool checkIfDrawSurfaceEmpty(List<IShape> surface)
+        {
+            if (surface.Count == 0)
+            {
+                return true;
+            }
+
+            foreach (IShape shape in surface)
+            {
+                if (shape.shapeName != "Free Line")
+                {
+                    return false;
+                }
+            }
+
+            return true;
         }
     }
 }
