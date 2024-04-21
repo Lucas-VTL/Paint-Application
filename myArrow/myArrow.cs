@@ -73,13 +73,13 @@ namespace myArrow
                 StrokeThickness = widthness.widthnessValue,
                 StrokeDashArray = strokeStyle.strokeValue,
                 Stroke = colorValue.colorValue,
-                Data = CreateArrowGeometry(center, startPoint, endPoint, width, height, status)
+                Data = CreateArrowGeometry(center, width, height, status)
             };
 
             return element;
         }
 
-        private Geometry CreateArrowGeometry(Point center, Point start, Point end, double width, double height, string status)
+        private Geometry CreateArrowGeometry(Point center, double width, double height, string status)
         {
             var geometry = new PathGeometry();
             var figure = new PathFigure();

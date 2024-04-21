@@ -76,13 +76,13 @@ namespace myHeart
                 StrokeThickness = widthness.widthnessValue,
                 StrokeDashArray = strokeStyle.strokeValue,
                 Stroke = colorValue.colorValue,
-                Data = CreateHeartGeometry(center, startPoint, endPoint, width, height, status)
+                Data = CreateHeartGeometry(center, width, height, status)
             };
 
             return element;
         }
 
-        private Geometry CreateHeartGeometry(Point center, Point start, Point end, double width, double height, string status)
+        private Geometry CreateHeartGeometry(Point center, double width, double height, string status)
         {
             var geometry = new PathGeometry();
             var figure = new PathFigure();
@@ -94,44 +94,44 @@ namespace myHeart
                 figure.Segments.Add(new BezierSegment()
                 {
                     Point1 = new Point(center.X, center.Y - height / 4),
-                    Point2 = new Point(((center.X + (start.X + width / 4)) / 2) + width / 8, (((center.Y - height / 4) + start.Y) / 2) - height / 8),
-                    Point3 = new Point(start.X + width / 4, start.Y),
+                    Point2 = new Point(((center.X + (startPoint.X + width / 4)) / 2) + width / 8, (((center.Y - height / 4) + startPoint.Y) / 2) - height / 8),
+                    Point3 = new Point(startPoint.X + width / 4, startPoint.Y),
                     IsStroked = true
                 });
                 figure.Segments.Add(new BezierSegment()
                 {
-                    Point1 = new Point(start.X + width / 4, start.Y),
-                    Point2 = new Point((((start.X + width / 4) + start.X) / 2) - width / 8, ((start.Y + (center.Y - height / 4)) / 2) - height / 8),
-                    Point3 = new Point(start.X, center.Y - height / 4),
+                    Point1 = new Point(startPoint.X + width / 4, startPoint.Y),
+                    Point2 = new Point((((startPoint.X + width / 4) + startPoint.X) / 2) - width / 8, ((startPoint.Y + (center.Y - height / 4)) / 2) - height / 8),
+                    Point3 = new Point(startPoint.X, center.Y - height / 4),
                     IsStroked = true
                 });
                 figure.Segments.Add(new BezierSegment()
                 {
-                    Point1 = new Point(start.X, center.Y - height / 4),
-                    Point2 = new Point(((start.X + (start.X + width / 4)) / 2) - width / 8, (((center.Y - height / 4) + (center.Y + height / 4)) / 2)),
-                    Point3 = new Point(start.X + width / 4, center.Y + height / 4),
+                    Point1 = new Point(startPoint.X, center.Y - height / 4),
+                    Point2 = new Point(((startPoint.X + (startPoint.X + width / 4)) / 2) - width / 8, (((center.Y - height / 4) + (center.Y + height / 4)) / 2)),
+                    Point3 = new Point(startPoint.X + width / 4, center.Y + height / 4),
                     IsStroked = true
                 });
-                figure.Segments.Add(new LineSegment(new Point(center.X, end.Y), true));
-                figure.Segments.Add(new LineSegment(new Point(end.X - width / 4, center.Y + height / 4), true));
+                figure.Segments.Add(new LineSegment(new Point(center.X, endPoint.Y), true));
+                figure.Segments.Add(new LineSegment(new Point(endPoint.X - width / 4, center.Y + height / 4), true));
                 figure.Segments.Add(new BezierSegment()
                 {
-                    Point1 = new Point(end.X - width / 4, center.Y + height / 4),
-                    Point2 = new Point((((end.X - width / 4) + end.X) / 2) + width / 8, (((center.Y + height / 4) + (center.Y - height / 4)) / 2)),
-                    Point3 = new Point(end.X, center.Y - height / 4),
-                    IsStroked = true
-                });
-                figure.Segments.Add(new BezierSegment()
-                {
-                    Point1 = new Point(end.X, center.Y - height / 4),
-                    Point2 = new Point(((end.X + (end.X - width / 4)) / 2) + width / 8, (((center.Y - height / 4) + start.Y) / 2) - height / 8),
-                    Point3 = new Point(end.X - width / 4, start.Y),
+                    Point1 = new Point(endPoint.X - width / 4, center.Y + height / 4),
+                    Point2 = new Point((((endPoint.X - width / 4) + endPoint.X) / 2) + width / 8, (((center.Y + height / 4) + (center.Y - height / 4)) / 2)),
+                    Point3 = new Point(endPoint.X, center.Y - height / 4),
                     IsStroked = true
                 });
                 figure.Segments.Add(new BezierSegment()
                 {
-                    Point1 = new Point(end.X - width / 4, start.Y),
-                    Point2 = new Point((((end.X - width / 4) + center.X) / 2) - width / 8, ((start.Y + (center.Y - height / 4)) / 2) - height / 8),
+                    Point1 = new Point(endPoint.X, center.Y - height / 4),
+                    Point2 = new Point(((endPoint.X + (endPoint.X - width / 4)) / 2) + width / 8, (((center.Y - height / 4) + startPoint.Y) / 2) - height / 8),
+                    Point3 = new Point(endPoint.X - width / 4, startPoint.Y),
+                    IsStroked = true
+                });
+                figure.Segments.Add(new BezierSegment()
+                {
+                    Point1 = new Point(endPoint.X - width / 4, startPoint.Y),
+                    Point2 = new Point((((endPoint.X - width / 4) + center.X) / 2) - width / 8, ((startPoint.Y + (center.Y - height / 4)) / 2) - height / 8),
                     Point3 = new Point(center.X, center.Y - height / 4),
                     IsStroked = true
                 });
@@ -142,44 +142,44 @@ namespace myHeart
                 figure.Segments.Add(new BezierSegment()
                 {
                     Point1 = new Point(center.X, center.Y - height / 4),
-                    Point2 = new Point(((center.X + (start.X + width / 4)) / 2) + width / 8, (((center.Y - height / 4) + end.Y) / 2) - height / 8),
-                    Point3 = new Point(start.X + width / 4, end.Y),
+                    Point2 = new Point(((center.X + (startPoint.X + width / 4)) / 2) + width / 8, (((center.Y - height / 4) + endPoint.Y) / 2) - height / 8),
+                    Point3 = new Point(startPoint.X + width / 4, endPoint.Y),
                     IsStroked = true
                 });
                 figure.Segments.Add(new BezierSegment()
                 {
-                    Point1 = new Point(start.X + width / 4, end.Y),
-                    Point2 = new Point((((start.X + width / 4) + start.X) / 2) - width / 8, ((end.Y + (center.Y - height / 4)) / 2) - height / 8),
-                    Point3 = new Point(start.X, center.Y - height / 4),
+                    Point1 = new Point(startPoint.X + width / 4, endPoint.Y),
+                    Point2 = new Point((((startPoint.X + width / 4) + startPoint.X) / 2) - width / 8, ((endPoint.Y + (center.Y - height / 4)) / 2) - height / 8),
+                    Point3 = new Point(startPoint.X, center.Y - height / 4),
                     IsStroked = true
                 });
                 figure.Segments.Add(new BezierSegment()
                 {
-                    Point1 = new Point(start.X, center.Y - height / 4),
-                    Point2 = new Point(((start.X + (start.X + width / 4)) / 2) - width / 8, (((center.Y - height / 4) + (center.Y + height / 4)) / 2)),
-                    Point3 = new Point(start.X + width / 4, center.Y + height / 4),
+                    Point1 = new Point(startPoint.X, center.Y - height / 4),
+                    Point2 = new Point(((startPoint.X + (startPoint.X + width / 4)) / 2) - width / 8, (((center.Y - height / 4) + (center.Y + height / 4)) / 2)),
+                    Point3 = new Point(startPoint.X + width / 4, center.Y + height / 4),
                     IsStroked = true
                 });
-                figure.Segments.Add(new LineSegment(new Point(center.X, start.Y), true));
-                figure.Segments.Add(new LineSegment(new Point(end.X - width / 4, center.Y + height / 4), true));
+                figure.Segments.Add(new LineSegment(new Point(center.X, startPoint.Y), true));
+                figure.Segments.Add(new LineSegment(new Point(endPoint.X - width / 4, center.Y + height / 4), true));
                 figure.Segments.Add(new BezierSegment()
                 {
-                    Point1 = new Point(end.X - width / 4, center.Y + height / 4),
-                    Point2 = new Point((((end.X - width / 4) + end.X) / 2) + width / 8, (((center.Y + height / 4) + (center.Y - height / 4)) / 2)),
-                    Point3 = new Point(end.X, center.Y - height / 4),
-                    IsStroked = true
-                });
-                figure.Segments.Add(new BezierSegment()
-                {
-                    Point1 = new Point(end.X, center.Y - height / 4),
-                    Point2 = new Point(((end.X + (end.X - width / 4)) / 2) + width / 8, (((center.Y - height / 4) + end.Y) / 2) - height / 8),
-                    Point3 = new Point(end.X - width / 4, end.Y),
+                    Point1 = new Point(endPoint.X - width / 4, center.Y + height / 4),
+                    Point2 = new Point((((endPoint.X - width / 4) + endPoint.X) / 2) + width / 8, (((center.Y + height / 4) + (center.Y - height / 4)) / 2)),
+                    Point3 = new Point(endPoint.X, center.Y - height / 4),
                     IsStroked = true
                 });
                 figure.Segments.Add(new BezierSegment()
                 {
-                    Point1 = new Point(end.X - width / 4, end.Y),
-                    Point2 = new Point((((end.X - width / 4) + center.X) / 2) - width / 8, ((end.Y + (center.Y - height / 4)) / 2) - height / 8),
+                    Point1 = new Point(endPoint.X, center.Y - height / 4),
+                    Point2 = new Point(((endPoint.X + (endPoint.X - width / 4)) / 2) + width / 8, (((center.Y - height / 4) + endPoint.Y) / 2) - height / 8),
+                    Point3 = new Point(endPoint.X - width / 4, endPoint.Y),
+                    IsStroked = true
+                });
+                figure.Segments.Add(new BezierSegment()
+                {
+                    Point1 = new Point(endPoint.X - width / 4, endPoint.Y),
+                    Point2 = new Point((((endPoint.X - width / 4) + center.X) / 2) - width / 8, ((endPoint.Y + (center.Y - height / 4)) / 2) - height / 8),
                     Point3 = new Point(center.X, center.Y - height / 4),
                     IsStroked = true
                 });
@@ -190,44 +190,44 @@ namespace myHeart
                 figure.Segments.Add(new BezierSegment()
                 {
                     Point1 = new Point(center.X, center.Y - height / 4),
-                    Point2 = new Point(((center.X + (end.X + width / 4)) / 2) + width / 8, (((center.Y - height / 4) + start.Y) / 2) - height / 8),
-                    Point3 = new Point(end.X + width / 4, start.Y),
+                    Point2 = new Point(((center.X + (endPoint.X + width / 4)) / 2) + width / 8, (((center.Y - height / 4) + startPoint.Y) / 2) - height / 8),
+                    Point3 = new Point(endPoint.X + width / 4, startPoint.Y),
                     IsStroked = true
                 });
                 figure.Segments.Add(new BezierSegment()
                 {
-                    Point1 = new Point(end.X + width / 4, start.Y),
-                    Point2 = new Point((((end.X + width / 4) + end.X) / 2) - width / 8, ((start.Y + (center.Y - height / 4)) / 2) - height / 8),
-                    Point3 = new Point(end.X, center.Y - height / 4),
+                    Point1 = new Point(endPoint.X + width / 4, startPoint.Y),
+                    Point2 = new Point((((endPoint.X + width / 4) + endPoint.X) / 2) - width / 8, ((startPoint.Y + (center.Y - height / 4)) / 2) - height / 8),
+                    Point3 = new Point(endPoint.X, center.Y - height / 4),
                     IsStroked = true
                 });
                 figure.Segments.Add(new BezierSegment()
                 {
-                    Point1 = new Point(end.X, center.Y - height / 4),
-                    Point2 = new Point(((end.X + (end.X + width / 4)) / 2) - width / 8, (((center.Y - height / 4) + (center.Y + height / 4)) / 2)),
-                    Point3 = new Point(end.X + width / 4, center.Y + height / 4),
+                    Point1 = new Point(endPoint.X, center.Y - height / 4),
+                    Point2 = new Point(((endPoint.X + (endPoint.X + width / 4)) / 2) - width / 8, (((center.Y - height / 4) + (center.Y + height / 4)) / 2)),
+                    Point3 = new Point(endPoint.X + width / 4, center.Y + height / 4),
                     IsStroked = true
                 });
-                figure.Segments.Add(new LineSegment(new Point(center.X, end.Y), true));
-                figure.Segments.Add(new LineSegment(new Point(start.X - width / 4, center.Y + height / 4), true));
+                figure.Segments.Add(new LineSegment(new Point(center.X, endPoint.Y), true));
+                figure.Segments.Add(new LineSegment(new Point(startPoint.X - width / 4, center.Y + height / 4), true));
                 figure.Segments.Add(new BezierSegment()
                 {
-                    Point1 = new Point(start.X - width / 4, center.Y + height / 4),
-                    Point2 = new Point((((start.X - width / 4) + start.X) / 2) + width / 8, (((center.Y + height / 4) + (center.Y - height / 4)) / 2)),
-                    Point3 = new Point(start.X, center.Y - height / 4),
-                    IsStroked = true
-                });
-                figure.Segments.Add(new BezierSegment()
-                {
-                    Point1 = new Point(start.X, center.Y - height / 4),
-                    Point2 = new Point(((start.X + (start.X - width / 4)) / 2) + width / 8, (((center.Y - height / 4) + start.Y) / 2) - height / 8),
-                    Point3 = new Point(start.X - width / 4, start.Y),
+                    Point1 = new Point(startPoint.X - width / 4, center.Y + height / 4),
+                    Point2 = new Point((((startPoint.X - width / 4) + startPoint.X) / 2) + width / 8, (((center.Y + height / 4) + (center.Y - height / 4)) / 2)),
+                    Point3 = new Point(startPoint.X, center.Y - height / 4),
                     IsStroked = true
                 });
                 figure.Segments.Add(new BezierSegment()
                 {
-                    Point1 = new Point(start.X - width / 4, start.Y),
-                    Point2 = new Point((((start.X - width / 4) + center.X) / 2) - width / 8, ((start.Y + (center.Y - height / 4)) / 2) - height / 8),
+                    Point1 = new Point(startPoint.X, center.Y - height / 4),
+                    Point2 = new Point(((startPoint.X + (startPoint.X - width / 4)) / 2) + width / 8, (((center.Y - height / 4) + startPoint.Y) / 2) - height / 8),
+                    Point3 = new Point(startPoint.X - width / 4, startPoint.Y),
+                    IsStroked = true
+                });
+                figure.Segments.Add(new BezierSegment()
+                {
+                    Point1 = new Point(startPoint.X - width / 4, startPoint.Y),
+                    Point2 = new Point((((startPoint.X - width / 4) + center.X) / 2) - width / 8, ((startPoint.Y + (center.Y - height / 4)) / 2) - height / 8),
                     Point3 = new Point(center.X, center.Y - height / 4),
                     IsStroked = true
                 });
@@ -238,44 +238,44 @@ namespace myHeart
                 figure.Segments.Add(new BezierSegment()
                 {
                     Point1 = new Point(center.X, center.Y - height / 4),
-                    Point2 = new Point(((center.X + (end.X + width / 4)) / 2) + width / 8, (((center.Y - height / 4) + end.Y) / 2) - height / 8),
-                    Point3 = new Point(end.X + width / 4, end.Y),
+                    Point2 = new Point(((center.X + (endPoint.X + width / 4)) / 2) + width / 8, (((center.Y - height / 4) + endPoint.Y) / 2) - height / 8),
+                    Point3 = new Point(endPoint.X + width / 4, endPoint.Y),
                     IsStroked = true
                 });
                 figure.Segments.Add(new BezierSegment()
                 {
-                    Point1 = new Point(end.X + width / 4, end.Y),
-                    Point2 = new Point((((end.X + width / 4) + end.X) / 2) - width / 8, ((end.Y + (center.Y - height / 4)) / 2) - height / 8),
-                    Point3 = new Point(end.X, center.Y - height / 4),
+                    Point1 = new Point(endPoint.X + width / 4, endPoint.Y),
+                    Point2 = new Point((((endPoint.X + width / 4) + endPoint.X) / 2) - width / 8, ((endPoint.Y + (center.Y - height / 4)) / 2) - height / 8),
+                    Point3 = new Point(endPoint.X, center.Y - height / 4),
                     IsStroked = true
                 });
                 figure.Segments.Add(new BezierSegment()
                 {
-                    Point1 = new Point(end.X, center.Y - height / 4),
-                    Point2 = new Point(((end.X + (end.X + width / 4)) / 2) - width / 8, (((center.Y - height / 4) + (center.Y + height / 4)) / 2)),
-                    Point3 = new Point(end.X + width / 4, center.Y + height / 4),
+                    Point1 = new Point(endPoint.X, center.Y - height / 4),
+                    Point2 = new Point(((endPoint.X + (endPoint.X + width / 4)) / 2) - width / 8, (((center.Y - height / 4) + (center.Y + height / 4)) / 2)),
+                    Point3 = new Point(endPoint.X + width / 4, center.Y + height / 4),
                     IsStroked = true
                 });
-                figure.Segments.Add(new LineSegment(new Point(center.X, start.Y), true));
-                figure.Segments.Add(new LineSegment(new Point(start.X - width / 4, center.Y + height / 4), true));
+                figure.Segments.Add(new LineSegment(new Point(center.X, startPoint.Y), true));
+                figure.Segments.Add(new LineSegment(new Point(startPoint.X - width / 4, center.Y + height / 4), true));
                 figure.Segments.Add(new BezierSegment()
                 {
-                    Point1 = new Point(start.X - width / 4, center.Y + height / 4),
-                    Point2 = new Point((((start.X - width / 4) + start.X) / 2) + width / 8, (((center.Y + height / 4) + (center.Y - height / 4)) / 2)),
-                    Point3 = new Point(start.X, center.Y - height / 4),
-                    IsStroked = true
-                });
-                figure.Segments.Add(new BezierSegment()
-                {
-                    Point1 = new Point(start.X, center.Y - height / 4),
-                    Point2 = new Point(((start.X + (start.X - width / 4)) / 2) + width / 8, (((center.Y - height / 4) + end.Y) / 2) - height / 8),
-                    Point3 = new Point(start.X - width / 4, end.Y),
+                    Point1 = new Point(startPoint.X - width / 4, center.Y + height / 4),
+                    Point2 = new Point((((startPoint.X - width / 4) + startPoint.X) / 2) + width / 8, (((center.Y + height / 4) + (center.Y - height / 4)) / 2)),
+                    Point3 = new Point(startPoint.X, center.Y - height / 4),
                     IsStroked = true
                 });
                 figure.Segments.Add(new BezierSegment()
                 {
-                    Point1 = new Point(start.X - width / 4, end.Y),
-                    Point2 = new Point((((start.X - width / 4) + center.X) / 2) - width / 8, ((end.Y + (center.Y - height / 4)) / 2) - height / 8),
+                    Point1 = new Point(startPoint.X, center.Y - height / 4),
+                    Point2 = new Point(((startPoint.X + (startPoint.X - width / 4)) / 2) + width / 8, (((center.Y - height / 4) + endPoint.Y) / 2) - height / 8),
+                    Point3 = new Point(startPoint.X - width / 4, endPoint.Y),
+                    IsStroked = true
+                });
+                figure.Segments.Add(new BezierSegment()
+                {
+                    Point1 = new Point(startPoint.X - width / 4, endPoint.Y),
+                    Point2 = new Point((((startPoint.X - width / 4) + center.X) / 2) - width / 8, ((endPoint.Y + (center.Y - height / 4)) / 2) - height / 8),
                     Point3 = new Point(center.X, center.Y - height / 4),
                     IsStroked = true
                 });
