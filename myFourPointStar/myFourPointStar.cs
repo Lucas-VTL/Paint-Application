@@ -41,39 +41,107 @@ namespace myFourPointStar
 
         public UIElement convertShapeType()
         {
-            var start = startPoint;
-            var end = endPoint;
+            Point center = new Point((startPoint.X + endPoint.X) / 2, (startPoint.Y + endPoint.Y) / 2);
 
-            var center = new Point((start.X + end.X) / 2, (start.Y + end.Y) / 2);
-            var radius = Math.Min(Math.Abs(start.X - end.X), Math.Abs(start.Y - end.Y)) / 2;
+            var left = Math.Min(startPoint.X, endPoint.X);
+            var right = Math.Max(startPoint.X, endPoint.X);
 
-            var path = new Path
+            var top = Math.Min(startPoint.Y, endPoint.Y);
+            var bottom = Math.Max(startPoint.Y, endPoint.Y);
+
+            var width = right - left;
+            var height = bottom - top;
+
+            string status = "";
+
+            if (startPoint.X < endPoint.X && startPoint.Y < endPoint.Y)
             {
-                Fill = Brushes.Yellow,
-                Stroke = Brushes.Black,
-                StrokeThickness = 2,
-                Data = CreateFourPointStarGeometry(center, radius)
+                status = "normal";
+            }
+            else if (startPoint.X < endPoint.X && startPoint.Y > endPoint.Y)
+            {
+                status = "upside";
+            }
+            else if (startPoint.X > endPoint.X && startPoint.Y < endPoint.Y)
+            {
+                status = "reverse";
+            }
+            else if (startPoint.X > endPoint.X && startPoint.Y > endPoint.Y)
+            {
+                status = "upside-reverse";
+            }
+
+            var element = new Path
+            {
+                StrokeThickness = widthness.widthnessValue,
+                StrokeDashArray = strokeStyle.strokeValue,
+                Stroke = colorValue.colorValue,
+                Data = CreateFourPointStarGeometry(center, width, height, status)
             };
 
-            return path;
+            return element;
         }
 
-        private Geometry CreateFourPointStarGeometry(Point center, double radius)
+        private Geometry CreateFourPointStarGeometry(Point center, double width, double height, string status)
         {
             var geometry = new PathGeometry();
-            var figure = new PathFigure
-            {
-                StartPoint = new Point(center.X + radius * Math.Cos(-Math.PI / 2), center.Y + radius * Math.Sin(-Math.PI / 2)),
-                IsClosed = true
-            };
+            var figure = new PathFigure();
 
-            for (int i = 1; i <= 4; i++)
+            if (status == "normal")
             {
-                double outerAngle = i * 2 * Math.PI / 4 - Math.PI / 2;
-                double innerAngle = outerAngle + Math.PI / 4;
+                figure.StartPoint = new Point(center.X, startPoint.Y);
+                figure.IsClosed = true;
 
-                figure.Segments.Add(new LineSegment(new Point(center.X + radius * Math.Cos(outerAngle), center.Y + radius * Math.Sin(outerAngle)), true));
-                figure.Segments.Add(new LineSegment(new Point(center.X + radius / 2 * Math.Cos(innerAngle), center.Y + radius / 2 * Math.Sin(innerAngle)), true));
+                figure.Segments.Add(new LineSegment(new Point(center.X + width / 12, center.Y - height / 12), true));
+                figure.Segments.Add(new LineSegment(new Point(endPoint.X, center.Y), true));
+                figure.Segments.Add(new LineSegment(new Point(center.X + width / 12, center.Y + height / 12), true));
+                figure.Segments.Add(new LineSegment(new Point(center.X, endPoint.Y), true));
+                figure.Segments.Add(new LineSegment(new Point(center.X - width / 12, center.Y + height / 12), true));
+                figure.Segments.Add(new LineSegment(new Point(startPoint.X, center.Y), true));
+                figure.Segments.Add(new LineSegment(new Point(center.X - width / 12, center.Y - height / 12), true));
+                figure.Segments.Add(new LineSegment(new Point(center.X, startPoint.Y), true));
+            }
+            else if (status == "upside")
+            {
+                figure.StartPoint = new Point(center.X, endPoint.Y);
+                figure.IsClosed = true;
+
+                figure.Segments.Add(new LineSegment(new Point(center.X + width / 12, center.Y - height / 12), true));
+                figure.Segments.Add(new LineSegment(new Point(endPoint.X, center.Y), true));
+                figure.Segments.Add(new LineSegment(new Point(center.X + width / 12, center.Y + height / 12), true));
+                figure.Segments.Add(new LineSegment(new Point(center.X, startPoint.Y), true));
+                figure.Segments.Add(new LineSegment(new Point(center.X - width / 12, center.Y + height / 12), true));
+                figure.Segments.Add(new LineSegment(new Point(startPoint.X, center.Y), true));
+                figure.Segments.Add(new LineSegment(new Point(center.X - width / 12, center.Y - height / 12), true));
+                figure.Segments.Add(new LineSegment(new Point(center.X, endPoint.Y), true));
+            }
+            else if (status == "reverse")
+            {
+                figure.StartPoint = new Point(center.X, startPoint.Y);
+                figure.IsClosed = true;
+
+                figure.Segments.Add(new LineSegment(new Point(center.X + width / 12, center.Y - height / 12), true));
+                figure.Segments.Add(new LineSegment(new Point(startPoint.X, center.Y), true));
+                figure.Segments.Add(new LineSegment(new Point(center.X + width / 12, center.Y + height / 12), true));
+                figure.Segments.Add(new LineSegment(new Point(center.X, endPoint.Y), true));
+                figure.Segments.Add(new LineSegment(new Point(center.X - width / 12, center.Y + height / 12), true));
+                figure.Segments.Add(new LineSegment(new Point(endPoint.X, center.Y), true));
+                figure.Segments.Add(new LineSegment(new Point(center.X - width / 12, center.Y - height / 12), true));
+                figure.Segments.Add(new LineSegment(new Point(center.X, startPoint.Y), true));
+            }
+            else if (status == "upside-reverse")
+            {
+                figure.StartPoint = new Point(center.X, endPoint.Y);
+                figure.IsClosed = true;
+
+                figure.Segments.Add(new LineSegment(new Point(center.X + width / 12, center.Y - height / 12), true));
+                figure.Segments.Add(new LineSegment(new Point(startPoint.X, center.Y), true));
+                figure.Segments.Add(new LineSegment(new Point(center.X + width / 12, center.Y + height / 12), true));
+                figure.Segments.Add(new LineSegment(new Point(center.X, startPoint.Y), true));
+                figure.Segments.Add(new LineSegment(new Point(center.X - width / 12, center.Y + height / 12), true));
+                figure.Segments.Add(new LineSegment(new Point(endPoint.X, center.Y), true));
+                figure.Segments.Add(new LineSegment(new Point(center.X - width / 12, center.Y - height / 12), true));
+                figure.Segments.Add(new LineSegment(new Point(center.X, endPoint.Y), true));
             }
 
             geometry.Figures.Add(figure);
