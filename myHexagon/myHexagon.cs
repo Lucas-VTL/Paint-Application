@@ -47,28 +47,30 @@ namespace myHexagon
             var height = Math.Abs(end.Y - start.Y);
 
             var center = new Point((start.X + end.X) / 2, (start.Y + end.Y) / 2);
-            var sideLength = Math.Min(width / 2, height / 2);
+            var halfWidth = width / 2;
+            var halfHeight = height / 2;
 
             var hexagon = new Polygon
             {
-                Fill = Brushes.Green,
-                Stroke = Brushes.Black,
-                StrokeThickness = 2,
-                Points = CreateHexagonPoints(center, sideLength)
+                Stroke = colorValue.colorValue,
+                StrokeThickness = widthness.widthnessValue,
+                StrokeDashArray = strokeStyle.strokeValue,
+                Points = CreateHexagonPoints(center, halfWidth, halfHeight)
             };
 
             return hexagon;
         }
 
-        private PointCollection CreateHexagonPoints(Point center, double sideLength)
+        private PointCollection CreateHexagonPoints(Point center, double halfWidth, double halfHeight)
         {
             var points = new PointCollection();
 
-            for (int i = 0; i < 6; i++)
-            {
-                double angle = Math.PI / 3 * i;
-                points.Add(new Point(center.X + sideLength * Math.Cos(angle), center.Y + sideLength * Math.Sin(angle)));
-            }
+            points.Add(new Point(center.X, center.Y - halfHeight / 2));
+            points.Add(new Point(center.X - halfWidth, center.Y + halfHeight / 4));
+            points.Add(new Point(center.X - halfWidth, center.Y + 2 * halfHeight));
+            points.Add(new Point(center.X, center.Y + 3 * halfHeight));
+            points.Add(new Point(center.X + halfWidth, center.Y + 2 * halfHeight));
+            points.Add(new Point(center.X + halfWidth, center.Y + halfHeight / 4));
 
             return points;
         }

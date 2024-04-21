@@ -44,16 +44,17 @@ namespace myShiftRhombus
 
             var width = Math.Abs(end.X - start.X);
             var height = Math.Abs(end.Y - start.Y);
+            var value = Math.Min(width, height);
 
             var center = new Point((start.X + end.X) / 2, (start.Y + end.Y) / 2);
-            var halfWidth = width / 2;
-            var halfHeight = height / 2;
+            var halfWidth = value / 2;
+            var halfHeight = value / 2;
 
             var rhombus = new Polygon
             {
-                Fill = Brushes.Orange,
-                Stroke = Brushes.Black,
-                StrokeThickness = 2,
+                Stroke = colorValue.colorValue,
+                StrokeThickness = widthness.widthnessValue,
+                StrokeDashArray = strokeStyle.strokeValue,
                 Points = CreateRhombusPoints(center, halfWidth, halfHeight)
             };
 
