@@ -46,14 +46,18 @@ namespace myShiftPentagon
             var width = Math.Abs(end.X - start.X);
             var height = Math.Abs(end.Y - start.Y);
 
-            var center = new Point((start.X + end.X) / 2, (start.Y + end.Y) / 2);
-            var sideLength = Math.Min(width / 2, height / 2);
+            // Calculate the side length of the pentagon based on the minimum of width and height
+            var sideLength = Math.Min(width, height) / 2;
 
+            // Calculate the center point
+            var center = new Point((start.X + end.X) / 2, (start.Y + end.Y) / 2);
+
+            // Create the pentagon shape
             var pentagon = new Polygon
             {
-                Fill = Brushes.Blue,
-                Stroke = Brushes.Black,
-                StrokeThickness = 2,
+                Stroke = colorValue.colorValue,
+                StrokeDashArray = strokeStyle.strokeValue,
+                StrokeThickness = widthness.widthnessValue,
                 Points = CreatePentagonPoints(center, sideLength)
             };
 
@@ -64,10 +68,19 @@ namespace myShiftPentagon
         {
             var points = new PointCollection();
 
+            // Calculate angles for each vertex of the pentagon
+            double angle = -Math.PI / 2; // Starting angle for the top vertex
+            double angleIncrement = 2 * Math.PI / 5; // Angle increment for each vertex
+
+            // Loop to create vertices of the pentagon
             for (int i = 0; i < 5; i++)
             {
-                double angle = 2 * Math.PI / 5 * i;
-                points.Add(new Point(center.X + sideLength * Math.Cos(angle), center.Y + sideLength * Math.Sin(angle)));
+                double x = center.X + sideLength * Math.Cos(angle);
+                double y = center.Y + sideLength * Math.Sin(angle);
+                points.Add(new Point(x, y));
+
+                // Increment the angle
+                angle += angleIncrement;
             }
 
             return points;
