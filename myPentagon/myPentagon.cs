@@ -40,38 +40,96 @@ namespace myPentagon
 
         public UIElement convertShapeType()
         {
-            var start = startPoint;
-            var end = endPoint;
+            Point center = new Point((startPoint.X + endPoint.X) / 2, (startPoint.Y + endPoint.Y) / 2);
 
-            var width = Math.Abs(end.X - start.X);
-            var height = Math.Abs(end.Y - start.Y);
+            var left = Math.Min(startPoint.X, endPoint.X);
+            var right = Math.Max(startPoint.X, endPoint.X);
 
-            var center = new Point((start.X + end.X) / 2, (start.Y + end.Y) / 2);
-            var halfWidth = width / 2;
-            var halfHeight = height / 2;
+            var top = Math.Min(startPoint.Y, endPoint.Y);
+            var bottom = Math.Max(startPoint.Y, endPoint.Y);
 
-            var pentagon = new Polygon
+            var width = right - left;
+            var height = bottom - top;
+
+            string status = "";
+
+            if (startPoint.X < endPoint.X && startPoint.Y < endPoint.Y)
             {
-                Stroke = colorValue.colorValue,
+                status = "normal";
+            }
+            else if (startPoint.X < endPoint.X && startPoint.Y > endPoint.Y)
+            {
+                status = "upside";
+            }
+            else if (startPoint.X > endPoint.X && startPoint.Y < endPoint.Y)
+            {
+                status = "reverse";
+            }
+            else if (startPoint.X > endPoint.X && startPoint.Y > endPoint.Y)
+            {
+                status = "upside-reverse";
+            }
+
+            var element = new Path
+            {
                 StrokeThickness = widthness.widthnessValue,
                 StrokeDashArray = strokeStyle.strokeValue,
-                Points = CreatePentagonPoints(center, halfWidth, halfHeight)
+                Stroke = colorValue.colorValue,
+                Data = CreatePentagonGeometry(center, width, height, status)
             };
 
-            return pentagon;
+            return element;
         }
 
-        private PointCollection CreatePentagonPoints(Point center, double halfWidth, double halfHeight)
+        private Geometry CreatePentagonGeometry(Point center, double width, double height, string status)
         {
-            var points = new PointCollection();
+            var geometry = new PathGeometry();
+            var figure = new PathFigure();
 
-            points.Add(new Point(center.X, center.Y - halfHeight / 2));
-            points.Add(new Point(center.X - 2 * halfWidth, center.Y + halfHeight / 8));
-            points.Add(new Point(center.X - halfWidth, center.Y + halfHeight));
-            points.Add(new Point(center.X + halfWidth, center.Y + halfHeight));
-            points.Add(new Point(center.X + 2 * halfWidth, center.Y + halfHeight / 8));
+            if (status == "normal")
+            {
+                figure.StartPoint = new Point(center.X, startPoint.Y);
+                figure.IsClosed = true;
 
-            return points;
+                figure.Segments.Add(new LineSegment(new Point(endPoint.X, center.Y - height / 8), true));
+                figure.Segments.Add(new LineSegment(new Point(center.X + width / 3, endPoint.Y), true));
+                figure.Segments.Add(new LineSegment(new Point(center.X - width / 3, endPoint.Y), true));
+                figure.Segments.Add(new LineSegment(new Point(startPoint.X, center.Y - height / 8), true));
+                figure.Segments.Add(new LineSegment(new Point(center.X, startPoint.Y), true));
+            } else if (status == "upside")
+            {
+                figure.StartPoint = new Point(center.X, endPoint.Y);
+                figure.IsClosed = true;
+
+                figure.Segments.Add(new LineSegment(new Point(endPoint.X, center.Y - height / 8), true));
+                figure.Segments.Add(new LineSegment(new Point(center.X + width / 3, startPoint.Y), true));
+                figure.Segments.Add(new LineSegment(new Point(center.X - width / 3, startPoint.Y), true));
+                figure.Segments.Add(new LineSegment(new Point(startPoint.X, center.Y - height / 8), true));
+                figure.Segments.Add(new LineSegment(new Point(center.X, endPoint.Y), true));
+            } else if (status == "reverse")
+            {
+                figure.StartPoint = new Point(center.X, startPoint.Y);
+                figure.IsClosed = true;
+
+                figure.Segments.Add(new LineSegment(new Point(startPoint.X, center.Y - height / 8), true));
+                figure.Segments.Add(new LineSegment(new Point(center.X + width / 3, endPoint.Y), true));
+                figure.Segments.Add(new LineSegment(new Point(center.X - width / 3, endPoint.Y), true));
+                figure.Segments.Add(new LineSegment(new Point(endPoint.X, center.Y - height / 8), true));
+                figure.Segments.Add(new LineSegment(new Point(center.X, startPoint.Y), true));
+            } else if (status == "upside-reverse")
+            {
+                figure.StartPoint = new Point(center.X, endPoint.Y);
+                figure.IsClosed = true;
+
+                figure.Segments.Add(new LineSegment(new Point(startPoint.X, center.Y - height / 8), true));
+                figure.Segments.Add(new LineSegment(new Point(center.X + width / 3, startPoint.Y), true));
+                figure.Segments.Add(new LineSegment(new Point(center.X - width / 3, startPoint.Y), true));
+                figure.Segments.Add(new LineSegment(new Point(endPoint.X, center.Y - height / 8), true));
+                figure.Segments.Add(new LineSegment(new Point(center.X, endPoint.Y), true));
+            }
+
+            geometry.Figures.Add(figure);
+            return geometry;
         }
     }
 }

@@ -40,39 +40,79 @@ namespace myHexagon
 
         public UIElement convertShapeType()
         {
-            var start = startPoint;
-            var end = endPoint;
+            Point center = new Point((startPoint.X + endPoint.X) / 2, (startPoint.Y + endPoint.Y) / 2);
 
-            var width = Math.Abs(end.X - start.X);
-            var height = Math.Abs(end.Y - start.Y);
+            var left = Math.Min(startPoint.X, endPoint.X);
+            var right = Math.Max(startPoint.X, endPoint.X);
 
-            var center = new Point((start.X + end.X) / 2, (start.Y + end.Y) / 2);
-            var halfWidth = width / 2;
-            var halfHeight = height / 2;
+            var top = Math.Min(startPoint.Y, endPoint.Y);
+            var bottom = Math.Max(startPoint.Y, endPoint.Y);
 
-            var hexagon = new Polygon
+            var width = right - left;
+            var height = bottom - top;
+
+            string status = "";
+
+            if (startPoint.X < endPoint.X && startPoint.Y < endPoint.Y)
             {
-                Stroke = colorValue.colorValue,
+                status = "normal";
+            }
+            else if (startPoint.X < endPoint.X && startPoint.Y > endPoint.Y)
+            {
+                status = "upside";
+            }
+            else if (startPoint.X > endPoint.X && startPoint.Y < endPoint.Y)
+            {
+                status = "reverse";
+            }
+            else if (startPoint.X > endPoint.X && startPoint.Y > endPoint.Y)
+            {
+                status = "upside-reverse";
+            }
+
+            var element = new Path
+            {
                 StrokeThickness = widthness.widthnessValue,
                 StrokeDashArray = strokeStyle.strokeValue,
-                Points = CreateHexagonPoints(center, halfWidth, halfHeight)
+                Stroke = colorValue.colorValue,
+                Data = CreateHexagonGeometry(center, width, height, status)
             };
 
-            return hexagon;
+            return element;
         }
 
-        private PointCollection CreateHexagonPoints(Point center, double halfWidth, double halfHeight)
+        private Geometry CreateHexagonGeometry(Point center, double width, double height, string status)
         {
-            var points = new PointCollection();
+            var geometry = new PathGeometry();
+            var figure = new PathFigure();
 
-            points.Add(new Point(center.X, center.Y - halfHeight / 2));
-            points.Add(new Point(center.X - halfWidth, center.Y + halfHeight / 4));
-            points.Add(new Point(center.X - halfWidth, center.Y + 2 * halfHeight));
-            points.Add(new Point(center.X, center.Y + 3 * halfHeight));
-            points.Add(new Point(center.X + halfWidth, center.Y + 2 * halfHeight));
-            points.Add(new Point(center.X + halfWidth, center.Y + halfHeight / 4));
+            if (status == "normal" || status == "reverse")
+            {
+                figure.StartPoint = new Point(center.X, startPoint.Y);
+                figure.IsClosed = true;
 
-            return points;
+                figure.Segments.Add(new LineSegment(new Point(endPoint.X, center.Y - height / 4), true));
+                figure.Segments.Add(new LineSegment(new Point(endPoint.X, center.Y + height / 4), true));
+                figure.Segments.Add(new LineSegment(new Point(center.X, endPoint.Y), true));
+                figure.Segments.Add(new LineSegment(new Point(startPoint.X, center.Y + height / 4), true));
+                figure.Segments.Add(new LineSegment(new Point(startPoint.X, center.Y - height / 4), true));
+                figure.Segments.Add(new LineSegment(new Point(center.X, startPoint.Y), true));
+            }
+            else if (status == "upside" || status == "upside-reverse")
+            {
+                figure.StartPoint = new Point(center.X, endPoint.Y);
+                figure.IsClosed = true;
+
+                figure.Segments.Add(new LineSegment(new Point(endPoint.X, center.Y - height / 4), true));
+                figure.Segments.Add(new LineSegment(new Point(endPoint.X, center.Y + height / 4), true));
+                figure.Segments.Add(new LineSegment(new Point(center.X, startPoint.Y), true));
+                figure.Segments.Add(new LineSegment(new Point(startPoint.X, center.Y + height / 4), true));
+                figure.Segments.Add(new LineSegment(new Point(startPoint.X, center.Y - height / 4), true));
+                figure.Segments.Add(new LineSegment(new Point(center.X, endPoint.Y), true));
+            }
+
+            geometry.Figures.Add(figure);
+            return geometry;
         }
     }
 }
