@@ -42,15 +42,11 @@ namespace myEllipse
         }
 
         public UIElement convertShapeType() {
+            var left = Math.Min(endPoint.X, startPoint.X);
+            var right = Math.Max(endPoint.X, startPoint.X);
 
-            var start = startPoint;
-            var end = endPoint;
-
-            var left = Math.Min(end.X, start.X);
-            var right = Math.Max(end.X, start.X);
-
-            var top = Math.Min(end.Y, start.Y);
-            var bottom = Math.Max(end.Y, start.Y);
+            var top = Math.Min(endPoint.Y, startPoint.Y);
+            var bottom = Math.Max(endPoint.Y, startPoint.Y);
 
             var width = right - left;
             var height = bottom - top;
