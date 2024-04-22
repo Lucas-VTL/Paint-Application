@@ -42,15 +42,11 @@ namespace myRectangle
 
         public UIElement convertShapeType()
         {
+            var left = Math.Min(startPoint.X, endPoint.X);
+            var right = Math.Max(startPoint.X, endPoint.X);
 
-            var start = startPoint;
-            var end = endPoint;
-
-            var left = Math.Min(start.X, end.X);
-            var right = Math.Max(start.X, end.X);
-
-            var top = Math.Min(start.Y, end.Y);
-            var bottom = Math.Max(start.Y, end.Y);
+            var top = Math.Min(startPoint.Y, endPoint.Y);
+            var bottom = Math.Max(startPoint.Y, endPoint.Y);
 
             var width = right - left;
             var height = bottom - top;

@@ -6,6 +6,7 @@ using System.Windows.Shapes;
 using myWidthness;
 using myStroke;
 using myColor;
+using System.Windows.Media.Media3D;
 
 namespace myShiftRectangle
 {
@@ -41,26 +42,93 @@ namespace myShiftRectangle
 
        public UIElement convertShapeType()
         {
-            var start = startPoint;
-            var end = endPoint;
+            var left = Math.Min(startPoint.X, endPoint.X);
+            var right = Math.Max(startPoint.X, endPoint.X);
 
-            double side = Math.Min(Math.Abs(end.X - start.X), Math.Abs(end.Y - start.Y));
-            double startX = Math.Min(start.X, end.X);
-            double startY = Math.Min(start.Y, end.Y);
+            var top = Math.Min(startPoint.Y, endPoint.Y);
+            var bottom = Math.Max(startPoint.Y, endPoint.Y);
 
-            Rectangle square = new Rectangle()
+            var width = right - left;
+            var height = bottom - top;
+
+            if (startPoint.X < endPoint.X && startPoint.Y < endPoint.Y)
+            {
+                if (width > height)
+                {
+                    width = height;
+                    endPoint = new Point(startPoint.X + height, startPoint.Y + height);
+                }
+                else
+                {
+                    height = width;
+                    endPoint = new Point(startPoint.X + width, startPoint.Y + width);
+                }
+
+                left = Math.Min(endPoint.X, startPoint.X);
+                top = Math.Min(endPoint.Y, startPoint.Y);
+            }
+            else if (startPoint.X < endPoint.X && startPoint.Y > endPoint.Y)
+            {
+                if (width > height)
+                {
+                    width = height;
+                    endPoint = new Point(startPoint.X + height, startPoint.Y - height);
+                }
+                else
+                {
+                    height = width;
+                    endPoint = new Point(startPoint.X + width, startPoint.Y - width);
+                }
+
+                left = Math.Min(endPoint.X, startPoint.X);
+                top = Math.Min(endPoint.Y, startPoint.Y);
+            }
+            else if (startPoint.X > endPoint.X && startPoint.Y < endPoint.Y)
+            {
+                if (width > height)
+                {
+                    width = height;
+                    endPoint = new Point(startPoint.X - height, startPoint.Y + height);
+                }
+                else
+                {
+                    height = width;
+                    endPoint = new Point(startPoint.X - width, startPoint.Y + width);
+                }
+
+                left = Math.Min(endPoint.X, startPoint.X);
+                top = Math.Min(endPoint.Y, startPoint.Y);
+            }
+            else if (startPoint.X > endPoint.X && startPoint.Y > endPoint.Y)
+            {
+                if (width > height)
+                {
+                    width = height;
+                    endPoint = new Point(startPoint.X - height, startPoint.Y - height);
+                }
+                else
+                {
+                    height = width;
+                    endPoint = new Point(startPoint.X - width, startPoint.Y - width);
+                }
+
+                left = Math.Min(endPoint.X, startPoint.X);
+                top = Math.Min(endPoint.Y, startPoint.Y);
+            }
+
+            var element = new Rectangle()
             {
                 Stroke = colorValue.colorValue,
-                StrokeDashArray = strokeStyle.strokeValue,
                 StrokeThickness = widthness.widthnessValue,
-                Width = side,
-                Height = side
+                StrokeDashArray = strokeStyle.strokeValue,
+                Width = width,
+                Height = height
             };
 
-            square.SetValue(Canvas.LeftProperty, startX);
-            square.SetValue(Canvas.TopProperty, startY);
+            Canvas.SetLeft(element, left);
+            Canvas.SetTop(element, top);
 
-            return square;
+            return element;
         }
     }
 }
