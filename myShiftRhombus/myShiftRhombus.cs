@@ -39,16 +39,81 @@ namespace myShiftRhombus
         }
         public UIElement convertShapeType()
         {
-            var start = startPoint;
-            var end = endPoint;
+            var width = Math.Abs(endPoint.X - startPoint.X);
+            var height = Math.Abs(endPoint.Y - startPoint.Y);
 
-            var width = Math.Abs(end.X - start.X);
-            var height = Math.Abs(end.Y - start.Y);
-            var value = Math.Min(width, height);
+            Point center;
+            double halfWidth = 0;
+            double halfHeight = 0;
 
-            var center = new Point((start.X + end.X) / 2, (start.Y + end.Y) / 2);
-            var halfWidth = value / 2;
-            var halfHeight = value / 2;
+            if (startPoint.X < endPoint.X && startPoint.Y < endPoint.Y)
+            {
+                if (width > height)
+                {
+                    width = height;
+                    endPoint = new Point(startPoint.X + height, startPoint.Y + height);
+                }
+                else
+                {
+                    height = width;
+                    endPoint = new Point(startPoint.X + width, startPoint.Y + width);
+                }
+
+                center = new Point((startPoint.X + endPoint.X) / 2, (startPoint.Y + endPoint.Y) / 2);
+                halfWidth = width / 2;
+                halfHeight = height / 2;
+            }
+            else if (startPoint.X < endPoint.X && startPoint.Y > endPoint.Y)
+            {
+                if (width > height)
+                {
+                    width = height;
+                    endPoint = new Point(startPoint.X + height, startPoint.Y - height);
+                }
+                else
+                {
+                    height = width;
+                    endPoint = new Point(startPoint.X + width, startPoint.Y - width);
+                }
+
+                center = new Point((startPoint.X + endPoint.X) / 2, (startPoint.Y + endPoint.Y) / 2);
+                halfWidth = width / 2;
+                halfHeight = height / 2;
+            }
+            else if (startPoint.X > endPoint.X && startPoint.Y < endPoint.Y)
+            {
+                if (width > height)
+                {
+                    width = height;
+                    endPoint = new Point(startPoint.X - height, startPoint.Y + height);
+                }
+                else
+                {
+                    height = width;
+                    endPoint = new Point(startPoint.X - width, startPoint.Y + width);
+                }
+
+                center = new Point((startPoint.X + endPoint.X) / 2, (startPoint.Y + endPoint.Y) / 2);
+                halfWidth = width / 2;
+                halfHeight = height / 2;
+            }
+            else if (startPoint.X > endPoint.X && startPoint.Y > endPoint.Y)
+            {
+                if (width > height)
+                {
+                    width = height;
+                    endPoint = new Point(startPoint.X - height, startPoint.Y - height);
+                }
+                else
+                {
+                    height = width;
+                    endPoint = new Point(startPoint.X - width, startPoint.Y - width);
+                }
+
+                center = new Point((startPoint.X + endPoint.X) / 2, (startPoint.Y + endPoint.Y) / 2);
+                halfWidth = width / 2;
+                halfHeight = height / 2;
+            }
 
             var rhombus = new Polygon
             {
