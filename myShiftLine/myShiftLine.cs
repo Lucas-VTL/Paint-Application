@@ -40,15 +40,109 @@ namespace myShiftLine
 
         public UIElement convertShapeType()
         {
+            var left = Math.Min(startPoint.X, endPoint.X);
+            var right = Math.Max(startPoint.X, endPoint.X);
+
+            var top = Math.Min(startPoint.Y, endPoint.Y);
+            var bottom = Math.Max(startPoint.Y, endPoint.Y);
+
+            var width = right - left;
+            var height = bottom - top;
+
+            if (startPoint.X < endPoint.X && startPoint.Y < endPoint.Y)
+            {
+                if (width > height)
+                {
+                    endPoint = new Point(startPoint.X + height, startPoint.Y + height);
+                }
+                else
+                {
+                    endPoint = new Point(startPoint.X + width, startPoint.Y + width);
+                }
+
+                if (width >= height * 2)
+                {
+                    endPoint = new Point(startPoint.X + width, startPoint.Y);
+                }
+
+                if (height >= width * 2)
+                {
+                    endPoint = new Point(startPoint.X, startPoint.Y + height);
+                }
+            }
+            else if (startPoint.X < endPoint.X && startPoint.Y > endPoint.Y)
+            {
+                if (width > height)
+                {
+                    endPoint = new Point(startPoint.X + height, startPoint.Y - height);
+                }
+                else
+                {
+                    endPoint = new Point(startPoint.X + width, startPoint.Y - width);
+                }
+
+                if (width >= height * 2)
+                {
+                    endPoint = new Point(startPoint.X + width, startPoint.Y);
+                }
+
+                if (height >= width * 2)
+                {
+                    endPoint = new Point(startPoint.X, startPoint.Y - height);
+                }
+            }
+            else if (startPoint.X > endPoint.X && startPoint.Y < endPoint.Y)
+            {
+                if (width > height)
+                {
+                    endPoint = new Point(startPoint.X - height, startPoint.Y + height);
+                }
+                else
+                {
+                    endPoint = new Point(startPoint.X - width, startPoint.Y + width);
+                }
+
+                if (width >= height * 2)
+                {
+                    endPoint = new Point(startPoint.X - width, startPoint.Y);
+                }
+
+                if (height >= width * 2)
+                {
+                    endPoint = new Point(startPoint.X, startPoint.Y + height);
+                }
+            }
+            else if (startPoint.X > endPoint.X && startPoint.Y > endPoint.Y)
+            {
+                if (width > height)
+                {
+                    endPoint = new Point(startPoint.X - height, startPoint.Y - height);
+                }
+                else
+                {
+                    endPoint = new Point(startPoint.X - width, startPoint.Y - width);
+                }
+
+                if (width >= height * 2)
+                {
+                    endPoint = new Point(startPoint.X - width, startPoint.Y);
+                }
+
+                if (height >= width * 2)
+                {
+                    endPoint = new Point(startPoint.X, startPoint.Y - height);
+                }
+            }
+
             return new Line()
             {
                 X1 = startPoint.X,
                 Y1 = startPoint.Y,
                 X2 = endPoint.X,
                 Y2 = endPoint.Y,
-                Fill = Brushes.AliceBlue,
-                Stroke = Brushes.Black,
-                StrokeThickness = 2,
+                Stroke = colorValue.colorValue,
+                StrokeThickness = widthness.widthnessValue,
+                StrokeDashArray = strokeStyle.strokeValue,
             };
         }
     }
