@@ -650,6 +650,7 @@ namespace Paint_Application
                 selectedShape.addWidthness((IWidthness)styleWidthCombobox.SelectedItem);
                 selectedShape.addStrokeStyle((IStroke)styleStrokeCombobox.SelectedItem);
                 selectedShape.addColor(selectedColor);
+                selectedShape.setShapeFill(isShapeFill);
 
                 drawArea.Children.Add(selectedShape.convertShapeType());
             }

@@ -13,9 +13,10 @@ namespace myShiftEllipse
     {
         private Point startPoint;
         private Point endPoint;
-        IWidthness widthness;
-        IStroke strokeStyle;
-        IColor colorValue;
+        private IWidthness widthness;
+        private IStroke strokeStyle;
+        private IColor colorValue;
+        private bool isFill;
         public string shapeName => "ShiftEllipse";
         public string shapeImage => "";
 
@@ -34,6 +35,10 @@ namespace myShiftEllipse
             colorValue = color;
         }
         public void addPointList(List<Point> pointList) { }
+        public void setShapeFill(bool isShapeFill)
+        {
+            isFill = isShapeFill;
+        }
         public object Clone()
         {
             return MemberwiseClone();
@@ -115,14 +120,30 @@ namespace myShiftEllipse
                 top = Math.Min(endPoint.Y, startPoint.Y);
             }
 
-            var element = new Ellipse
+            Ellipse element;
+
+            if (isFill)
             {
-                Stroke = colorValue.colorValue,
-                StrokeThickness = widthness.widthnessValue,
-                StrokeDashArray = strokeStyle.strokeValue,
-                Width = width,
-                Height = height
-            };
+                element = new Ellipse
+                {
+                    Stroke = colorValue.colorValue,
+                    StrokeThickness = widthness.widthnessValue,
+                    StrokeDashArray = strokeStyle.strokeValue,
+                    Fill = colorValue.colorValue,
+                    Width = width,
+                    Height = height
+                };
+            } else
+            {
+                element = new Ellipse
+                {
+                    Stroke = colorValue.colorValue,
+                    StrokeThickness = widthness.widthnessValue,
+                    StrokeDashArray = strokeStyle.strokeValue,
+                    Width = width,
+                    Height = height
+                };
+            }
 
             Canvas.SetLeft(element, left);
             Canvas.SetTop(element, top);

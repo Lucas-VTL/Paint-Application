@@ -12,9 +12,11 @@ namespace myShiftTriangle
     {
         private Point startPoint;
         private Point endPoint;
-        IWidthness widthness;
-        IStroke strokeStyle;
-        IColor colorValue;
+        private IWidthness widthness;
+        private IStroke strokeStyle;
+        private IColor colorValue;
+        private bool isFill;
+
         public string shapeName => "ShiftTriangle";
         public string shapeImage => "";
 
@@ -33,6 +35,10 @@ namespace myShiftTriangle
             colorValue = color;
         }
         public void addPointList(List<Point> pointList) { }
+        public void setShapeFill(bool isShapeFill)
+        {
+            isFill = isShapeFill;
+        }
         public object Clone()
         {
             return MemberwiseClone();
@@ -116,15 +122,30 @@ namespace myShiftTriangle
                 halfHeight = height / 2;
             }
 
-            var triangle = new Polygon
-            {
-                Stroke = colorValue.colorValue,
-                StrokeThickness = widthness.widthnessValue,
-                StrokeDashArray = strokeStyle.strokeValue,
-                Points = CreateTrianglePoints(center, halfWidth, halfHeight)
-            };
+            Polygon element;
 
-            return triangle;
+            if (isFill)
+            {
+                element = new Polygon
+                {
+                    Stroke = colorValue.colorValue,
+                    StrokeThickness = widthness.widthnessValue,
+                    StrokeDashArray = strokeStyle.strokeValue,
+                    Fill = colorValue.colorValue,
+                    Points = CreateTrianglePoints(center, halfWidth, halfHeight)
+                };
+            } else
+            {
+                element = new Polygon
+                {
+                    Stroke = colorValue.colorValue,
+                    StrokeThickness = widthness.widthnessValue,
+                    StrokeDashArray = strokeStyle.strokeValue,
+                    Points = CreateTrianglePoints(center, halfWidth, halfHeight)
+                };
+            }
+
+            return element;
         }
 
         private PointCollection CreateTrianglePoints(Point center, double halfWidth, double halfHeight)

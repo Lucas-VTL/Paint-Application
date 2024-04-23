@@ -14,9 +14,10 @@ namespace myRectangle
     {
         private Point startPoint;
         private Point endPoint;
-        IWidthness widthness;
-        IStroke strokeStyle;
-        IColor colorValue;
+        private IWidthness widthness;
+        private IStroke strokeStyle;
+        private IColor colorValue;
+        private bool isFill;
         public string shapeName => "Rectangle";
         public string shapeImage => "images/shapeRectangle.png";
 
@@ -35,6 +36,10 @@ namespace myRectangle
             colorValue = color;
         }
         public void addPointList(List<Point> pointList) { }
+        public void setShapeFill(bool isShapeFill)
+        {
+            isFill = isShapeFill;
+        }
         public object Clone()
         {
             return MemberwiseClone();
@@ -51,14 +56,30 @@ namespace myRectangle
             var width = right - left;
             var height = bottom - top;
 
-            var element = new Rectangle()
+            Rectangle element;
+            
+            if (isFill)
             {
-                Stroke = colorValue.colorValue,
-                StrokeThickness = widthness.widthnessValue,
-                StrokeDashArray = strokeStyle.strokeValue,
-                Width = width,
-                Height = height
-            };
+                element = new Rectangle()
+                {
+                    Stroke = colorValue.colorValue,
+                    StrokeThickness = widthness.widthnessValue,
+                    StrokeDashArray = strokeStyle.strokeValue,
+                    Fill = colorValue.colorValue,
+                    Width = width,
+                    Height = height
+                };
+            } else
+            {
+                element = new Rectangle()
+                {
+                    Stroke = colorValue.colorValue,
+                    StrokeThickness = widthness.widthnessValue,
+                    StrokeDashArray = strokeStyle.strokeValue,
+                    Width = width,
+                    Height = height
+                };
+            }
 
             Canvas.SetLeft(element, left);
             Canvas.SetTop(element, top);

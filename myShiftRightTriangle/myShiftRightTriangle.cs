@@ -12,9 +12,11 @@ namespace myShiftRightTriangle
     {
         private Point startPoint;
         private Point endPoint;
-        IWidthness widthness;
-        IStroke strokeStyle;
-        IColor colorValue;
+        private IWidthness widthness;
+        private IStroke strokeStyle;
+        private IColor colorValue;
+        private bool isFill;
+
         public string shapeName => "ShiftRightTriangle";
         public string shapeImage => "";
 
@@ -33,6 +35,10 @@ namespace myShiftRightTriangle
             colorValue = color;
         }
         public void addPointList(List<Point> pointList) { }
+        public void setShapeFill(bool isShapeFill)
+        {
+            isFill = isShapeFill;
+        }
         public object Clone()
         {
             return MemberwiseClone();
@@ -111,15 +117,30 @@ namespace myShiftRightTriangle
                 hypotenuseLength = Math.Sqrt(width * width + height * height);
             }
 
-            var rightTriangle = new Polygon
-            {
-                Stroke = colorValue.colorValue,
-                StrokeThickness = widthness.widthnessValue,
-                StrokeDashArray = strokeStyle.strokeValue,
-                Points = CreateRightTrianglePoints(center, width, height, hypotenuseLength)
-            };
+            Polygon element;
 
-            return rightTriangle;
+            if (isFill)
+            {
+                element = new Polygon
+                {
+                    Stroke = colorValue.colorValue,
+                    StrokeThickness = widthness.widthnessValue,
+                    StrokeDashArray = strokeStyle.strokeValue,
+                    Fill = colorValue.colorValue,
+                    Points = CreateRightTrianglePoints(center, width, height, hypotenuseLength)
+                };
+            } else
+            {
+                element = new Polygon
+                {
+                    Stroke = colorValue.colorValue,
+                    StrokeThickness = widthness.widthnessValue,
+                    StrokeDashArray = strokeStyle.strokeValue,
+                    Points = CreateRightTrianglePoints(center, width, height, hypotenuseLength)
+                };
+            }
+
+            return element;
         }
 
         private PointCollection CreateRightTrianglePoints(Point center, double width, double height, double hypotenuseLength)

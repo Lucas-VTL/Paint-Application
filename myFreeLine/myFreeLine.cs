@@ -24,6 +24,7 @@ namespace myFreeLine
         public void addWidthness(IWidthness width) {}
         public void addStrokeStyle(IStroke stroke) {}
         public void addColor(IColor color) {}
+        public void setShapeFill(bool isShapeFill) { }
         public void addPointList(List<Point> pointList) 
         {
             list = new List<Point>(0);

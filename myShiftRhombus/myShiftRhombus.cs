@@ -12,9 +12,11 @@ namespace myShiftRhombus
     {
         private Point startPoint;
         private Point endPoint;
-        IWidthness widthness;
-        IStroke strokeStyle;
-        IColor colorValue;
+        private IWidthness widthness;
+        private IStroke strokeStyle;
+        private IColor colorValue;
+        private bool isFill;
+
         public string shapeName => "ShiftRhombus";
         public string shapeImage => "";
 
@@ -33,6 +35,10 @@ namespace myShiftRhombus
             colorValue = color;
         }
         public void addPointList(List<Point> pointList) { }
+        public void setShapeFill(bool isShapeFill)
+        {
+            isFill = isShapeFill;
+        }
         public object Clone()
         {
             return MemberwiseClone();
@@ -115,15 +121,30 @@ namespace myShiftRhombus
                 halfHeight = height / 2;
             }
 
-            var rhombus = new Polygon
-            {
-                Stroke = colorValue.colorValue,
-                StrokeThickness = widthness.widthnessValue,
-                StrokeDashArray = strokeStyle.strokeValue,
-                Points = CreateRhombusPoints(center, halfWidth, halfHeight)
-            };
+            Polygon element;
 
-            return rhombus;
+            if (isFill)
+            {
+                element = new Polygon
+                {
+                    Stroke = colorValue.colorValue,
+                    StrokeThickness = widthness.widthnessValue,
+                    StrokeDashArray = strokeStyle.strokeValue,
+                    Fill = colorValue.colorValue,
+                    Points = CreateRhombusPoints(center, halfWidth, halfHeight)
+                };
+            } else
+            {
+                element = new Polygon
+                {
+                    Stroke = colorValue.colorValue,
+                    StrokeThickness = widthness.widthnessValue,
+                    StrokeDashArray = strokeStyle.strokeValue,
+                    Points = CreateRhombusPoints(center, halfWidth, halfHeight)
+                };
+            }
+
+            return element;
         }
 
         private PointCollection CreateRhombusPoints(Point center, double halfWidth, double halfHeight)

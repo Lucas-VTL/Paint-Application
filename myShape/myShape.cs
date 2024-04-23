@@ -13,6 +13,7 @@ namespace myShape
         void addStrokeStyle(IStroke strokeStyle);
         void addColor(IColor color);
         void addPointList(List<Point> pointList);
+        void setShapeFill(bool isShapeFill);
         UIElement convertShapeType();
         string shapeName { get;}
         string shapeImage { get;}

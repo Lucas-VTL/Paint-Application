@@ -16,6 +16,7 @@ namespace myArrow
         private IWidthness widthness;
         private IStroke strokeStyle;
         private IColor colorValue;
+        private bool isFill;
 
         public string shapeName => "Arrow";
         public string shapeImage => "images/shapeArrow.png";
@@ -35,6 +36,10 @@ namespace myArrow
             colorValue = color;
         }
         public void addPointList(List<Point> pointList) { }
+        public void setShapeFill(bool isShapeFill)
+        {
+            isFill = isShapeFill;
+        }
         public object Clone()
         {
             return MemberwiseClone();
@@ -68,13 +73,28 @@ namespace myArrow
                 status = "upside-reverse";
             }
 
-            var element = new Path
+            Path element;
+
+            if (isFill)
             {
-                StrokeThickness = widthness.widthnessValue,
-                StrokeDashArray = strokeStyle.strokeValue,
-                Stroke = colorValue.colorValue,
-                Data = CreateArrowGeometry(center, width, height, status)
-            };
+                element = new Path
+                {
+                    StrokeThickness = widthness.widthnessValue,
+                    StrokeDashArray = strokeStyle.strokeValue,
+                    Stroke = colorValue.colorValue,
+                    Fill = colorValue.colorValue,
+                    Data = CreateArrowGeometry(center, width, height, status)
+                };
+            } else
+            {
+                element = new Path
+                {
+                    StrokeThickness = widthness.widthnessValue,
+                    StrokeDashArray = strokeStyle.strokeValue,
+                    Stroke = colorValue.colorValue,
+                    Data = CreateArrowGeometry(center, width, height, status)
+                };
+            }
 
             return element;
         }

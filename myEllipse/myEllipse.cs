@@ -17,6 +17,7 @@ namespace myEllipse
         private IWidthness widthness;
         private IStroke strokeStyle;
         private IColor colorValue;
+        private bool isFill;
 
         public string shapeName => "Ellipse";
         public string shapeImage => "images/shapeEllipse.png";
@@ -36,6 +37,10 @@ namespace myEllipse
             colorValue = color;
         }
         public void addPointList(List<Point> pointList) { }
+        public void setShapeFill(bool isShapeFill)
+        {
+            isFill = isShapeFill;
+        }
         public object Clone()
         {
             return MemberwiseClone();
@@ -51,16 +56,34 @@ namespace myEllipse
             var width = right - left;
             var height = bottom - top;
 
-            var element = new Ellipse
+            Ellipse element;
+
+            if (isFill)
             {
-                Stroke = colorValue.colorValue,
-                StrokeThickness = widthness.widthnessValue,
-                StrokeDashArray = strokeStyle.strokeValue,
-                HorizontalAlignment = HorizontalAlignment.Left,
-                VerticalAlignment = VerticalAlignment.Center,
-                Width = width,
-                Height = height
-            };
+                element = new Ellipse
+                {
+                    Stroke = colorValue.colorValue,
+                    StrokeThickness = widthness.widthnessValue,
+                    StrokeDashArray = strokeStyle.strokeValue,
+                    HorizontalAlignment = HorizontalAlignment.Left,
+                    VerticalAlignment = VerticalAlignment.Center,
+                    Fill = colorValue.colorValue,
+                    Width = width,
+                    Height = height
+                };
+            } else
+            {
+                element = new Ellipse
+                {
+                    Stroke = colorValue.colorValue,
+                    StrokeThickness = widthness.widthnessValue,
+                    StrokeDashArray = strokeStyle.strokeValue,
+                    HorizontalAlignment = HorizontalAlignment.Left,
+                    VerticalAlignment = VerticalAlignment.Center,
+                    Width = width,
+                    Height = height
+                };
+            }
 
             Canvas.SetLeft(element, left);
             Canvas.SetTop(element, top);

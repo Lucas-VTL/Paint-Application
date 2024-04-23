@@ -16,6 +16,7 @@ namespace myFivePointStar
         private IWidthness widthness;
         private IStroke strokeStyle;
         private IColor colorValue;
+        private bool isFill;
 
         public string shapeName => "FivePointStar";
         public string shapeImage => "images/shape5Star.png";
@@ -35,6 +36,10 @@ namespace myFivePointStar
             colorValue = color;
         }
         public void addPointList(List<Point> pointList) { }
+        public void setShapeFill(bool isShapeFill)
+        {
+            isFill = isShapeFill;
+        }
         public object Clone()
         {
             return MemberwiseClone();
@@ -72,13 +77,28 @@ namespace myFivePointStar
                 status = "upside-reverse";
             }
 
-            var element = new Path
+            Path element;
+
+            if (isFill)
             {
-                StrokeThickness = widthness.widthnessValue,
-                StrokeDashArray = strokeStyle.strokeValue,
-                Stroke = colorValue.colorValue,
-                Data = CreateFivePointStarGeometry(center, width, height, status)
-            };
+                element = new Path
+                {
+                    StrokeThickness = widthness.widthnessValue,
+                    StrokeDashArray = strokeStyle.strokeValue,
+                    Stroke = colorValue.colorValue,
+                    Fill = colorValue.colorValue,
+                    Data = CreateFivePointStarGeometry(center, width, height, status)
+                };
+            } else
+            {
+                element = new Path
+                {
+                    StrokeThickness = widthness.widthnessValue,
+                    StrokeDashArray = strokeStyle.strokeValue,
+                    Stroke = colorValue.colorValue,
+                    Data = CreateFivePointStarGeometry(center, width, height, status)
+                };
+            }
 
             return element;
         }

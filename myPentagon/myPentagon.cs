@@ -12,9 +12,11 @@ namespace myPentagon
     {
         private Point startPoint;
         private Point endPoint;
-        IWidthness widthness;
-        IStroke strokeStyle;
-        IColor colorValue;
+        private IWidthness widthness;
+        private IStroke strokeStyle;
+        private IColor colorValue;
+        private bool isFill;
+
         public string shapeName => "Pentagon";
         public string shapeImage => "images/shapePentagon.png";
 
@@ -33,6 +35,10 @@ namespace myPentagon
             colorValue = color;
         }
         public void addPointList(List<Point> pointList) { }
+        public void setShapeFill(bool isShapeFill)
+        {
+            isFill = isShapeFill;
+        }
         public object Clone()
         {
             return MemberwiseClone();
@@ -70,13 +76,29 @@ namespace myPentagon
                 status = "upside-reverse";
             }
 
-            var element = new Path
+            Path element;
+            
+            if (isFill)
             {
-                StrokeThickness = widthness.widthnessValue,
-                StrokeDashArray = strokeStyle.strokeValue,
-                Stroke = colorValue.colorValue,
-                Data = CreatePentagonGeometry(center, width, height, status)
-            };
+                element = new Path
+                {
+                    StrokeThickness = widthness.widthnessValue,
+                    StrokeDashArray = strokeStyle.strokeValue,
+                    Stroke = colorValue.colorValue,
+                    Fill = colorValue.colorValue,
+                    Data = CreatePentagonGeometry(center, width, height, status)
+                };
+            } else
+            {
+                element = new Path
+                {
+                    StrokeThickness = widthness.widthnessValue,
+                    StrokeDashArray = strokeStyle.strokeValue,
+                    Stroke = colorValue.colorValue,
+                    Data = CreatePentagonGeometry(center, width, height, status)
+                };
+            }
+
 
             return element;
         }

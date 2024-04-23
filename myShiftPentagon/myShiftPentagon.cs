@@ -12,9 +12,10 @@ namespace myShiftPentagon
     {
         private Point startPoint;
         private Point endPoint;
-        IWidthness widthness;
-        IStroke strokeStyle;
-        IColor colorValue;
+        private IWidthness widthness;
+        private IStroke strokeStyle;
+        private IColor colorValue;
+        private bool isFill;
         public string shapeName => "ShiftPentagon";
         public string shapeImage => "";
 
@@ -33,6 +34,10 @@ namespace myShiftPentagon
             colorValue = color;
         }
         public void addPointList(List<Point> pointList) { }
+        public void setShapeFill(bool isShapeFill)
+        {
+            isFill = isShapeFill;
+        }
         public object Clone()
         {
             return MemberwiseClone();
@@ -40,7 +45,7 @@ namespace myShiftPentagon
 
         public UIElement convertShapeType()
         {
-            Point center = new Point((startPoint.X + endPoint.X) / 2, (startPoint.Y + endPoint.Y) / 2);
+            Point center;
 
             var left = Math.Min(startPoint.X, endPoint.X);
             var right = Math.Max(startPoint.X, endPoint.X);
@@ -122,13 +127,28 @@ namespace myShiftPentagon
                 center = new Point((startPoint.X + endPoint.X) / 2, (startPoint.Y + endPoint.Y) / 2);
             }
 
-            var element = new Path
+            Path element;
+
+            if (isFill)
             {
-                StrokeThickness = widthness.widthnessValue,
-                StrokeDashArray = strokeStyle.strokeValue,
-                Stroke = colorValue.colorValue,
-                Data = CreatePentagonGeometry(center, width, height, status)
-            };
+                element = new Path
+                {
+                    StrokeThickness = widthness.widthnessValue,
+                    StrokeDashArray = strokeStyle.strokeValue,
+                    Stroke = colorValue.colorValue,
+                    Fill = colorValue.colorValue,
+                    Data = CreatePentagonGeometry(center, width, height, status)
+                };
+            } else
+            {
+                element = new Path
+                {
+                    StrokeThickness = widthness.widthnessValue,
+                    StrokeDashArray = strokeStyle.strokeValue,
+                    Stroke = colorValue.colorValue,
+                    Data = CreatePentagonGeometry(center, width, height, status)
+                };
+            }
 
             return element;
         }
