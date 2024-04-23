@@ -40,24 +40,95 @@ namespace myShiftRightTriangle
 
         public UIElement convertShapeType()
         {
-            var start = startPoint;
-            var end = endPoint;
+            double width = Math.Abs(endPoint.X - startPoint.X);
+            double height = Math.Abs(endPoint.Y - startPoint.Y);
 
-            var width = Math.Abs(end.X - start.X);
-            var height = Math.Abs(end.Y - start.Y);
-            var value = Math.Min(width, height);
+            Point center;
+            double hypotenuseLength = 0;
 
-            var center = new Point((start.X + end.X) / 2, (start.Y + end.Y) / 2);
+            if (startPoint.X < endPoint.X && startPoint.Y < endPoint.Y)
+            {
+                if (width > height)
+                {
+                    width = height;
+                    endPoint = new Point(startPoint.X + height, startPoint.Y + height);
+                }
+                else
+                {
+                    height = width;
+                    endPoint = new Point(startPoint.X + width, startPoint.Y + width);
+                }
 
-            // Determine the length of the hypotenuse (the longest side of the right triangle)
-            var hypotenuseLength = Math.Sqrt(value * value + value * value);
+                width = Math.Abs(endPoint.X - startPoint.X);
+                height = Math.Abs(endPoint.Y - startPoint.Y);
+
+                center = new Point((startPoint.X + endPoint.X) / 2, (startPoint.Y + endPoint.Y) / 2);
+                hypotenuseLength = Math.Sqrt(width * width + height * height);
+            }
+            else if (startPoint.X < endPoint.X && startPoint.Y > endPoint.Y)
+            {
+                if (width > height)
+                {
+                    width = height;
+                    endPoint = new Point(startPoint.X + height, startPoint.Y - height);
+                }
+                else
+                {
+                    height = width;
+                    endPoint = new Point(startPoint.X + width, startPoint.Y - width);
+                }
+
+                width = Math.Abs(endPoint.X - startPoint.X);
+                height = Math.Abs(endPoint.Y - startPoint.Y);
+
+                center = new Point((startPoint.X + endPoint.X) / 2, (startPoint.Y + endPoint.Y) / 2);
+                hypotenuseLength = Math.Sqrt(width * width + height * height);
+            }
+            else if (startPoint.X > endPoint.X && startPoint.Y < endPoint.Y)
+            {
+                if (width > height)
+                {
+                    width = height;
+                    endPoint = new Point(startPoint.X - height, startPoint.Y + height);
+                }
+                else
+                {
+                    height = width;
+                    endPoint = new Point(startPoint.X - width, startPoint.Y + width);
+                }
+
+                width = Math.Abs(endPoint.X - startPoint.X);
+                height = Math.Abs(endPoint.Y - startPoint.Y);
+
+                center = new Point((startPoint.X + endPoint.X) / 2, (startPoint.Y + endPoint.Y) / 2);
+                hypotenuseLength = Math.Sqrt(width * width + height * height);
+            }
+            else if (startPoint.X > endPoint.X && startPoint.Y > endPoint.Y)
+            {
+                if (width > height)
+                {
+                    width = height;
+                    endPoint = new Point(startPoint.X - height, startPoint.Y - height);
+                }
+                else
+                {
+                    height = width;
+                    endPoint = new Point(startPoint.X - width, startPoint.Y - width);
+                }
+
+                width = Math.Abs(endPoint.X - startPoint.X);
+                height = Math.Abs(endPoint.Y - startPoint.Y);
+
+                center = new Point((startPoint.X + endPoint.X) / 2, (startPoint.Y + endPoint.Y) / 2);
+                hypotenuseLength = Math.Sqrt(width * width + height * height);
+            }
 
             var rightTriangle = new Polygon
             {
                 Stroke = colorValue.colorValue,
                 StrokeThickness = widthness.widthnessValue,
                 StrokeDashArray = strokeStyle.strokeValue,
-                Points = CreateRightTrianglePoints(center, value, value, hypotenuseLength)
+                Points = CreateRightTrianglePoints(center, width, height, hypotenuseLength)
             };
 
             return rightTriangle;
@@ -67,13 +138,8 @@ namespace myShiftRightTriangle
         {
             var points = new PointCollection();
 
-            // Vertex at the bottom-left corner
             points.Add(new Point(center.X - width / 2, center.Y + height / 2));
-
-            // Vertex at the top-left corner
             points.Add(new Point(center.X - width / 2, center.Y - height / 2));
-
-            // Vertex at the bottom-right corner
             points.Add(new Point(center.X + width / 2, center.Y + height / 2));
 
             return points;
