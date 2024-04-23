@@ -40,13 +40,10 @@ namespace myTriangle
 
         public UIElement convertShapeType()
         {
-            var start = startPoint;
-            var end = endPoint;
+            var width = Math.Abs(endPoint.X - startPoint.X);
+            var height = Math.Abs(endPoint.Y - startPoint.Y);
 
-            var width = Math.Abs(end.X - start.X);
-            var height = Math.Abs(end.Y - start.Y);
-
-            var center = new Point((start.X + end.X) / 2, (start.Y + end.Y) / 2);
+            var center = new Point((startPoint.X + endPoint.X) / 2, (startPoint.Y + endPoint.Y) / 2);
             var halfWidth = width / 2;
             var halfHeight = height / 2;
 

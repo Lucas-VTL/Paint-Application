@@ -59,9 +59,6 @@ namespace myShiftRightTriangle
                     endPoint = new Point(startPoint.X + width, startPoint.Y + width);
                 }
 
-                width = Math.Abs(endPoint.X - startPoint.X);
-                height = Math.Abs(endPoint.Y - startPoint.Y);
-
                 center = new Point((startPoint.X + endPoint.X) / 2, (startPoint.Y + endPoint.Y) / 2);
                 hypotenuseLength = Math.Sqrt(width * width + height * height);
             }
@@ -77,9 +74,6 @@ namespace myShiftRightTriangle
                     height = width;
                     endPoint = new Point(startPoint.X + width, startPoint.Y - width);
                 }
-
-                width = Math.Abs(endPoint.X - startPoint.X);
-                height = Math.Abs(endPoint.Y - startPoint.Y);
 
                 center = new Point((startPoint.X + endPoint.X) / 2, (startPoint.Y + endPoint.Y) / 2);
                 hypotenuseLength = Math.Sqrt(width * width + height * height);
@@ -97,9 +91,6 @@ namespace myShiftRightTriangle
                     endPoint = new Point(startPoint.X - width, startPoint.Y + width);
                 }
 
-                width = Math.Abs(endPoint.X - startPoint.X);
-                height = Math.Abs(endPoint.Y - startPoint.Y);
-
                 center = new Point((startPoint.X + endPoint.X) / 2, (startPoint.Y + endPoint.Y) / 2);
                 hypotenuseLength = Math.Sqrt(width * width + height * height);
             }
@@ -115,9 +106,6 @@ namespace myShiftRightTriangle
                     height = width;
                     endPoint = new Point(startPoint.X - width, startPoint.Y - width);
                 }
-
-                width = Math.Abs(endPoint.X - startPoint.X);
-                height = Math.Abs(endPoint.Y - startPoint.Y);
 
                 center = new Point((startPoint.X + endPoint.X) / 2, (startPoint.Y + endPoint.Y) / 2);
                 hypotenuseLength = Math.Sqrt(width * width + height * height);

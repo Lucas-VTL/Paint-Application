@@ -40,30 +40,87 @@ namespace myShiftTriangle
 
         public UIElement convertShapeType()
         {
-            var start = startPoint;
-            var end = endPoint;
+            double width = Math.Abs(endPoint.X - startPoint.X);
+            double height = Math.Abs(endPoint.Y - startPoint.Y);
 
-            var width = Math.Abs(end.X - start.X);
-            var height = Math.Abs(end.Y - start.Y);
+            Point center;
+            double halfWidth = 0;
+            double halfHeight = 0;
 
-            // Find the side length of the equiangular triangle
-            var sideLength = Math.Min(width, height);
+            if (startPoint.X < endPoint.X && startPoint.Y < endPoint.Y)
+            {
+                if (width > height)
+                {
+                    width = height;
+                    endPoint = new Point(startPoint.X + height, startPoint.Y + height);
+                }
+                else
+                {
+                    height = width;
+                    endPoint = new Point(startPoint.X + width, startPoint.Y + width);
+                }
 
-            // Calculate the height of the equilateral triangle
-            var equilateralHeight = Math.Sqrt(3) / 2 * sideLength;
+                center = new Point((startPoint.X + endPoint.X) / 2, (startPoint.Y + endPoint.Y) / 2);
+                halfWidth = width / 2;
+                halfHeight = height / 2;
+            }
+            else if (startPoint.X < endPoint.X && startPoint.Y > endPoint.Y)
+            {
+                if (width > height)
+                {
+                    width = height;
+                    endPoint = new Point(startPoint.X + height, startPoint.Y - height);
+                }
+                else
+                {
+                    height = width;
+                    endPoint = new Point(startPoint.X + width, startPoint.Y - width);
+                }
 
-            // Set the height to be the same as the calculated equilateral height
-            var value = equilateralHeight;
+                center = new Point((startPoint.X + endPoint.X) / 2, (startPoint.Y + endPoint.Y) / 2);
+                halfWidth = width / 2;
+                halfHeight = height / 2;
+            }
+            else if (startPoint.X > endPoint.X && startPoint.Y < endPoint.Y)
+            {
+                if (width > height)
+                {
+                    width = height;
+                    endPoint = new Point(startPoint.X - height, startPoint.Y + height);
+                }
+                else
+                {
+                    height = width;
+                    endPoint = new Point(startPoint.X - width, startPoint.Y + width);
+                }
 
-            var center = new Point((start.X + end.X) / 2, (start.Y + end.Y) / 2);
-            var halfWidth = value / 2;
-            var halfHeight = value / 2;
+                center = new Point((startPoint.X + endPoint.X) / 2, (startPoint.Y + endPoint.Y) / 2);
+                halfWidth = width / 2;
+                halfHeight = height / 2;
+            }
+            else if (startPoint.X > endPoint.X && startPoint.Y > endPoint.Y)
+            {
+                if (width > height)
+                {
+                    width = height;
+                    endPoint = new Point(startPoint.X - height, startPoint.Y - height);
+                }
+                else
+                {
+                    height = width;
+                    endPoint = new Point(startPoint.X - width, startPoint.Y - width);
+                }
+
+                center = new Point((startPoint.X + endPoint.X) / 2, (startPoint.Y + endPoint.Y) / 2);
+                halfWidth = width / 2;
+                halfHeight = height / 2;
+            }
 
             var triangle = new Polygon
             {
                 Stroke = colorValue.colorValue,
-                StrokeDashArray = strokeStyle.strokeValue,
                 StrokeThickness = widthness.widthnessValue,
+                StrokeDashArray = strokeStyle.strokeValue,
                 Points = CreateTrianglePoints(center, halfWidth, halfHeight)
             };
 
