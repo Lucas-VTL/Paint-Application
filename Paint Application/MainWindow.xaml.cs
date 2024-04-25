@@ -43,12 +43,16 @@ namespace Paint_Application
         private bool isDrawing = false;
         private bool isShiftDown = false;
         private bool isShapeFill = false;
+        private bool isTextOpen = false;
 
         //Lưu giữ điểm bắt đầu và kết thúc của nét vẽ
         Point startPoint;
         Point endPoint;
+
+        //Lưu giữ các biến tương tác đặc biệt của chương trình
         IColor customColor;
         IShape freeLine;
+        IShape text;
 
         //List border giúp xác định các border khi người dùng chọn vào các function
         private List<Border> function = new List<Border>();
@@ -59,6 +63,7 @@ namespace Paint_Application
         //Các biến global lưu giữ các thông số của ứng dụng
         private string globalFontFamily;
         private int globalFontSize = 12;
+
         private IShape selectedShape = null;
         private IColor selectedColor = null;
 
@@ -79,7 +84,6 @@ namespace Paint_Application
 
         //List eraseList giúp lưu giữ các hình vẽ bị xóa
         private List<Point> eraseList = new List<Point>();
-
         public MainWindow()
         {
             InitializeComponent();
@@ -119,7 +123,7 @@ namespace Paint_Application
                 {
                     if ((type.IsClass) && (typeof(IShape).IsAssignableFrom(type)))
                     {
-                        if (!type.Name.Contains("Shift") && !type.Name.Equals("myFreeLine"))
+                        if (!type.Name.Contains("Shift") && !type.Name.Equals("myFreeLine") && !type.Name.Equals("myText"))
                         {
                             shapeList.Add((IShape)Activator.CreateInstance(type)!);
                         }
@@ -127,6 +131,11 @@ namespace Paint_Application
                         if (type.Name.Equals("myFreeLine"))
                         {
                             freeLine = (IShape)Activator.CreateInstance(type)!;
+                        }
+
+                        if (type.Name.Equals("myText"))
+                        {
+                            text = (IShape)Activator.CreateInstance(type)!;
                         }
 
                         allShapeList.Add((IShape)Activator.CreateInstance(type)!);
@@ -186,6 +195,14 @@ namespace Paint_Application
                 {
                     function[i].Opacity = 0;
                 }
+            }
+
+            if (index == 1)
+            {
+                isTextOpen = true;
+            } else
+            {
+                isTextOpen = false;
             }
 
             if (index == 2)
@@ -708,6 +725,40 @@ namespace Paint_Application
                 }
 
                 drawArea.Children.Add(dot);
+            }
+
+            if (selectedShape == null && isTextOpen)
+            {
+                isDrawing = false;
+                int lineMultiple = 2;
+
+                selectedShape = text;
+                IShape newText = (IShape)selectedShape.Clone();
+
+                newText.addFontSize(globalFontSize);
+                newText.addFontFamily(globalFontFamily);
+                newText.addColor(selectedColor);
+
+                newText.addStartPoint(startPoint);
+                newText.addEndPoint(new Point(startPoint.X + globalFontSize * 10, startPoint.Y + globalFontSize * lineMultiple));
+
+                drawArea.Children.Add(newText.convertShapeType());
+                System.Windows.Controls.TextBox newTextBox = newText.getTextBox();
+                newTextBox.TextWrapping = TextWrapping.Wrap;
+                newTextBox.Focus();
+
+                if (newTextBox.Text.Length > 16)
+                {
+                    lineMultiple += 1;
+                    newText.addEndPoint(new Point(startPoint.X + globalFontSize * 10, startPoint.Y + globalFontSize * lineMultiple));
+                    drawArea.Children.RemoveAt(drawArea.Children.Count - 1);
+                    drawArea.Children.Add(newText.convertShapeType());
+                }
+
+                newText.setTextString(newTextBox.Text);
+
+                drawSurface.Add(newText);
+                selectedShape = null;
             }
         }
 

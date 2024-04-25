@@ -37,6 +37,10 @@ namespace myShiftRectangle
             colorValue = color;
         }
         public void addPointList(List<Point> pointList) { }
+        public void addFontSize(int fontSize) { }
+        public void addFontFamily(string fontFamily) { }
+        public TextBox getTextBox() { return null; }
+        public void setTextString(string text) { }
         public void setShapeFill(bool isShapeFill)
         {
             isFill = isShapeFill;

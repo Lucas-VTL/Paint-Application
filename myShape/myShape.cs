@@ -2,6 +2,7 @@
 using myStroke;
 using myWidthness;
 using System.Windows;
+using System.Windows.Controls;
 
 namespace myShape
 {
@@ -14,6 +15,10 @@ namespace myShape
         void addColor(IColor color);
         void addPointList(List<Point> pointList);
         void setShapeFill(bool isShapeFill);
+        void addFontSize(int fontSize);
+        void addFontFamily(string fontFamily);
+        TextBox getTextBox();
+        void setTextString(String text);
         UIElement convertShapeType();
         string shapeName { get;}
         string shapeImage { get;}
