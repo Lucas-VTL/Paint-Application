@@ -39,6 +39,7 @@ namespace myShiftPentagon
         public void addFontFamily(string fontFamily) { }
         public TextBox getTextBox() { return null; }
         public void setTextString(string text) { }
+        public void setFocus(bool focus) { }
         public void setShapeFill(bool isShapeFill)
         {
             isFill = isShapeFill;

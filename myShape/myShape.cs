@@ -19,6 +19,7 @@ namespace myShape
         void addFontFamily(string fontFamily);
         TextBox getTextBox();
         void setTextString(String text);
+        void setFocus(bool focus);
         UIElement convertShapeType();
         string shapeName { get;}
         string shapeImage { get;}

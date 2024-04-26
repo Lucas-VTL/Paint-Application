@@ -16,6 +16,8 @@ namespace myText
         TextBox myTextBox;
         string myTextString = "";
 
+        bool isFocus;
+
         Point startPoint;
         Point endPoint;
 
@@ -42,6 +44,10 @@ namespace myText
         public void addPointList(List<Point> pointList) { }
         public void addFontSize(int size) { fontSize = size; }
         public void addFontFamily(string family) { fontFamily = family; }
+        public void setFocus(bool focus) 
+        {
+            isFocus = focus;   
+        }
         public void addColor(IColor color)
         {
             colorValue = color;
@@ -72,17 +78,23 @@ namespace myText
             var height = bottom - top;
 
             Canvas canvas = new Canvas();
-            Rectangle rectangle = new Rectangle()
-            {
-                Stroke = Brushes.Black,
-                StrokeThickness = 1,
-                StrokeDashArray = new DoubleCollection() { 10, 2 },
-                Width = width,
-                Height = height,
-            };
 
-            Canvas.SetLeft(rectangle, left);
-            Canvas.SetTop(rectangle, top);
+            if (isFocus)
+            {
+                Rectangle rectangle = new Rectangle()
+                {
+                    Stroke = Brushes.Black,
+                    StrokeThickness = 1,
+                    StrokeDashArray = new DoubleCollection() { 10, 2 },
+                    Width = width,
+                    Height = height,
+                };
+
+                Canvas.SetLeft(rectangle, left);
+                Canvas.SetTop(rectangle, top);
+
+                canvas.Children.Add(rectangle);
+            }
 
             myTextBox = new TextBox()
             {
@@ -99,7 +111,6 @@ namespace myText
             Canvas.SetLeft(myTextBox, left);
             Canvas.SetTop(myTextBox, top);
 
-            canvas.Children.Add(rectangle);
             canvas.Children.Add(myTextBox);
 
             return canvas;

@@ -19,6 +19,7 @@ using Point = System.Windows.Point;
 using System.Diagnostics;
 using System.Windows.Shapes;
 using Brushes = System.Windows.Media.Brushes;
+using TextBox = System.Windows.Controls.TextBox;
 
 namespace Paint_Application
 {
@@ -730,7 +731,6 @@ namespace Paint_Application
             if (selectedShape == null && isTextOpen)
             {
                 isDrawing = false;
-                int lineMultiple = 2;
 
                 selectedShape = text;
                 IShape newText = (IShape)selectedShape.Clone();
@@ -740,26 +740,63 @@ namespace Paint_Application
                 newText.addColor(selectedColor);
 
                 newText.addStartPoint(startPoint);
-                newText.addEndPoint(new Point(startPoint.X + globalFontSize * 10, startPoint.Y + globalFontSize * lineMultiple));
+                newText.addEndPoint(new Point(startPoint.X + globalFontSize * 10, startPoint.Y + globalFontSize * 2));
+                newText.setFocus(true);
 
                 drawArea.Children.Add(newText.convertShapeType());
-                System.Windows.Controls.TextBox newTextBox = newText.getTextBox();
+                TextBox newTextBox = newText.getTextBox();
                 newTextBox.TextWrapping = TextWrapping.Wrap;
                 newTextBox.Focus();
-
-                if (newTextBox.Text.Length > 16)
-                {
-                    lineMultiple += 1;
-                    newText.addEndPoint(new Point(startPoint.X + globalFontSize * 10, startPoint.Y + globalFontSize * lineMultiple));
-                    drawArea.Children.RemoveAt(drawArea.Children.Count - 1);
-                    drawArea.Children.Add(newText.convertShapeType());
-                }
-
-                newText.setTextString(newTextBox.Text);
+                newTextBox.TextChanged += newTextBox_TextChanged;
+                newTextBox.LostFocus += newTextBox_LostFocus;
 
                 drawSurface.Add(newText);
                 selectedShape = null;
             }
+        }
+
+        private void newTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            TextBox textBox = sender as TextBox;
+            IShape text = drawSurface[drawSurface.Count - 1];
+            drawSurface.RemoveAt(drawSurface.Count - 1);
+            handleAutoNewLine(textBox, text);
+            drawSurface.Add(text);
+        }
+
+        private void newTextBox_LostFocus(object sender, EventArgs e)
+        {
+            IShape text = drawSurface[drawSurface.Count - 1];
+            drawSurface.RemoveAt(drawSurface.Count - 1);
+            text.setFocus(false);
+            drawSurface.Add(text);
+
+            drawArea.Children.Clear();
+
+            foreach (var item in drawSurface)
+            {
+                drawArea.Children.Add(item.convertShapeType());
+            }
+        }
+
+        private void handleAutoNewLine(TextBox textBox, IShape text)
+        {
+            if (textBox.Text.Length >= 16)
+            {
+                int lineMultiple = (textBox.Text.Length / 16) + 2;
+                text.addEndPoint(new Point(startPoint.X + globalFontSize * 10, startPoint.Y + globalFontSize * lineMultiple));
+
+                drawArea.Children.Clear();
+
+                foreach (var item in drawSurface)
+                {
+                    drawArea.Children.Add(item.convertShapeType());
+                }
+
+                drawArea.Children.Add(text.convertShapeType());
+            }
+
+            text.setTextString(textBox.Text);
         }
 
         private void WindowKeyDown(object sender, KeyEventArgs e)

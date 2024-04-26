@@ -39,6 +39,7 @@ namespace myHeart
         public void addPointList(List<Point> pointList) { }
         public TextBox getTextBox() { return null; }
         public void setTextString(string text) { }
+        public void setFocus(bool focus) { }
         public void addFontSize(int fontSize) { }
         public void addFontFamily(string fontFamily) { }
         public void setShapeFill(bool isShapeFill)

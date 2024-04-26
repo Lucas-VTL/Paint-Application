@@ -28,6 +28,7 @@ namespace myFreeLine
         public void addFontFamily(string fontFamily) {}
         public TextBox getTextBox() { return null; }
         public void setTextString(string text) { }
+        public void setFocus(bool focus) { }
         public void addPointList(List<Point> pointList) 
         {
             list = new List<Point>(0);
