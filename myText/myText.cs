@@ -33,7 +33,6 @@ namespace myText
         public void addStartPoint(Point point) 
         { 
             startPoint = point;
-            endPoint = new Point(startPoint.X + fontSize * 10, startPoint.Y + fontSize * 2);
         }
         public void addEndPoint(Point point) 
         {
@@ -104,6 +103,8 @@ namespace myText
                 Background = Brushes.Transparent,
                 Foreground = colorValue.colorValue,
                 Text = myTextString,
+                TextWrapping = TextWrapping.Wrap,
+                AcceptsReturn = true,
                 Width = width,
                 Height = height,
             };

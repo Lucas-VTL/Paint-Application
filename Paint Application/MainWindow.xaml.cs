@@ -20,6 +20,7 @@ using System.Diagnostics;
 using System.Windows.Shapes;
 using Brushes = System.Windows.Media.Brushes;
 using TextBox = System.Windows.Controls.TextBox;
+using System.Text.RegularExpressions;
 
 namespace Paint_Application
 {
@@ -461,6 +462,9 @@ namespace Paint_Application
                 {
                     fontSizeTextbox.Text = globalFontSize.ToString();
                 }
+
+                fontSizeStackpanel.Visibility = Visibility.Collapsed;
+                isTextFontSizeOpen = false;
             }
         }
 
@@ -740,12 +744,11 @@ namespace Paint_Application
                 newText.addColor(selectedColor);
 
                 newText.addStartPoint(startPoint);
-                newText.addEndPoint(new Point(startPoint.X + globalFontSize * 10, startPoint.Y + globalFontSize * 2));
+                newText.addEndPoint(new Point(startPoint.X + globalFontSize * 10, startPoint.Y + globalFontSize * 3));
                 newText.setFocus(true);
 
                 drawArea.Children.Add(newText.convertShapeType());
                 TextBox newTextBox = newText.getTextBox();
-                newTextBox.TextWrapping = TextWrapping.Wrap;
                 newTextBox.Focus();
                 newTextBox.TextChanged += newTextBox_TextChanged;
                 newTextBox.LostFocus += newTextBox_LostFocus;
@@ -760,8 +763,130 @@ namespace Paint_Application
             TextBox textBox = sender as TextBox;
             IShape text = drawSurface[drawSurface.Count - 1];
             drawSurface.RemoveAt(drawSurface.Count - 1);
-            handleAutoNewLine(textBox, text);
-            drawSurface.Add(text);
+
+            if (textBox.Text.Length > 15)
+            {
+                string textResult = "";
+                string[] newLineSplit = textBox.Text.Split("\r\n");
+                if (newLineSplit.Length > 1)
+                {
+                    int lineMultiple = (textBox.Text.Length / 15) + 3 + newLineSplit.Length - 1;
+                    text.addEndPoint(new Point(startPoint.X + globalFontSize * 10, startPoint.Y + globalFontSize * lineMultiple));
+
+                    for (int i = 0; i < newLineSplit.Length; i++)
+                    {
+                        if (newLineSplit[i].Length > 15)
+                        {
+                            string[] textSplit = newLineSplit[i].Split();
+                            string tempText = "";
+                            bool isLongString = false;
+
+                            for (int j = 0; j < textSplit.Length; j++)
+                            {
+                                tempText += " " + textSplit[j] + " ";
+                                tempText = tempText.Trim();
+
+                                if (tempText.Length > 15)
+                                {
+                                    isLongString = true;
+                                    j--;
+                                    string[] tempSplitText = tempText.Split();
+                                    for (int k = 0; k < tempSplitText.Length - 1; k++)
+                                    {
+                                        textResult += " " + tempSplitText[k] + " ";
+                                        textResult = textResult.Trim();
+                                        textResult = Regex.Replace(textResult, @"\s+", " ");
+                                    }
+                                    textResult += Environment.NewLine;
+                                    tempText = "";
+                                }
+                            }
+
+                            if (isLongString)
+                            {
+                                textResult += tempText;
+                            }
+                            else
+                            {
+                                textResult = tempText;
+                            }
+                        } else
+                        {
+                            textResult += newLineSplit[i] + Environment.NewLine;   
+                        }
+                    }
+
+                    text.setTextString(textResult);
+                    drawSurface.Add(text);
+                } else
+                {
+                    int lineMultiple = (textBox.Text.Length / 15) + 3;
+                    text.addEndPoint(new Point(startPoint.X + globalFontSize * 10, startPoint.Y + globalFontSize * lineMultiple));
+
+                    string[] textSplit = textBox.Text.Split();
+                    string tempText = "";
+                    bool isLongString = false;
+
+                    if (textSplit.Length > 1)
+                    {
+                        for (int i = 0; i < textSplit.Length; i++)
+                        {
+                            tempText += " " + textSplit[i] + " ";
+                            tempText = tempText.Trim();
+
+                            if (tempText.Length > 15)
+                            {
+                                isLongString = true;
+                                i--;
+                                string[] tempSplitText = tempText.Split();
+                                for (int j = 0; j < tempSplitText.Length - 1; j++)
+                                {
+                                    textResult += " " + tempSplitText[j] + " ";
+                                    textResult = textResult.Trim();
+                                    textResult = Regex.Replace(textResult, @"\s+", " ");
+                                }
+                                textResult += Environment.NewLine;
+                                tempText = "";
+                            }
+                        }
+
+
+                        if (isLongString)
+                        {
+                            textResult += tempText;
+                        }
+                        else
+                        {
+                            textResult = tempText;
+                        }
+
+                        text.setTextString(textResult);
+                        drawSurface.Add(text);
+                    } else
+                    {
+                        for (int i = 0; i < textBox.Text.Length; i+=15)
+                        {
+                            if (i + 15 < textBox.Text.Length)
+                            {
+                                textResult += textBox.Text.Substring(i, i + 15);
+                                textResult += Environment.NewLine;
+                            } else
+                            {
+                                textResult += textBox.Text.Substring(i, textBox.Text.Length - i);
+                            }
+                        }
+
+                        text.setTextString(textResult);
+                        drawSurface.Add(text);
+                    }
+                }
+            } else
+            {
+                int countNewLine = textBox.LineCount - 1;
+                text.addEndPoint(new Point(startPoint.X + globalFontSize * 10, startPoint.Y + globalFontSize * (countNewLine + 3)));
+                text.setTextString(textBox.Text);
+                drawSurface.Add(text);
+            }
         }
 
         private void newTextBox_LostFocus(object sender, EventArgs e)
@@ -777,26 +902,6 @@ namespace Paint_Application
             {
                 drawArea.Children.Add(item.convertShapeType());
             }
-        }
-
-        private void handleAutoNewLine(TextBox textBox, IShape text)
-        {
-            if (textBox.Text.Length >= 16)
-            {
-                int lineMultiple = (textBox.Text.Length / 16) + 2;
-                text.addEndPoint(new Point(startPoint.X + globalFontSize * 10, startPoint.Y + globalFontSize * lineMultiple));
-
-                drawArea.Children.Clear();
-
-                foreach (var item in drawSurface)
-                {
-                    drawArea.Children.Add(item.convertShapeType());
-                }
-
-                drawArea.Children.Add(text.convertShapeType());
-            }
-
-            text.setTextString(textBox.Text);
         }
 
         private void WindowKeyDown(object sender, KeyEventArgs e)
