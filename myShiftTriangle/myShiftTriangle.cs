@@ -5,6 +5,7 @@ using System.Windows;
 using myWidthness;
 using myStroke;
 using myColor;
+using System.Windows.Controls;
 
 namespace myShiftTriangle
 {
@@ -12,9 +13,11 @@ namespace myShiftTriangle
     {
         private Point startPoint;
         private Point endPoint;
-        IWidthness widthness;
-        IStroke strokeStyle;
-        IColor colorValue;
+        private IWidthness widthness;
+        private IStroke strokeStyle;
+        private IColor colorValue;
+        private bool isFill;
+
         public string shapeName => "ShiftTriangle";
         public string shapeImage => "";
 
@@ -33,6 +36,15 @@ namespace myShiftTriangle
             colorValue = color;
         }
         public void addPointList(List<Point> pointList) { }
+        public void addFontSize(int fontSize) { }
+        public void addFontFamily(string fontFamily) { }
+        public TextBox getTextBox() { return null; }
+        public void setTextString(string text) { }
+        public void setFocus(bool focus) { }
+        public void setShapeFill(bool isShapeFill)
+        {
+            isFill = isShapeFill;
+        }
         public object Clone()
         {
             return MemberwiseClone();
@@ -40,34 +52,106 @@ namespace myShiftTriangle
 
         public UIElement convertShapeType()
         {
-            var start = startPoint;
-            var end = endPoint;
+            double width = Math.Abs(endPoint.X - startPoint.X);
+            double height = Math.Abs(endPoint.Y - startPoint.Y);
 
-            var width = Math.Abs(end.X - start.X);
-            var height = Math.Abs(end.Y - start.Y);
+            Point center;
+            double halfWidth = 0;
+            double halfHeight = 0;
 
-            // Find the side length of the equiangular triangle
-            var sideLength = Math.Min(width, height);
-
-            // Calculate the height of the equilateral triangle
-            var equilateralHeight = Math.Sqrt(3) / 2 * sideLength;
-
-            // Set the height to be the same as the calculated equilateral height
-            var value = equilateralHeight;
-
-            var center = new Point((start.X + end.X) / 2, (start.Y + end.Y) / 2);
-            var halfWidth = value / 2;
-            var halfHeight = value / 2;
-
-            var triangle = new Polygon
+            if (startPoint.X < endPoint.X && startPoint.Y < endPoint.Y)
             {
-                Stroke = colorValue.colorValue,
-                StrokeDashArray = strokeStyle.strokeValue,
-                StrokeThickness = widthness.widthnessValue,
-                Points = CreateTrianglePoints(center, halfWidth, halfHeight)
-            };
+                if (width > height)
+                {
+                    width = height;
+                    endPoint = new Point(startPoint.X + height, startPoint.Y + height);
+                }
+                else
+                {
+                    height = width;
+                    endPoint = new Point(startPoint.X + width, startPoint.Y + width);
+                }
 
-            return triangle;
+                center = new Point((startPoint.X + endPoint.X) / 2, (startPoint.Y + endPoint.Y) / 2);
+                halfWidth = width / 2;
+                halfHeight = height / 2;
+            }
+            else if (startPoint.X < endPoint.X && startPoint.Y > endPoint.Y)
+            {
+                if (width > height)
+                {
+                    width = height;
+                    endPoint = new Point(startPoint.X + height, startPoint.Y - height);
+                }
+                else
+                {
+                    height = width;
+                    endPoint = new Point(startPoint.X + width, startPoint.Y - width);
+                }
+
+                center = new Point((startPoint.X + endPoint.X) / 2, (startPoint.Y + endPoint.Y) / 2);
+                halfWidth = width / 2;
+                halfHeight = height / 2;
+            }
+            else if (startPoint.X > endPoint.X && startPoint.Y < endPoint.Y)
+            {
+                if (width > height)
+                {
+                    width = height;
+                    endPoint = new Point(startPoint.X - height, startPoint.Y + height);
+                }
+                else
+                {
+                    height = width;
+                    endPoint = new Point(startPoint.X - width, startPoint.Y + width);
+                }
+
+                center = new Point((startPoint.X + endPoint.X) / 2, (startPoint.Y + endPoint.Y) / 2);
+                halfWidth = width / 2;
+                halfHeight = height / 2;
+            }
+            else if (startPoint.X > endPoint.X && startPoint.Y > endPoint.Y)
+            {
+                if (width > height)
+                {
+                    width = height;
+                    endPoint = new Point(startPoint.X - height, startPoint.Y - height);
+                }
+                else
+                {
+                    height = width;
+                    endPoint = new Point(startPoint.X - width, startPoint.Y - width);
+                }
+
+                center = new Point((startPoint.X + endPoint.X) / 2, (startPoint.Y + endPoint.Y) / 2);
+                halfWidth = width / 2;
+                halfHeight = height / 2;
+            }
+
+            Polygon element;
+
+            if (isFill)
+            {
+                element = new Polygon
+                {
+                    Stroke = colorValue.colorValue,
+                    StrokeThickness = widthness.widthnessValue,
+                    StrokeDashArray = strokeStyle.strokeValue,
+                    Fill = colorValue.colorValue,
+                    Points = CreateTrianglePoints(center, halfWidth, halfHeight)
+                };
+            } else
+            {
+                element = new Polygon
+                {
+                    Stroke = colorValue.colorValue,
+                    StrokeThickness = widthness.widthnessValue,
+                    StrokeDashArray = strokeStyle.strokeValue,
+                    Points = CreateTrianglePoints(center, halfWidth, halfHeight)
+                };
+            }
+
+            return element;
         }
 
         private PointCollection CreateTrianglePoints(Point center, double halfWidth, double halfHeight)

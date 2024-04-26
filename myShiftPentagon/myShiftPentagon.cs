@@ -5,6 +5,7 @@ using System.Windows;
 using myWidthness;
 using myStroke;
 using myColor;
+using System.Windows.Controls;
 
 namespace myShiftPentagon
 {
@@ -12,9 +13,10 @@ namespace myShiftPentagon
     {
         private Point startPoint;
         private Point endPoint;
-        IWidthness widthness;
-        IStroke strokeStyle;
-        IColor colorValue;
+        private IWidthness widthness;
+        private IStroke strokeStyle;
+        private IColor colorValue;
+        private bool isFill;
         public string shapeName => "ShiftPentagon";
         public string shapeImage => "";
 
@@ -33,6 +35,15 @@ namespace myShiftPentagon
             colorValue = color;
         }
         public void addPointList(List<Point> pointList) { }
+        public void addFontSize(int fontSize) { }
+        public void addFontFamily(string fontFamily) { }
+        public TextBox getTextBox() { return null; }
+        public void setTextString(string text) { }
+        public void setFocus(bool focus) { }
+        public void setShapeFill(bool isShapeFill)
+        {
+            isFill = isShapeFill;
+        }
         public object Clone()
         {
             return MemberwiseClone();
@@ -40,50 +51,166 @@ namespace myShiftPentagon
 
         public UIElement convertShapeType()
         {
-            var start = startPoint;
-            var end = endPoint;
+            Point center;
 
-            var width = Math.Abs(end.X - start.X);
-            var height = Math.Abs(end.Y - start.Y);
+            var left = Math.Min(startPoint.X, endPoint.X);
+            var right = Math.Max(startPoint.X, endPoint.X);
 
-            // Calculate the side length of the pentagon based on the minimum of width and height
-            var sideLength = Math.Min(width, height) / 2;
+            var top = Math.Min(startPoint.Y, endPoint.Y);
+            var bottom = Math.Max(startPoint.Y, endPoint.Y);
 
-            // Calculate the center point
-            var center = new Point((start.X + end.X) / 2, (start.Y + end.Y) / 2);
+            var width = right - left;
+            var height = bottom - top;
 
-            // Create the pentagon shape
-            var pentagon = new Polygon
+            string status = "";
+
+            if (startPoint.X < endPoint.X && startPoint.Y < endPoint.Y)
             {
-                Stroke = colorValue.colorValue,
-                StrokeDashArray = strokeStyle.strokeValue,
-                StrokeThickness = widthness.widthnessValue,
-                Points = CreatePentagonPoints(center, sideLength)
-            };
+                status = "normal";
 
-            return pentagon;
-        }
+                if (width > height)
+                {
+                    width = height;
+                    endPoint = new Point(startPoint.X + height, startPoint.Y + height);
+                }
+                else
+                {
+                    height = width;
+                    endPoint = new Point(startPoint.X + width, startPoint.Y + width);
+                }
 
-        private PointCollection CreatePentagonPoints(Point center, double sideLength)
-        {
-            var points = new PointCollection();
-
-            // Calculate angles for each vertex of the pentagon
-            double angle = -Math.PI / 2; // Starting angle for the top vertex
-            double angleIncrement = 2 * Math.PI / 5; // Angle increment for each vertex
-
-            // Loop to create vertices of the pentagon
-            for (int i = 0; i < 5; i++)
+                center = new Point((startPoint.X + endPoint.X) / 2, (startPoint.Y + endPoint.Y) / 2);
+            }
+            else if (startPoint.X < endPoint.X && startPoint.Y > endPoint.Y)
             {
-                double x = center.X + sideLength * Math.Cos(angle);
-                double y = center.Y + sideLength * Math.Sin(angle);
-                points.Add(new Point(x, y));
+                status = "upside";
 
-                // Increment the angle
-                angle += angleIncrement;
+                if (width > height)
+                {
+                    width = height;
+                    endPoint = new Point(startPoint.X + height, startPoint.Y - height);
+                }
+                else
+                {
+                    height = width;
+                    endPoint = new Point(startPoint.X + width, startPoint.Y - width);
+                }
+
+                center = new Point((startPoint.X + endPoint.X) / 2, (startPoint.Y + endPoint.Y) / 2);
+            }
+            else if (startPoint.X > endPoint.X && startPoint.Y < endPoint.Y)
+            {
+                status = "reverse";
+
+                if (width > height)
+                {
+                    width = height;
+                    endPoint = new Point(startPoint.X - height, startPoint.Y + height);
+                }
+                else
+                {
+                    height = width;
+                    endPoint = new Point(startPoint.X - width, startPoint.Y + width);
+                }
+
+                center = new Point((startPoint.X + endPoint.X) / 2, (startPoint.Y + endPoint.Y) / 2);
+            }
+            else if (startPoint.X > endPoint.X && startPoint.Y > endPoint.Y)
+            {
+                status = "upside-reverse";
+
+                if (width > height)
+                {
+                    width = height;
+                    endPoint = new Point(startPoint.X - height, startPoint.Y - height);
+                }
+                else
+                {
+                    height = width;
+                    endPoint = new Point(startPoint.X - width, startPoint.Y - width);
+                }
+
+                center = new Point((startPoint.X + endPoint.X) / 2, (startPoint.Y + endPoint.Y) / 2);
             }
 
-            return points;
+            Path element;
+
+            if (isFill)
+            {
+                element = new Path
+                {
+                    StrokeThickness = widthness.widthnessValue,
+                    StrokeDashArray = strokeStyle.strokeValue,
+                    Stroke = colorValue.colorValue,
+                    Fill = colorValue.colorValue,
+                    Data = CreatePentagonGeometry(center, width, height, status)
+                };
+            } else
+            {
+                element = new Path
+                {
+                    StrokeThickness = widthness.widthnessValue,
+                    StrokeDashArray = strokeStyle.strokeValue,
+                    Stroke = colorValue.colorValue,
+                    Data = CreatePentagonGeometry(center, width, height, status)
+                };
+            }
+
+            return element;
+        }
+
+        private Geometry CreatePentagonGeometry(Point center, double width, double height, string status)
+        {
+            var geometry = new PathGeometry();
+            var figure = new PathFigure();
+
+            if (status == "normal")
+            {
+                figure.StartPoint = new Point(center.X, startPoint.Y);
+                figure.IsClosed = true;
+
+                figure.Segments.Add(new LineSegment(new Point(endPoint.X, center.Y - height / 8), true));
+                figure.Segments.Add(new LineSegment(new Point(center.X + width / 3, endPoint.Y), true));
+                figure.Segments.Add(new LineSegment(new Point(center.X - width / 3, endPoint.Y), true));
+                figure.Segments.Add(new LineSegment(new Point(startPoint.X, center.Y - height / 8), true));
+                figure.Segments.Add(new LineSegment(new Point(center.X, startPoint.Y), true));
+            }
+            else if (status == "upside")
+            {
+                figure.StartPoint = new Point(center.X, endPoint.Y);
+                figure.IsClosed = true;
+
+                figure.Segments.Add(new LineSegment(new Point(endPoint.X, center.Y - height / 8), true));
+                figure.Segments.Add(new LineSegment(new Point(center.X + width / 3, startPoint.Y), true));
+                figure.Segments.Add(new LineSegment(new Point(center.X - width / 3, startPoint.Y), true));
+                figure.Segments.Add(new LineSegment(new Point(startPoint.X, center.Y - height / 8), true));
+                figure.Segments.Add(new LineSegment(new Point(center.X, endPoint.Y), true));
+            }
+            else if (status == "reverse")
+            {
+                figure.StartPoint = new Point(center.X, startPoint.Y);
+                figure.IsClosed = true;
+
+                figure.Segments.Add(new LineSegment(new Point(startPoint.X, center.Y - height / 8), true));
+                figure.Segments.Add(new LineSegment(new Point(center.X + width / 3, endPoint.Y), true));
+                figure.Segments.Add(new LineSegment(new Point(center.X - width / 3, endPoint.Y), true));
+                figure.Segments.Add(new LineSegment(new Point(endPoint.X, center.Y - height / 8), true));
+                figure.Segments.Add(new LineSegment(new Point(center.X, startPoint.Y), true));
+            }
+            else if (status == "upside-reverse")
+            {
+                figure.StartPoint = new Point(center.X, endPoint.Y);
+                figure.IsClosed = true;
+
+                figure.Segments.Add(new LineSegment(new Point(startPoint.X, center.Y - height / 8), true));
+                figure.Segments.Add(new LineSegment(new Point(center.X + width / 3, startPoint.Y), true));
+                figure.Segments.Add(new LineSegment(new Point(center.X - width / 3, startPoint.Y), true));
+                figure.Segments.Add(new LineSegment(new Point(endPoint.X, center.Y - height / 8), true));
+                figure.Segments.Add(new LineSegment(new Point(center.X, endPoint.Y), true));
+            }
+
+            geometry.Figures.Add(figure);
+            return geometry;
         }
     }
 }

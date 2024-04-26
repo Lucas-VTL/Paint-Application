@@ -13,9 +13,10 @@ namespace myShiftEllipse
     {
         private Point startPoint;
         private Point endPoint;
-        IWidthness widthness;
-        IStroke strokeStyle;
-        IColor colorValue;
+        private IWidthness widthness;
+        private IStroke strokeStyle;
+        private IColor colorValue;
+        private bool isFill;
         public string shapeName => "ShiftEllipse";
         public string shapeImage => "";
 
@@ -34,6 +35,15 @@ namespace myShiftEllipse
             colorValue = color;
         }
         public void addPointList(List<Point> pointList) { }
+        public void addFontSize(int fontSize) { }
+        public void addFontFamily(string fontFamily) { }
+        public TextBox getTextBox() { return null; }
+        public void setTextString(string text) { }
+        public void setFocus(bool focus) { }
+        public void setShapeFill(bool isShapeFill)
+        {
+            isFill = isShapeFill;
+        }
         public object Clone()
         {
             return MemberwiseClone();
@@ -41,26 +51,109 @@ namespace myShiftEllipse
 
         public UIElement convertShapeType()
         {
-            var start = startPoint;
-            var end = endPoint; 
+            var left = Math.Min(endPoint.X, startPoint.X);
+            var right = Math.Max(endPoint.X, startPoint.X);
 
-            double radius = Math.Min(Math.Abs(end.X - start.X), Math.Abs(end.Y - start.Y)) / 2;
-            double centerX = start.X + (end.X - start.X) / 2;
-            double centerY = start.Y + (end.Y - start.Y) / 2;
+            var top = Math.Min(endPoint.Y, startPoint.Y);
+            var bottom = Math.Max(endPoint.Y, startPoint.Y);
 
-            Ellipse circle = new Ellipse()
+            var width = right - left;
+            var height = bottom - top;
+
+            if (startPoint.X < endPoint.X && startPoint.Y < endPoint.Y)
             {
-                Stroke = colorValue.colorValue,
-                StrokeDashArray = strokeStyle.strokeValue,
-                StrokeThickness = widthness.widthnessValue,
-                Width = radius * 2,
-                Height = radius * 2
-            };
+                if (width > height)
+                {
+                    width = height;
+                    endPoint = new Point(startPoint.X + height, startPoint.Y + height);
+                }
+                else
+                {
+                    height = width;
+                    endPoint = new Point(startPoint.X + width, startPoint.Y + width);
+                }
 
-            circle.SetValue(Canvas.LeftProperty, centerX - radius);
-            circle.SetValue(Canvas.TopProperty, centerY - radius);
+                left = Math.Min(endPoint.X, startPoint.X);
+                top = Math.Min(endPoint.Y, startPoint.Y);
+            }
+            else if (startPoint.X < endPoint.X && startPoint.Y > endPoint.Y)
+            {
+                if (width > height)
+                {
+                    width = height;
+                    endPoint = new Point(startPoint.X + height, startPoint.Y - height);
+                }
+                else
+                {
+                    height = width;
+                    endPoint = new Point(startPoint.X + width, startPoint.Y - width);
+                }
 
-            return circle;
+                left = Math.Min(endPoint.X, startPoint.X);
+                top = Math.Min(endPoint.Y, startPoint.Y);
+            }
+            else if (startPoint.X > endPoint.X && startPoint.Y < endPoint.Y)
+            {
+                if (width > height)
+                {
+                    width = height;
+                    endPoint = new Point(startPoint.X - height, startPoint.Y + height);
+                }
+                else
+                {
+                    height = width;
+                    endPoint = new Point(startPoint.X - width, startPoint.Y + width);
+                }
+
+                left = Math.Min(endPoint.X, startPoint.X);
+                top = Math.Min(endPoint.Y, startPoint.Y);
+            }
+            else if (startPoint.X > endPoint.X && startPoint.Y > endPoint.Y)
+            {
+                if (width > height)
+                {
+                    width = height;
+                    endPoint = new Point(startPoint.X - height, startPoint.Y - height);
+                }
+                else
+                {
+                    height = width;
+                    endPoint = new Point(startPoint.X - width, startPoint.Y - width);
+                }
+
+                left = Math.Min(endPoint.X, startPoint.X);
+                top = Math.Min(endPoint.Y, startPoint.Y);
+            }
+
+            Ellipse element;
+
+            if (isFill)
+            {
+                element = new Ellipse
+                {
+                    Stroke = colorValue.colorValue,
+                    StrokeThickness = widthness.widthnessValue,
+                    StrokeDashArray = strokeStyle.strokeValue,
+                    Fill = colorValue.colorValue,
+                    Width = width,
+                    Height = height
+                };
+            } else
+            {
+                element = new Ellipse
+                {
+                    Stroke = colorValue.colorValue,
+                    StrokeThickness = widthness.widthnessValue,
+                    StrokeDashArray = strokeStyle.strokeValue,
+                    Width = width,
+                    Height = height
+                };
+            }
+
+            Canvas.SetLeft(element, left);
+            Canvas.SetTop(element, top);
+
+            return element;
         }
 
     }

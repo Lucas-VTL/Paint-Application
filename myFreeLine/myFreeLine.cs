@@ -14,7 +14,6 @@ namespace myFreeLine
     public class myFreeLine : IShape
     {
         List<Point> list;
-
         Canvas cloneDrawSurface;
         public string shapeName => "Free Line";
         public string shapeImage => "";
@@ -24,6 +23,12 @@ namespace myFreeLine
         public void addWidthness(IWidthness width) {}
         public void addStrokeStyle(IStroke stroke) {}
         public void addColor(IColor color) {}
+        public void setShapeFill(bool isShapeFill) {}
+        public void addFontSize(int fontSize) {}
+        public void addFontFamily(string fontFamily) {}
+        public TextBox getTextBox() { return null; }
+        public void setTextString(string text) { }
+        public void setFocus(bool focus) { }
         public void addPointList(List<Point> pointList) 
         {
             list = new List<Point>(0);

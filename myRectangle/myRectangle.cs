@@ -14,9 +14,10 @@ namespace myRectangle
     {
         private Point startPoint;
         private Point endPoint;
-        IWidthness widthness;
-        IStroke strokeStyle;
-        IColor colorValue;
+        private IWidthness widthness;
+        private IStroke strokeStyle;
+        private IColor colorValue;
+        private bool isFill;
         public string shapeName => "Rectangle";
         public string shapeImage => "images/shapeRectangle.png";
 
@@ -35,6 +36,15 @@ namespace myRectangle
             colorValue = color;
         }
         public void addPointList(List<Point> pointList) { }
+        public void addFontSize(int fontSize) { }
+        public void addFontFamily(string fontFamily) { }
+        public TextBox getTextBox() { return null; }
+        public void setTextString(string text) { }
+        public void setFocus(bool focus) { }
+        public void setShapeFill(bool isShapeFill)
+        {
+            isFill = isShapeFill;
+        }
         public object Clone()
         {
             return MemberwiseClone();
@@ -42,25 +52,39 @@ namespace myRectangle
 
         public UIElement convertShapeType()
         {
-            var start = startPoint;
-            var end = endPoint;
+            var left = Math.Min(startPoint.X, endPoint.X);
+            var right = Math.Max(startPoint.X, endPoint.X);
 
-            var left = Math.Min(start.X, end.X);
-            var right = Math.Max(start.X, end.X);
-            var top = Math.Min(start.Y, end.Y);
-            var bottom = Math.Max(start.Y, end.Y);
+            var top = Math.Min(startPoint.Y, endPoint.Y);
+            var bottom = Math.Max(startPoint.Y, endPoint.Y);
 
             var width = right - left;
             var height = bottom - top;
 
-            var element = new Rectangle()
+            Rectangle element;
+            
+            if (isFill)
             {
-                Stroke = colorValue.colorValue,
-                StrokeThickness = widthness.widthnessValue,
-                StrokeDashArray = strokeStyle.strokeValue,
-                Width = width,
-                Height = height
-            };
+                element = new Rectangle()
+                {
+                    Stroke = colorValue.colorValue,
+                    StrokeThickness = widthness.widthnessValue,
+                    StrokeDashArray = strokeStyle.strokeValue,
+                    Fill = colorValue.colorValue,
+                    Width = width,
+                    Height = height
+                };
+            } else
+            {
+                element = new Rectangle()
+                {
+                    Stroke = colorValue.colorValue,
+                    StrokeThickness = widthness.widthnessValue,
+                    StrokeDashArray = strokeStyle.strokeValue,
+                    Width = width,
+                    Height = height
+                };
+            }
 
             Canvas.SetLeft(element, left);
             Canvas.SetTop(element, top);

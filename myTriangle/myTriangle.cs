@@ -3,6 +3,7 @@ using myShape;
 using myStroke;
 using myWidthness;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Shapes;
 
@@ -12,9 +13,11 @@ namespace myTriangle
     {
         private Point startPoint;
         private Point endPoint;
-        IWidthness widthness;
-        IStroke strokeStyle;
-        IColor colorValue;
+        private IWidthness widthness;
+        private IStroke strokeStyle;
+        private IColor colorValue;
+        private bool isFill;
+
         public string shapeName => "Triangle";
         public string shapeImage => "images/shapeTriangle.png";
 
@@ -33,6 +36,15 @@ namespace myTriangle
             colorValue = color;
         }
         public void addPointList(List<Point> pointList) { }
+        public void addFontSize(int fontSize) { }
+        public void addFontFamily(string fontFamily) { }
+        public TextBox getTextBox() { return null; }
+        public void setTextString(string text) { }
+        public void setFocus(bool focus) { }
+        public void setShapeFill(bool isShapeFill)
+        {
+            isFill = isShapeFill;
+        }
         public object Clone()
         {
             return MemberwiseClone();
@@ -40,25 +52,37 @@ namespace myTriangle
 
         public UIElement convertShapeType()
         {
-            var start = startPoint;
-            var end = endPoint;
+            var width = Math.Abs(endPoint.X - startPoint.X);
+            var height = Math.Abs(endPoint.Y - startPoint.Y);
 
-            var width = Math.Abs(end.X - start.X);
-            var height = Math.Abs(end.Y - start.Y);
-
-            var center = new Point((start.X + end.X) / 2, (start.Y + end.Y) / 2);
+            var center = new Point((startPoint.X + endPoint.X) / 2, (startPoint.Y + endPoint.Y) / 2);
             var halfWidth = width / 2;
             var halfHeight = height / 2;
 
-            var triangle = new Polygon
-            {
-                Stroke = colorValue.colorValue,
-                StrokeThickness = widthness.widthnessValue,
-                StrokeDashArray = strokeStyle.strokeValue,
-                Points = CreateTrianglePoints(center, halfWidth, halfHeight)
-            };
+            Polygon element;
 
-            return triangle;
+            if (isFill)
+            {
+                element = new Polygon
+                {
+                    Stroke = colorValue.colorValue,
+                    StrokeThickness = widthness.widthnessValue,
+                    StrokeDashArray = strokeStyle.strokeValue,
+                    Fill = colorValue.colorValue,
+                    Points = CreateTrianglePoints(center, halfWidth, halfHeight)
+                };
+            } else
+            {
+                element = new Polygon
+                {
+                    Stroke = colorValue.colorValue,
+                    StrokeThickness = widthness.widthnessValue,
+                    StrokeDashArray = strokeStyle.strokeValue,
+                    Points = CreateTrianglePoints(center, halfWidth, halfHeight)
+                };
+            }
+
+            return element;
         }
 
         private PointCollection CreateTrianglePoints(Point center, double halfWidth, double halfHeight)

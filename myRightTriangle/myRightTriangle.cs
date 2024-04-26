@@ -3,6 +3,7 @@ using myShape;
 using myStroke;
 using myWidthness;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Shapes;
 
@@ -12,9 +13,11 @@ namespace myRightTriangle
     {
         private Point startPoint;
         private Point endPoint;
-        IWidthness widthness;
-        IStroke strokeStyle;
-        IColor colorValue;
+        private IWidthness widthness;
+        private IStroke strokeStyle;
+        private IColor colorValue;
+        private bool isFill;
+
         public string shapeName => "RightTriangle";
         public string shapeImage => "images/shapeRightTriangle.png";
 
@@ -33,6 +36,15 @@ namespace myRightTriangle
             colorValue = color;
         }
         public void addPointList(List<Point> pointList) { }
+        public void addFontSize(int fontSize) { }
+        public void addFontFamily(string fontFamily) { }
+        public TextBox getTextBox() { return null; }
+        public void setTextString(string text) { }
+        public void setFocus(bool focus) { }
+        public void setShapeFill(bool isShapeFill)
+        {
+            isFill = isShapeFill;
+        }
         public object Clone()
         {
             return MemberwiseClone();
@@ -40,38 +52,45 @@ namespace myRightTriangle
 
         public UIElement convertShapeType()
         {
-            var start = startPoint;
-            var end = endPoint;
+            var width = Math.Abs(endPoint.X - startPoint.X);
+            var height = Math.Abs(endPoint.Y - startPoint.Y);
 
-            var width = Math.Abs(end.X - start.X);
-            var height = Math.Abs(end.Y - start.Y);
-
-            var center = new Point((start.X + end.X) / 2, (start.Y + end.Y) / 2);
+            var center = new Point((startPoint.X + endPoint.X) / 2, (startPoint.Y + endPoint.Y) / 2);
 
             var hypotenuseLength = Math.Sqrt(width * width + height * height);
 
-            var rightTriangle = new Polygon
-            {
-                Stroke = colorValue.colorValue,
-                StrokeThickness = widthness.widthnessValue,
-                StrokeDashArray = strokeStyle.strokeValue,
-                Points = CreateRightTrianglePoints(center, width, height, hypotenuseLength)
-            };
+            Polygon element;
 
-            return rightTriangle;
+            if (isFill)
+            {
+                element = new Polygon
+                {
+                    Stroke = colorValue.colorValue,
+                    StrokeThickness = widthness.widthnessValue,
+                    StrokeDashArray = strokeStyle.strokeValue,
+                    Fill = colorValue.colorValue,
+                    Points = CreateRightTrianglePoints(center, width, height, hypotenuseLength)
+                };
+            } else
+            {
+                element = new Polygon
+                {
+                    Stroke = colorValue.colorValue,
+                    StrokeThickness = widthness.widthnessValue,
+                    StrokeDashArray = strokeStyle.strokeValue,
+                    Points = CreateRightTrianglePoints(center, width, height, hypotenuseLength)
+                };
+            }
+
+            return element;
         }
 
         private PointCollection CreateRightTrianglePoints(Point center, double width, double height, double hypotenuseLength)
         {
             var points = new PointCollection();
 
-            // Vertex at the bottom-left corner
             points.Add(new Point(center.X - width / 2, center.Y + height / 2));
-
-            // Vertex at the top-left corner
             points.Add(new Point(center.X - width / 2, center.Y - height / 2));
-
-            // Vertex at the bottom-right corner
             points.Add(new Point(center.X + width / 2, center.Y + height / 2));
 
             return points;

@@ -89,7 +89,7 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="5*"/>
         </Grid.RowDefinitions>
-        <DockPanel Grid.Row="0" Background="Lavender">
+        <DockPanel Grid.Row="0" Background="Lavender" Panel.ZIndex="1">
             <StackPanel DockPanel.Dock="Left" Orientation="Horizontal" HorizontalAlignment="Left">
                 <Image Source="images/window-icon.png" Margin="10 5"/>
                 <TextBlock FontFamily="fonts/#Lobster" FontSize="22" Text="Paint Application" VerticalAlignment="Center"/>

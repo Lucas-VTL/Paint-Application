@@ -5,6 +5,7 @@ using System.Windows;
 using myWidthness;
 using myStroke;
 using myColor;
+using System.Windows.Controls;
 
 namespace myShiftRhombus
 {
@@ -12,9 +13,11 @@ namespace myShiftRhombus
     {
         private Point startPoint;
         private Point endPoint;
-        IWidthness widthness;
-        IStroke strokeStyle;
-        IColor colorValue;
+        private IWidthness widthness;
+        private IStroke strokeStyle;
+        private IColor colorValue;
+        private bool isFill;
+
         public string shapeName => "ShiftRhombus";
         public string shapeImage => "";
 
@@ -33,32 +36,121 @@ namespace myShiftRhombus
             colorValue = color;
         }
         public void addPointList(List<Point> pointList) { }
+        public void addFontSize(int fontSize) { }
+        public void addFontFamily(string fontFamily) { }
+        public TextBox getTextBox() { return null; }
+        public void setTextString(string text) { }
+        public void setFocus(bool focus) { }
+        public void setShapeFill(bool isShapeFill)
+        {
+            isFill = isShapeFill;
+        }
         public object Clone()
         {
             return MemberwiseClone();
         }
         public UIElement convertShapeType()
         {
-            var start = startPoint;
-            var end = endPoint;
+            var width = Math.Abs(endPoint.X - startPoint.X);
+            var height = Math.Abs(endPoint.Y - startPoint.Y);
 
-            var width = Math.Abs(end.X - start.X);
-            var height = Math.Abs(end.Y - start.Y);
-            var value = Math.Min(width, height);
+            Point center;
+            double halfWidth = 0;
+            double halfHeight = 0;
 
-            var center = new Point((start.X + end.X) / 2, (start.Y + end.Y) / 2);
-            var halfWidth = value / 2;
-            var halfHeight = value / 2;
-
-            var rhombus = new Polygon
+            if (startPoint.X < endPoint.X && startPoint.Y < endPoint.Y)
             {
-                Stroke = colorValue.colorValue,
-                StrokeThickness = widthness.widthnessValue,
-                StrokeDashArray = strokeStyle.strokeValue,
-                Points = CreateRhombusPoints(center, halfWidth, halfHeight)
-            };
+                if (width > height)
+                {
+                    width = height;
+                    endPoint = new Point(startPoint.X + height, startPoint.Y + height);
+                }
+                else
+                {
+                    height = width;
+                    endPoint = new Point(startPoint.X + width, startPoint.Y + width);
+                }
 
-            return rhombus;
+                center = new Point((startPoint.X + endPoint.X) / 2, (startPoint.Y + endPoint.Y) / 2);
+                halfWidth = width / 2;
+                halfHeight = height / 2;
+            }
+            else if (startPoint.X < endPoint.X && startPoint.Y > endPoint.Y)
+            {
+                if (width > height)
+                {
+                    width = height;
+                    endPoint = new Point(startPoint.X + height, startPoint.Y - height);
+                }
+                else
+                {
+                    height = width;
+                    endPoint = new Point(startPoint.X + width, startPoint.Y - width);
+                }
+
+                center = new Point((startPoint.X + endPoint.X) / 2, (startPoint.Y + endPoint.Y) / 2);
+                halfWidth = width / 2;
+                halfHeight = height / 2;
+            }
+            else if (startPoint.X > endPoint.X && startPoint.Y < endPoint.Y)
+            {
+                if (width > height)
+                {
+                    width = height;
+                    endPoint = new Point(startPoint.X - height, startPoint.Y + height);
+                }
+                else
+                {
+                    height = width;
+                    endPoint = new Point(startPoint.X - width, startPoint.Y + width);
+                }
+
+                center = new Point((startPoint.X + endPoint.X) / 2, (startPoint.Y + endPoint.Y) / 2);
+                halfWidth = width / 2;
+                halfHeight = height / 2;
+            }
+            else if (startPoint.X > endPoint.X && startPoint.Y > endPoint.Y)
+            {
+                if (width > height)
+                {
+                    width = height;
+                    endPoint = new Point(startPoint.X - height, startPoint.Y - height);
+                }
+                else
+                {
+                    height = width;
+                    endPoint = new Point(startPoint.X - width, startPoint.Y - width);
+                }
+
+                center = new Point((startPoint.X + endPoint.X) / 2, (startPoint.Y + endPoint.Y) / 2);
+                halfWidth = width / 2;
+                halfHeight = height / 2;
+            }
+
+            Polygon element;
+
+            if (isFill)
+            {
+                element = new Polygon
+                {
+                    Stroke = colorValue.colorValue,
+                    StrokeThickness = widthness.widthnessValue,
+                    StrokeDashArray = strokeStyle.strokeValue,
+                    Fill = colorValue.colorValue,
+                    Points = CreateRhombusPoints(center, halfWidth, halfHeight)
+                };
+            } else
+            {
+                element = new Polygon
+                {
+                    Stroke = colorValue.colorValue,
+                    StrokeThickness = widthness.widthnessValue,
+                    StrokeDashArray = strokeStyle.strokeValue,
+                    Points = CreateRhombusPoints(center, halfWidth, halfHeight)
+                };
+            }
+
+            return element;
         }
 
         private PointCollection CreateRhombusPoints(Point center, double halfWidth, double halfHeight)

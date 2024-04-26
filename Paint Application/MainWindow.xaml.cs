@@ -19,6 +19,7 @@ using Point = System.Windows.Point;
 using System.Diagnostics;
 using System.Windows.Shapes;
 using Brushes = System.Windows.Media.Brushes;
+using TextBox = System.Windows.Controls.TextBox;
 
 namespace Paint_Application
 {
@@ -43,12 +44,16 @@ namespace Paint_Application
         private bool isDrawing = false;
         private bool isShiftDown = false;
         private bool isShapeFill = false;
+        private bool isTextOpen = false;
 
         //Lưu giữ điểm bắt đầu và kết thúc của nét vẽ
         Point startPoint;
         Point endPoint;
+
+        //Lưu giữ các biến tương tác đặc biệt của chương trình
         IColor customColor;
         IShape freeLine;
+        IShape text;
 
         //List border giúp xác định các border khi người dùng chọn vào các function
         private List<Border> function = new List<Border>();
@@ -59,6 +64,7 @@ namespace Paint_Application
         //Các biến global lưu giữ các thông số của ứng dụng
         private string globalFontFamily;
         private int globalFontSize = 12;
+
         private IShape selectedShape = null;
         private IColor selectedColor = null;
 
@@ -79,7 +85,6 @@ namespace Paint_Application
 
         //List eraseList giúp lưu giữ các hình vẽ bị xóa
         private List<Point> eraseList = new List<Point>();
-
         public MainWindow()
         {
             InitializeComponent();
@@ -119,7 +124,7 @@ namespace Paint_Application
                 {
                     if ((type.IsClass) && (typeof(IShape).IsAssignableFrom(type)))
                     {
-                        if (!type.Name.Contains("Shift") && !type.Name.Equals("myFreeLine"))
+                        if (!type.Name.Contains("Shift") && !type.Name.Equals("myFreeLine") && !type.Name.Equals("myText"))
                         {
                             shapeList.Add((IShape)Activator.CreateInstance(type)!);
                         }
@@ -127,6 +132,11 @@ namespace Paint_Application
                         if (type.Name.Equals("myFreeLine"))
                         {
                             freeLine = (IShape)Activator.CreateInstance(type)!;
+                        }
+
+                        if (type.Name.Equals("myText"))
+                        {
+                            text = (IShape)Activator.CreateInstance(type)!;
                         }
 
                         allShapeList.Add((IShape)Activator.CreateInstance(type)!);
@@ -186,6 +196,14 @@ namespace Paint_Application
                 {
                     function[i].Opacity = 0;
                 }
+            }
+
+            if (index == 1)
+            {
+                isTextOpen = true;
+            } else
+            {
+                isTextOpen = false;
             }
 
             if (index == 2)
@@ -569,7 +587,20 @@ namespace Paint_Application
                 selectedShape = freeLine;
                 IShape newFreeLine = (IShape)selectedShape.Clone();
                 newFreeLine.addPointList(eraseList);
-                drawSurface.Add(newFreeLine);
+
+                if (!checkIfDrawSurfaceEmpty(drawSurface))
+                {
+                    drawSurface.Add(newFreeLine);
+
+                    toolUndoButton.Opacity = 1;
+                    toolRedoButton.Opacity = 0.3;
+                    recoverList.Clear();
+                } else
+                {
+                    toolUndoButton.Opacity = 0.3;
+                    toolRedoButton.Opacity = 0.3;
+                    recoverList.Clear();
+                }
 
                 eraseList.Clear();
                 selectedShape = null;
@@ -637,6 +668,7 @@ namespace Paint_Application
                 selectedShape.addWidthness((IWidthness)styleWidthCombobox.SelectedItem);
                 selectedShape.addStrokeStyle((IStroke)styleStrokeCombobox.SelectedItem);
                 selectedShape.addColor(selectedColor);
+                selectedShape.setShapeFill(isShapeFill);
 
                 drawArea.Children.Add(selectedShape.convertShapeType());
             }
@@ -695,6 +727,76 @@ namespace Paint_Application
 
                 drawArea.Children.Add(dot);
             }
+
+            if (selectedShape == null && isTextOpen)
+            {
+                isDrawing = false;
+
+                selectedShape = text;
+                IShape newText = (IShape)selectedShape.Clone();
+
+                newText.addFontSize(globalFontSize);
+                newText.addFontFamily(globalFontFamily);
+                newText.addColor(selectedColor);
+
+                newText.addStartPoint(startPoint);
+                newText.addEndPoint(new Point(startPoint.X + globalFontSize * 10, startPoint.Y + globalFontSize * 2));
+                newText.setFocus(true);
+
+                drawArea.Children.Add(newText.convertShapeType());
+                TextBox newTextBox = newText.getTextBox();
+                newTextBox.TextWrapping = TextWrapping.Wrap;
+                newTextBox.Focus();
+                newTextBox.TextChanged += newTextBox_TextChanged;
+                newTextBox.LostFocus += newTextBox_LostFocus;
+
+                drawSurface.Add(newText);
+                selectedShape = null;
+            }
+        }
+
+        private void newTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            TextBox textBox = sender as TextBox;
+            IShape text = drawSurface[drawSurface.Count - 1];
+            drawSurface.RemoveAt(drawSurface.Count - 1);
+            handleAutoNewLine(textBox, text);
+            drawSurface.Add(text);
+        }
+
+        private void newTextBox_LostFocus(object sender, EventArgs e)
+        {
+            IShape text = drawSurface[drawSurface.Count - 1];
+            drawSurface.RemoveAt(drawSurface.Count - 1);
+            text.setFocus(false);
+            drawSurface.Add(text);
+
+            drawArea.Children.Clear();
+
+            foreach (var item in drawSurface)
+            {
+                drawArea.Children.Add(item.convertShapeType());
+            }
+        }
+
+        private void handleAutoNewLine(TextBox textBox, IShape text)
+        {
+            if (textBox.Text.Length >= 16)
+            {
+                int lineMultiple = (textBox.Text.Length / 16) + 2;
+                text.addEndPoint(new Point(startPoint.X + globalFontSize * 10, startPoint.Y + globalFontSize * lineMultiple));
+
+                drawArea.Children.Clear();
+
+                foreach (var item in drawSurface)
+                {
+                    drawArea.Children.Add(item.convertShapeType());
+                }
+
+                drawArea.Children.Add(text.convertShapeType());
+            }
+
+            text.setTextString(textBox.Text);
         }
 
         private void WindowKeyDown(object sender, KeyEventArgs e)
@@ -931,7 +1033,7 @@ namespace Paint_Application
                     drawArea.Children.Add(item.convertShapeType());
                 }
 
-                if (drawSurface.Count == 0)
+                if (checkIfDrawSurfaceEmpty(drawSurface))
                 {
                     toolUndoButton.Opacity = 0.3;
                 }
@@ -961,6 +1063,24 @@ namespace Paint_Application
 
                 toolUndoButton.Opacity = 1;
             }
+        }
+
+        private bool checkIfDrawSurfaceEmpty(List<IShape> surface)
+        {
+            if (surface.Count == 0)
+            {
+                return true;
+            }
+
+            foreach (IShape shape in surface)
+            {
+                if (shape.shapeName != "Free Line")
+                {
+                    return false;
+                }
+            }
+
+            return true;
         }
     }
 }
