@@ -868,7 +868,7 @@ namespace Paint_Application
                         {
                             if (i + 15 < textBox.Text.Length)
                             {
-                                textResult += textBox.Text.Substring(i, i + 15);
+                                textResult += textBox.Text.Substring(i, 15);
                                 textResult += Environment.NewLine;
                             } else
                             {
