@@ -1,8 +1,10 @@
 ﻿using myColor;
 using myStroke;
 using myWidthness;
+using System.Drawing;
 using System.Windows;
 using System.Windows.Controls;
+using Point = System.Windows.Point;
 
 namespace myShape
 {
@@ -22,6 +24,7 @@ namespace myShape
         void setFocus(bool focus);
         void setBold(bool bold);
         void setItalic(bool italic);
+        void setBackground(byte r, byte g, byte b);
         UIElement convertShapeType();
         string shapeName { get;}
         string shapeImage { get;}

@@ -311,8 +311,12 @@
                         </Button>
                     </Grid>
                     <Grid Grid.Row="1">
-                        <TextBlock FontSize="15" FontFamily="fonts/#Signika" Text="Text" VerticalAlignment="Center" HorizontalAlignment="Center" Opacity="0.5"/>
-                        <StackPanel Name="fontSizeStackpanel" HorizontalAlignment="Left" Orientation="Horizontal" Margin="4 0 0 0" Visibility="Collapsed">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="175*"/>
+                            <ColumnDefinition Width="26*"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock FontSize="15" FontFamily="fonts/#Signika" Text="Text" VerticalAlignment="Center" HorizontalAlignment="Left" Opacity="0.5" Margin="87,0,0,0"/>
+                        <StackPanel Name="fontSizeStackpanel" HorizontalAlignment="Left" Orientation="Horizontal" Margin="4,0,0,0" Visibility="Collapsed">
                             <Border Width="50" Height="22" BorderBrush="Black" BorderThickness="1 1 0 1">
                                 <TextBox Name="fontSizeTextbox" Height="22" Text="12" VerticalAlignment="Center" VerticalContentAlignment="Center" FontFamily="fonts/#Signika" KeyDown="fontSizeTextboxKeyDown"/>
                             </Border>
@@ -337,9 +341,11 @@
                                 </Border>
                             </Grid>
                         </StackPanel>
-                        <StackPanel Name="backgroundColorStackPanel" HorizontalAlignment="Right" Orientation="Horizontal" Margin="0 0 18 0" Visibility="Hidden">
-                            <Border Width="30" Height="22" Background="Black"/>
-                        </StackPanel>
+                        <Button Name="textBackgroundCustom" HorizontalAlignment="Left" Cursor="Hand" Style="{StaticResource buttonStyle}" Margin="153,0,0,0" Visibility="Hidden" Click="textBackGroundCustomClick" Grid.ColumnSpan="2">
+                            <Button.Content>
+                                <Border Name="textBackgroundBorder" Width="30" Height="22" Background="White" CornerRadius="5"/>
+                            </Button.Content>
+                        </Button>
                     </Grid>
                 </Grid>
             </Border>
@@ -532,7 +538,7 @@
                                     </StackPanel>
                                 </Button.Content>
                             </Button>
-                            
+
                         </Grid>
                     </Grid>
                     <TextBlock Grid.Row="1" FontSize="15" FontFamily="fonts/#Signika" Text="Style" VerticalAlignment="Center" HorizontalAlignment="Center" Opacity="0.5"/>

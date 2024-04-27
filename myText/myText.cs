@@ -27,6 +27,7 @@ namespace myText
         int fontSize;
 
         private IColor colorValue;
+        private SolidColorBrush fillValue = new SolidColorBrush(Color.FromRgb(255, 255, 255));
         private bool isFill;
 
         public string shapeName => "Text";
@@ -66,9 +67,13 @@ namespace myText
         { 
             myTextString = text;
         }
-        public void setShapeFill(bool isShapeFill)
+        public void setShapeFill(bool isShapeFill) 
         {
             isFill = isShapeFill;
+        }
+        public void setBackground(byte r, byte g, byte b) 
+        {
+            fillValue = new SolidColorBrush(Color.FromRgb(r, g, b));
         }
         public object Clone()
         {
@@ -95,80 +100,156 @@ namespace myText
                     Stroke = Brushes.Black,
                     StrokeThickness = 1,
                     StrokeDashArray = new DoubleCollection() { 10, 2 },
-                    Width = width,
-                    Height = height,
+                    Width = width + 4,
+                    Height = height + 4,
                 };
 
-                Canvas.SetLeft(rectangle, left);
-                Canvas.SetTop(rectangle, top);
+                Canvas.SetLeft(rectangle, left - 2);
+                Canvas.SetTop(rectangle, top - 2);
 
                 canvas.Children.Add(rectangle);
             }
 
-            if (isBold && isItalic)
+            if (isFill)
             {
-                myTextBox = new TextBox()
+                if (isBold && isItalic)
                 {
-                    FontFamily = new FontFamily(fontFamily),
-                    FontSize = fontSize,
-                    BorderThickness = new Thickness(0),
-                    Background = Brushes.Transparent,
-                    Foreground = colorValue.colorValue,
-                    Text = myTextString,
-                    TextWrapping = TextWrapping.Wrap,
-                    AcceptsReturn = true,
-                    FontWeight = FontWeights.Bold,
-                    FontStyle = FontStyles.Italic,
-                    Width = width,
-                    Height = height,
-                };
-            } else if (!isBold && isItalic) 
-            {
-                myTextBox = new TextBox()
+                    myTextBox = new TextBox()
+                    {
+                        FontFamily = new FontFamily(fontFamily),
+                        FontSize = fontSize,
+                        BorderThickness = new Thickness(0),
+                        Background = fillValue,
+                        Foreground = colorValue.colorValue,
+                        Text = myTextString,
+                        TextWrapping = TextWrapping.Wrap,
+                        AcceptsReturn = true,
+                        FontWeight = FontWeights.Bold,
+                        FontStyle = FontStyles.Italic,
+                        Width = width,
+                        Height = height,
+                    };
+                }
+                else if (!isBold && isItalic)
                 {
-                    FontFamily = new FontFamily(fontFamily),
-                    FontSize = fontSize,
-                    BorderThickness = new Thickness(0),
-                    Background = Brushes.Transparent,
-                    Foreground = colorValue.colorValue,
-                    Text = myTextString,
-                    TextWrapping = TextWrapping.Wrap,
-                    AcceptsReturn = true,
-                    FontStyle = FontStyles.Italic,
-                    Width = width,
-                    Height = height,
-                };
-            } else if (isBold && !isItalic)
-            {
-                myTextBox = new TextBox()
+                    myTextBox = new TextBox()
+                    {
+                        FontFamily = new FontFamily(fontFamily),
+                        FontSize = fontSize,
+                        BorderThickness = new Thickness(0),
+                        Background = fillValue,
+                        Foreground = colorValue.colorValue,
+                        Text = myTextString,
+                        TextWrapping = TextWrapping.Wrap,
+                        AcceptsReturn = true,
+                        FontStyle = FontStyles.Italic,
+                        Width = width,
+                        Height = height,
+                    };
+                }
+                else if (isBold && !isItalic)
                 {
-                    FontFamily = new FontFamily(fontFamily),
-                    FontSize = fontSize,
-                    BorderThickness = new Thickness(0),
-                    Background = Brushes.Transparent,
-                    Foreground = colorValue.colorValue,
-                    Text = myTextString,
-                    TextWrapping = TextWrapping.Wrap,
-                    AcceptsReturn = true,
-                    FontWeight = FontWeights.Bold,
-                    Width = width,
-                    Height = height,
-                };
+                    myTextBox = new TextBox()
+                    {
+                        FontFamily = new FontFamily(fontFamily),
+                        FontSize = fontSize,
+                        BorderThickness = new Thickness(0),
+                        Background = fillValue,
+                        Foreground = colorValue.colorValue,
+                        Text = myTextString,
+                        TextWrapping = TextWrapping.Wrap,
+                        AcceptsReturn = true,
+                        FontWeight = FontWeights.Bold,
+                        Width = width,
+                        Height = height,
+                    };
+                }
+                else
+                {
+                    myTextBox = new TextBox()
+                    {
+                        FontFamily = new FontFamily(fontFamily),
+                        FontSize = fontSize,
+                        BorderThickness = new Thickness(0),
+                        Background = fillValue,
+                        Foreground = colorValue.colorValue,
+                        Text = myTextString,
+                        TextWrapping = TextWrapping.Wrap,
+                        AcceptsReturn = true,
+                        Width = width,
+                        Height = height,
+                    };
+                }
             } else
             {
-                myTextBox = new TextBox()
+                if (isBold && isItalic)
                 {
-                    FontFamily = new FontFamily(fontFamily),
-                    FontSize = fontSize,
-                    BorderThickness = new Thickness(0),
-                    Background = Brushes.Transparent,
-                    Foreground = colorValue.colorValue,
-                    Text = myTextString,
-                    TextWrapping = TextWrapping.Wrap,
-                    AcceptsReturn = true,
-                    Width = width,
-                    Height = height,
-                };
+                    myTextBox = new TextBox()
+                    {
+                        FontFamily = new FontFamily(fontFamily),
+                        FontSize = fontSize,
+                        BorderThickness = new Thickness(0),
+                        Background = Brushes.Transparent,
+                        Foreground = colorValue.colorValue,
+                        Text = myTextString,
+                        TextWrapping = TextWrapping.Wrap,
+                        AcceptsReturn = true,
+                        FontWeight = FontWeights.Bold,
+                        FontStyle = FontStyles.Italic,
+                        Width = width,
+                        Height = height,
+                    };
+                }
+                else if (!isBold && isItalic)
+                {
+                    myTextBox = new TextBox()
+                    {
+                        FontFamily = new FontFamily(fontFamily),
+                        FontSize = fontSize,
+                        BorderThickness = new Thickness(0),
+                        Background = Brushes.Transparent,
+                        Foreground = colorValue.colorValue,
+                        Text = myTextString,
+                        TextWrapping = TextWrapping.Wrap,
+                        AcceptsReturn = true,
+                        FontStyle = FontStyles.Italic,
+                        Width = width,
+                        Height = height,
+                    };
+                }
+                else if (isBold && !isItalic)
+                {
+                    myTextBox = new TextBox()
+                    {
+                        FontFamily = new FontFamily(fontFamily),
+                        FontSize = fontSize,
+                        BorderThickness = new Thickness(0),
+                        Background = Brushes.Transparent,
+                        Foreground = colorValue.colorValue,
+                        Text = myTextString,
+                        TextWrapping = TextWrapping.Wrap,
+                        AcceptsReturn = true,
+                        FontWeight = FontWeights.Bold,
+                        Width = width,
+                        Height = height,
+                    };
+                }
+                else
+                {
+                    myTextBox = new TextBox()
+                    {
+                        FontFamily = new FontFamily(fontFamily),
+                        FontSize = fontSize,
+                        BorderThickness = new Thickness(0),
+                        Background = Brushes.Transparent,
+                        Foreground = colorValue.colorValue,
+                        Text = myTextString,
+                        TextWrapping = TextWrapping.Wrap,
+                        AcceptsReturn = true,
+                        Width = width,
+                        Height = height,
+                    };
+                }
             }
 
             Canvas.SetLeft(myTextBox, left);

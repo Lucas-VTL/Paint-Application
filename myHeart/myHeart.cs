@@ -44,6 +44,7 @@ namespace myHeart
         public void setItalic(bool italic) { }
         public void addFontSize(int fontSize) { }
         public void addFontFamily(string fontFamily) { }
+        public void setBackground(byte r, byte g, byte b) { }
         public void setShapeFill(bool isShapeFill)
         {
             isFill = isShapeFill;

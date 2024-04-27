@@ -44,6 +44,7 @@ namespace myArrow
         public void setFocus(bool focus) { }
         public void setBold(bool bold) { }
         public void setItalic(bool italic) { }
+        public void setBackground(byte r, byte g, byte b) { }
         public void setShapeFill(bool isShapeFill)
         {
             isFill = isShapeFill;

@@ -66,6 +66,10 @@ namespace Paint_Application
         private string globalFontFamily;
         private int globalFontSize = 12;
 
+        private byte backgroundRed = 255;
+        private byte backgroundGreen = 255;
+        private byte backgroundBlue = 255;
+
         private IShape selectedShape = null;
         private IColor selectedColor = null;
 
@@ -320,12 +324,12 @@ namespace Paint_Application
             {
                 textBackgroundImage.Source = new BitmapImage(new Uri("images/textBackgroundEffect.png", UriKind.Relative));
                 isTextBackgroundFill = true;
-                backgroundColorStackPanel.Visibility = Visibility.Visible;
+                textBackgroundCustom.Visibility = Visibility.Visible;
             } else
             {
                 textBackgroundImage.Source = new BitmapImage(new Uri("images/textBackground.png", UriKind.Relative));
                 isTextBackgroundFill = false;
-                backgroundColorStackPanel.Visibility = Visibility.Hidden;
+                textBackgroundCustom.Visibility = Visibility.Hidden;
             }
         }
 
@@ -746,10 +750,19 @@ namespace Paint_Application
                 newText.addColor(selectedColor);
 
                 newText.addStartPoint(startPoint);
-                newText.addEndPoint(new Point(startPoint.X + globalFontSize * 10, startPoint.Y + globalFontSize * 3));
+                newText.addEndPoint(new Point(startPoint.X + globalFontSize * 10, startPoint.Y + globalFontSize * 2));
                 newText.setFocus(true);
                 newText.setBold(isTextBold);
                 newText.setItalic(isTextItalic);
+
+                if (isTextBackgroundFill)
+                {
+                    newText.setShapeFill(true);
+                    newText.setBackground(backgroundRed, backgroundGreen, backgroundBlue);
+                } else
+                {
+                    newText.setShapeFill(false);
+                }
 
                 drawArea.Children.Add(newText.convertShapeType());
                 TextBox newTextBox = newText.getTextBox();
@@ -774,7 +787,7 @@ namespace Paint_Application
                 string[] newLineSplit = textBox.Text.Split("\r\n");
                 if (newLineSplit.Length > 1)
                 {
-                    int lineMultiple = (textBox.Text.Length / 15) + 3 + newLineSplit.Length - 1;
+                    int lineMultiple = (textBox.Text.Length / 15) + 2 + newLineSplit.Length - 1;
                     text.addEndPoint(new Point(startPoint.X + globalFontSize * 10, startPoint.Y + globalFontSize * lineMultiple));
 
                     for (int i = 0; i < newLineSplit.Length; i++)
@@ -785,34 +798,51 @@ namespace Paint_Application
                             string tempText = "";
                             bool isLongString = false;
 
-                            for (int j = 0; j < textSplit.Length; j++)
+                            if (textSplit.Length > 1)
                             {
-                                tempText += " " + textSplit[j] + " ";
-                                tempText = tempText.Trim();
-
-                                if (tempText.Length > 15)
+                                for (int j = 0; j < textSplit.Length; j++)
                                 {
-                                    isLongString = true;
-                                    j--;
-                                    string[] tempSplitText = tempText.Split();
-                                    for (int k = 0; k < tempSplitText.Length - 1; k++)
-                                    {
-                                        textResult += " " + tempSplitText[k] + " ";
-                                        textResult = textResult.Trim();
-                                        textResult = Regex.Replace(textResult, @"\s+", " ");
-                                    }
-                                    textResult += Environment.NewLine;
-                                    tempText = "";
-                                }
-                            }
+                                    tempText += " " + textSplit[j] + " ";
+                                    tempText = tempText.Trim();
 
-                            if (isLongString)
+                                    if (tempText.Length > 15)
+                                    {
+                                        isLongString = true;
+                                        j--;
+                                        string[] tempSplitText = tempText.Split();
+                                        for (int k = 0; k < tempSplitText.Length - 1; k++)
+                                        {
+                                            textResult += " " + tempSplitText[k] + " ";
+                                            textResult = textResult.Trim();
+                                            textResult = Regex.Replace(textResult, @"\s+", " ");
+                                        }
+                                        textResult += Environment.NewLine;
+                                        tempText = "";
+                                    }
+                                }
+
+                                if (isLongString)
+                                {
+                                    textResult += tempText;
+                                }
+                                else
+                                {
+                                    textResult = tempText;
+                                }
+                            } else
                             {
-                                textResult += tempText;
-                            }
-                            else
-                            {
-                                textResult = tempText;
+                                for (int j = 0; j < newLineSplit[i].Length; j += 15)
+                                {
+                                    if (j + 15 < newLineSplit[i].Length)
+                                    {
+                                        textResult += newLineSplit[i].Substring(j, 15);
+                                        textResult += Environment.NewLine;
+                                    }
+                                    else
+                                    {
+                                        textResult += newLineSplit[i].Substring(j, newLineSplit[i].Length - j);
+                                    }
+                                }
                             }
                         } else
                         {
@@ -824,7 +854,7 @@ namespace Paint_Application
                     drawSurface.Add(text);
                 } else
                 {
-                    int lineMultiple = (textBox.Text.Length / 15) + 3;
+                    int lineMultiple = (textBox.Text.Length / 15) + 2;
                     text.addEndPoint(new Point(startPoint.X + globalFontSize * 10, startPoint.Y + globalFontSize * lineMultiple));
 
                     string[] textSplit = textBox.Text.Split();
@@ -887,7 +917,7 @@ namespace Paint_Application
             } else
             {
                 int countNewLine = textBox.LineCount - 1;
-                text.addEndPoint(new Point(startPoint.X + globalFontSize * 10, startPoint.Y + globalFontSize * (countNewLine + 3)));
+                text.addEndPoint(new Point(startPoint.X + globalFontSize * 10, startPoint.Y + globalFontSize * (countNewLine + 2)));
                 text.setTextString(textBox.Text);
                 drawSurface.Add(text);
             }
@@ -1196,6 +1226,22 @@ namespace Paint_Application
             }
 
             return true;
+        }
+
+        private void textBackGroundCustomClick(object sender, RoutedEventArgs e)
+        {
+            ColorDialog colorDialog = new ColorDialog();
+
+            if (colorDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                System.Drawing.Color color = colorDialog.Color;
+
+                backgroundRed = color.R;
+                backgroundGreen = color.G;
+                backgroundBlue = color.B;
+
+                textBackgroundBorder.Background = new SolidColorBrush(System.Windows.Media.Color.FromRgb(backgroundRed, backgroundGreen, backgroundBlue));
+            }
         }
     }
 }

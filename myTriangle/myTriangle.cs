@@ -47,6 +47,7 @@ namespace myTriangle
         {
             isFill = isShapeFill;
         }
+        public void setBackground(byte r, byte g, byte b) { }
         public object Clone()
         {
             return MemberwiseClone();

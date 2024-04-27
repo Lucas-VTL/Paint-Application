@@ -31,6 +31,7 @@ namespace myFreeLine
         public void setFocus(bool focus) { }
         public void setBold(bool bold) { }
         public void setItalic(bool italic) { }
+        public void setBackground(byte r, byte g, byte b) { }
         public void addPointList(List<Point> pointList) 
         {
             list = new List<Point>(0);
