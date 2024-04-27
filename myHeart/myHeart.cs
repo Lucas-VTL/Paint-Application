@@ -40,6 +40,8 @@ namespace myHeart
         public TextBox getTextBox() { return null; }
         public void setTextString(string text) { }
         public void setFocus(bool focus) { }
+        public void setBold(bool bold) { }
+        public void setItalic(bool italic) { }
         public void addFontSize(int fontSize) { }
         public void addFontFamily(string fontFamily) { }
         public void setShapeFill(bool isShapeFill)

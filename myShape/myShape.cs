@@ -20,6 +20,8 @@ namespace myShape
         TextBox getTextBox();
         void setTextString(String text);
         void setFocus(bool focus);
+        void setBold(bool bold);
+        void setItalic(bool italic);
         UIElement convertShapeType();
         string shapeName { get;}
         string shapeImage { get;}

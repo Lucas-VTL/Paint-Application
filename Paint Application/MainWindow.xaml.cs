@@ -746,6 +746,8 @@ namespace Paint_Application
                 newText.addStartPoint(startPoint);
                 newText.addEndPoint(new Point(startPoint.X + globalFontSize * 10, startPoint.Y + globalFontSize * 3));
                 newText.setFocus(true);
+                newText.setBold(isTextBold);
+                newText.setItalic(isTextItalic);
 
                 drawArea.Children.Add(newText.convertShapeType());
                 TextBox newTextBox = newText.getTextBox();

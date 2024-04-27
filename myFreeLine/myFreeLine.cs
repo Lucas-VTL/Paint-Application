@@ -29,6 +29,8 @@ namespace myFreeLine
         public TextBox getTextBox() { return null; }
         public void setTextString(string text) { }
         public void setFocus(bool focus) { }
+        public void setBold(bool bold) { }
+        public void setItalic(bool italic) { }
         public void addPointList(List<Point> pointList) 
         {
             list = new List<Point>(0);

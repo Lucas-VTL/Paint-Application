@@ -17,6 +17,8 @@ namespace myText
         string myTextString = "";
 
         bool isFocus;
+        bool isBold;
+        bool isItalic;
 
         Point startPoint;
         Point endPoint;
@@ -46,6 +48,14 @@ namespace myText
         public void setFocus(bool focus) 
         {
             isFocus = focus;   
+        }
+        public void setBold(bool bold) 
+        {
+            isBold = bold;
+        }
+        public void setItalic(bool italic) 
+        {
+            isItalic = italic;
         }
         public void addColor(IColor color)
         {
@@ -95,19 +105,71 @@ namespace myText
                 canvas.Children.Add(rectangle);
             }
 
-            myTextBox = new TextBox()
+            if (isBold && isItalic)
             {
-                FontFamily = new FontFamily(fontFamily),
-                FontSize = fontSize,
-                BorderThickness = new Thickness(0),
-                Background = Brushes.Transparent,
-                Foreground = colorValue.colorValue,
-                Text = myTextString,
-                TextWrapping = TextWrapping.Wrap,
-                AcceptsReturn = true,
-                Width = width,
-                Height = height,
-            };
+                myTextBox = new TextBox()
+                {
+                    FontFamily = new FontFamily(fontFamily),
+                    FontSize = fontSize,
+                    BorderThickness = new Thickness(0),
+                    Background = Brushes.Transparent,
+                    Foreground = colorValue.colorValue,
+                    Text = myTextString,
+                    TextWrapping = TextWrapping.Wrap,
+                    AcceptsReturn = true,
+                    FontWeight = FontWeights.Bold,
+                    FontStyle = FontStyles.Italic,
+                    Width = width,
+                    Height = height,
+                };
+            } else if (!isBold && isItalic) 
+            {
+                myTextBox = new TextBox()
+                {
+                    FontFamily = new FontFamily(fontFamily),
+                    FontSize = fontSize,
+                    BorderThickness = new Thickness(0),
+                    Background = Brushes.Transparent,
+                    Foreground = colorValue.colorValue,
+                    Text = myTextString,
+                    TextWrapping = TextWrapping.Wrap,
+                    AcceptsReturn = true,
+                    FontStyle = FontStyles.Italic,
+                    Width = width,
+                    Height = height,
+                };
+            } else if (isBold && !isItalic)
+            {
+                myTextBox = new TextBox()
+                {
+                    FontFamily = new FontFamily(fontFamily),
+                    FontSize = fontSize,
+                    BorderThickness = new Thickness(0),
+                    Background = Brushes.Transparent,
+                    Foreground = colorValue.colorValue,
+                    Text = myTextString,
+                    TextWrapping = TextWrapping.Wrap,
+                    AcceptsReturn = true,
+                    FontWeight = FontWeights.Bold,
+                    Width = width,
+                    Height = height,
+                };
+            } else
+            {
+                myTextBox = new TextBox()
+                {
+                    FontFamily = new FontFamily(fontFamily),
+                    FontSize = fontSize,
+                    BorderThickness = new Thickness(0),
+                    Background = Brushes.Transparent,
+                    Foreground = colorValue.colorValue,
+                    Text = myTextString,
+                    TextWrapping = TextWrapping.Wrap,
+                    AcceptsReturn = true,
+                    Width = width,
+                    Height = height,
+                };
+            }
 
             Canvas.SetLeft(myTextBox, left);
             Canvas.SetTop(myTextBox, top);
