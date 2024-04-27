@@ -337,6 +337,9 @@
                                 </Border>
                             </Grid>
                         </StackPanel>
+                        <StackPanel Name="backgroundColorStackPanel" HorizontalAlignment="Right" Orientation="Horizontal" Margin="0 0 18 0" Visibility="Hidden">
+                            <Border Width="30" Height="22" Background="Black"/>
+                        </StackPanel>
                     </Grid>
                 </Grid>
             </Border>

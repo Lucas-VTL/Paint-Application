@@ -320,10 +320,12 @@ namespace Paint_Application
             {
                 textBackgroundImage.Source = new BitmapImage(new Uri("images/textBackgroundEffect.png", UriKind.Relative));
                 isTextBackgroundFill = true;
+                backgroundColorStackPanel.Visibility = Visibility.Visible;
             } else
             {
                 textBackgroundImage.Source = new BitmapImage(new Uri("images/textBackground.png", UriKind.Relative));
                 isTextBackgroundFill = false;
+                backgroundColorStackPanel.Visibility = Visibility.Hidden;
             }
         }
 
@@ -896,7 +898,13 @@ namespace Paint_Application
             IShape text = drawSurface[drawSurface.Count - 1];
             drawSurface.RemoveAt(drawSurface.Count - 1);
             text.setFocus(false);
-            drawSurface.Add(text);
+
+            if (!string.IsNullOrEmpty(text.getTextBox().Text))
+            {
+                drawSurface.Add(text);
+                toolUndoButton.Opacity = 1;
+                toolRedoButton.Opacity = 0.3;
+            }
 
             drawArea.Children.Clear();
 
