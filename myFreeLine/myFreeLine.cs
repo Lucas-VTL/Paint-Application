@@ -3,6 +3,7 @@ using myShape;
 using myStroke;
 using myWidthness;
 using System.Drawing;
+using System.Net;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -18,18 +19,18 @@ namespace myFreeLine
         public string shapeName => "Free Line";
         public string shapeImage => "";
 
-        public void addStartPoint(Point point) {}
-        public void addEndPoint(Point point) {}
-        public void addWidthness(IWidthness width) {}
-        public void addStrokeStyle(IStroke stroke) {}
-        public void addColor(IColor color) {}
-        public void setShapeFill(bool isShapeFill) {}
-        public void addFontSize(int fontSize) {}
-        public void addFontFamily(string fontFamily) {}
+        public void addStartPoint(Point point) { }
+        public void addEndPoint(Point point) { }
+        public void addWidthness(IWidthness width) { }
+        public void addStrokeStyle(IStroke stroke) { }
+        public void addColor(IColor color) { }
+        public void setShapeFill(bool isShapeFill) { }
+        public void addFontSize(int fontSize) { }
+        public void addFontFamily(string fontFamily) { }
         public TextBox getTextBox() { return null; }
         public void setTextString(string text) { }
         public void setFocus(bool focus) { }
-        public void addPointList(List<Point> pointList) 
+        public void addPointList(List<Point> pointList)
         {
             list = new List<Point>(0);
             list.AddRange(pointList);
@@ -62,7 +63,8 @@ namespace myFreeLine
                 }
 
                 return cloneDrawSurface;
-            } else
+            }
+            else
             {
                 return cloneDrawSurface;
             }

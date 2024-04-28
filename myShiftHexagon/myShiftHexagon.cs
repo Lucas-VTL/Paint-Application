@@ -44,6 +44,8 @@ namespace myShiftHexagon
         {
             isFill = isShapeFill;
         }
+        public Point getStartPoint() { return startPoint; }
+        public Point getEndPoint() { return endPoint; }
         public object Clone()
         {
             return MemberwiseClone();

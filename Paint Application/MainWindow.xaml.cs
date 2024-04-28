@@ -20,6 +20,7 @@ using System.Diagnostics;
 using System.Windows.Shapes;
 using Brushes = System.Windows.Media.Brushes;
 using TextBox = System.Windows.Controls.TextBox;
+using System.Drawing.Imaging;
 
 namespace Paint_Application
 {
@@ -1081,6 +1082,59 @@ namespace Paint_Application
             }
 
             return true;
+        }
+
+        private void exportFileClick(object sender, RoutedEventArgs e)
+        {
+            Save();
+        }
+
+        private void Save()
+        {
+            //Open a SaveFileDialog to choose a file path
+            var saveDialog = new SaveFileDialog();
+            saveDialog.Filter = "Paint Application Save File (*.txt)|*.txt";
+            saveDialog.DefaultExt = ".txt";
+            var saveResult = saveDialog.ShowDialog();
+
+            if (saveResult == System.Windows.Forms.DialogResult.OK)
+            {
+                string filePath = saveDialog.FileName;
+
+                try
+                {
+                    using (StreamWriter writer = new StreamWriter(filePath))
+                    {
+                        foreach(var item in drawSurface) {
+                            if(item.shapeName=="Free Line")
+                            {
+                                writer.WriteLine(item.getStartPoint);
+                                writer.WriteLine(item.getEndPoint);
+                                writer.WriteLine(item.shapeName);
+                            } else
+                            {
+                                writer.WriteLine(item.getStartPoint);
+                                writer.WriteLine(item.getEndPoint);
+                                writer.WriteLine(item.shapeName);
+                            }
+                            
+                        }
+                       
+
+                    }
+
+                    System.Windows.MessageBox.Show("File saved successfully.");
+                }
+                catch (Exception ex)
+                {
+                    System.Windows.MessageBox.Show($"Error saving File: {ex.Message}");
+                }
+            }
+        }
+
+        private void importFileClick(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

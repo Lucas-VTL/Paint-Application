@@ -23,5 +23,8 @@ namespace myShape
         UIElement convertShapeType();
         string shapeName { get;}
         string shapeImage { get;}
+        Point getStartPoint();
+        Point getEndPoint();
+
     }
 }

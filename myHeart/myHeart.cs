@@ -46,6 +46,8 @@ namespace myHeart
         {
             isFill = isShapeFill;
         }
+        public Point getStartPoint() { return startPoint; }
+        public Point getEndPoint() { return endPoint; }
         public object Clone()
         {
             return MemberwiseClone();
@@ -308,7 +310,8 @@ namespace myHeart
                 });
             }
 
-            return path;
+            geometry.Figures.Add(figure);
+            return geometry;
         }
     }
 }

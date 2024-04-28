@@ -24,11 +24,11 @@ namespace myArrow
 
         public void addStartPoint(Point point) { startPoint = point; }
         public void addEndPoint(Point point) { endPoint = point; }
-        public void addWidthness (IWidthness width)
+        public void addWidthness(IWidthness width)
         {
             widthness = width;
         }
-        public void addStrokeStyle(IStroke stroke) 
+        public void addStrokeStyle(IStroke stroke)
         {
             strokeStyle = stroke;
         }
@@ -46,12 +46,15 @@ namespace myArrow
         {
             isFill = isShapeFill;
         }
+        public Point getStartPoint() { return startPoint; }
+        public Point getEndPoint() { return endPoint; }
         public object Clone()
         {
             return MemberwiseClone();
         }
 
-        public UIElement convertShapeType() {
+        public UIElement convertShapeType()
+        {
             Point center = new Point((startPoint.X + endPoint.X) / 2, (startPoint.Y + endPoint.Y) / 2);
 
             var left = Math.Min(startPoint.X, endPoint.X);
@@ -65,16 +68,19 @@ namespace myArrow
 
             string status = "";
 
-            if (startPoint.X < endPoint.X && startPoint.Y < endPoint.Y) 
+            if (startPoint.X < endPoint.X && startPoint.Y < endPoint.Y)
             {
                 status = "normal";
-            } else if (startPoint.X < endPoint.X && startPoint.Y > endPoint.Y)
+            }
+            else if (startPoint.X < endPoint.X && startPoint.Y > endPoint.Y)
             {
                 status = "upside";
-            } else if (startPoint.X > endPoint.X && startPoint.Y < endPoint.Y)
+            }
+            else if (startPoint.X > endPoint.X && startPoint.Y < endPoint.Y)
             {
                 status = "reverse";
-            } else if (startPoint.X > endPoint.X && startPoint.Y > endPoint.Y)
+            }
+            else if (startPoint.X > endPoint.X && startPoint.Y > endPoint.Y)
             {
                 status = "upside-reverse";
             }
@@ -91,7 +97,8 @@ namespace myArrow
                     Fill = colorValue.colorValue,
                     Data = CreateArrowGeometry(center, width, height, status)
                 };
-            } else
+            }
+            else
             {
                 element = new Path
                 {
@@ -121,7 +128,8 @@ namespace myArrow
                 figure.Segments.Add(new LineSegment(new Point(center.X - width / 6, endPoint.Y), true));
                 figure.Segments.Add(new LineSegment(new Point(center.X - width / 6, center.Y - height / 6), true));
                 figure.Segments.Add(new LineSegment(new Point(startPoint.X, center.Y - height / 6), true));
-            } else if (status == "upside")
+            }
+            else if (status == "upside")
             {
                 figure.StartPoint = new Point(center.X, endPoint.Y);
                 figure.IsClosed = true;
@@ -129,10 +137,11 @@ namespace myArrow
                 figure.Segments.Add(new LineSegment(new Point(endPoint.X, center.Y - height / 6), true));
                 figure.Segments.Add(new LineSegment(new Point(center.X + width / 6, center.Y - height / 6), true));
                 figure.Segments.Add(new LineSegment(new Point(center.X + width / 6, startPoint.Y), true));
-                figure.Segments.Add(new LineSegment(new Point(center.X - width / 6, startPoint.Y), true)); 
+                figure.Segments.Add(new LineSegment(new Point(center.X - width / 6, startPoint.Y), true));
                 figure.Segments.Add(new LineSegment(new Point(center.X - width / 6, center.Y - height / 6), true));
                 figure.Segments.Add(new LineSegment(new Point(startPoint.X, center.Y - height / 6), true));
-            } else if (status == "reverse")
+            }
+            else if (status == "reverse")
             {
                 figure.StartPoint = new Point(center.X, startPoint.Y);
                 figure.IsClosed = true;
@@ -143,7 +152,8 @@ namespace myArrow
                 figure.Segments.Add(new LineSegment(new Point(center.X + width / 6, endPoint.Y), true));
                 figure.Segments.Add(new LineSegment(new Point(center.X + width / 6, center.Y - height / 6), true));
                 figure.Segments.Add(new LineSegment(new Point(startPoint.X, center.Y - height / 6), true));
-            } else  if (status == "upside-reverse")
+            }
+            else if (status == "upside-reverse")
             {
                 figure.StartPoint = new Point(center.X, endPoint.Y);
                 figure.IsClosed = true;

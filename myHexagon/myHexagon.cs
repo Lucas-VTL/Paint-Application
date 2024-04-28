@@ -45,6 +45,8 @@ namespace myHexagon
         {
             isFill = isShapeFill;
         }
+        public Point getStartPoint() { return startPoint; }
+        public Point getEndPoint() { return endPoint; }
         public object Clone()
         {
             return MemberwiseClone();
@@ -104,7 +106,7 @@ namespace myHexagon
                     Stroke = colorValue.colorValue,
                     Data = CreateHexagonGeometry(center, width, height, status)
                 };
-            } 
+            }
 
             return element;
         }

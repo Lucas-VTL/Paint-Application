@@ -22,8 +22,8 @@ namespace myLine
         public string shapeName => "Line";
         public string shapeImage => "images/shapeLine.png";
 
-        public void addStartPoint (Point point) {startPoint = point;}
-        public void addEndPoint (Point point) {endPoint = point;}
+        public void addStartPoint(Point point) { startPoint = point; }
+        public void addEndPoint(Point point) { endPoint = point; }
         public void addWidthness(IWidthness width)
         {
             widthness = width;
@@ -46,12 +46,15 @@ namespace myLine
         {
             isFill = isShapeFill;
         }
+        public Point getStartPoint() { return startPoint; }
+        public Point getEndPoint() { return endPoint; }
         public object Clone()
         {
             return MemberwiseClone();
         }
 
-        public UIElement convertShapeType() {
+        public UIElement convertShapeType()
+        {
             if (isFill)
             {
                 return new Line()
@@ -65,7 +68,8 @@ namespace myLine
                     StrokeDashArray = strokeStyle.strokeValue,
                     Fill = colorValue.colorValue,
                 };
-            } else
+            }
+            else
             {
                 return new Line()
                 {

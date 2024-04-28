@@ -568,12 +568,12 @@
                             </Button>
                             <Border Name="toolEraseBorder" CornerRadius="5" BorderBrush="CornflowerBlue" BorderThickness="2" Width="35" Height="35" Opacity="0"/>
                         </Grid>
-                        <Button Grid.Row="1" Grid.Column="0" Cursor="Hand" Style="{StaticResource buttonStyle}">
+                        <Button Grid.Row="1" Grid.Column="0" Cursor="Hand" Style="{StaticResource buttonStyle}" Click="importFileClick">
                             <Button.Content>
                                 <Image Source="images/toolFileImport.png" Width="25" Height="25"/>
                             </Button.Content>
                         </Button>
-                        <Button Grid.Row="1" Grid.Column="1" Cursor="Hand" Style="{StaticResource buttonStyle}">
+                        <Button Grid.Row="1" Grid.Column="1" Cursor="Hand" Style="{StaticResource buttonStyle}" Click="exportFileClick">
                             <Button.Content>
                                 <Image Source="images/toolFileExport.png" Width="25" Height="25"/>
                             </Button.Content>
