@@ -5,6 +5,7 @@ using System.Drawing;
 using System.Windows;
 using System.Windows.Controls;
 using Point = System.Windows.Point;
+using Rectangle = System.Windows.Shapes.Rectangle;
 
 namespace myShape
 {
@@ -29,6 +30,17 @@ namespace myShape
         Point getEndPoint();
         Point getCenterPoint();
         void setEdit(bool edit);
+        Rectangle getEditRectangle();
+        Button getStartButton();
+        Button getEndButton();
+        Button getLeftTopButton();
+        Button getRightTopButton();
+        Button getLeftBottomButton();
+        Button getRightBottomButton();
+        Button getLeftCenterButton();
+        Button getRightCenterButton();
+        Button getTopCenterButton();
+        Button getBottomCenterButton();
         UIElement convertShapeType();
         string shapeName { get;}
         string shapeImage { get;}

@@ -10,6 +10,7 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Shapes;
 using Point = System.Windows.Point;
+using Rectangle = System.Windows.Shapes.Rectangle;
 
 namespace myFreeLine
 {
@@ -35,6 +36,17 @@ namespace myFreeLine
         public void setItalic(bool italic) { }
         public void setBackground(byte r, byte g, byte b) { }
         public void setEdit(bool edit) {}
+        public Rectangle getEditRectangle() { return null; }
+        public Button getStartButton() { return null; }
+        public Button getEndButton() { return null; }
+        public Button getLeftTopButton() { return null; }
+        public Button getRightTopButton() { return null; }
+        public Button getLeftBottomButton() { return null; }
+        public Button getRightBottomButton() { return null; }
+        public Button getLeftCenterButton() { return null; }
+        public Button getRightCenterButton() { return null; }
+        public Button getTopCenterButton() { return null; }
+        public Button getBottomCenterButton() { return null; }
         public Point getStartPoint()
         {
             return new Point();
