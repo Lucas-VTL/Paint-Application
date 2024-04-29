@@ -28,6 +28,7 @@ namespace myShape
         Point getStartPoint();
         Point getEndPoint();
         Point getCenterPoint();
+        void setEdit(bool edit);
         UIElement convertShapeType();
         string shapeName { get;}
         string shapeImage { get;}

@@ -6,6 +6,7 @@ using System.Configuration;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using System.Windows.Media.Media3D;
 using System.Windows.Shapes;
 
 namespace myLine
@@ -18,6 +19,7 @@ namespace myLine
         private IStroke strokeStyle;
         private IColor colorValue;
         private bool isFill;
+        private bool isEdit;
 
         public string shapeName => "Line";
         public string shapeImage => "images/shapeLine.png";
@@ -61,15 +63,30 @@ namespace myLine
         {
             isFill = isShapeFill;
         }
+        public void setEdit(bool edit)
+        {
+            isEdit = edit;
+        }
         public object Clone()
         {
             return MemberwiseClone();
         }
 
         public UIElement convertShapeType() {
+            Line element;
+
+            var left = Math.Min(startPoint.X, endPoint.X);
+            var right = Math.Max(startPoint.X, endPoint.X);
+
+            var top = Math.Min(startPoint.Y, endPoint.Y);
+            var bottom = Math.Max(startPoint.Y, endPoint.Y);
+
+            var width = right - left;
+            var height = bottom - top;
+
             if (isFill)
             {
-                return new Line()
+                element = new Line()
                 {
                     X1 = startPoint.X,
                     Y1 = startPoint.Y,
@@ -82,7 +99,7 @@ namespace myLine
                 };
             } else
             {
-                return new Line()
+                element = new Line()
                 {
                     X1 = startPoint.X,
                     Y1 = startPoint.Y,
@@ -93,6 +110,108 @@ namespace myLine
                     StrokeDashArray = strokeStyle.strokeValue,
                 };
             }
+
+            if (isEdit)
+            {
+                Canvas canvas = new Canvas();
+                Button startButton = new Button();
+                Button endButton = new Button();
+
+                if ((startPoint.X < endPoint.X && startPoint.Y < endPoint.Y) ||
+                    (startPoint.X > endPoint.X && startPoint.Y > endPoint.Y))
+                {
+                    startButton.Width = 10;
+                    startButton.Height = 10;
+                    startButton.Background = Brushes.White;
+                    Canvas.SetLeft(startButton, left - 5);
+                    Canvas.SetTop(startButton, top - 5);
+
+                    endButton.Width = 10;
+                    endButton.Height = 10;
+                    endButton.Background = Brushes.White;
+                    Canvas.SetLeft(endButton, right - 5);
+                    Canvas.SetTop(endButton, bottom - 5);
+                }
+                else if ((startPoint.X < endPoint.X && startPoint.Y > endPoint.Y) ||
+                    (startPoint.X > endPoint.X && startPoint.Y < endPoint.Y))
+                {
+                    startButton.Width = 10;
+                    startButton.Height = 10;
+                    startButton.Background = Brushes.White;
+                    Canvas.SetLeft(startButton, left - 5);
+                    Canvas.SetTop(startButton, bottom - 5);
+
+                    endButton.Width = 10;
+                    endButton.Height = 10;
+                    endButton.Background = Brushes.White;
+                    Canvas.SetLeft(endButton, right - 5);
+                    Canvas.SetTop(endButton, top - 5);
+                }
+                else if (startPoint.X == endPoint.X && startPoint.Y < endPoint.Y)
+                {
+                    startButton.Width = 10;
+                    startButton.Height = 10;
+                    startButton.Background = Brushes.White;
+                    Canvas.SetLeft(startButton, left + (width / 2) - 5);
+                    Canvas.SetTop(startButton, top - 5);
+
+                    endButton.Width = 10;
+                    endButton.Height = 10;
+                    endButton.Background = Brushes.White;
+                    Canvas.SetLeft(endButton, left + (width / 2) - 5);
+                    Canvas.SetTop(endButton, bottom - 5);
+                }
+                else if (startPoint.X == endPoint.X && startPoint.Y > endPoint.Y)
+                {
+                    startButton.Width = 10;
+                    startButton.Height = 10;
+                    startButton.Background = Brushes.White;
+                    Canvas.SetLeft(startButton, left + (width / 2) - 5);
+                    Canvas.SetTop(startButton, bottom - 5);
+
+                    endButton.Width = 10;
+                    endButton.Height = 10;
+                    endButton.Background = Brushes.White;
+                    Canvas.SetLeft(endButton, left + (width / 2) - 5);
+                    Canvas.SetTop(endButton, top - 5);
+                }
+                else if (startPoint.Y == endPoint.Y && startPoint.X < endPoint.X)
+                {
+                    startButton.Width = 10;
+                    startButton.Height = 10;
+                    startButton.Background = Brushes.White;
+                    Canvas.SetLeft(startButton, left - 5);
+                    Canvas.SetTop(startButton, top + (height / 2) - 5);
+
+                    endButton.Width = 10;
+                    endButton.Height = 10;
+                    endButton.Background = Brushes.White;
+                    Canvas.SetLeft(endButton, right - 5);
+                    Canvas.SetTop(endButton, top + (height / 2) - 5);
+                }
+                else if (startPoint.Y == endPoint.Y && startPoint.X > endPoint.X)
+                {
+                    startButton.Width = 10;
+                    startButton.Height = 10;
+                    startButton.Background = Brushes.White;
+                    Canvas.SetLeft(startButton, right - 5);
+                    Canvas.SetTop(startButton, top + (height / 2) - 5);
+
+                    endButton.Width = 10;
+                    endButton.Height = 10;
+                    endButton.Background = Brushes.White;
+                    Canvas.SetLeft(endButton, left - 5);
+                    Canvas.SetTop(endButton, top + (height / 2) - 5);
+                }
+
+                canvas.Children.Add(element);
+                canvas.Children.Add(startButton);
+                canvas.Children.Add(endButton);
+
+                return canvas;
+            }
+
+            return element;
         }
     }
 }

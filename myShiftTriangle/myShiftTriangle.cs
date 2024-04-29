@@ -17,6 +17,7 @@ namespace myShiftTriangle
         private IStroke strokeStyle;
         private IColor colorValue;
         private bool isFill;
+        private bool isEdit;
 
         public string shapeName => "ShiftTriangle";
         public string shapeImage => "";
@@ -60,6 +61,10 @@ namespace myShiftTriangle
         {
             isFill = isShapeFill;
         }
+        public void setEdit(bool edit)
+        {
+            isEdit = edit;
+        }
         public object Clone()
         {
             return MemberwiseClone();
@@ -67,8 +72,14 @@ namespace myShiftTriangle
 
         public UIElement convertShapeType()
         {
-            double width = Math.Abs(endPoint.X - startPoint.X);
-            double height = Math.Abs(endPoint.Y - startPoint.Y);
+            var left = Math.Min(endPoint.X, startPoint.X);
+            var right = Math.Max(endPoint.X, startPoint.X);
+
+            var top = Math.Min(endPoint.Y, startPoint.Y);
+            var bottom = Math.Max(endPoint.Y, startPoint.Y);
+
+            var width = right - left;
+            var height = bottom - top;
 
             Point center;
             double halfWidth = 0;
@@ -164,6 +175,94 @@ namespace myShiftTriangle
                     StrokeDashArray = strokeStyle.strokeValue,
                     Points = CreateTrianglePoints(center, halfWidth, halfHeight)
                 };
+            }
+
+            if (isEdit)
+            {
+                Canvas canvas = new Canvas();
+
+                Rectangle rectangle = new Rectangle()
+                {
+                    Stroke = Brushes.Black,
+                    StrokeThickness = 1,
+                    StrokeDashArray = new DoubleCollection() { 10, 2 },
+                    Width = width,
+                    Height = height,
+                };
+
+                Canvas.SetLeft(rectangle, left);
+                Canvas.SetTop(rectangle, top);
+
+                Button LeftTopButton = new Button();
+                LeftTopButton.Width = 10;
+                LeftTopButton.Height = 10;
+                LeftTopButton.Background = Brushes.White;
+                Canvas.SetLeft(LeftTopButton, left - 5);
+                Canvas.SetTop(LeftTopButton, top - 5);
+
+                Button RightTopButton = new Button();
+                RightTopButton.Width = 10;
+                RightTopButton.Height = 10;
+                RightTopButton.Background = Brushes.White;
+                Canvas.SetLeft(RightTopButton, right - 5);
+                Canvas.SetTop(RightTopButton, top - 5);
+
+                Button LeftBottomButton = new Button();
+                LeftBottomButton.Width = 10;
+                LeftBottomButton.Height = 10;
+                LeftBottomButton.Background = Brushes.White;
+                Canvas.SetLeft(LeftBottomButton, left - 5);
+                Canvas.SetTop(LeftBottomButton, bottom - 5);
+
+                Button RightBottomButton = new Button();
+                RightBottomButton.Width = 10;
+                RightBottomButton.Height = 10;
+                RightBottomButton.Background = Brushes.White;
+                Canvas.SetLeft(RightBottomButton, right - 5);
+                Canvas.SetTop(RightBottomButton, bottom - 5);
+
+                Button LeftCenterButton = new Button();
+                LeftCenterButton.Width = 10;
+                LeftCenterButton.Height = 10;
+                LeftCenterButton.Background = Brushes.White;
+                Canvas.SetLeft(LeftCenterButton, left - 5);
+                Canvas.SetTop(LeftCenterButton, top + (height / 2) - 5);
+
+                Button RightCenterButton = new Button();
+                RightCenterButton.Width = 10;
+                RightCenterButton.Height = 10;
+                RightCenterButton.Background = Brushes.White;
+                Canvas.SetLeft(RightCenterButton, right - 5);
+                Canvas.SetTop(RightCenterButton, top + (height / 2) - 5);
+
+                Button TopCenterButton = new Button();
+                TopCenterButton.Width = 10;
+                TopCenterButton.Height = 10;
+                TopCenterButton.Background = Brushes.White;
+                Canvas.SetLeft(TopCenterButton, left + (width / 2) - 5);
+                Canvas.SetTop(TopCenterButton, top - 5);
+
+                Button BottomCenterButton = new Button();
+                BottomCenterButton.Width = 10;
+                BottomCenterButton.Height = 10;
+                BottomCenterButton.Background = Brushes.White;
+                Canvas.SetLeft(BottomCenterButton, left + (width / 2) - 5);
+                Canvas.SetTop(BottomCenterButton, bottom - 5);
+
+                canvas.Children.Add(rectangle);
+                canvas.Children.Add(element);
+
+                canvas.Children.Add(LeftTopButton);
+                canvas.Children.Add(RightTopButton);
+                canvas.Children.Add(LeftBottomButton);
+                canvas.Children.Add(RightBottomButton);
+
+                canvas.Children.Add(LeftCenterButton);
+                canvas.Children.Add(RightCenterButton);
+                canvas.Children.Add(TopCenterButton);
+                canvas.Children.Add(BottomCenterButton);
+
+                return canvas;
             }
 
             return element;

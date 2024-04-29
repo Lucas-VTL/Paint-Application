@@ -2,6 +2,7 @@
 using myShape;
 using myStroke;
 using myWidthness;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Net;
 using System.Windows;
@@ -33,6 +34,7 @@ namespace myFreeLine
         public void setBold(bool bold) { }
         public void setItalic(bool italic) { }
         public void setBackground(byte r, byte g, byte b) { }
+        public void setEdit(bool edit) {}
         public Point getStartPoint()
         {
             return new Point();

@@ -21,6 +21,7 @@ using System.Windows.Shapes;
 using Brushes = System.Windows.Media.Brushes;
 using TextBox = System.Windows.Controls.TextBox;
 using System.Text.RegularExpressions;
+using System.Net;
 
 namespace Paint_Application
 {
@@ -719,59 +720,84 @@ namespace Paint_Application
             styleStrokeCombobox.IsDropDownOpen = false;
             isStyleStrokeOpen = false;
 
-            isDrawing = true;
-            startPoint = e.GetPosition(drawArea);
-
-            if (selectedShape == null && isToolEraseOpen)
+            if (isFunctionSelected)
             {
-                eraseList.Add(startPoint);
+                isDrawing = true;
+                startPoint = e.GetPosition(drawArea);
 
-                Ellipse dot = new Ellipse();
-                dot.Fill = Brushes.White;
-                dot.Width = dot.Height = 20;
-                Canvas.SetLeft(dot, startPoint.X);
-                if (startPoint.Y >= 20)
+                if (selectedShape == null && isToolEraseOpen)
                 {
-                    Canvas.SetTop(dot, startPoint.Y - 20);
+                    eraseList.Add(startPoint);
+
+                    Ellipse dot = new Ellipse();
+                    dot.Fill = Brushes.White;
+                    dot.Width = dot.Height = 20;
+                    Canvas.SetLeft(dot, startPoint.X);
+                    if (startPoint.Y >= 20)
+                    {
+                        Canvas.SetTop(dot, startPoint.Y - 20);
+                    }
+
+                    drawArea.Children.Add(dot);
                 }
 
-                drawArea.Children.Add(dot);
-            }
-
-            if (selectedShape == null && isTextOpen)
-            {
-                isDrawing = false;
-
-                selectedShape = text;
-                IShape newText = (IShape)selectedShape.Clone();
-
-                newText.addFontSize(globalFontSize);
-                newText.addFontFamily(globalFontFamily);
-                newText.addColor(selectedColor);
-
-                newText.addStartPoint(startPoint);
-                newText.addEndPoint(new Point(startPoint.X + globalFontSize * 10, startPoint.Y + globalFontSize * 2));
-                newText.setFocus(true);
-                newText.setBold(isTextBold);
-                newText.setItalic(isTextItalic);
-
-                if (isTextBackgroundFill)
+                if (selectedShape == null && isTextOpen)
                 {
-                    newText.setShapeFill(true);
-                    newText.setBackground(backgroundRed, backgroundGreen, backgroundBlue);
-                } else
-                {
-                    newText.setShapeFill(false);
+                    isDrawing = false;
+
+                    selectedShape = text;
+                    IShape newText = (IShape)selectedShape.Clone();
+
+                    newText.addFontSize(globalFontSize);
+                    newText.addFontFamily(globalFontFamily);
+                    newText.addColor(selectedColor);
+
+                    newText.addStartPoint(startPoint);
+                    newText.addEndPoint(new Point(startPoint.X + globalFontSize * 10, startPoint.Y + globalFontSize * 2));
+                    newText.setFocus(true);
+                    newText.setBold(isTextBold);
+                    newText.setItalic(isTextItalic);
+
+                    if (isTextBackgroundFill)
+                    {
+                        newText.setShapeFill(true);
+                        newText.setBackground(backgroundRed, backgroundGreen, backgroundBlue);
+                    }
+                    else
+                    {
+                        newText.setShapeFill(false);
+                    }
+
+                    drawArea.Children.Add(newText.convertShapeType());
+                    TextBox newTextBox = newText.getTextBox();
+                    newTextBox.Focus();
+                    newTextBox.TextChanged += newTextBox_TextChanged;
+                    newTextBox.LostFocus += newTextBox_LostFocus;
+
+                    drawSurface.Add(newText);
+                    selectedShape = null;
                 }
+            } else
+            {
+                Point point = e.GetPosition(drawArea);
+                int editShapeIndex = getEditShape(point);
+                if (editShapeIndex != -1)
+                {
+                    drawArea.Children.Clear();
 
-                drawArea.Children.Add(newText.convertShapeType());
-                TextBox newTextBox = newText.getTextBox();
-                newTextBox.Focus();
-                newTextBox.TextChanged += newTextBox_TextChanged;
-                newTextBox.LostFocus += newTextBox_LostFocus;
+                    for (int i = 0; i < drawSurface.Count; i++)
+                    {
+                        if (i == editShapeIndex)
+                        {
+                            drawSurface[i].setEdit(true);
+                        } else
+                        {
+                            drawSurface[i].setEdit(false);
+                        }
 
-                drawSurface.Add(newText);
-                selectedShape = null;
+                        drawArea.Children.Add(drawSurface[i].convertShapeType());
+                    }
+                }
             }
         }
 
@@ -1242,6 +1268,110 @@ namespace Paint_Application
 
                 textBackgroundBorder.Background = new SolidColorBrush(System.Windows.Media.Color.FromRgb(backgroundRed, backgroundGreen, backgroundBlue));
             }
+        }
+
+        private bool isPointInsideShape(IShape shape, Point point)
+        {
+            bool isPointInsideHorizontal = false;
+            bool isPointInsideVertical = false;
+
+            if (!shape.shapeName.Equals("ShiftLine") && !shape.shapeName.Equals("Line"))
+            {
+                isPointInsideHorizontal =
+                    (shape.getStartPoint().X <= point.X && shape.getEndPoint().X >= point.X) ||
+                    (shape.getStartPoint().X >= point.X && shape.getEndPoint().X <= point.X);
+                isPointInsideVertical =
+                    (shape.getStartPoint().Y <= point.Y && shape.getEndPoint().Y >= point.Y) ||
+                    (shape.getStartPoint().Y >= point.Y && shape.getEndPoint().Y <= point.Y);
+            } else
+            {
+                if ((shape.getStartPoint().X == shape.getEndPoint().X) || (shape.getStartPoint().Y == shape.getEndPoint().Y)) 
+                {
+                    if (shape.getStartPoint().X == shape.getEndPoint().X)
+                    {
+                        double startPointX = shape.getStartPoint().X - 20; 
+                        double endPointX = shape.getEndPoint().X + 20;
+
+                        isPointInsideHorizontal =
+                            (startPointX <= point.X && endPointX >= point.X) ||
+                            (startPointX >= point.X && endPointX <= point.X);
+                        isPointInsideVertical =
+                            (shape.getStartPoint().Y <= point.Y && shape.getEndPoint().Y >= point.Y) ||
+                            (shape.getStartPoint().Y >= point.Y && shape.getEndPoint().Y <= point.Y);
+                    } else
+                    {
+                        double startPointY = shape.getStartPoint().Y - 20;
+                        double endPointY = shape.getEndPoint().Y + 20;
+
+                        isPointInsideHorizontal =
+                            (shape.getStartPoint().X <= point.X && shape.getEndPoint().X >= point.X) ||
+                            (shape.getStartPoint().X >= point.X && shape.getEndPoint().X <= point.X);
+                        isPointInsideVertical =
+                            (startPointY <= point.Y && endPointY >= point.Y) ||
+                            (startPointY >= point.Y && endPointY <= point.Y);
+                    }
+                } else
+                {
+                    isPointInsideHorizontal =
+                        (shape.getStartPoint().X <= point.X && shape.getEndPoint().X >= point.X) ||
+                        (shape.getStartPoint().X >= point.X && shape.getEndPoint().X <= point.X);
+                    isPointInsideVertical =
+                        (shape.getStartPoint().Y <= point.Y && shape.getEndPoint().Y >= point.Y) ||
+                        (shape.getStartPoint().Y >= point.Y && shape.getEndPoint().Y <= point.Y);
+                }
+
+            }
+
+            if (isPointInsideHorizontal && isPointInsideVertical)
+            {
+                return true;
+            } else
+            {
+                return false;
+            }
+        }
+
+        private int getEditShape(Point point)
+        {
+            double minDistance = -1;
+            int index =  -1;
+
+            for (int i = 0; i < drawSurface.Count; i++)
+            {
+                if (!drawSurface[i].shapeName.Equals("Free Line"))
+                {
+                    if (isPointInsideShape(drawSurface[i], point))
+                    {
+                        double distance = calculateDistance(drawSurface[i].getCenterPoint(), point);
+                        if (minDistance != -1)
+                        {
+                            if (distance < minDistance)
+                            {
+                                minDistance = distance;
+                                index = i;
+                            }
+                        }
+                        else
+                        {
+                            minDistance = distance;
+                            index = i;
+                        }
+                    }
+                }
+            }
+
+            if (minDistance != -1)
+            {
+                return index;
+            } else
+            {
+                return -1;
+            }
+        }
+
+        private double calculateDistance(Point point1, Point point2)
+        {
+            return Math.Sqrt(Math.Pow((point1.X - point2.X), 2) + Math.Pow((point1.Y - point2.Y), 2));
         }
     }
 }

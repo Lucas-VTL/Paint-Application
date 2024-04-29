@@ -6,6 +6,7 @@ using myWidthness;
 using myStroke;
 using myColor;
 using System.Windows.Controls;
+using System.Xml.Linq;
 
 namespace myShiftLine
 {
@@ -17,6 +18,7 @@ namespace myShiftLine
         private IStroke strokeStyle;
         private IColor colorValue;
         private bool isFill;
+        private bool isEdit;
 
         public string shapeName => "ShiftLine";
         public string shapeImage => "";
@@ -59,6 +61,10 @@ namespace myShiftLine
         public void setShapeFill(bool isShapeFill)
         {
             isFill = isShapeFill;
+        }
+        public void setEdit(bool edit)
+        {
+            isEdit = edit;
         }
         public object Clone()
         {
@@ -161,9 +167,11 @@ namespace myShiftLine
                 }
             }
 
+            Line element;
+
             if (isFill)
             {
-                return new Line()
+                element = new Line()
                 {
                     X1 = startPoint.X,
                     Y1 = startPoint.Y,
@@ -176,7 +184,7 @@ namespace myShiftLine
                 };
             } else
             {
-                return new Line()
+                element = new Line()
                 {
                     X1 = startPoint.X,
                     Y1 = startPoint.Y,
@@ -187,6 +195,104 @@ namespace myShiftLine
                     StrokeDashArray = strokeStyle.strokeValue,
                 };
             }
+
+            if (isEdit)
+            {
+                Canvas canvas = new Canvas();
+                Button startButton = new Button();
+                Button endButton = new Button();
+
+                if ((startPoint.X < endPoint.X && startPoint.Y < endPoint.Y) ||
+                    (startPoint.X > endPoint.X && startPoint.Y > endPoint.Y))
+                {
+                    startButton.Width = 10;
+                    startButton.Height = 10;
+                    startButton.Background = Brushes.White;
+                    Canvas.SetLeft(startButton, left - 5);
+                    Canvas.SetTop(startButton, top - 5);
+
+                    endButton.Width = 10;
+                    endButton.Height = 10;
+                    endButton.Background = Brushes.White;
+                    Canvas.SetLeft(endButton, right - 5);
+                    Canvas.SetTop(endButton, bottom - 5);
+                }
+                else if ((startPoint.X < endPoint.X && startPoint.Y > endPoint.Y) ||
+                    (startPoint.X > endPoint.X && startPoint.Y < endPoint.Y))
+                {
+                    startButton.Width = 10;
+                    startButton.Height = 10;
+                    startButton.Background = Brushes.White;
+                    Canvas.SetLeft(startButton, left - 5);
+                    Canvas.SetTop(startButton, bottom - 5);
+
+                    endButton.Width = 10;
+                    endButton.Height = 10;
+                    endButton.Background = Brushes.White;
+                    Canvas.SetLeft(endButton, right - 5);
+                    Canvas.SetTop(endButton, top - 5);
+                } else if (startPoint.X == endPoint.X && startPoint.Y < endPoint.Y)
+                {
+                    startButton.Width = 10;
+                    startButton.Height = 10;
+                    startButton.Background = Brushes.White;
+                    Canvas.SetLeft(startButton, left + (width / 2) - 5);
+                    Canvas.SetTop(startButton, top - 5);
+
+                    endButton.Width = 10;
+                    endButton.Height = 10;
+                    endButton.Background = Brushes.White;
+                    Canvas.SetLeft(endButton, left + (width / 2) - 5);
+                    Canvas.SetTop(endButton, bottom - 5);
+                } else if (startPoint.X == endPoint.X && startPoint.Y > endPoint.Y)
+                {
+                    startButton.Width = 10;
+                    startButton.Height = 10;
+                    startButton.Background = Brushes.White;
+                    Canvas.SetLeft(startButton, left + (width / 2) - 5);
+                    Canvas.SetTop(startButton, bottom - 5);
+
+                    endButton.Width = 10;
+                    endButton.Height = 10;
+                    endButton.Background = Brushes.White;
+                    Canvas.SetLeft(endButton, left + (width / 2) - 5);
+                    Canvas.SetTop(endButton, top - 5);
+                } else if (startPoint.Y == endPoint.Y && startPoint.X < endPoint.X)
+                {
+                    startButton.Width = 10;
+                    startButton.Height = 10;
+                    startButton.Background = Brushes.White;
+                    Canvas.SetLeft(startButton, left - 5);
+                    Canvas.SetTop(startButton, top + (height / 2) - 5);
+
+                    endButton.Width = 10;
+                    endButton.Height = 10;
+                    endButton.Background = Brushes.White;
+                    Canvas.SetLeft(endButton, right - 5);
+                    Canvas.SetTop(endButton, top + (height / 2) - 5);
+                } else if (startPoint.Y == endPoint.Y && startPoint.X > endPoint.X)
+                {
+                    startButton.Width = 10;
+                    startButton.Height = 10;
+                    startButton.Background = Brushes.White;
+                    Canvas.SetLeft(startButton, right - 5);
+                    Canvas.SetTop(startButton, top + (height / 2) - 5);
+
+                    endButton.Width = 10;
+                    endButton.Height = 10;
+                    endButton.Background = Brushes.White;
+                    Canvas.SetLeft(endButton, left - 5);
+                    Canvas.SetTop(endButton, top + (height / 2) - 5);
+                }
+
+                canvas.Children.Add(element);
+                canvas.Children.Add(startButton);
+                canvas.Children.Add(endButton);
+
+                return canvas;
+            }
+
+            return element;
         }
     }
 }
