@@ -22,6 +22,8 @@ using Brushes = System.Windows.Media.Brushes;
 using TextBox = System.Windows.Controls.TextBox;
 using System.Text.RegularExpressions;
 using System.Net;
+using Rectangle = System.Windows.Shapes.Rectangle;
+using Button = System.Windows.Controls.Button;
 
 namespace Paint_Application
 {
@@ -790,12 +792,29 @@ namespace Paint_Application
                         if (i == editShapeIndex)
                         {
                             drawSurface[i].setEdit(true);
+                            drawArea.Children.Add(drawSurface[i].convertShapeType());
+                            if (drawSurface[i].shapeName.Equals("Line") || drawSurface[i].shapeName.Equals("ShiftLine"))
+                            {
+                                Button StartButton = drawSurface[i].getStartButton();
+                                Button EndButton = drawSurface[i].getEndButton();
+                            }
+                            else
+                            {
+                                Rectangle EditRectangle = drawSurface[i].getEditRectangle();
+                                Button LeftTopButton = drawSurface[i].getLeftTopButton();
+                                Button RightTopButton = drawSurface[i].getRightTopButton();
+                                Button LeftBottomButton = drawSurface[i].getLeftBottomButton();
+                                Button RightBottomButton = drawSurface[i].getRightBottomButton();
+                                Button LeftCenterButton = drawSurface[i].getLeftCenterButton();
+                                Button RightCenterButton = drawSurface[i].getRightCenterButton();
+                                Button TopCenterButton = drawSurface[i].getTopCenterButton();
+                                Button BottomCenterButton = drawSurface[i].getBottomCenterButton();
+                            }
                         } else
                         {
                             drawSurface[i].setEdit(false);
+                            drawArea.Children.Add(drawSurface[i].convertShapeType());
                         }
-
-                        drawArea.Children.Add(drawSurface[i].convertShapeType());
                     }
                 }
             }
