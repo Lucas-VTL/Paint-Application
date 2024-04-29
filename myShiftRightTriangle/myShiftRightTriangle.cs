@@ -44,6 +44,27 @@ namespace myShiftRightTriangle
         public void setBold(bool bold) { }
         public void setItalic(bool italic) { }
         public void setBackground(byte r, byte g, byte b) { }
+        public Point getStartPoint()
+        {
+            return startPoint;
+        }
+        public Point getEndPoint()
+        {
+            return endPoint;
+        }
+        public Point getCenterPoint()
+        {
+            var left = Math.Min(startPoint.X, endPoint.X);
+            var right = Math.Max(startPoint.X, endPoint.X);
+
+            var top = Math.Min(startPoint.Y, endPoint.Y);
+            var bottom = Math.Max(startPoint.Y, endPoint.Y);
+
+            var width = right - left;
+            var height = bottom - top;
+
+            return new Point(left + width / 3, bottom - height / 3);
+        }
         public void setShapeFill(bool isShapeFill)
         {
             isFill = isShapeFill;

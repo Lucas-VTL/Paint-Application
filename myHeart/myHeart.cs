@@ -45,6 +45,18 @@ namespace myHeart
         public void addFontSize(int fontSize) { }
         public void addFontFamily(string fontFamily) { }
         public void setBackground(byte r, byte g, byte b) { }
+        public Point getStartPoint()
+        {
+            return startPoint;
+        }
+        public Point getEndPoint()
+        {
+            return endPoint;
+        }
+        public Point getCenterPoint()
+        {
+            return new Point((startPoint.X + endPoint.X) / 2, (startPoint.Y + endPoint.Y) / 2);
+        }
         public void setShapeFill(bool isShapeFill)
         {
             isFill = isShapeFill;

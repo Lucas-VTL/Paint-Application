@@ -25,6 +25,9 @@ namespace myShape
         void setBold(bool bold);
         void setItalic(bool italic);
         void setBackground(byte r, byte g, byte b);
+        Point getStartPoint();
+        Point getEndPoint();
+        Point getCenterPoint();
         UIElement convertShapeType();
         string shapeName { get;}
         string shapeImage { get;}

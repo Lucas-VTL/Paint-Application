@@ -3,6 +3,7 @@ using myShape;
 using myStroke;
 using myWidthness;
 using System.Drawing;
+using System.Net;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -32,6 +33,18 @@ namespace myFreeLine
         public void setBold(bool bold) { }
         public void setItalic(bool italic) { }
         public void setBackground(byte r, byte g, byte b) { }
+        public Point getStartPoint()
+        {
+            return new Point();
+        }
+        public Point getEndPoint()
+        {
+            return new Point();
+        }
+        public Point getCenterPoint()
+        {
+            return new Point();
+        }
         public void addPointList(List<Point> pointList) 
         {
             list = new List<Point>(0);

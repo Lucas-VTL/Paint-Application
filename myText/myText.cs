@@ -75,6 +75,18 @@ namespace myText
         {
             fillValue = new SolidColorBrush(Color.FromRgb(r, g, b));
         }
+        public Point getStartPoint()
+        {
+            return startPoint;
+        }
+        public Point getEndPoint()
+        {
+            return endPoint;
+        }
+        public Point getCenterPoint()
+        {
+            return new Point((startPoint.X + endPoint.X) / 2, (startPoint.Y + endPoint.Y) / 2);
+        }
         public object Clone()
         {
             return MemberwiseClone();
