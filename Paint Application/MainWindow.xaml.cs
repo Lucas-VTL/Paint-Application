@@ -24,6 +24,10 @@ using System.Text.RegularExpressions;
 using System.Net;
 using Rectangle = System.Windows.Shapes.Rectangle;
 using Button = System.Windows.Controls.Button;
+using System.Drawing;
+using System.Windows.Media.Media3D;
+using System.Xml.Linq;
+using myRectangle;
 
 namespace Paint_Application
 {
@@ -61,6 +65,19 @@ namespace Paint_Application
 
         //List border giúp xác định các border khi người dùng chọn vào các function
         private List<Border> function = new List<Border>();
+
+        //List giúp lưu các biến để edit hình ảnh
+        Rectangle EditRectangle;
+        Button StartButton;
+        Button EndButton;
+        Button LeftTopButton;
+        Button RightTopButton;
+        Button LeftBottomButton;
+        Button RightBottomButton;
+        Button LeftCenterButton;
+        Button RightCenterButton;
+        Button TopCenterButton;
+        Button BottomCenterButton;
 
         //List fonts lưu giữ các kiểu fonts
         private List<Font> fonts = new List<Font>();
@@ -785,6 +802,7 @@ namespace Paint_Application
                 int editShapeIndex = getEditShape(point);
                 if (editShapeIndex != -1)
                 {
+                    drawBackGround.Visibility = Visibility.Collapsed;
                     drawArea.Children.Clear();
 
                     for (int i = 0; i < drawSurface.Count; i++)
@@ -795,20 +813,30 @@ namespace Paint_Application
                             drawArea.Children.Add(drawSurface[i].convertShapeType());
                             if (drawSurface[i].shapeName.Equals("Line") || drawSurface[i].shapeName.Equals("ShiftLine"))
                             {
-                                Button StartButton = drawSurface[i].getStartButton();
-                                Button EndButton = drawSurface[i].getEndButton();
+                                StartButton = drawSurface[i].getStartButton();
+                                EndButton = drawSurface[i].getEndButton();
                             }
                             else
                             {
-                                Rectangle EditRectangle = drawSurface[i].getEditRectangle();
-                                Button LeftTopButton = drawSurface[i].getLeftTopButton();
-                                Button RightTopButton = drawSurface[i].getRightTopButton();
-                                Button LeftBottomButton = drawSurface[i].getLeftBottomButton();
-                                Button RightBottomButton = drawSurface[i].getRightBottomButton();
-                                Button LeftCenterButton = drawSurface[i].getLeftCenterButton();
-                                Button RightCenterButton = drawSurface[i].getRightCenterButton();
-                                Button TopCenterButton = drawSurface[i].getTopCenterButton();
-                                Button BottomCenterButton = drawSurface[i].getBottomCenterButton();
+                                EditRectangle = drawSurface[i].getEditRectangle();
+                                LeftTopButton = drawSurface[i].getLeftTopButton();
+                                RightTopButton = drawSurface[i].getRightTopButton();
+                                LeftBottomButton = drawSurface[i].getLeftBottomButton();
+                                RightBottomButton = drawSurface[i].getRightBottomButton();
+                                LeftCenterButton = drawSurface[i].getLeftCenterButton();
+                                RightCenterButton = drawSurface[i].getRightCenterButton();
+                                TopCenterButton = drawSurface[i].getTopCenterButton();
+                                BottomCenterButton = drawSurface[i].getBottomCenterButton();
+
+                                EditRectangle.Cursor = Cursors.SizeAll;
+                                LeftTopButton.Cursor = Cursors.SizeNWSE;
+                                RightBottomButton.Cursor = Cursors.SizeNWSE;
+                                RightTopButton.Cursor = Cursors.SizeNESW;
+                                LeftBottomButton.Cursor = Cursors.SizeNESW;
+                                LeftCenterButton.Cursor = Cursors.SizeWE;
+                                RightCenterButton.Cursor = Cursors.SizeWE;
+                                TopCenterButton.Cursor = Cursors.SizeNS;
+                                BottomCenterButton.Cursor = Cursors.SizeNS;
                             }
                         } else
                         {
