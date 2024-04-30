@@ -815,6 +815,9 @@ namespace Paint_Application
                             {
                                 StartButton = drawSurface[i].getStartButton();
                                 EndButton = drawSurface[i].getEndButton();
+
+                                StartButton.Cursor = Cursors.SizeNS;
+                                EndButton.Cursor = Cursors.SizeNS;
                             }
                             else
                             {
