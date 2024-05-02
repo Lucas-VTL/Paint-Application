@@ -28,6 +28,7 @@ namespace myTriangle
         private Button RightCenterButton;
         private Button TopCenterButton;
         private Button BottomCenterButton;
+        private Button RotateButton;
         public string shapeName => "Triangle";
         public string shapeImage => "images/shapeTriangle.png";
 
@@ -117,6 +118,10 @@ namespace myTriangle
         public Button getBottomCenterButton()
         {
             return BottomCenterButton;
+        }
+        public Button getRotateButton()
+        {
+            return RotateButton;
         }
         public object Clone()
         {
@@ -243,6 +248,13 @@ namespace myTriangle
                 Canvas.SetLeft(BottomCenterButton, left + (width / 2) - 5);
                 Canvas.SetTop(BottomCenterButton, bottom - 5);
 
+                RotateButton = new Button();
+                RotateButton.Width = 20;
+                RotateButton.Height = 20;
+                RotateButton.Background = Brushes.White;
+                Canvas.SetLeft(RotateButton, left + (width / 2) - 10);
+                Canvas.SetTop(RotateButton, top - 40);
+
                 canvas.Children.Add(rectangle);
                 canvas.Children.Add(element);
                 canvas.Children.Add(EditGrid);
@@ -256,6 +268,8 @@ namespace myTriangle
                 canvas.Children.Add(RightCenterButton);
                 canvas.Children.Add(TopCenterButton);
                 canvas.Children.Add(BottomCenterButton);
+
+                canvas.Children.Add(RotateButton);
 
                 return canvas;
             }

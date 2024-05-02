@@ -30,6 +30,8 @@ namespace myEllipse
         private Button RightCenterButton;
         private Button TopCenterButton;
         private Button BottomCenterButton;
+        private Button RotateButton;
+        
         public string shapeName => "Ellipse";
         public string shapeImage => "images/shapeEllipse.png";
 
@@ -119,6 +121,11 @@ namespace myEllipse
         public Button getBottomCenterButton()
         {
             return BottomCenterButton;
+        }
+
+        public Button getRotateButton()
+        {
+            return RotateButton;
         }
         public object Clone()
         {
@@ -249,6 +256,13 @@ namespace myEllipse
                 Canvas.SetLeft(BottomCenterButton, left + (width / 2) - 5);
                 Canvas.SetTop(BottomCenterButton, bottom - 5);
 
+                RotateButton = new Button();
+                RotateButton.Width = 20;
+                RotateButton.Height = 20;
+                RotateButton.Background = Brushes.White;
+                Canvas.SetLeft(RotateButton, left + (width / 2) - 10);
+                Canvas.SetTop(RotateButton, top - 40);
+
                 canvas.Children.Add(rectangle);
                 canvas.Children.Add(element);
                 canvas.Children.Add(EditGrid);
@@ -262,6 +276,8 @@ namespace myEllipse
                 canvas.Children.Add(RightCenterButton);
                 canvas.Children.Add(TopCenterButton);
                 canvas.Children.Add(BottomCenterButton);
+                
+                canvas.Children.Add(RotateButton);
 
                 return canvas;
             }

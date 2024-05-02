@@ -47,6 +47,7 @@ namespace myFreeLine
         public Button getRightCenterButton() { return null; }
         public Button getTopCenterButton() { return null; }
         public Button getBottomCenterButton() { return null; }
+        public Button getRotateButton() { return null; }
         public Point getStartPoint()
         {
             return new Point();

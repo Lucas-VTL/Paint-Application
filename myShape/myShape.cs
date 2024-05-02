@@ -41,6 +41,7 @@ namespace myShape
         Button getRightCenterButton();
         Button getTopCenterButton();
         Button getBottomCenterButton();
+        Button getRotateButton();
         UIElement convertShapeType();
         string shapeName { get;}
         string shapeImage { get;}
