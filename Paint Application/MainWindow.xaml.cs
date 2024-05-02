@@ -1,33 +1,25 @@
-﻿using System.Windows;
+﻿using myColor;
+using myShape;
+using myStroke;
+using myWidthness;
+using System.IO;
+using System.Reflection;
+using System.Text.RegularExpressions;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.IO;
-using System.Reflection;
-using myShape;
-using myWidthness;
-using myStroke;
-using myColor;
-
-using KeyEventArgs = System.Windows.Input.KeyEventArgs;
-using MouseEventArgs = System.Windows.Input.MouseEventArgs;
-using Cursors = System.Windows.Input.Cursors;
-using Cursor = System.Windows.Input.Cursor;
-using ListViewItem = System.Windows.Controls.ListViewItem;
-using Point = System.Windows.Point;
-using System.Diagnostics;
 using System.Windows.Shapes;
 using Brushes = System.Windows.Media.Brushes;
-using TextBox = System.Windows.Controls.TextBox;
-using System.Text.RegularExpressions;
-using System.Net;
-using Rectangle = System.Windows.Shapes.Rectangle;
 using Button = System.Windows.Controls.Button;
-using System.Drawing;
-using System.Windows.Media.Media3D;
-using System.Xml.Linq;
-using myRectangle;
+using Cursor = System.Windows.Input.Cursor;
+using Cursors = System.Windows.Input.Cursors;
+using KeyEventArgs = System.Windows.Input.KeyEventArgs;
+using ListViewItem = System.Windows.Controls.ListViewItem;
+using MouseEventArgs = System.Windows.Input.MouseEventArgs;
+using Point = System.Windows.Point;
+using TextBox = System.Windows.Controls.TextBox;
 
 namespace Paint_Application
 {
@@ -68,7 +60,7 @@ namespace Paint_Application
         private List<Border> function = new List<Border>();
 
         //List giúp lưu các biến để edit hình ảnh
-        Rectangle EditRectangle;
+        Grid EditGrid;
         Button StartButton;
         Button EndButton;
         Button LeftTopButton;
@@ -97,7 +89,11 @@ namespace Paint_Application
         //Các biến phục vụ cho chức năng edit hình ảnh
         private int editShapeIndex;
         private string editType;
-        private Point movingStartPoint;
+        private Point movingPoint;
+        private double movingStartX;
+        private double movingStartY;
+        private double movingEndX;
+        private double movingEndY;
 
         //List lưu giữ tất cả các loại hình vẽ được load từ file dll (bao gồm các hình vẽ + phiên bản ấn shift của chúng)
         private List<IShape> allShapeList = new List<IShape>();
@@ -915,13 +911,15 @@ namespace Paint_Application
                             }
                             break;
                         case "Move Editting":
-                            double movingDistanceX = point.X - movingStartPoint.X;
-                            double movingDistanceY = point.Y - movingStartPoint.Y;
+                            double newStartX = point.X - movingStartX;
+                            double newStartY = point.Y - movingStartY;
 
-                            drawSurface[editShapeIndex].addStartPoint(
-                                new Point(drawSurface[editShapeIndex].getStartPoint().X + movingDistanceX, drawSurface[editShapeIndex].getStartPoint().Y + movingDistanceY));
-                            drawSurface[editShapeIndex].addEndPoint(
-                                new Point(drawSurface[editShapeIndex].getEndPoint().X + movingDistanceX, drawSurface[editShapeIndex].getEndPoint().Y + movingDistanceY));
+                            double newEndX = point.X - movingEndX;
+                            double newEndY = point.Y - movingEndY;
+
+                            drawSurface[editShapeIndex].addStartPoint(new Point(newStartX, newStartY));
+                            drawSurface[editShapeIndex].addEndPoint(new Point(newEndX, newEndY));
+
                             break;
                         default: break;
                     }
@@ -944,7 +942,7 @@ namespace Paint_Application
                             }
                             else
                             {
-                                EditRectangle = drawSurface[i].getEditRectangle();
+                                EditGrid = drawSurface[i].getEditGrid();
                                 LeftTopButton = drawSurface[i].getLeftTopButton();
                                 RightTopButton = drawSurface[i].getRightTopButton();
                                 LeftBottomButton = drawSurface[i].getLeftBottomButton();
@@ -954,7 +952,7 @@ namespace Paint_Application
                                 TopCenterButton = drawSurface[i].getTopCenterButton();
                                 BottomCenterButton = drawSurface[i].getBottomCenterButton();
 
-                                EditRectangle.Cursor = Cursors.SizeAll;
+                                EditGrid.Cursor = Cursors.SizeAll;
                                 LeftTopButton.Cursor = Cursors.SizeNWSE;
                                 RightBottomButton.Cursor = Cursors.SizeNWSE;
                                 RightTopButton.Cursor = Cursors.SizeNESW;
@@ -964,8 +962,8 @@ namespace Paint_Application
                                 TopCenterButton.Cursor = Cursors.SizeNS;
                                 BottomCenterButton.Cursor = Cursors.SizeNS;
 
-                                EditRectangle.PreviewMouseRightButtonDown += EditRectanglePreviewMouseRightButtonDown;
-                                EditRectangle.PreviewMouseRightButtonUp += EdittingMouseUp;
+                                EditGrid.PreviewMouseRightButtonDown += EditGridPreviewMouseRightButtonDown;
+                                EditGrid.PreviewMouseRightButtonUp += EdittingMouseUp;
 
                                 LeftTopButton.PreviewMouseRightButtonDown += LeftTopButtonPreviewMouseRightButtonDown;
                                 LeftTopButton.PreviewMouseRightButtonUp += EdittingMouseUp;
@@ -1103,7 +1101,7 @@ namespace Paint_Application
                             }
                             else
                             {
-                                EditRectangle = drawSurface[i].getEditRectangle();
+                                EditGrid = drawSurface[i].getEditGrid();
                                 LeftTopButton = drawSurface[i].getLeftTopButton();
                                 RightTopButton = drawSurface[i].getRightTopButton();
                                 LeftBottomButton = drawSurface[i].getLeftBottomButton();
@@ -1113,7 +1111,7 @@ namespace Paint_Application
                                 TopCenterButton = drawSurface[i].getTopCenterButton();
                                 BottomCenterButton = drawSurface[i].getBottomCenterButton();
 
-                                EditRectangle.Cursor = Cursors.SizeAll;
+                                EditGrid.Cursor = Cursors.SizeAll;
                                 LeftTopButton.Cursor = Cursors.SizeNWSE;
                                 RightBottomButton.Cursor = Cursors.SizeNWSE;
                                 RightTopButton.Cursor = Cursors.SizeNESW;
@@ -1123,8 +1121,8 @@ namespace Paint_Application
                                 TopCenterButton.Cursor = Cursors.SizeNS;
                                 BottomCenterButton.Cursor = Cursors.SizeNS;
 
-                                EditRectangle.PreviewMouseRightButtonDown += EditRectanglePreviewMouseRightButtonDown;
-                                EditRectangle.PreviewMouseRightButtonUp += EdittingMouseUp;
+                                EditGrid.PreviewMouseRightButtonDown += EditGridPreviewMouseRightButtonDown;
+                                EditGrid.PreviewMouseRightButtonUp += EdittingMouseUp;
 
                                 LeftTopButton.PreviewMouseRightButtonDown += LeftTopButtonPreviewMouseRightButtonDown;
                                 LeftTopButton.PreviewMouseRightButtonUp += EdittingMouseUp;
@@ -1166,11 +1164,17 @@ namespace Paint_Application
             isEditting = false;
             editType = "";
         }
-        private void EditRectanglePreviewMouseRightButtonDown(object sender, MouseButtonEventArgs e)
+        private void EditGridPreviewMouseRightButtonDown(object sender, MouseButtonEventArgs e)
         {
             isEditting = true;
             editType = "Move Editting";
-            movingStartPoint = e.GetPosition(drawArea);
+            movingPoint = e.GetPosition(drawArea);
+
+            movingStartX = movingPoint.X - drawSurface[editShapeIndex].getStartPoint().X;
+            movingStartY = movingPoint.Y - drawSurface[editShapeIndex].getStartPoint().Y;
+
+            movingEndX = movingPoint.X - drawSurface[editShapeIndex].getEndPoint().X;
+            movingEndY = movingPoint.Y - drawSurface[editShapeIndex].getEndPoint().Y;
         }
         private void BottomCenterButtonPreviewMouseRightButtonDown(object sender, MouseButtonEventArgs e)
         {

@@ -73,7 +73,7 @@ namespace myLine
         {
             isEdit = edit;
         }
-        public Rectangle getEditRectangle() { return null; }
+        public Grid getEditGrid() { return null; }
         public Button getStartButton()
         {
             return StartButton;

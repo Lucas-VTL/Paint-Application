@@ -30,7 +30,7 @@ namespace myShape
         Point getEndPoint();
         Point getCenterPoint();
         void setEdit(bool edit);
-        Rectangle getEditRectangle();
+        Grid getEditGrid();
         Button getStartButton();
         Button getEndButton();
         Button getLeftTopButton();

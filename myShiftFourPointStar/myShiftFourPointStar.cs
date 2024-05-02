@@ -19,7 +19,7 @@ namespace myShiftFourPointStar
         private bool isFill;
         private bool isEdit;
 
-        private Rectangle rectangle;
+        private Grid EditGrid;
         private Button LeftTopButton;
         private Button RightTopButton;
         private Button LeftBottomButton;
@@ -75,9 +75,9 @@ namespace myShiftFourPointStar
         {
             isEdit = edit;
         }
-        public Rectangle getEditRectangle()
+        public Grid getEditGrid()
         {
-            return rectangle;
+            return EditGrid;
         }
         public Button getStartButton()
         {
@@ -235,7 +235,17 @@ namespace myShiftFourPointStar
             {
                 Canvas canvas = new Canvas();
 
-                rectangle = new Rectangle()
+                EditGrid = new Grid()
+                {
+                    Width = width,
+                    Height = height,
+                    Background = Brushes.Transparent,
+                };
+
+                Canvas.SetLeft(EditGrid, left);
+                Canvas.SetTop(EditGrid, top);
+
+                Rectangle rectangle = new Rectangle()
                 {
                     Stroke = Brushes.Black,
                     StrokeThickness = 1,
@@ -305,6 +315,7 @@ namespace myShiftFourPointStar
 
                 canvas.Children.Add(rectangle);
                 canvas.Children.Add(element);
+                canvas.Children.Add(EditGrid);
 
                 canvas.Children.Add(LeftTopButton);
                 canvas.Children.Add(RightTopButton);

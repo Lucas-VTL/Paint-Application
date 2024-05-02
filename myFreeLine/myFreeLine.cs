@@ -36,7 +36,7 @@ namespace myFreeLine
         public void setItalic(bool italic) { }
         public void setBackground(byte r, byte g, byte b) { }
         public void setEdit(bool edit) {}
-        public Rectangle getEditRectangle() { return null; }
+        public Grid getEditGrid() { return null; }
         public Button getStartButton() { return null; }
         public Button getEndButton() { return null; }
         public Button getLeftTopButton() { return null; }
