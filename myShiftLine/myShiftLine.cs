@@ -223,8 +223,7 @@ namespace myShiftLine
                 StartButton = new Button();
                 EndButton = new Button();
 
-                if ((startPoint.X < endPoint.X && startPoint.Y < endPoint.Y) ||
-                    (startPoint.X > endPoint.X && startPoint.Y > endPoint.Y))
+                if (startPoint.X < endPoint.X && startPoint.Y < endPoint.Y)
                 {
                     StartButton.Width = 10;
                     StartButton.Height = 10;
@@ -238,8 +237,21 @@ namespace myShiftLine
                     Canvas.SetLeft(EndButton, right - 5);
                     Canvas.SetTop(EndButton, bottom - 5);
                 }
-                else if ((startPoint.X < endPoint.X && startPoint.Y > endPoint.Y) ||
-                    (startPoint.X > endPoint.X && startPoint.Y < endPoint.Y))
+                else if (startPoint.X > endPoint.X && startPoint.Y > endPoint.Y)
+                {
+                    StartButton.Width = 10;
+                    StartButton.Height = 10;
+                    StartButton.Background = Brushes.White;
+                    Canvas.SetLeft(StartButton, right - 5);
+                    Canvas.SetTop(StartButton, bottom - 5);
+
+                    EndButton.Width = 10;
+                    EndButton.Height = 10;
+                    EndButton.Background = Brushes.White;
+                    Canvas.SetLeft(EndButton, left - 5);
+                    Canvas.SetTop(EndButton, top - 5);
+                }
+                else if (startPoint.X < endPoint.X && startPoint.Y > endPoint.Y)
                 {
                     StartButton.Width = 10;
                     StartButton.Height = 10;
@@ -252,7 +264,22 @@ namespace myShiftLine
                     EndButton.Background = Brushes.White;
                     Canvas.SetLeft(EndButton, right - 5);
                     Canvas.SetTop(EndButton, top - 5);
-                } else if (startPoint.X == endPoint.X && startPoint.Y < endPoint.Y)
+                }
+                else if (startPoint.X > endPoint.X && startPoint.Y < endPoint.Y)
+                {
+                    StartButton.Width = 10;
+                    StartButton.Height = 10;
+                    StartButton.Background = Brushes.White;
+                    Canvas.SetLeft(StartButton, right - 5);
+                    Canvas.SetTop(StartButton, top - 5);
+
+                    EndButton.Width = 10;
+                    EndButton.Height = 10;
+                    EndButton.Background = Brushes.White;
+                    Canvas.SetLeft(EndButton, left - 5);
+                    Canvas.SetTop(EndButton, bottom - 5);
+                }
+                else if (startPoint.X == endPoint.X && startPoint.Y < endPoint.Y)
                 {
                     StartButton.Width = 10;
                     StartButton.Height = 10;
@@ -265,7 +292,8 @@ namespace myShiftLine
                     EndButton.Background = Brushes.White;
                     Canvas.SetLeft(EndButton, left + (width / 2) - 5);
                     Canvas.SetTop(EndButton, bottom - 5);
-                } else if (startPoint.X == endPoint.X && startPoint.Y > endPoint.Y)
+                }
+                else if (startPoint.X == endPoint.X && startPoint.Y > endPoint.Y)
                 {
                     StartButton.Width = 10;
                     StartButton.Height = 10;
@@ -278,7 +306,8 @@ namespace myShiftLine
                     EndButton.Background = Brushes.White;
                     Canvas.SetLeft(EndButton, left + (width / 2) - 5);
                     Canvas.SetTop(EndButton, top - 5);
-                } else if (startPoint.Y == endPoint.Y && startPoint.X < endPoint.X)
+                }
+                else if (startPoint.Y == endPoint.Y && startPoint.X < endPoint.X)
                 {
                     StartButton.Width = 10;
                     StartButton.Height = 10;
@@ -291,7 +320,8 @@ namespace myShiftLine
                     EndButton.Background = Brushes.White;
                     Canvas.SetLeft(EndButton, right - 5);
                     Canvas.SetTop(EndButton, top + (height / 2) - 5);
-                } else if (startPoint.Y == endPoint.Y && startPoint.X > endPoint.X)
+                }
+                else if (startPoint.Y == endPoint.Y && startPoint.X > endPoint.X)
                 {
                     StartButton.Width = 10;
                     StartButton.Height = 10;
