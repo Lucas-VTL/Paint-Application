@@ -1042,29 +1042,40 @@ namespace Paint_Application
                                 {
                                     Point oldStartPoint = drawSurface[i].getStartPoint();
                                     Point oldEndPoint = drawSurface[i].getEndPoint();
+
                                     for (int j = 0; j < allShapeList.Count; j++)
                                     {
                                         if (allShapeList[j].shapeName.Equals("Line"))
                                         {
-                                            drawSurface[i] = allShapeList[j];
-                                            drawSurface[i].addStartPoint(oldStartPoint);
-                                            drawSurface[i].addEndPoint(oldEndPoint);
-                                            drawSurface[i].addWidthness((IWidthness)styleWidthCombobox.SelectedItem);
-                                            drawSurface[i].addStrokeStyle((IStroke)styleStrokeCombobox.SelectedItem);
-                                            drawSurface[i].addColor(selectedColor);
-                                            drawSurface[i].setShapeFill(isShapeFill);
-                                            drawSurface[i].setEdit(true);
+                                            drawSurface.RemoveAt(i);
+
+                                            IShape newLine = (IShape)allShapeList[j].Clone();
+                                            newLine.addStartPoint(oldStartPoint);
+                                            newLine.addEndPoint(oldEndPoint);
+                                            newLine.addWidthness((IWidthness)styleWidthCombobox.SelectedItem);
+                                            newLine.addStrokeStyle((IStroke)styleStrokeCombobox.SelectedItem);
+                                            newLine.addColor(selectedColor);
+                                            newLine.setShapeFill(isShapeFill);
+                                            newLine.setEdit(true);
+
+                                            drawSurface.Insert(i, newLine);
+
                                             drawBackGround.Children.Add(drawSurface[i].convertShapeType());
                                             break;
                                         }
                                     }
                                 }
 
+                                EditGrid = drawSurface[i].getEditGrid();
                                 StartButton = drawSurface[i].getStartButton();
                                 EndButton = drawSurface[i].getEndButton();
 
+                                EditGrid.Cursor = Cursors.SizeAll;
                                 StartButton.Cursor = Cursors.SizeNS;
                                 EndButton.Cursor = Cursors.SizeNS;
+
+                                EditGrid.PreviewMouseRightButtonDown += EditGridPreviewMouseRightButtonDown;
+                                EditGrid.PreviewMouseRightButtonUp += EdittingMouseUp;
 
                                 StartButton.PreviewMouseRightButtonDown += StartButtonPreviewMouseRightButtonDown;
                                 StartButton.PreviewMouseRightButtonUp += EdittingMouseUp;
@@ -1229,30 +1240,41 @@ namespace Paint_Application
                                 {
                                     Point oldStartPoint = drawSurface[i].getStartPoint();
                                     Point oldEndPoint = drawSurface[i].getEndPoint();
+
                                     for (int j = 0; j < allShapeList.Count; j++)
                                     {
                                         if (allShapeList[j].shapeName.Equals("Line"))
                                         {
-                                            drawSurface[i] = allShapeList[j];
-                                            drawSurface[i].addStartPoint(oldStartPoint);
-                                            drawSurface[i].addEndPoint(oldEndPoint);
-                                            drawSurface[i].addWidthness((IWidthness)styleWidthCombobox.SelectedItem);
-                                            drawSurface[i].addStrokeStyle((IStroke)styleStrokeCombobox.SelectedItem);
-                                            drawSurface[i].addColor(selectedColor);
-                                            drawSurface[i].setShapeFill(isShapeFill);
-                                            drawSurface[i].setEdit(true);
+                                            drawSurface.RemoveAt(i);
+
+                                            IShape newLine = (IShape)allShapeList[j].Clone();
+                                            newLine.addStartPoint(oldStartPoint);
+                                            newLine.addEndPoint(oldEndPoint);
+                                            newLine.addWidthness((IWidthness)styleWidthCombobox.SelectedItem);
+                                            newLine.addStrokeStyle((IStroke)styleStrokeCombobox.SelectedItem);
+                                            newLine.addColor(selectedColor);
+                                            newLine.setShapeFill(isShapeFill);
+                                            newLine.setEdit(true);
+
+                                            drawSurface.Insert(i, newLine);
+
                                             drawBackGround.Children.Add(drawSurface[i].convertShapeType());
                                             break;
                                         }
                                     }
-                                } 
+                                }
 
+                                EditGrid = drawSurface[i].getEditGrid();
                                 StartButton = drawSurface[i].getStartButton();
                                 EndButton = drawSurface[i].getEndButton();
 
+                                EditGrid.Cursor = Cursors.SizeAll;
                                 StartButton.Cursor = Cursors.SizeNS;
                                 EndButton.Cursor = Cursors.SizeNS;
-                                
+
+                                EditGrid.PreviewMouseRightButtonDown += EditGridPreviewMouseRightButtonDown;
+                                EditGrid.PreviewMouseRightButtonUp += EdittingMouseUp;
+
                                 StartButton.PreviewMouseRightButtonDown += StartButtonPreviewMouseRightButtonDown;
                                 StartButton.PreviewMouseRightButtonUp += EdittingMouseUp;
 

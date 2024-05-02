@@ -20,6 +20,7 @@ namespace myShiftLine
         private bool isFill;
         private bool isEdit;
 
+        private Grid EditGrid;
         private Button StartButton;
         private Button EndButton;
 
@@ -69,7 +70,7 @@ namespace myShiftLine
         {
             isEdit = edit;
         }
-        public Grid getEditGrid() { return null; }
+        public Grid getEditGrid() { return EditGrid; }
         public Button getStartButton()
         {
             return StartButton;
@@ -220,6 +221,46 @@ namespace myShiftLine
             {
                 Canvas canvas = new Canvas();
 
+                if (startPoint.X == endPoint.X || startPoint.Y == endPoint.Y)
+                {
+                    if (width == 0)
+                    {
+                        EditGrid = new Grid()
+                        {
+                            Width = 20,
+                            Height = height,
+                            Background = Brushes.Transparent,
+                        };
+
+                        Canvas.SetLeft(EditGrid, left - 10);
+                        Canvas.SetTop(EditGrid, top);
+                    }
+                    else
+                    {
+                        EditGrid = new Grid()
+                        {
+                            Width = width,
+                            Height = 20,
+                            Background = Brushes.Transparent,
+                        };
+
+                        Canvas.SetLeft(EditGrid, left);
+                        Canvas.SetTop(EditGrid, top - 10);
+                    }
+                }
+                else
+                {
+                    EditGrid = new Grid()
+                    {
+                        Width = width,
+                        Height = height,
+                        Background = Brushes.Transparent,
+                    };
+
+                    Canvas.SetLeft(EditGrid, left);
+                    Canvas.SetTop(EditGrid, top);
+                }
+
                 StartButton = new Button();
                 EndButton = new Button();
 
@@ -337,6 +378,7 @@ namespace myShiftLine
                 }
 
                 canvas.Children.Add(element);
+                canvas.Children.Add(EditGrid);
                 canvas.Children.Add(StartButton);
                 canvas.Children.Add(EndButton);
 
