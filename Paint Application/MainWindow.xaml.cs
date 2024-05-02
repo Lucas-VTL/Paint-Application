@@ -204,6 +204,15 @@ namespace Paint_Application
         private void minimizeButtonClick(object sender, RoutedEventArgs e)
         {
             this.WindowState = WindowState.Minimized;
+
+            drawArea.Children.Clear();
+            drawBackGround.Children.Clear();
+
+            for (int i = 0; i < drawSurface.Count; i++)
+            {
+                drawSurface[i].setEdit(false);
+                drawArea.Children.Add(drawSurface[i].convertShapeType());
+            }
         }
 
         private void closeButtonClick(object sender, RoutedEventArgs e)
@@ -248,6 +257,15 @@ namespace Paint_Application
             {
                 isFunctionSelected = true;
             }
+
+            drawArea.Children.Clear();
+            drawBackGround.Children.Clear();
+
+            for (int i = 0; i < drawSurface.Count; i++)
+            {
+                drawSurface[i].setEdit(false);
+                drawArea.Children.Add(drawSurface[i].convertShapeType());
+            }
         }
 
         private void selectionButtonClick(object sender, RoutedEventArgs e)
@@ -274,6 +292,15 @@ namespace Paint_Application
                 selectionCombobox.IsDropDownOpen = false;
                 selectionButtonContent.Source = new BitmapImage(new Uri("images/arrow-down.png", UriKind.Relative));
                 isSelectionOpen = false;
+            }
+
+            drawArea.Children.Clear();
+            drawBackGround.Children.Clear();
+
+            for (int i = 0; i < drawSurface.Count; i++)
+            {
+                drawSurface[i].setEdit(false);
+                drawArea.Children.Add(drawSurface[i].convertShapeType());
             }
         }
 
@@ -325,6 +352,15 @@ namespace Paint_Application
                 textBoldBorder.Opacity = 0;
                 isTextBold = false;
             }
+
+            drawArea.Children.Clear();
+            drawBackGround.Children.Clear();
+
+            for (int i = 0; i < drawSurface.Count; i++)
+            {
+                drawSurface[i].setEdit(false);
+                drawArea.Children.Add(drawSurface[i].convertShapeType());
+            }
         }
 
         private void textItalicButtonClick(object sender, RoutedEventArgs e)
@@ -337,6 +373,15 @@ namespace Paint_Application
             {
                 textItalicBorder.Opacity = 0;
                 isTextItalic= false;
+            }
+
+            drawArea.Children.Clear();
+            drawBackGround.Children.Clear();
+
+            for (int i = 0; i < drawSurface.Count; i++)
+            {
+                drawSurface[i].setEdit(false);
+                drawArea.Children.Add(drawSurface[i].convertShapeType());
             }
         }
 
@@ -352,6 +397,15 @@ namespace Paint_Application
                 textBackgroundImage.Source = new BitmapImage(new Uri("images/textBackground.png", UriKind.Relative));
                 isTextBackgroundFill = false;
                 textBackgroundCustom.Visibility = Visibility.Hidden;
+            }
+
+            drawArea.Children.Clear();
+            drawBackGround.Children.Clear();
+
+            for (int i = 0; i < drawSurface.Count; i++)
+            {
+                drawSurface[i].setEdit(false);
+                drawArea.Children.Add(drawSurface[i].convertShapeType());
             }
         }
 
@@ -378,6 +432,15 @@ namespace Paint_Application
             {
                 textFontCombobox.IsDropDownOpen = false;
                 isTextFontFamilyOpen = false;
+            }
+
+            drawArea.Children.Clear();
+            drawBackGround.Children.Clear();
+
+            for (int i = 0; i < drawSurface.Count; i++)
+            {
+                drawSurface[i].setEdit(false);
+                drawArea.Children.Add(drawSurface[i].convertShapeType());
             }
         }
 
@@ -438,6 +501,15 @@ namespace Paint_Application
             {
                 fontSizeStackpanel.Visibility = Visibility.Collapsed;
                 isTextFontSizeOpen = false;
+            }
+
+            drawArea.Children.Clear();
+            drawBackGround.Children.Clear();
+
+            for (int i = 0; i < drawSurface.Count; i++)
+            {
+                drawSurface[i].setEdit(false);
+                drawArea.Children.Add(drawSurface[i].convertShapeType());
             }
         }
 
@@ -520,6 +592,15 @@ namespace Paint_Application
                 styleWidthCombobox.IsDropDownOpen = false;
                 isStyleWidthOpen = false;
             }
+
+            drawArea.Children.Clear();
+            drawBackGround.Children.Clear();
+
+            for (int i = 0; i < drawSurface.Count; i++)
+            {
+                drawSurface[i].setEdit(false);
+                drawArea.Children.Add(drawSurface[i].convertShapeType());
+            }
         }
 
         private void styleWidthComboboxSelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -556,6 +637,15 @@ namespace Paint_Application
             {
                 styleStrokeCombobox.IsDropDownOpen = false;
                 isStyleStrokeOpen = false;
+            }
+
+            drawArea.Children.Clear();
+            drawBackGround.Children.Clear();
+
+            for (int i = 0; i < drawSurface.Count; i++)
+            {
+                drawSurface[i].setEdit(false);
+                drawArea.Children.Add(drawSurface[i].convertShapeType());
             }
         }
 
@@ -600,6 +690,15 @@ namespace Paint_Application
             shapeListview.SelectedItem = selectedItem;
 
             selectedShape = (IShape)selectedItem.Content;
+
+            drawArea.Children.Clear();
+            drawBackGround.Children.Clear();
+
+            for (int i = 0; i < drawSurface.Count; i++)
+            {
+                drawSurface[i].setEdit(false);
+                drawArea.Children.Add(drawSurface[i].convertShapeType());
+            }
         }
 
         private void drawAreaMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
@@ -1216,6 +1315,16 @@ namespace Paint_Application
                             drawArea.Children.Add(drawSurface[i].convertShapeType());
                         }
                     }
+                } else
+                {
+                    drawArea.Children.Clear();
+                    drawBackGround.Children.Clear();
+
+                    for (int i = 0; i < drawSurface.Count; i++)
+                    {
+                        drawSurface[i].setEdit(false);
+                        drawArea.Children.Add(drawSurface[i].convertShapeType());
+                    }
                 }
             }
         }
@@ -1571,6 +1680,15 @@ namespace Paint_Application
             colorListview.SelectedItem = selectedItem;
 
             selectedColor = (IColor)selectedItem.Content;
+
+            drawArea.Children.Clear();
+            drawBackGround.Children.Clear();
+
+            for (int i = 0; i < drawSurface.Count; i++)
+            {
+                drawSurface[i].setEdit(false);
+                drawArea.Children.Add(drawSurface[i].convertShapeType());
+            }
         }
 
         private void styleFillButtonClick(object sender, RoutedEventArgs e)
@@ -1584,12 +1702,30 @@ namespace Paint_Application
                 styleFillButton.Opacity = 1;
                 isShapeFill = true;
             }
+
+            drawArea.Children.Clear();
+            drawBackGround.Children.Clear();
+
+            for (int i = 0; i < drawSurface.Count; i++)
+            {
+                drawSurface[i].setEdit(false);
+                drawArea.Children.Add(drawSurface[i].convertShapeType());
+            }
         }
 
         private void customColorButtonClick(object sender, RoutedEventArgs e)
         {
             selectedColor = customColor;
             ColorDialog colorDialog = new ColorDialog();
+
+            drawArea.Children.Clear();
+            drawBackGround.Children.Clear();
+
+            for (int i = 0; i < drawSurface.Count; i++)
+            {
+                drawSurface[i].setEdit(false);
+                drawArea.Children.Add(drawSurface[i].convertShapeType());
+            }
 
             if (colorDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
@@ -1774,6 +1910,15 @@ namespace Paint_Application
                 backgroundBlue = color.B;
 
                 textBackgroundBorder.Background = new SolidColorBrush(System.Windows.Media.Color.FromRgb(backgroundRed, backgroundGreen, backgroundBlue));
+            }
+
+            drawArea.Children.Clear();
+            drawBackGround.Children.Clear();
+
+            for (int i = 0; i < drawSurface.Count; i++)
+            {
+                drawSurface[i].setEdit(false);
+                drawArea.Children.Add(drawSurface[i].convertShapeType());
             }
         }
 
