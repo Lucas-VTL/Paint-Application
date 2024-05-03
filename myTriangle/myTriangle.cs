@@ -29,6 +29,10 @@ namespace myTriangle
         private Button TopCenterButton;
         private Button BottomCenterButton;
         private Button RotateButton;
+
+        private bool isFlipHorizontally;
+        private bool isFlipVertically;
+
         public string shapeName => "Triangle";
         public string shapeImage => "images/shapeTriangle.png";
 
@@ -122,6 +126,22 @@ namespace myTriangle
         public Button getRotateButton()
         {
             return RotateButton;
+        }
+        public void setFlipHorizontally(bool flipHorizontally)
+        {
+            isFlipHorizontally = flipHorizontally;
+        }
+        public void setFlipVertically(bool flipVertically)
+        {
+            isFlipVertically = flipVertically;
+        }
+        public bool getFlipHorizontally()
+        {
+            return isFlipHorizontally;
+        }
+        public bool getFlipVertically()
+        {
+            return isFlipVertically;
         }
         public object Clone()
         {
@@ -254,6 +274,29 @@ namespace myTriangle
                 RotateButton.Background = Brushes.White;
                 Canvas.SetLeft(RotateButton, left + (width / 2) - 10);
                 Canvas.SetTop(RotateButton, top - 40);
+
+                if (isFlipHorizontally && !isFlipVertically)
+                {
+                    element.RenderTransformOrigin = new Point(0.5, 0.5);
+                    element.RenderTransform = new ScaleTransform(-1, 1);
+
+                    Canvas.SetLeft(element, left);
+                }
+                else if (!isFlipHorizontally && isFlipVertically)
+                {
+                    element.RenderTransformOrigin = new Point(0.5, 0.5);
+                    element.RenderTransform = new ScaleTransform(1, -1);
+
+                    Canvas.SetTop(element, top);
+                }
+                else if (isFlipHorizontally && isFlipVertically)
+                {
+                    element.RenderTransformOrigin = new Point(0.5, 0.5);
+                    element.RenderTransform = new ScaleTransform(-1, -1);
+
+                    Canvas.SetLeft(element, left);
+                    Canvas.SetTop(element, top);
+                }
 
                 canvas.Children.Add(rectangle);
                 canvas.Children.Add(element);

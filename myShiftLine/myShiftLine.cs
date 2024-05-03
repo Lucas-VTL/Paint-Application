@@ -88,6 +88,16 @@ namespace myShiftLine
         public Button getTopCenterButton() { return null; }
         public Button getBottomCenterButton() { return null; }
         public Button getRotateButton() { return null; }
+        public void setFlipHorizontally(bool flipHorizontally) { }
+        public void setFlipVertically(bool flipVertically) { }
+        public bool getFlipHorizontally()
+        {
+            return false;
+        }
+        public bool getFlipVertically()
+        {
+            return false;
+        }
         public object Clone()
         {
             return MemberwiseClone();

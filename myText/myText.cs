@@ -43,6 +43,9 @@ namespace myText
         private Button BottomCenterButton;
         private Button RotateButton;
 
+        private bool isFlipHorizontally;
+        private bool isFlipVertically;
+
         public string shapeName => "Text";
         public string shapeImage => "";
 
@@ -151,6 +154,22 @@ namespace myText
         public Button getRotateButton()
         {
             return RotateButton;
+        }
+        public void setFlipHorizontally(bool flipHorizontally)
+        {
+            isFlipHorizontally = flipHorizontally;
+        }
+        public void setFlipVertically(bool flipVertically)
+        {
+            isFlipVertically = flipVertically;
+        }
+        public bool getFlipHorizontally()
+        {
+            return isFlipHorizontally;
+        }
+        public bool getFlipVertically()
+        {
+            return isFlipVertically;
         }
         public object Clone()
         {
@@ -331,6 +350,29 @@ namespace myText
 
             Canvas.SetLeft(myTextBox, left);
             Canvas.SetTop(myTextBox, top);
+
+            if (isFlipHorizontally && !isFlipVertically)
+            {
+                myTextBox.RenderTransformOrigin = new Point(0.5, 0.5);
+                myTextBox.RenderTransform = new ScaleTransform(-1, 1);
+
+                Canvas.SetLeft(myTextBox, left);
+            }
+            else if (!isFlipHorizontally && isFlipVertically)
+            {
+                myTextBox.RenderTransformOrigin = new Point(0.5, 0.5);
+                myTextBox.RenderTransform = new ScaleTransform(1, -1);
+
+                Canvas.SetTop(myTextBox, top);
+            }
+            else if (isFlipHorizontally && isFlipVertically)
+            {
+                myTextBox.RenderTransformOrigin = new Point(0.5, 0.5);
+                myTextBox.RenderTransform = new ScaleTransform(-1, -1);
+
+                Canvas.SetLeft(myTextBox, left);
+                Canvas.SetTop(myTextBox, top);
+            }
 
             canvas.Children.Add(myTextBox);
 

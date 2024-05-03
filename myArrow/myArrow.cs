@@ -33,6 +33,9 @@ namespace myArrow
         private Button BottomCenterButton;
         private Button RotateButton;
 
+        private bool isFlipHorizontally;
+        private bool isFlipVertically;
+
         public string shapeName => "Arrow";
         public string shapeImage => "images/shapeArrow.png";
 
@@ -127,6 +130,22 @@ namespace myArrow
         public Button getRotateButton()
         {
             return RotateButton;
+        }
+        public void setFlipHorizontally(bool flipHorizontally)
+        {
+            isFlipHorizontally = flipHorizontally;
+        }
+        public void setFlipVertically(bool flipVertically)
+        {
+            isFlipVertically = flipVertically;
+        }
+        public bool getFlipHorizontally()
+        {
+            return isFlipHorizontally;
+        }
+        public bool getFlipVertically()
+        {
+            return isFlipVertically;
         }
         public object Clone()
         {
@@ -272,6 +291,27 @@ namespace myArrow
                 RotateButton.Background = Brushes.White;
                 Canvas.SetLeft(RotateButton, left + (width / 2) - 10);
                 Canvas.SetTop(RotateButton, top - 40);
+
+                if (isFlipHorizontally && !isFlipVertically)
+                {
+                    element.RenderTransformOrigin = new Point(0.5, 0.5);
+                    element.RenderTransform = new ScaleTransform(-1, 1);
+
+                    Canvas.SetLeft(element, left); 
+                } else if (!isFlipHorizontally && isFlipVertically)
+                {
+                    element.RenderTransformOrigin = new Point(0.5, 0.5);
+                    element.RenderTransform = new ScaleTransform(1, -1);
+
+                    Canvas.SetTop(element, top);
+                } else if (isFlipHorizontally && isFlipVertically)
+                {
+                    element.RenderTransformOrigin = new Point(0.5, 0.5);
+                    element.RenderTransform = new ScaleTransform(-1, -1);
+
+                    Canvas.SetLeft(element, left);
+                    Canvas.SetTop(element, top);
+                }
 
                 canvas.Children.Add(rectangle);
                 canvas.Children.Add(element);

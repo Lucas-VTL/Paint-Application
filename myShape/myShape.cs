@@ -42,6 +42,10 @@ namespace myShape
         Button getTopCenterButton();
         Button getBottomCenterButton();
         Button getRotateButton();
+        void setFlipHorizontally(bool flipHorizontally);
+        void setFlipVertically(bool flipVerticcally);
+        bool getFlipHorizontally();
+        bool getFlipVertically();
         UIElement convertShapeType();
         string shapeName { get;}
         string shapeImage { get;}
