@@ -71,6 +71,7 @@ namespace Paint_Application
         Button RightCenterButton;
         Button TopCenterButton;
         Button BottomCenterButton;
+        Button RotateButton;
 
         //List fonts lưu giữ các kiểu fonts
         private List<Font> fonts = new List<Font>();
@@ -213,6 +214,9 @@ namespace Paint_Application
                 drawSurface[i].setEdit(false);
                 drawArea.Children.Add(drawSurface[i].convertShapeType());
             }
+
+            toolHorizontalButton.Opacity = 0.3;
+            toolVerticalButton.Opacity = 0.3;
         }
 
         private void closeButtonClick(object sender, RoutedEventArgs e)
@@ -266,6 +270,9 @@ namespace Paint_Application
                 drawSurface[i].setEdit(false);
                 drawArea.Children.Add(drawSurface[i].convertShapeType());
             }
+
+            toolHorizontalButton.Opacity = 0.3;
+            toolVerticalButton.Opacity = 0.3;
         }
 
         private void selectionButtonClick(object sender, RoutedEventArgs e)
@@ -302,6 +309,9 @@ namespace Paint_Application
                 drawSurface[i].setEdit(false);
                 drawArea.Children.Add(drawSurface[i].convertShapeType());
             }
+
+            toolHorizontalButton.Opacity = 0.3;
+            toolVerticalButton.Opacity = 0.3;
         }
 
         private void selecionStackpanelMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -361,6 +371,9 @@ namespace Paint_Application
                 drawSurface[i].setEdit(false);
                 drawArea.Children.Add(drawSurface[i].convertShapeType());
             }
+
+            toolHorizontalButton.Opacity = 0.3;
+            toolVerticalButton.Opacity = 0.3;
         }
 
         private void textItalicButtonClick(object sender, RoutedEventArgs e)
@@ -383,6 +396,9 @@ namespace Paint_Application
                 drawSurface[i].setEdit(false);
                 drawArea.Children.Add(drawSurface[i].convertShapeType());
             }
+
+            toolHorizontalButton.Opacity = 0.3;
+            toolVerticalButton.Opacity = 0.3;
         }
 
         private void textBackgroundButtonClick(object sender, RoutedEventArgs e)
@@ -407,6 +423,9 @@ namespace Paint_Application
                 drawSurface[i].setEdit(false);
                 drawArea.Children.Add(drawSurface[i].convertShapeType());
             }
+
+            toolHorizontalButton.Opacity = 0.3;
+            toolVerticalButton.Opacity = 0.3;
         }
 
         private void textFontButtonClick(object sender, RoutedEventArgs e)
@@ -442,6 +461,9 @@ namespace Paint_Application
                 drawSurface[i].setEdit(false);
                 drawArea.Children.Add(drawSurface[i].convertShapeType());
             }
+
+            toolHorizontalButton.Opacity = 0.3;
+            toolVerticalButton.Opacity = 0.3;
         }
 
         private void textFontComboboxPreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -511,6 +533,9 @@ namespace Paint_Application
                 drawSurface[i].setEdit(false);
                 drawArea.Children.Add(drawSurface[i].convertShapeType());
             }
+
+            toolHorizontalButton.Opacity = 0.3;
+            toolVerticalButton.Opacity = 0.3;
         }
 
         private void increaseFontSizeClick(object sender, RoutedEventArgs e)
@@ -601,6 +626,9 @@ namespace Paint_Application
                 drawSurface[i].setEdit(false);
                 drawArea.Children.Add(drawSurface[i].convertShapeType());
             }
+
+            toolHorizontalButton.Opacity = 0.3;
+            toolVerticalButton.Opacity = 0.3;
         }
 
         private void styleWidthComboboxSelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -647,6 +675,9 @@ namespace Paint_Application
                 drawSurface[i].setEdit(false);
                 drawArea.Children.Add(drawSurface[i].convertShapeType());
             }
+
+            toolHorizontalButton.Opacity = 0.3;
+            toolVerticalButton.Opacity = 0.3;
         }
 
         private void styleStrokeComboboxSelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -699,6 +730,9 @@ namespace Paint_Application
                 drawSurface[i].setEdit(false);
                 drawArea.Children.Add(drawSurface[i].convertShapeType());
             }
+
+            toolHorizontalButton.Opacity = 0.3;
+            toolVerticalButton.Opacity = 0.3;
         }
 
         private void drawAreaMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
@@ -1094,6 +1128,7 @@ namespace Paint_Application
                                 RightCenterButton = drawSurface[i].getRightCenterButton();
                                 TopCenterButton = drawSurface[i].getTopCenterButton();
                                 BottomCenterButton = drawSurface[i].getBottomCenterButton();
+                                RotateButton = drawSurface[i].getRotateButton();
 
                                 EditGrid.Cursor = Cursors.SizeAll;
                                 LeftTopButton.Cursor = Cursors.SizeNWSE;
@@ -1104,6 +1139,7 @@ namespace Paint_Application
                                 RightCenterButton.Cursor = Cursors.SizeWE;
                                 TopCenterButton.Cursor = Cursors.SizeNS;
                                 BottomCenterButton.Cursor = Cursors.SizeNS;
+                                RotateButton.Cursor = Cursors.SizeWE;
 
                                 EditGrid.PreviewMouseRightButtonDown += EditGridPreviewMouseRightButtonDown;
                                 EditGrid.PreviewMouseRightButtonUp += EdittingMouseUp;
@@ -1131,6 +1167,9 @@ namespace Paint_Application
 
                                 BottomCenterButton.PreviewMouseRightButtonDown += BottomCenterButtonPreviewMouseRightButtonDown;
                                 BottomCenterButton.PreviewMouseRightButtonUp += EdittingMouseUp;
+
+                                RotateButton.PreviewMouseRightButtonDown += RotateButtonPreviewMouseRightButtonDown;
+                                RotateButton.PreviewMouseRightButtonUp += EdittingMouseUp;
                             }
                         }
                         else
@@ -1225,6 +1264,9 @@ namespace Paint_Application
 
                 if (editShapeIndex != -1)
                 {
+                    toolHorizontalButton.Opacity = 1;
+                    toolVerticalButton.Opacity = 1;
+
                     drawArea.Children.Clear();
                     drawBackGround.Children.Clear();
 
@@ -1292,6 +1334,7 @@ namespace Paint_Application
                                 RightCenterButton = drawSurface[i].getRightCenterButton();
                                 TopCenterButton = drawSurface[i].getTopCenterButton();
                                 BottomCenterButton = drawSurface[i].getBottomCenterButton();
+                                RotateButton = drawSurface[i].getRotateButton();
 
                                 EditGrid.Cursor = Cursors.SizeAll;
                                 LeftTopButton.Cursor = Cursors.SizeNWSE;
@@ -1302,6 +1345,7 @@ namespace Paint_Application
                                 RightCenterButton.Cursor = Cursors.SizeWE;
                                 TopCenterButton.Cursor = Cursors.SizeNS;
                                 BottomCenterButton.Cursor = Cursors.SizeNS;
+                                RotateButton.Cursor = Cursors.SizeWE;
 
                                 EditGrid.PreviewMouseRightButtonDown += EditGridPreviewMouseRightButtonDown;
                                 EditGrid.PreviewMouseRightButtonUp += EdittingMouseUp;
@@ -1329,6 +1373,9 @@ namespace Paint_Application
 
                                 BottomCenterButton.PreviewMouseRightButtonDown += BottomCenterButtonPreviewMouseRightButtonDown;
                                 BottomCenterButton.PreviewMouseRightButtonUp += EdittingMouseUp;
+
+                                RotateButton.PreviewMouseRightButtonDown += RotateButtonPreviewMouseRightButtonDown;
+                                RotateButton.PreviewMouseRightButtonUp += EdittingMouseUp;
                             }
                         }
                         else
@@ -1347,6 +1394,9 @@ namespace Paint_Application
                         drawSurface[i].setEdit(false);
                         drawArea.Children.Add(drawSurface[i].convertShapeType());
                     }
+
+                    toolHorizontalButton.Opacity = 0.3;
+                    toolVerticalButton.Opacity = 0.3;
                 }
             }
         }
@@ -1425,6 +1475,12 @@ namespace Paint_Application
         {
             isEditting = true;
             editType = "Left Top Editting";
+        }
+
+        private void RotateButtonPreviewMouseRightButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            isEditting = true;
+            editType = "Rotate Editting";
         }
 
         private void newTextBox_TextChanged(object sender, TextChangedEventArgs e)
@@ -1711,6 +1767,9 @@ namespace Paint_Application
                 drawSurface[i].setEdit(false);
                 drawArea.Children.Add(drawSurface[i].convertShapeType());
             }
+
+            toolHorizontalButton.Opacity = 0.3;
+            toolVerticalButton.Opacity = 0.3;
         }
 
         private void styleFillButtonClick(object sender, RoutedEventArgs e)
@@ -1733,6 +1792,9 @@ namespace Paint_Application
                 drawSurface[i].setEdit(false);
                 drawArea.Children.Add(drawSurface[i].convertShapeType());
             }
+
+            toolHorizontalButton.Opacity = 0.3;
+            toolVerticalButton.Opacity = 0.3;
         }
 
         private void customColorButtonClick(object sender, RoutedEventArgs e)
@@ -1748,6 +1810,9 @@ namespace Paint_Application
                 drawSurface[i].setEdit(false);
                 drawArea.Children.Add(drawSurface[i].convertShapeType());
             }
+
+            toolHorizontalButton.Opacity = 0.3;
+            toolVerticalButton.Opacity = 0.3;
 
             if (colorDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
@@ -1942,6 +2007,9 @@ namespace Paint_Application
                 drawSurface[i].setEdit(false);
                 drawArea.Children.Add(drawSurface[i].convertShapeType());
             }
+
+            toolHorizontalButton.Opacity = 0.3;
+            toolVerticalButton.Opacity = 0.3;
         }
 
         private bool isPointInsideShape(IShape shape, Point point)
@@ -2055,6 +2123,33 @@ namespace Paint_Application
                 isEditting = false;
                 editType = "";
             }
+        }
+
+        private void toolHorizontalButtonClick(object sender, RoutedEventArgs e)
+        {
+            if (toolHorizontalButton.Opacity != 0.3)
+            {
+                double oldStartX = drawSurface[editShapeIndex].getStartPoint().X;
+                double oldStartY = drawSurface[editShapeIndex].getStartPoint().Y;
+                double oldEndX = drawSurface[editShapeIndex].getEndPoint().X;
+                double oldEndY = drawSurface[editShapeIndex].getEndPoint().Y;
+
+                drawSurface[editShapeIndex].addStartPoint(new Point(oldEndX, oldStartY));
+                drawSurface[editShapeIndex].addEndPoint(new Point(oldStartX, oldEndY));
+
+                drawArea.Children.Clear();
+
+                for (int i = 0; i < drawSurface.Count; i++)
+                {
+                    drawSurface[i].setEdit(false);
+                    drawArea.Children.Add(drawSurface[i].convertShapeType());
+                }
+            }
+        }
+
+        private void toolVerticalButtonClick(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }
