@@ -1,24 +1,24 @@
-﻿using System.Windows;
+﻿using myColor;
+using myShape;
+using myStroke;
+using myWidthness;
+using System.IO;
+using System.Reflection;
+using System.Text.RegularExpressions;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.IO;
-using System.Reflection;
-using myShape;
-using myWidthness;
-using myStroke;
-using myColor;
-
-using KeyEventArgs = System.Windows.Input.KeyEventArgs;
-using MouseEventArgs = System.Windows.Input.MouseEventArgs;
-using Cursors = System.Windows.Input.Cursors;
-using Cursor = System.Windows.Input.Cursor;
-using ListViewItem = System.Windows.Controls.ListViewItem;
-using Point = System.Windows.Point;
-using System.Diagnostics;
 using System.Windows.Shapes;
 using Brushes = System.Windows.Media.Brushes;
+using Button = System.Windows.Controls.Button;
+using Cursor = System.Windows.Input.Cursor;
+using Cursors = System.Windows.Input.Cursors;
+using KeyEventArgs = System.Windows.Input.KeyEventArgs;
+using ListViewItem = System.Windows.Controls.ListViewItem;
+using MouseEventArgs = System.Windows.Input.MouseEventArgs;
+using Point = System.Windows.Point;
 using TextBox = System.Windows.Controls.TextBox;
 using System.Drawing.Imaging;
 
@@ -46,6 +46,7 @@ namespace Paint_Application
         private bool isShiftDown = false;
         private bool isShapeFill = false;
         private bool isTextOpen = false;
+        private bool isEditting = false;
 
         //Lưu giữ điểm bắt đầu và kết thúc của nét vẽ
         Point startPoint;
@@ -59,6 +60,19 @@ namespace Paint_Application
         //List border giúp xác định các border khi người dùng chọn vào các function
         private List<Border> function = new List<Border>();
 
+        //List giúp lưu các biến để edit hình ảnh
+        Grid EditGrid;
+        Button StartButton;
+        Button EndButton;
+        Button LeftTopButton;
+        Button RightTopButton;
+        Button LeftBottomButton;
+        Button RightBottomButton;
+        Button LeftCenterButton;
+        Button RightCenterButton;
+        Button TopCenterButton;
+        Button BottomCenterButton;
+
         //List fonts lưu giữ các kiểu fonts
         private List<Font> fonts = new List<Font>();
 
@@ -66,8 +80,21 @@ namespace Paint_Application
         private string globalFontFamily;
         private int globalFontSize = 12;
 
+        private byte backgroundRed = 255;
+        private byte backgroundGreen = 255;
+        private byte backgroundBlue = 255;
+
         private IShape selectedShape = null;
         private IColor selectedColor = null;
+
+        //Các biến phục vụ cho chức năng edit hình ảnh
+        private int editShapeIndex;
+        private string editType;
+        private Point movingPoint;
+        private double movingStartX;
+        private double movingStartY;
+        private double movingEndX;
+        private double movingEndY;
 
         //List lưu giữ tất cả các loại hình vẽ được load từ file dll (bao gồm các hình vẽ + phiên bản ấn shift của chúng)
         private List<IShape> allShapeList = new List<IShape>();
@@ -178,6 +205,15 @@ namespace Paint_Application
         private void minimizeButtonClick(object sender, RoutedEventArgs e)
         {
             this.WindowState = WindowState.Minimized;
+
+            drawArea.Children.Clear();
+            drawBackGround.Children.Clear();
+
+            for (int i = 0; i < drawSurface.Count; i++)
+            {
+                drawSurface[i].setEdit(false);
+                drawArea.Children.Add(drawSurface[i].convertShapeType());
+            }
         }
 
         private void closeButtonClick(object sender, RoutedEventArgs e)
@@ -222,6 +258,15 @@ namespace Paint_Application
             {
                 isFunctionSelected = true;
             }
+
+            drawArea.Children.Clear();
+            drawBackGround.Children.Clear();
+
+            for (int i = 0; i < drawSurface.Count; i++)
+            {
+                drawSurface[i].setEdit(false);
+                drawArea.Children.Add(drawSurface[i].convertShapeType());
+            }
         }
 
         private void selectionButtonClick(object sender, RoutedEventArgs e)
@@ -248,6 +293,15 @@ namespace Paint_Application
                 selectionCombobox.IsDropDownOpen = false;
                 selectionButtonContent.Source = new BitmapImage(new Uri("images/arrow-down.png", UriKind.Relative));
                 isSelectionOpen = false;
+            }
+
+            drawArea.Children.Clear();
+            drawBackGround.Children.Clear();
+
+            for (int i = 0; i < drawSurface.Count; i++)
+            {
+                drawSurface[i].setEdit(false);
+                drawArea.Children.Add(drawSurface[i].convertShapeType());
             }
         }
 
@@ -299,6 +353,15 @@ namespace Paint_Application
                 textBoldBorder.Opacity = 0;
                 isTextBold = false;
             }
+
+            drawArea.Children.Clear();
+            drawBackGround.Children.Clear();
+
+            for (int i = 0; i < drawSurface.Count; i++)
+            {
+                drawSurface[i].setEdit(false);
+                drawArea.Children.Add(drawSurface[i].convertShapeType());
+            }
         }
 
         private void textItalicButtonClick(object sender, RoutedEventArgs e)
@@ -312,6 +375,15 @@ namespace Paint_Application
                 textItalicBorder.Opacity = 0;
                 isTextItalic= false;
             }
+
+            drawArea.Children.Clear();
+            drawBackGround.Children.Clear();
+
+            for (int i = 0; i < drawSurface.Count; i++)
+            {
+                drawSurface[i].setEdit(false);
+                drawArea.Children.Add(drawSurface[i].convertShapeType());
+            }
         }
 
         private void textBackgroundButtonClick(object sender, RoutedEventArgs e)
@@ -320,10 +392,21 @@ namespace Paint_Application
             {
                 textBackgroundImage.Source = new BitmapImage(new Uri("images/textBackgroundEffect.png", UriKind.Relative));
                 isTextBackgroundFill = true;
+                textBackgroundCustom.Visibility = Visibility.Visible;
             } else
             {
                 textBackgroundImage.Source = new BitmapImage(new Uri("images/textBackground.png", UriKind.Relative));
                 isTextBackgroundFill = false;
+                textBackgroundCustom.Visibility = Visibility.Hidden;
+            }
+
+            drawArea.Children.Clear();
+            drawBackGround.Children.Clear();
+
+            for (int i = 0; i < drawSurface.Count; i++)
+            {
+                drawSurface[i].setEdit(false);
+                drawArea.Children.Add(drawSurface[i].convertShapeType());
             }
         }
 
@@ -350,6 +433,15 @@ namespace Paint_Application
             {
                 textFontCombobox.IsDropDownOpen = false;
                 isTextFontFamilyOpen = false;
+            }
+
+            drawArea.Children.Clear();
+            drawBackGround.Children.Clear();
+
+            for (int i = 0; i < drawSurface.Count; i++)
+            {
+                drawSurface[i].setEdit(false);
+                drawArea.Children.Add(drawSurface[i].convertShapeType());
             }
         }
 
@@ -411,6 +503,15 @@ namespace Paint_Application
                 fontSizeStackpanel.Visibility = Visibility.Collapsed;
                 isTextFontSizeOpen = false;
             }
+
+            drawArea.Children.Clear();
+            drawBackGround.Children.Clear();
+
+            for (int i = 0; i < drawSurface.Count; i++)
+            {
+                drawSurface[i].setEdit(false);
+                drawArea.Children.Add(drawSurface[i].convertShapeType());
+            }
         }
 
         private void increaseFontSizeClick(object sender, RoutedEventArgs e)
@@ -462,6 +563,9 @@ namespace Paint_Application
                 {
                     fontSizeTextbox.Text = globalFontSize.ToString();
                 }
+
+                fontSizeStackpanel.Visibility = Visibility.Collapsed;
+                isTextFontSizeOpen = false;
             }
         }
 
@@ -488,6 +592,15 @@ namespace Paint_Application
             {
                 styleWidthCombobox.IsDropDownOpen = false;
                 isStyleWidthOpen = false;
+            }
+
+            drawArea.Children.Clear();
+            drawBackGround.Children.Clear();
+
+            for (int i = 0; i < drawSurface.Count; i++)
+            {
+                drawSurface[i].setEdit(false);
+                drawArea.Children.Add(drawSurface[i].convertShapeType());
             }
         }
 
@@ -525,6 +638,15 @@ namespace Paint_Application
             {
                 styleStrokeCombobox.IsDropDownOpen = false;
                 isStyleStrokeOpen = false;
+            }
+
+            drawArea.Children.Clear();
+            drawBackGround.Children.Clear();
+
+            for (int i = 0; i < drawSurface.Count; i++)
+            {
+                drawSurface[i].setEdit(false);
+                drawArea.Children.Add(drawSurface[i].convertShapeType());
             }
         }
 
@@ -569,6 +691,15 @@ namespace Paint_Application
             shapeListview.SelectedItem = selectedItem;
 
             selectedShape = (IShape)selectedItem.Content;
+
+            drawArea.Children.Clear();
+            drawBackGround.Children.Clear();
+
+            for (int i = 0; i < drawSurface.Count; i++)
+            {
+                drawSurface[i].setEdit(false);
+                drawArea.Children.Add(drawSurface[i].convertShapeType());
+            }
         }
 
         private void drawAreaMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
@@ -690,6 +821,326 @@ namespace Paint_Application
 
                  drawArea.Children.Add(dot);
             }
+
+            if (isEditting)
+            {
+                if(!string.IsNullOrEmpty(editType) && editShapeIndex != -1)
+                {
+                    Point point = e.GetPosition(drawArea);
+
+                    bool outRangeX = false;
+                    bool outRangeY = false;
+
+                    double oldX;
+                    double oldY;
+                    double newX;
+                    double newY;
+
+                    switch (editType)
+                    {
+                        case "Left Top Editting":
+                            oldX = drawSurface[editShapeIndex].getEndPoint().X;
+                            oldY = drawSurface[editShapeIndex].getEndPoint().Y;
+
+                            newX = oldX - 20;
+                            newY = oldY - 20;
+
+                            if (point.X + 20 > oldX) { outRangeX = true;}
+                            if (point.Y + 20 > oldY) { outRangeY = true;}
+
+                            if (!outRangeX && !outRangeY)
+                            {
+                                drawSurface[editShapeIndex].addStartPoint(point);
+                            } else if (outRangeX && !outRangeY)
+                            {
+                                drawSurface[editShapeIndex].addStartPoint(new Point(newX, point.Y));
+                            } else if (!outRangeX && outRangeY)
+                            {
+                                drawSurface[editShapeIndex].addStartPoint(new Point(point.X, newY));
+                            } else
+                            {
+                                drawSurface[editShapeIndex].addStartPoint(new Point(newX, newY));
+                            }
+                            break;
+                        case "Right Bottom Editting":
+                            oldX = drawSurface[editShapeIndex].getStartPoint().X;
+                            oldY = drawSurface[editShapeIndex].getStartPoint().Y;
+
+                            newX = oldX + 20;
+                            newY = oldY + 20;
+
+                            if (point.X - 20 < oldX) { outRangeX = true; }
+                            if (point.Y - 20 < oldY) { outRangeY = true; }
+
+                            if (!outRangeX && !outRangeY)
+                            {
+                                drawSurface[editShapeIndex].addEndPoint(point);
+                            }
+                            else if (outRangeX && !outRangeY)
+                            {
+                                drawSurface[editShapeIndex].addEndPoint(new Point(newX, point.Y));
+                            }
+                            else if (!outRangeX && outRangeY)
+                            {
+                                drawSurface[editShapeIndex].addEndPoint(new Point(point.X, newY));
+                            }
+                            else
+                            {
+                                drawSurface[editShapeIndex].addEndPoint(new Point(newX, newY));
+                            }
+                            break;
+                        case "Right Top Editting":
+                            oldX = drawSurface[editShapeIndex].getStartPoint().X;
+                            oldY = drawSurface[editShapeIndex].getEndPoint().Y;
+
+                            newX = oldX + 20;
+                            newY = oldY - 20;
+
+                            if (point.X - 20 < oldX) { outRangeX = true; }
+                            if (point.Y + 20 > oldY) { outRangeY = true; }
+
+                            if (!outRangeX && !outRangeY)
+                            {
+                                drawSurface[editShapeIndex].addStartPoint(new Point(drawSurface[editShapeIndex].getStartPoint().X, point.Y));
+                                drawSurface[editShapeIndex].addEndPoint(new Point(point.X, drawSurface[editShapeIndex].getEndPoint().Y));
+                            }
+                            else if (outRangeX && !outRangeY)
+                            {
+                                drawSurface[editShapeIndex].addStartPoint(new Point(drawSurface[editShapeIndex].getStartPoint().X, point.Y));
+                                drawSurface[editShapeIndex].addEndPoint(new Point(newX, drawSurface[editShapeIndex].getEndPoint().Y));
+                            }
+                            else if (!outRangeX && outRangeY)
+                            {
+                                drawSurface[editShapeIndex].addStartPoint(new Point(drawSurface[editShapeIndex].getStartPoint().X, newY));
+                                drawSurface[editShapeIndex].addEndPoint(new Point(point.X, drawSurface[editShapeIndex].getEndPoint().Y));
+                            }
+                            else
+                            {
+                                drawSurface[editShapeIndex].addStartPoint(new Point(drawSurface[editShapeIndex].getStartPoint().X, newY));
+                                drawSurface[editShapeIndex].addEndPoint(new Point(newX, drawSurface[editShapeIndex].getEndPoint().Y));
+                            }
+                            break;
+                        case "Left Bottom Editting":
+                            oldX = drawSurface[editShapeIndex].getEndPoint().X;
+                            oldY = drawSurface[editShapeIndex].getStartPoint().Y;
+
+                            newX = oldX - 20;
+                            newY = oldY + 20;
+
+                            if (point.X + 20 > oldX) { outRangeX = true; }
+                            if (point.Y - 20 < oldY) { outRangeY = true; }
+
+                            if (!outRangeX && !outRangeY)
+                            {
+                                drawSurface[editShapeIndex].addStartPoint(new Point(point.X, drawSurface[editShapeIndex].getStartPoint().Y));
+                                drawSurface[editShapeIndex].addEndPoint(new Point(drawSurface[editShapeIndex].getEndPoint().X, point.Y));
+                            }
+                            else if (outRangeX && !outRangeY)
+                            {
+                                drawSurface[editShapeIndex].addStartPoint(new Point(newX, drawSurface[editShapeIndex].getStartPoint().Y));
+                                drawSurface[editShapeIndex].addEndPoint(new Point(drawSurface[editShapeIndex].getEndPoint().X, point.Y));
+                            }
+                            else if (!outRangeX && outRangeY)
+                            {
+                                drawSurface[editShapeIndex].addStartPoint(new Point(point.X, drawSurface[editShapeIndex].getStartPoint().Y));
+                                drawSurface[editShapeIndex].addEndPoint(new Point(drawSurface[editShapeIndex].getEndPoint().X, newY));
+                            }
+                            else
+                            {
+                                drawSurface[editShapeIndex].addStartPoint(new Point(newX, drawSurface[editShapeIndex].getStartPoint().Y));
+                                drawSurface[editShapeIndex].addEndPoint(new Point(drawSurface[editShapeIndex].getEndPoint().X, newY));
+                            }
+                            break;
+                        case "Left Center Editting":
+                            oldX = drawSurface[editShapeIndex].getEndPoint().X;
+                            newX = oldX - 20;
+
+                            if (point.X + 20 > oldX) { outRangeX = true; }
+
+                            if (!outRangeX)
+                            {
+                                drawSurface[editShapeIndex].addStartPoint(new Point(point.X, drawSurface[editShapeIndex].getStartPoint().Y));
+                            } else
+                            {
+                                drawSurface[editShapeIndex].addStartPoint(new Point(newX, drawSurface[editShapeIndex].getStartPoint().Y));
+                            }
+                            break;
+                        case "Right Center Editting":
+                            oldX = drawSurface[editShapeIndex].getStartPoint().X;
+                            newX = oldX + 20;
+
+                            if (point.X - 20 < oldX) { outRangeX = true; }
+
+                            if (!outRangeX)
+                            {
+                                drawSurface[editShapeIndex].addEndPoint(new Point(point.X, drawSurface[editShapeIndex].getEndPoint().Y));
+                            }
+                            else
+                            {
+                                drawSurface[editShapeIndex].addEndPoint(new Point(newX, drawSurface[editShapeIndex].getEndPoint().Y));
+                            }
+                            break;
+                        case "Top Center Editting":
+                            oldY = drawSurface[editShapeIndex].getEndPoint().Y;
+                            newY = oldY - 20;
+
+                            if (point.Y + 20 > oldY) { outRangeY = true; }
+
+                            if (!outRangeY)
+                            {
+                                drawSurface[editShapeIndex].addStartPoint(new Point(drawSurface[editShapeIndex].getStartPoint().X, point.Y));
+                            }
+                            else
+                            {
+                                drawSurface[editShapeIndex].addStartPoint(new Point(drawSurface[editShapeIndex].getStartPoint().X, newY));
+                            }
+                            break;
+                        case "Bottom Center Editting":
+                            oldY = drawSurface[editShapeIndex].getStartPoint().Y;
+                            newY = oldY + 20;
+
+                            if (point.Y - 20 < oldY) { outRangeY = true; }
+
+                            if (!outRangeY)
+                            {
+                                drawSurface[editShapeIndex].addEndPoint(new Point(drawSurface[editShapeIndex].getEndPoint().X, point.Y));
+                            }
+                            else
+                            {
+                                drawSurface[editShapeIndex].addEndPoint(new Point(drawSurface[editShapeIndex].getEndPoint().X, newY));
+                            }
+                            break;
+                        case "Move Editting":
+                            double newStartX = point.X - movingStartX;
+                            double newStartY = point.Y - movingStartY;
+
+                            double newEndX = point.X - movingEndX;
+                            double newEndY = point.Y - movingEndY;
+
+                            drawSurface[editShapeIndex].addStartPoint(new Point(newStartX, newStartY));
+                            drawSurface[editShapeIndex].addEndPoint(new Point(newEndX, newEndY));
+                            break;
+                        case "Start Point Editting":
+                            drawSurface[editShapeIndex].addStartPoint(point);
+                            break;
+                        case "End Point Editting":
+                            drawSurface[editShapeIndex].addEndPoint(point);
+                            break;
+                        default: break;
+                    }
+
+                    drawArea.Children.Clear();
+                    drawBackGround.Children.Clear();
+
+                    for (int i = 0; i < drawSurface.Count; i++)
+                    {
+                        if (i == editShapeIndex)
+                        {
+                            drawBackGround.Children.Add(drawSurface[i].convertShapeType());
+                            if (drawSurface[i].shapeName.Equals("Line") || drawSurface[i].shapeName.Equals("ShiftLine"))
+                            {
+                                if (drawSurface[i].shapeName.Equals("ShiftLine"))
+                                {
+                                    Point oldStartPoint = drawSurface[i].getStartPoint();
+                                    Point oldEndPoint = drawSurface[i].getEndPoint();
+
+                                    for (int j = 0; j < allShapeList.Count; j++)
+                                    {
+                                        if (allShapeList[j].shapeName.Equals("Line"))
+                                        {
+                                            drawSurface.RemoveAt(i);
+
+                                            IShape newLine = (IShape)allShapeList[j].Clone();
+                                            newLine.addStartPoint(oldStartPoint);
+                                            newLine.addEndPoint(oldEndPoint);
+                                            newLine.addWidthness((IWidthness)styleWidthCombobox.SelectedItem);
+                                            newLine.addStrokeStyle((IStroke)styleStrokeCombobox.SelectedItem);
+                                            newLine.addColor(selectedColor);
+                                            newLine.setShapeFill(isShapeFill);
+                                            newLine.setEdit(true);
+
+                                            drawSurface.Insert(i, newLine);
+
+                                            drawBackGround.Children.Add(drawSurface[i].convertShapeType());
+                                            break;
+                                        }
+                                    }
+                                }
+
+                                EditGrid = drawSurface[i].getEditGrid();
+                                StartButton = drawSurface[i].getStartButton();
+                                EndButton = drawSurface[i].getEndButton();
+
+                                EditGrid.Cursor = Cursors.SizeAll;
+                                StartButton.Cursor = Cursors.SizeNS;
+                                EndButton.Cursor = Cursors.SizeNS;
+
+                                EditGrid.PreviewMouseRightButtonDown += EditGridPreviewMouseRightButtonDown;
+                                EditGrid.PreviewMouseRightButtonUp += EdittingMouseUp;
+
+                                StartButton.PreviewMouseRightButtonDown += StartButtonPreviewMouseRightButtonDown;
+                                StartButton.PreviewMouseRightButtonUp += EdittingMouseUp;
+
+                                EndButton.PreviewMouseRightButtonDown += EndButtonPreviewMouseRightButtonDown;
+                                EndButton.PreviewMouseRightButtonUp += EdittingMouseUp;
+                            }
+                            else
+                            {
+                                EditGrid = drawSurface[i].getEditGrid();
+                                LeftTopButton = drawSurface[i].getLeftTopButton();
+                                RightTopButton = drawSurface[i].getRightTopButton();
+                                LeftBottomButton = drawSurface[i].getLeftBottomButton();
+                                RightBottomButton = drawSurface[i].getRightBottomButton();
+                                LeftCenterButton = drawSurface[i].getLeftCenterButton();
+                                RightCenterButton = drawSurface[i].getRightCenterButton();
+                                TopCenterButton = drawSurface[i].getTopCenterButton();
+                                BottomCenterButton = drawSurface[i].getBottomCenterButton();
+
+                                EditGrid.Cursor = Cursors.SizeAll;
+                                LeftTopButton.Cursor = Cursors.SizeNWSE;
+                                RightBottomButton.Cursor = Cursors.SizeNWSE;
+                                RightTopButton.Cursor = Cursors.SizeNESW;
+                                LeftBottomButton.Cursor = Cursors.SizeNESW;
+                                LeftCenterButton.Cursor = Cursors.SizeWE;
+                                RightCenterButton.Cursor = Cursors.SizeWE;
+                                TopCenterButton.Cursor = Cursors.SizeNS;
+                                BottomCenterButton.Cursor = Cursors.SizeNS;
+
+                                EditGrid.PreviewMouseRightButtonDown += EditGridPreviewMouseRightButtonDown;
+                                EditGrid.PreviewMouseRightButtonUp += EdittingMouseUp;
+
+                                LeftTopButton.PreviewMouseRightButtonDown += LeftTopButtonPreviewMouseRightButtonDown;
+                                LeftTopButton.PreviewMouseRightButtonUp += EdittingMouseUp;
+
+                                RightTopButton.PreviewMouseRightButtonDown += RightTopButtonPreviewMouseRightButtonDown;
+                                RightTopButton.PreviewMouseRightButtonUp += EdittingMouseUp;
+
+                                LeftBottomButton.PreviewMouseRightButtonDown += LeftBottomButtonPreviewMouseRightButtonDown;
+                                LeftBottomButton.PreviewMouseRightButtonUp += EdittingMouseUp;
+
+                                RightBottomButton.PreviewMouseRightButtonDown += RightBottomButtonPreviewMouseRightButtonDown;
+                                RightBottomButton.PreviewMouseRightButtonUp += EdittingMouseUp;
+
+                                LeftCenterButton.PreviewMouseRightButtonDown += LeftCenterButtonPreviewMouseRightButtonDown;
+                                LeftCenterButton.PreviewMouseRightButtonUp += EdittingMouseUp;
+
+                                RightCenterButton.PreviewMouseRightButtonDown += RightCenterButtonPreviewMouseRightButtonDown;
+                                RightCenterButton.PreviewMouseRightButtonUp += EdittingMouseUp;
+
+                                TopCenterButton.PreviewMouseRightButtonDown += TopCenterButtonPreviewMouseRightButtonDown;
+                                TopCenterButton.PreviewMouseRightButtonUp += EdittingMouseUp;
+
+                                BottomCenterButton.PreviewMouseRightButtonDown += BottomCenterButtonPreviewMouseRightButtonDown;
+                                BottomCenterButton.PreviewMouseRightButtonUp += EdittingMouseUp;
+                            }
+                        }
+                        else
+                        {
+                            drawArea.Children.Add(drawSurface[i].convertShapeType());
+                        }
+                    }
+                }
+            }
         }
 
         private void drawAreaMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -710,50 +1161,271 @@ namespace Paint_Application
             styleStrokeCombobox.IsDropDownOpen = false;
             isStyleStrokeOpen = false;
 
-            isDrawing = true;
-            startPoint = e.GetPosition(drawArea);
-
-            if (selectedShape == null && isToolEraseOpen)
+            if (isFunctionSelected)
             {
-                eraseList.Add(startPoint);
+                isDrawing = true;
+                startPoint = e.GetPosition(drawArea);
 
-                Ellipse dot = new Ellipse();
-                dot.Fill = Brushes.White;
-                dot.Width = dot.Height = 20;
-                Canvas.SetLeft(dot, startPoint.X);
-                if (startPoint.Y >= 20)
+                if (selectedShape == null && isToolEraseOpen)
                 {
-                    Canvas.SetTop(dot, startPoint.Y - 20);
+                    eraseList.Add(startPoint);
+
+                    Ellipse dot = new Ellipse();
+                    dot.Fill = Brushes.White;
+                    dot.Width = dot.Height = 20;
+                    Canvas.SetLeft(dot, startPoint.X);
+                    if (startPoint.Y >= 20)
+                    {
+                        Canvas.SetTop(dot, startPoint.Y - 20);
+                    }
+
+                    drawArea.Children.Add(dot);
                 }
 
-                drawArea.Children.Add(dot);
-            }
+                if (selectedShape == null && isTextOpen)
+                {
+                    isDrawing = false;
 
-            if (selectedShape == null && isTextOpen)
+                    selectedShape = text;
+                    IShape newText = (IShape)selectedShape.Clone();
+
+                    newText.addFontSize(globalFontSize);
+                    newText.addFontFamily(globalFontFamily);
+                    newText.addColor(selectedColor);
+
+                    newText.addStartPoint(startPoint);
+                    newText.addEndPoint(new Point(startPoint.X + globalFontSize * 10, startPoint.Y + globalFontSize * 2));
+                    newText.setFocus(true);
+                    newText.setBold(isTextBold);
+                    newText.setItalic(isTextItalic);
+
+                    if (isTextBackgroundFill)
+                    {
+                        newText.setShapeFill(true);
+                        newText.setBackground(backgroundRed, backgroundGreen, backgroundBlue);
+                    }
+                    else
+                    {
+                        newText.setShapeFill(false);
+                    }
+
+                    drawArea.Children.Add(newText.convertShapeType());
+                    TextBox newTextBox = newText.getTextBox();
+                    newTextBox.Focus();
+                    newTextBox.TextChanged += newTextBox_TextChanged;
+                    newTextBox.LostFocus += newTextBox_LostFocus;
+
+                    drawSurface.Add(newText);
+                    selectedShape = null;
+                }
+            }
+            else
             {
-                isDrawing = false;
+                Point point = e.GetPosition(drawArea);
+                editShapeIndex = getEditShape(point);
 
-                selectedShape = text;
-                IShape newText = (IShape)selectedShape.Clone();
+                if (editShapeIndex != -1)
+                {
+                    drawArea.Children.Clear();
+                    drawBackGround.Children.Clear();
 
-                newText.addFontSize(globalFontSize);
-                newText.addFontFamily(globalFontFamily);
-                newText.addColor(selectedColor);
+                    for (int i = 0; i < drawSurface.Count; i++)
+                    {
+                        if (i == editShapeIndex)
+                        {
+                            drawSurface[i].setEdit(true);
+                            drawBackGround.Children.Add(drawSurface[i].convertShapeType());
+                            if (drawSurface[i].shapeName.Equals("Line") || drawSurface[i].shapeName.Equals("ShiftLine"))
+                            {
+                                if (drawSurface[i].shapeName.Equals("ShiftLine"))
+                                {
+                                    Point oldStartPoint = drawSurface[i].getStartPoint();
+                                    Point oldEndPoint = drawSurface[i].getEndPoint();
 
-                newText.addStartPoint(startPoint);
-                newText.addEndPoint(new Point(startPoint.X + globalFontSize * 10, startPoint.Y + globalFontSize * 2));
-                newText.setFocus(true);
+                                    for (int j = 0; j < allShapeList.Count; j++)
+                                    {
+                                        if (allShapeList[j].shapeName.Equals("Line"))
+                                        {
+                                            drawSurface.RemoveAt(i);
 
-                drawArea.Children.Add(newText.convertShapeType());
-                TextBox newTextBox = newText.getTextBox();
-                newTextBox.TextWrapping = TextWrapping.Wrap;
-                newTextBox.Focus();
-                newTextBox.TextChanged += newTextBox_TextChanged;
-                newTextBox.LostFocus += newTextBox_LostFocus;
+                                            IShape newLine = (IShape)allShapeList[j].Clone();
+                                            newLine.addStartPoint(oldStartPoint);
+                                            newLine.addEndPoint(oldEndPoint);
+                                            newLine.addWidthness((IWidthness)styleWidthCombobox.SelectedItem);
+                                            newLine.addStrokeStyle((IStroke)styleStrokeCombobox.SelectedItem);
+                                            newLine.addColor(selectedColor);
+                                            newLine.setShapeFill(isShapeFill);
+                                            newLine.setEdit(true);
 
-                drawSurface.Add(newText);
-                selectedShape = null;
+                                            drawSurface.Insert(i, newLine);
+
+                                            drawBackGround.Children.Add(drawSurface[i].convertShapeType());
+                                            break;
+                                        }
+                                    }
+                                }
+
+                                EditGrid = drawSurface[i].getEditGrid();
+                                StartButton = drawSurface[i].getStartButton();
+                                EndButton = drawSurface[i].getEndButton();
+
+                                EditGrid.Cursor = Cursors.SizeAll;
+                                StartButton.Cursor = Cursors.SizeNS;
+                                EndButton.Cursor = Cursors.SizeNS;
+
+                                EditGrid.PreviewMouseRightButtonDown += EditGridPreviewMouseRightButtonDown;
+                                EditGrid.PreviewMouseRightButtonUp += EdittingMouseUp;
+
+                                StartButton.PreviewMouseRightButtonDown += StartButtonPreviewMouseRightButtonDown;
+                                StartButton.PreviewMouseRightButtonUp += EdittingMouseUp;
+
+                                EndButton.PreviewMouseRightButtonDown += EndButtonPreviewMouseRightButtonDown;
+                                EndButton.PreviewMouseRightButtonUp += EdittingMouseUp;
+                            }
+                            else
+                            {
+                                EditGrid = drawSurface[i].getEditGrid();
+                                LeftTopButton = drawSurface[i].getLeftTopButton();
+                                RightTopButton = drawSurface[i].getRightTopButton();
+                                LeftBottomButton = drawSurface[i].getLeftBottomButton();
+                                RightBottomButton = drawSurface[i].getRightBottomButton();
+                                LeftCenterButton = drawSurface[i].getLeftCenterButton();
+                                RightCenterButton = drawSurface[i].getRightCenterButton();
+                                TopCenterButton = drawSurface[i].getTopCenterButton();
+                                BottomCenterButton = drawSurface[i].getBottomCenterButton();
+
+                                EditGrid.Cursor = Cursors.SizeAll;
+                                LeftTopButton.Cursor = Cursors.SizeNWSE;
+                                RightBottomButton.Cursor = Cursors.SizeNWSE;
+                                RightTopButton.Cursor = Cursors.SizeNESW;
+                                LeftBottomButton.Cursor = Cursors.SizeNESW;
+                                LeftCenterButton.Cursor = Cursors.SizeWE;
+                                RightCenterButton.Cursor = Cursors.SizeWE;
+                                TopCenterButton.Cursor = Cursors.SizeNS;
+                                BottomCenterButton.Cursor = Cursors.SizeNS;
+
+                                EditGrid.PreviewMouseRightButtonDown += EditGridPreviewMouseRightButtonDown;
+                                EditGrid.PreviewMouseRightButtonUp += EdittingMouseUp;
+
+                                LeftTopButton.PreviewMouseRightButtonDown += LeftTopButtonPreviewMouseRightButtonDown;
+                                LeftTopButton.PreviewMouseRightButtonUp += EdittingMouseUp;
+
+                                RightTopButton.PreviewMouseRightButtonDown += RightTopButtonPreviewMouseRightButtonDown;
+                                RightTopButton.PreviewMouseRightButtonUp += EdittingMouseUp;
+
+                                LeftBottomButton.PreviewMouseRightButtonDown += LeftBottomButtonPreviewMouseRightButtonDown;
+                                LeftBottomButton.PreviewMouseRightButtonUp += EdittingMouseUp;
+
+                                RightBottomButton.PreviewMouseRightButtonDown += RightBottomButtonPreviewMouseRightButtonDown;
+                                RightBottomButton.PreviewMouseRightButtonUp += EdittingMouseUp;
+
+                                LeftCenterButton.PreviewMouseRightButtonDown += LeftCenterButtonPreviewMouseRightButtonDown;
+                                LeftCenterButton.PreviewMouseRightButtonUp += EdittingMouseUp;
+
+                                RightCenterButton.PreviewMouseRightButtonDown += RightCenterButtonPreviewMouseRightButtonDown;
+                                RightCenterButton.PreviewMouseRightButtonUp += EdittingMouseUp;
+
+                                TopCenterButton.PreviewMouseRightButtonDown += TopCenterButtonPreviewMouseRightButtonDown;
+                                TopCenterButton.PreviewMouseRightButtonUp += EdittingMouseUp;
+
+                                BottomCenterButton.PreviewMouseRightButtonDown += BottomCenterButtonPreviewMouseRightButtonDown;
+                                BottomCenterButton.PreviewMouseRightButtonUp += EdittingMouseUp;
+                            }
+                        }
+                        else
+                        {
+                            drawSurface[i].setEdit(false);
+                            drawArea.Children.Add(drawSurface[i].convertShapeType());
+                        }
+                    }
+                } else
+                {
+                    drawArea.Children.Clear();
+                    drawBackGround.Children.Clear();
+
+                    for (int i = 0; i < drawSurface.Count; i++)
+                    {
+                        drawSurface[i].setEdit(false);
+                        drawArea.Children.Add(drawSurface[i].convertShapeType());
+                    }
+                }
             }
+        }
+
+        private void EdittingMouseUp(object sender, MouseButtonEventArgs e)
+        {
+            isEditting = false;
+            editType = "";
+        }
+        private void EndButtonPreviewMouseRightButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            isEditting = true;
+            editType = "End Point Editting";
+        }
+        private void StartButtonPreviewMouseRightButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            isEditting = true;
+            editType = "Start Point Editting";
+        }
+
+        private void EditGridPreviewMouseRightButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            isEditting = true;
+            editType = "Move Editting";
+            movingPoint = e.GetPosition(drawArea);
+
+            movingStartX = movingPoint.X - drawSurface[editShapeIndex].getStartPoint().X;
+            movingStartY = movingPoint.Y - drawSurface[editShapeIndex].getStartPoint().Y;
+
+            movingEndX = movingPoint.X - drawSurface[editShapeIndex].getEndPoint().X;
+            movingEndY = movingPoint.Y - drawSurface[editShapeIndex].getEndPoint().Y;
+        }
+        private void BottomCenterButtonPreviewMouseRightButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            isEditting = true;
+            editType = "Bottom Center Editting";
+        }
+
+        private void TopCenterButtonPreviewMouseRightButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            isEditting = true;
+            editType = "Top Center Editting";
+        }
+
+        private void RightCenterButtonPreviewMouseRightButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            isEditting = true;
+            editType = "Right Center Editting";
+        }
+
+        private void LeftCenterButtonPreviewMouseRightButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            isEditting = true;
+            editType = "Left Center Editting";
+        }
+
+        private void RightBottomButtonPreviewMouseRightButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            isEditting = true;
+            editType = "Right Bottom Editting";
+        }
+
+        private void LeftBottomButtonPreviewMouseRightButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            isEditting = true;
+            editType = "Left Bottom Editting";
+        }
+
+        private void RightTopButtonPreviewMouseRightButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            isEditting = true;
+            editType = "Right Top Editting";
+        }
+
+        private void LeftTopButtonPreviewMouseRightButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            isEditting = true;
+            editType = "Left Top Editting";
         }
 
         private void newTextBox_TextChanged(object sender, TextChangedEventArgs e)
@@ -761,8 +1433,147 @@ namespace Paint_Application
             TextBox textBox = sender as TextBox;
             IShape text = drawSurface[drawSurface.Count - 1];
             drawSurface.RemoveAt(drawSurface.Count - 1);
-            handleAutoNewLine(textBox, text);
-            drawSurface.Add(text);
+
+            if (textBox.Text.Length > 15)
+            {
+                string textResult = "";
+                string[] newLineSplit = textBox.Text.Split("\r\n");
+                if (newLineSplit.Length > 1)
+                {
+                    int lineMultiple = (textBox.Text.Length / 15) + 2 + newLineSplit.Length - 1;
+                    text.addEndPoint(new Point(startPoint.X + globalFontSize * 10, startPoint.Y + globalFontSize * lineMultiple));
+
+                    for (int i = 0; i < newLineSplit.Length; i++)
+                    {
+                        if (newLineSplit[i].Length > 15)
+                        {
+                            string[] textSplit = newLineSplit[i].Split();
+                            string tempText = "";
+                            bool isLongString = false;
+
+                            if (textSplit.Length > 1)
+                            {
+                                for (int j = 0; j < textSplit.Length; j++)
+                                {
+                                    tempText += " " + textSplit[j] + " ";
+                                    tempText = tempText.Trim();
+
+                                    if (tempText.Length > 15)
+                                    {
+                                        isLongString = true;
+                                        j--;
+                                        string[] tempSplitText = tempText.Split();
+                                        for (int k = 0; k < tempSplitText.Length - 1; k++)
+                                        {
+                                            textResult += " " + tempSplitText[k] + " ";
+                                            textResult = textResult.Trim();
+                                            textResult = Regex.Replace(textResult, @"\s+", " ");
+                                        }
+                                        textResult += Environment.NewLine;
+                                        tempText = "";
+                                    }
+                                }
+
+                                if (isLongString)
+                                {
+                                    textResult += tempText;
+                                }
+                                else
+                                {
+                                    textResult = tempText;
+                                }
+                            } else
+                            {
+                                for (int j = 0; j < newLineSplit[i].Length; j += 15)
+                                {
+                                    if (j + 15 < newLineSplit[i].Length)
+                                    {
+                                        textResult += newLineSplit[i].Substring(j, 15);
+                                        textResult += Environment.NewLine;
+                                    }
+                                    else
+                                    {
+                                        textResult += newLineSplit[i].Substring(j, newLineSplit[i].Length - j);
+                                    }
+                                }
+                            }
+                        } else
+                        {
+                            textResult += newLineSplit[i] + Environment.NewLine;   
+                        }
+                    }
+
+                    text.setTextString(textResult);
+                    drawSurface.Add(text);
+                } else
+                {
+                    int lineMultiple = (textBox.Text.Length / 15) + 2;
+                    text.addEndPoint(new Point(startPoint.X + globalFontSize * 10, startPoint.Y + globalFontSize * lineMultiple));
+
+                    string[] textSplit = textBox.Text.Split();
+                    string tempText = "";
+                    bool isLongString = false;
+
+                    if (textSplit.Length > 1)
+                    {
+                        for (int i = 0; i < textSplit.Length; i++)
+                        {
+                            tempText += " " + textSplit[i] + " ";
+                            tempText = tempText.Trim();
+
+                            if (tempText.Length > 15)
+                            {
+                                isLongString = true;
+                                i--;
+                                string[] tempSplitText = tempText.Split();
+                                for (int j = 0; j < tempSplitText.Length - 1; j++)
+                                {
+                                    textResult += " " + tempSplitText[j] + " ";
+                                    textResult = textResult.Trim();
+                                    textResult = Regex.Replace(textResult, @"\s+", " ");
+                                }
+                                textResult += Environment.NewLine;
+                                tempText = "";
+                            }
+                        }
+
+
+                        if (isLongString)
+                        {
+                            textResult += tempText;
+                        }
+                        else
+                        {
+                            textResult = tempText;
+                        }
+
+                        text.setTextString(textResult);
+                        drawSurface.Add(text);
+                    } else
+                    {
+                        for (int i = 0; i < textBox.Text.Length; i+=15)
+                        {
+                            if (i + 15 < textBox.Text.Length)
+                            {
+                                textResult += textBox.Text.Substring(i, 15);
+                                textResult += Environment.NewLine;
+                            } else
+                            {
+                                textResult += textBox.Text.Substring(i, textBox.Text.Length - i);
+                            }
+                        }
+
+                        text.setTextString(textResult);
+                        drawSurface.Add(text);
+                    }
+                }
+            } else
+            {
+                int countNewLine = textBox.LineCount - 1;
+                text.addEndPoint(new Point(startPoint.X + globalFontSize * 10, startPoint.Y + globalFontSize * (countNewLine + 2)));
+                text.setTextString(textBox.Text);
+                drawSurface.Add(text);
+            }
         }
 
         private void newTextBox_LostFocus(object sender, EventArgs e)
@@ -770,7 +1581,13 @@ namespace Paint_Application
             IShape text = drawSurface[drawSurface.Count - 1];
             drawSurface.RemoveAt(drawSurface.Count - 1);
             text.setFocus(false);
-            drawSurface.Add(text);
+
+            if (!string.IsNullOrEmpty(text.getTextBox().Text))
+            {
+                drawSurface.Add(text);
+                toolUndoButton.Opacity = 1;
+                toolRedoButton.Opacity = 0.3;
+            }
 
             drawArea.Children.Clear();
 
@@ -778,26 +1595,6 @@ namespace Paint_Application
             {
                 drawArea.Children.Add(item.convertShapeType());
             }
-        }
-
-        private void handleAutoNewLine(TextBox textBox, IShape text)
-        {
-            if (textBox.Text.Length >= 16)
-            {
-                int lineMultiple = (textBox.Text.Length / 16) + 2;
-                text.addEndPoint(new Point(startPoint.X + globalFontSize * 10, startPoint.Y + globalFontSize * lineMultiple));
-
-                drawArea.Children.Clear();
-
-                foreach (var item in drawSurface)
-                {
-                    drawArea.Children.Add(item.convertShapeType());
-                }
-
-                drawArea.Children.Add(text.convertShapeType());
-            }
-
-            text.setTextString(textBox.Text);
         }
 
         private void WindowKeyDown(object sender, KeyEventArgs e)
@@ -871,6 +1668,12 @@ namespace Paint_Application
                     recoverList.Clear();
                 }
             }
+
+            if (isEditting)
+            {
+                isEditting = false;
+                editType = "";
+            }
         }
 
         private void toolBarMouseUp(object sender, MouseButtonEventArgs e)
@@ -886,6 +1689,12 @@ namespace Paint_Application
                     recoverList.Clear();
                 }
             }
+
+            if (isEditting)
+            {
+                isEditting = false;
+                editType = "";
+            }
         }
 
         private void colorListviewPreviewMouseButtonDown(object sender, MouseButtonEventArgs e)
@@ -894,6 +1703,15 @@ namespace Paint_Application
             colorListview.SelectedItem = selectedItem;
 
             selectedColor = (IColor)selectedItem.Content;
+
+            drawArea.Children.Clear();
+            drawBackGround.Children.Clear();
+
+            for (int i = 0; i < drawSurface.Count; i++)
+            {
+                drawSurface[i].setEdit(false);
+                drawArea.Children.Add(drawSurface[i].convertShapeType());
+            }
         }
 
         private void styleFillButtonClick(object sender, RoutedEventArgs e)
@@ -907,12 +1725,30 @@ namespace Paint_Application
                 styleFillButton.Opacity = 1;
                 isShapeFill = true;
             }
+
+            drawArea.Children.Clear();
+            drawBackGround.Children.Clear();
+
+            for (int i = 0; i < drawSurface.Count; i++)
+            {
+                drawSurface[i].setEdit(false);
+                drawArea.Children.Add(drawSurface[i].convertShapeType());
+            }
         }
 
         private void customColorButtonClick(object sender, RoutedEventArgs e)
         {
             selectedColor = customColor;
             ColorDialog colorDialog = new ColorDialog();
+
+            drawArea.Children.Clear();
+            drawBackGround.Children.Clear();
+
+            for (int i = 0; i < drawSurface.Count; i++)
+            {
+                drawSurface[i].setEdit(false);
+                drawArea.Children.Add(drawSurface[i].convertShapeType());
+            }
 
             if (colorDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
@@ -1082,6 +1918,144 @@ namespace Paint_Application
             }
 
             return true;
+        }
+
+        private void textBackGroundCustomClick(object sender, RoutedEventArgs e)
+        {
+            ColorDialog colorDialog = new ColorDialog();
+
+            if (colorDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                System.Drawing.Color color = colorDialog.Color;
+
+                backgroundRed = color.R;
+                backgroundGreen = color.G;
+                backgroundBlue = color.B;
+
+                textBackgroundBorder.Background = new SolidColorBrush(System.Windows.Media.Color.FromRgb(backgroundRed, backgroundGreen, backgroundBlue));
+            }
+
+            drawArea.Children.Clear();
+            drawBackGround.Children.Clear();
+
+            for (int i = 0; i < drawSurface.Count; i++)
+            {
+                drawSurface[i].setEdit(false);
+                drawArea.Children.Add(drawSurface[i].convertShapeType());
+            }
+        }
+
+        private bool isPointInsideShape(IShape shape, Point point)
+        {
+            bool isPointInsideHorizontal = false;
+            bool isPointInsideVertical = false;
+
+            if (!shape.shapeName.Equals("ShiftLine") && !shape.shapeName.Equals("Line"))
+            {
+                isPointInsideHorizontal =
+                    (shape.getStartPoint().X <= point.X && shape.getEndPoint().X >= point.X) ||
+                    (shape.getStartPoint().X >= point.X && shape.getEndPoint().X <= point.X);
+                isPointInsideVertical =
+                    (shape.getStartPoint().Y <= point.Y && shape.getEndPoint().Y >= point.Y) ||
+                    (shape.getStartPoint().Y >= point.Y && shape.getEndPoint().Y <= point.Y);
+            } else
+            {
+                if ((shape.getStartPoint().X == shape.getEndPoint().X) || (shape.getStartPoint().Y == shape.getEndPoint().Y)) 
+                {
+                    if (shape.getStartPoint().X == shape.getEndPoint().X)
+                    {
+                        double startPointX = shape.getStartPoint().X - 20; 
+                        double endPointX = shape.getEndPoint().X + 20;
+
+                        isPointInsideHorizontal =
+                            (startPointX <= point.X && endPointX >= point.X) ||
+                            (startPointX >= point.X && endPointX <= point.X);
+                        isPointInsideVertical =
+                            (shape.getStartPoint().Y <= point.Y && shape.getEndPoint().Y >= point.Y) ||
+                            (shape.getStartPoint().Y >= point.Y && shape.getEndPoint().Y <= point.Y);
+                    } else
+                    {
+                        double startPointY = shape.getStartPoint().Y - 20;
+                        double endPointY = shape.getEndPoint().Y + 20;
+
+                        isPointInsideHorizontal =
+                            (shape.getStartPoint().X <= point.X && shape.getEndPoint().X >= point.X) ||
+                            (shape.getStartPoint().X >= point.X && shape.getEndPoint().X <= point.X);
+                        isPointInsideVertical =
+                            (startPointY <= point.Y && endPointY >= point.Y) ||
+                            (startPointY >= point.Y && endPointY <= point.Y);
+                    }
+                } else
+                {
+                    isPointInsideHorizontal =
+                        (shape.getStartPoint().X <= point.X && shape.getEndPoint().X >= point.X) ||
+                        (shape.getStartPoint().X >= point.X && shape.getEndPoint().X <= point.X);
+                    isPointInsideVertical =
+                        (shape.getStartPoint().Y <= point.Y && shape.getEndPoint().Y >= point.Y) ||
+                        (shape.getStartPoint().Y >= point.Y && shape.getEndPoint().Y <= point.Y);
+                }
+
+            }
+
+            if (isPointInsideHorizontal && isPointInsideVertical)
+            {
+                return true;
+            } else
+            {
+                return false;
+            }
+        }
+
+        private int getEditShape(Point point)
+        {
+            double minDistance = -1;
+            int index =  -1;
+
+            for (int i = 0; i < drawSurface.Count; i++)
+            {
+                if (!drawSurface[i].shapeName.Equals("Free Line"))
+                {
+                    if (isPointInsideShape(drawSurface[i], point))
+                    {
+                        double distance = calculateDistance(drawSurface[i].getCenterPoint(), point);
+                        if (minDistance != -1)
+                        {
+                            if (distance < minDistance)
+                            {
+                                minDistance = distance;
+                                index = i;
+                            }
+                        }
+                        else
+                        {
+                            minDistance = distance;
+                            index = i;
+                        }
+                    }
+                }
+            }
+
+            if (minDistance != -1)
+            {
+                return index;
+            } else
+            {
+                return -1;
+            }
+        }
+
+        private double calculateDistance(Point point1, Point point2)
+        {
+            return Math.Sqrt(Math.Pow((point1.X - point2.X), 2) + Math.Pow((point1.Y - point2.Y), 2));
+        }
+
+        private void drawBackGroundMouseRightButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            if (isEditting)
+            {
+                isEditting = false;
+                editType = "";
+            }
         }
 
         private void exportFileClick(object sender, RoutedEventArgs e)

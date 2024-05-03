@@ -2,6 +2,7 @@
 using myShape;
 using myStroke;
 using myWidthness;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Net;
 using System.Windows;
@@ -9,6 +10,7 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Shapes;
 using Point = System.Windows.Point;
+using Rectangle = System.Windows.Shapes.Rectangle;
 
 namespace myFreeLine
 {
@@ -30,7 +32,35 @@ namespace myFreeLine
         public TextBox getTextBox() { return null; }
         public void setTextString(string text) { }
         public void setFocus(bool focus) { }
-        public void addPointList(List<Point> pointList)
+        public void setBold(bool bold) { }
+        public void setItalic(bool italic) { }
+        public void setBackground(byte r, byte g, byte b) { }
+        public void setEdit(bool edit) {}
+        public Grid getEditGrid() { return null; }
+        public Button getStartButton() { return null; }
+        public Button getEndButton() { return null; }
+        public Button getLeftTopButton() { return null; }
+        public Button getRightTopButton() { return null; }
+        public Button getLeftBottomButton() { return null; }
+        public Button getRightBottomButton() { return null; }
+        public Button getLeftCenterButton() { return null; }
+        public Button getRightCenterButton() { return null; }
+        public Button getTopCenterButton() { return null; }
+        public Button getBottomCenterButton() { return null; }
+        public Button getRotateButton() { return null; }
+        public Point getStartPoint()
+        {
+            return new Point();
+        }
+        public Point getEndPoint()
+        {
+            return new Point();
+        }
+        public Point getCenterPoint()
+        {
+            return new Point();
+        }
+        public void addPointList(List<Point> pointList) 
         {
             list = new List<Point>(0);
             list.AddRange(pointList);
