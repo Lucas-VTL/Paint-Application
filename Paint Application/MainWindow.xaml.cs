@@ -1250,8 +1250,8 @@ namespace Paint_Application
                     drawArea.Children.Add(newText.convertShapeType());
                     TextBox newTextBox = newText.getTextBox();
                     newTextBox.Focus();
-                    newTextBox.TextChanged += newTextBox_TextChanged;
-                    newTextBox.LostFocus += newTextBox_LostFocus;
+                    newTextBox.TextChanged += newTextBoxTextChanged;
+                    newTextBox.LostFocus += newTextBoxLostFocus;
 
                     drawSurface.Add(newText);
                     selectedShape = null;
@@ -1483,7 +1483,7 @@ namespace Paint_Application
             editType = "Rotate Editting";
         }
 
-        private void newTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        private void newTextBoxTextChanged(object sender, TextChangedEventArgs e)
         {
             TextBox textBox = sender as TextBox;
             IShape text = drawSurface[drawSurface.Count - 1];
@@ -1631,7 +1631,7 @@ namespace Paint_Application
             }
         }
 
-        private void newTextBox_LostFocus(object sender, EventArgs e)
+        private void newTextBoxLostFocus(object sender, EventArgs e)
         {
             IShape text = drawSurface[drawSurface.Count - 1];
             drawSurface.RemoveAt(drawSurface.Count - 1);

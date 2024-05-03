@@ -46,6 +46,7 @@ namespace myShape
         void setFlipVertically(bool flipVerticcally);
         bool getFlipHorizontally();
         bool getFlipVertically();
+        void setAngle(double angle);
         UIElement convertShapeType();
         string shapeName { get;}
         string shapeImage { get;}

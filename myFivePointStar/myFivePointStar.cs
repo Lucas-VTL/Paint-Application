@@ -33,6 +33,12 @@ namespace myFivePointStar
 
         private bool isFlipHorizontally;
         private bool isFlipVertically;
+        private double rotateAngle = 0;
+
+        public void setAngle(double angle)
+        {
+            rotateAngle = angle;
+        }
 
         public string shapeName => "FivePointStar";
         public string shapeImage => "images/shape5Star.png";

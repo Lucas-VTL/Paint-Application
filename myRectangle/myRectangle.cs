@@ -33,7 +33,12 @@ namespace myRectangle
 
         private bool isFlipHorizontally;
         private bool isFlipVertically;
+        private double rotateAngle = 0;
 
+        public void setAngle(double angle)
+        {
+            rotateAngle = angle;
+        }
         public string shapeName => "Rectangle";
         public string shapeImage => "images/shapeRectangle.png";
 

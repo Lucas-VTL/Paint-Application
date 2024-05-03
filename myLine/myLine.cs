@@ -94,6 +94,7 @@ namespace myLine
         public Button getRotateButton() { return null; }
         public void setFlipHorizontally(bool flipHorizontally) { }
         public void setFlipVertically(bool flipVertically) { }
+        public void setAngle(double angle) { }
         public bool getFlipHorizontally()
         {
             return false;
