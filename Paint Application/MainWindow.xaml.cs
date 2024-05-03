@@ -55,6 +55,7 @@ namespace Paint_Application
         IColor customColor;
         IShape freeLine;
         IShape text;
+        IShape newShape = null;
 
         //List border giúp xác định các border khi người dùng chọn vào các function
         private List<Border> function = new List<Border>();
@@ -1059,6 +1060,8 @@ namespace Paint_Application
                         case "End Point Editting":
                             drawSurface[editShapeIndex].addEndPoint(point);
                             break;
+                        case "Rotate Editting":
+                            break;
                         default: break;
                     }
 
@@ -1712,6 +1715,86 @@ namespace Paint_Application
                     }
 
                     toolUndoButton.Opacity = 1;
+                }
+            }
+
+            if (e.Key == Key.Delete && editShapeIndex != -1)
+            {
+                drawSurface.RemoveAt(editShapeIndex);
+
+                drawArea.Children.Clear();
+                drawBackGround.Children.Clear();
+
+                for (int i = 0; i < drawSurface.Count; i++)
+                {
+                    drawSurface[i].setEdit(false);
+                    drawArea.Children.Add(drawSurface[i].convertShapeType());
+                }
+
+                toolHorizontalButton.Opacity = 0.3;
+                toolVerticalButton.Opacity = 0.3;
+            }
+
+            if ((e.Key == Key.C) && (System.Windows.Forms.Control.ModifierKeys & Keys.Control) == Keys.Control)
+            {
+                if (editShapeIndex != -1)
+                {
+                    newShape = null;
+                    newShape = (IShape)drawSurface[editShapeIndex].Clone();
+
+                    double distanceX = Math.Abs(newShape.getStartPoint().X - newShape.getEndPoint().X);
+                    double distanceY = Math.Abs(newShape.getStartPoint().Y - newShape.getEndPoint().Y);
+
+                    newShape.addStartPoint(new Point(0, 0));
+                    newShape.addEndPoint(new Point(distanceX, distanceY));
+                }
+            }
+
+            if ((e.Key == Key.X) && (System.Windows.Forms.Control.ModifierKeys & Keys.Control) == Keys.Control)
+            {
+                if (editShapeIndex != -1)
+                {
+                    newShape = null;
+                    newShape = (IShape)drawSurface[editShapeIndex].Clone();
+
+                    double distanceX = Math.Abs(newShape.getStartPoint().X - newShape.getEndPoint().X);
+                    double distanceY = Math.Abs(newShape.getStartPoint().Y - newShape.getEndPoint().Y);
+
+                    newShape.addStartPoint(new Point(0, 0));
+                    newShape.addEndPoint(new Point(distanceX, distanceY));
+
+                    drawSurface.RemoveAt(editShapeIndex);
+
+                    drawArea.Children.Clear();
+                    drawBackGround.Children.Clear();
+
+                    for (int i = 0; i < drawSurface.Count; i++)
+                    {
+                        drawSurface[i].setEdit(false);
+                        drawArea.Children.Add(drawSurface[i].convertShapeType());
+                    }
+
+                    toolHorizontalButton.Opacity = 0.3;
+                    toolVerticalButton.Opacity = 0.3;
+                }
+            }
+
+            if ((e.Key == Key.V) && (System.Windows.Forms.Control.ModifierKeys & Keys.Control) == Keys.Control)
+            {
+                if (newShape != null)
+                {
+                    drawSurface.Add(newShape);
+                    drawArea.Children.Clear();
+                    drawBackGround.Children.Clear();
+
+                    for (int i = 0; i < drawSurface.Count; i++)
+                    {
+                        drawSurface[i].setEdit(false);
+                        drawArea.Children.Add(drawSurface[i].convertShapeType());
+                    }
+
+                    toolHorizontalButton.Opacity = 0.3;
+                    toolVerticalButton.Opacity = 0.3;
                 }
             }
         }
