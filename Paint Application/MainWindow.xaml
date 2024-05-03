@@ -597,12 +597,12 @@
                                 <Image Source="images/toolRedo.png" Width="25" Height="25"/>
                             </Button.Content>
                         </Button>
-                        <Button Grid.Row="1" Grid.Column="2" Cursor="Hand" Style="{StaticResource buttonStyle}">
+                        <Button Grid.Row="1" Grid.Column="2" Cursor="Hand" Style="{StaticResource buttonStyle}" Click="toolHorizontalClick">
                             <Button.Content>
                                 <Image Source="images/toolHorizontal.png" Width="25" Height="25"/>
                             </Button.Content>
                         </Button>
-                        <Button Grid.Row="1" Grid.Column="3" Cursor="Hand" Style="{StaticResource buttonStyle}">
+                        <Button Grid.Row="1" Grid.Column="3" Cursor="Hand" Style="{StaticResource buttonStyle}" Click="toolVerticalClick">
                             <Button.Content>
                                 <Image Source="images/toolVertical.png" Width="25" Height="25"/>
                             </Button.Content>

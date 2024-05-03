@@ -1920,6 +1920,58 @@ namespace Paint_Application
             return true;
         }
 
+        private void exportFileClick(object sender, RoutedEventArgs e)
+        {
+            Save();
+        }
+
+        private void Save()
+        {
+            //Open a SaveFileDialog to choose a file path
+            var saveDialog = new SaveFileDialog();
+            saveDialog.Filter = "Paint Application Save File (*.txt)|*.txt";
+            saveDialog.DefaultExt = ".txt";
+            var saveResult = saveDialog.ShowDialog();
+
+            if (saveResult == System.Windows.Forms.DialogResult.OK)
+            {
+                string filePath = saveDialog.FileName;
+
+                try
+                {
+                    using (StreamWriter writer = new StreamWriter(filePath))
+                    {
+                        foreach(var item in drawSurface) {
+                            if(item.shapeName=="Free Line")
+                            {
+                                writer.WriteLine(item.getStartPoint);
+                                writer.WriteLine(item.getEndPoint);
+                                writer.WriteLine(item.shapeName);
+                            } else
+                            {
+                                writer.WriteLine(item.getStartPoint);
+                                writer.WriteLine(item.getEndPoint);
+                                writer.WriteLine(item.shapeName);
+                            }
+                            
+                        }
+                       
+
+                    }
+
+                    System.Windows.MessageBox.Show("File saved successfully.");
+                }
+                catch (Exception ex)
+                {
+                    System.Windows.MessageBox.Show($"Error saving File: {ex.Message}");
+                }
+            }
+        }
+
+        private void importFileClick(object sender, RoutedEventArgs e)
+        {
+        }
+
         private void textBackGroundCustomClick(object sender, RoutedEventArgs e)
         {
             ColorDialog colorDialog = new ColorDialog();
@@ -2058,55 +2110,23 @@ namespace Paint_Application
             }
         }
 
-        private void exportFileClick(object sender, RoutedEventArgs e)
+        private void toolHorizontalClick(object sender, RoutedEventArgs e)
         {
-            Save();
-        }
-
-        private void Save()
-        {
-            //Open a SaveFileDialog to choose a file path
-            var saveDialog = new SaveFileDialog();
-            saveDialog.Filter = "Paint Application Save File (*.txt)|*.txt";
-            saveDialog.DefaultExt = ".txt";
-            var saveResult = saveDialog.ShowDialog();
-
-            if (saveResult == System.Windows.Forms.DialogResult.OK)
+            if (selectedShape != null)
             {
-                string filePath = saveDialog.FileName;
+                ScaleTransform flip = new ScaleTransform();
 
-                try
-                {
-                    using (StreamWriter writer = new StreamWriter(filePath))
-                    {
-                        foreach(var item in drawSurface) {
-                            if(item.shapeName=="Free Line")
-                            {
-                                writer.WriteLine(item.getStartPoint);
-                                writer.WriteLine(item.getEndPoint);
-                                writer.WriteLine(item.shapeName);
-                            } else
-                            {
-                                writer.WriteLine(item.getStartPoint);
-                                writer.WriteLine(item.getEndPoint);
-                                writer.WriteLine(item.shapeName);
-                            }
-                            
-                        }
-                       
+                flip.ScaleY = 1;
+                flip.ScaleX = 1;
 
-                    }
+                RotateTransform rotate = new RotateTransform();
+                rotate.Angle = 0;
 
-                    System.Windows.MessageBox.Show("File saved successfully.");
-                }
-                catch (Exception ex)
-                {
-                    System.Windows.MessageBox.Show($"Error saving File: {ex.Message}");
-                }
+                
             }
         }
 
-        private void importFileClick(object sender, RoutedEventArgs e)
+        private void toolVerticalClick(object sender, RoutedEventArgs e)
         {
 
         }
