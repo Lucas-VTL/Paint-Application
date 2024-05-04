@@ -39,7 +39,10 @@ namespace myShiftRhombus
         {
             rotateAngle = angle;
         }
-
+        public double getAngle()
+        {
+            return rotateAngle;
+        }
         public string shapeName => "ShiftRhombus";
         public string shapeImage => "";
 

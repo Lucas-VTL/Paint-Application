@@ -38,7 +38,10 @@ namespace myShiftRightTriangle
         {
             rotateAngle = angle;
         }
-
+        public double getAngle()
+        {
+            return rotateAngle;
+        }
         public string shapeName => "ShiftRightTriangle";
         public string shapeImage => "";
 

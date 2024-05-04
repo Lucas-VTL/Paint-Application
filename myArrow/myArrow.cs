@@ -35,11 +35,15 @@ namespace myArrow
 
         private bool isFlipHorizontally;
         private bool isFlipVertically;
-        private double rotateAngle = 0;
+        private double rotateAngle = 90;
 
         public void setAngle(double angle)
         {
             rotateAngle = angle;
+        }
+        public double getAngle()
+        {
+            return rotateAngle;
         }
 
         public string shapeName => "Arrow";
@@ -196,8 +200,9 @@ namespace myArrow
                     StrokeDashArray = strokeStyle.strokeValue,
                     Stroke = colorValue.colorValue,
                     Fill = colorValue.colorValue,
-                    Data = CreateArrowGeometry(center, width, height, status)
-                };
+                    Data = CreateArrowGeometry(center, width, height, status),
+                    RenderTransformOrigin = new Point(0.5, 0.5)
+            };
             } else
             {
                 element = new Path
@@ -205,13 +210,15 @@ namespace myArrow
                     StrokeThickness = widthness.widthnessValue,
                     StrokeDashArray = strokeStyle.strokeValue,
                     Stroke = colorValue.colorValue,
-                    Data = CreateArrowGeometry(center, width, height, status)
+                    Data = CreateArrowGeometry(center, width, height, status),
+                    RenderTransformOrigin = new Point(0.5, 0.5)
                 };
             }
 
             if (isEdit)
             {
                 Canvas canvas = new Canvas();
+                Rectangle rectangle = new Rectangle();
 
                 EditGrid = new Grid()
                 {
@@ -223,14 +230,11 @@ namespace myArrow
                 Canvas.SetLeft(EditGrid, left);
                 Canvas.SetTop(EditGrid, top);
 
-                Rectangle rectangle = new Rectangle()
-                {
-                    Stroke = Brushes.Black,
-                    StrokeThickness = 1,
-                    StrokeDashArray = new DoubleCollection() { 10, 2 },
-                    Width = width,
-                    Height = height,
-                };
+                rectangle.Stroke = Brushes.Black;
+                rectangle.StrokeThickness = 1;
+                rectangle.StrokeDashArray = new DoubleCollection() { 10, 2 };
+                rectangle.Width = width;
+                rectangle.Height = height;
 
                 Canvas.SetLeft(rectangle, left);
                 Canvas.SetTop(rectangle, top);
@@ -300,19 +304,18 @@ namespace myArrow
 
                 if (isFlipHorizontally && !isFlipVertically)
                 {
-                    element.RenderTransformOrigin = new Point(0.5, 0.5);
                     element.RenderTransform = new ScaleTransform(-1, 1);
 
-                    Canvas.SetLeft(element, left); 
-                } else if (!isFlipHorizontally && isFlipVertically)
+                    Canvas.SetLeft(element, left);
+                }
+                else if (!isFlipHorizontally && isFlipVertically)
                 {
-                    element.RenderTransformOrigin = new Point(0.5, 0.5);
                     element.RenderTransform = new ScaleTransform(1, -1);
 
                     Canvas.SetTop(element, top);
-                } else if (isFlipHorizontally && isFlipVertically)
+                }
+                else if (isFlipHorizontally && isFlipVertically)
                 {
-                    element.RenderTransformOrigin = new Point(0.5, 0.5);
                     element.RenderTransform = new ScaleTransform(-1, -1);
 
                     Canvas.SetLeft(element, left);

@@ -38,7 +38,10 @@ namespace myShiftHexagon
         {
             rotateAngle = angle;
         }
-
+        public double getAngle()
+        {
+            return rotateAngle;
+        }
         public string shapeName => "ShiftHexagon";
         public string shapeImage => "";
 

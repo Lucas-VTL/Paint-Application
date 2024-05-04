@@ -38,6 +38,10 @@ namespace myShiftHeart
         {
             rotateAngle = angle;
         }
+        public double getAngle()
+        {
+            return rotateAngle;
+        }
 
         public string shapeName => "ShiftHeart";
         public string shapeImage => "";

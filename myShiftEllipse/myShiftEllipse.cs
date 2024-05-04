@@ -38,6 +38,10 @@ namespace myShiftEllipse
         {
             rotateAngle = angle;
         }
+        public double getAngle()
+        {
+            return rotateAngle;
+        }
 
         public string shapeName => "ShiftEllipse";
         public string shapeImage => "";

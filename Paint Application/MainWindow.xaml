@@ -688,7 +688,7 @@
                         <RowDefinition Height="3*"/>
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
-                    <Button Grid.Row="0"  Cursor="Hand" Style="{StaticResource buttonStyle}">
+                    <Button Name="layerButton" Grid.Row="0"  Cursor="Hand" Style="{StaticResource buttonStyle}" Click="layerButtonClick">
                         <Button.Content>
                             <Image Source="images/layers.png" Width="45" Height="45"/>
                         </Button.Content>
@@ -700,6 +700,60 @@
         <Grid Grid.Row="2">
             <Canvas Name="drawArea"/>
             <Canvas Name="drawBackGround" Background="Transparent" MouseLeftButtonDown="drawAreaMouseLeftButtonDown" MouseMove="drawAreaMouseMove" MouseLeftButtonUp="drawAreaMouseLeftButtonUp" MouseRightButtonUp="drawBackGroundMouseRightButtonUp"/>
+            <ListView Name="layerListView" Background="CornflowerBlue" Width="135" Height="520" HorizontalAlignment="Right" VerticalAlignment="Top" Visibility="Collapsed" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Hidden" SelectionChanged="layerListViewSelectionChanged">
+                <ListView.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Orientation="Vertical"/>
+                    </ItemsPanelTemplate>
+                </ListView.ItemsPanel>
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Width="120" Height="30" Text="{Binding layerName}" FontFamily="fonts/#Signika" FontSize="20" TextAlignment="Center"/>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+                <ListView.ItemContainerStyle>
+                    <Style TargetType="{x:Type ListViewItem}">
+                        <Setter Property="Cursor" Value="Hand"/>
+                        <Setter Property="Margin" Value="5"/>
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="ListViewItem">
+                                    <ContentPresenter/>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                        <Style.Triggers>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="ListBoxItem">
+                                            <Grid Background="LightPink">
+                                                <ContentPresenter/>
+                                            </Grid>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                            <Trigger Property="IsSelected" Value="False">
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="ListBoxItem">
+                                            <Grid Background="White">
+                                                <ContentPresenter/>
+                                            </Grid>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </ListView.ItemContainerStyle>
+            </ListView>
+            <Button Name="newLayerButton" Style="{StaticResource buttonStyle}" Background="CornflowerBlue" Width="135" Height="80" VerticalAlignment="Bottom" HorizontalAlignment="Right" Visibility="Collapsed" Click="newLayerButtonClick">
+                <Button.Content>
+                    <TextBlock Text="+" Cursor="Hand" Width="120" Height="80" Background="White" Margin="5" FontFamily="fonts/#Signika" FontSize="60" TextAlignment="Center" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                </Button.Content>
+            </Button>
         </Grid>
     </Grid>
 </Window>

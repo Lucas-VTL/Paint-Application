@@ -38,6 +38,10 @@ namespace myShiftPentagon
         {
             rotateAngle = angle;
         }
+        public double getAngle()
+        {
+            return rotateAngle;
+        }
         public string shapeName => "ShiftPentagon";
         public string shapeImage => "";
 

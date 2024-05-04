@@ -38,6 +38,10 @@ namespace myShiftFourPointStar
         {
             rotateAngle = angle;
         }
+        public double getAngle()
+        {
+            return rotateAngle;
+        }
 
         public string shapeName => "ShiftFourPointStar";
         public string shapeImage => "";

@@ -39,6 +39,10 @@ namespace myRhombus
         {
             rotateAngle = angle;
         }
+        public double getAngle()
+        {
+            return rotateAngle;
+        }
 
         public string shapeName => "Rhombus";
         public string shapeImage => "images/shapeRhombus.png";

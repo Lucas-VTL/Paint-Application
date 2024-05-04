@@ -51,6 +51,10 @@ namespace myFreeLine
         public void setFlipHorizontally(bool flipHorizontally) {}
         public void setFlipVertically(bool flipVertically) {}
         public void setAngle(double angle) { }
+        public double getAngle()
+        {
+            return 0;
+        }
         public bool getFlipHorizontally()
         {
             return false;

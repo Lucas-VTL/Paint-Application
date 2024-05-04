@@ -39,6 +39,10 @@ namespace myRectangle
         {
             rotateAngle = angle;
         }
+        public double getAngle()
+        {
+            return rotateAngle;
+        }
         public string shapeName => "Rectangle";
         public string shapeImage => "images/shapeRectangle.png";
 

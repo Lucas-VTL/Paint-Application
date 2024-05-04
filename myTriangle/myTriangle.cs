@@ -38,7 +38,10 @@ namespace myTriangle
         {
             rotateAngle = angle;
         }
-
+        public double getAngle()
+        {
+            return rotateAngle;
+        }
         public string shapeName => "Triangle";
         public string shapeImage => "images/shapeTriangle.png";
 

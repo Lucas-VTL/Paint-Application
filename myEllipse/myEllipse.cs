@@ -40,6 +40,10 @@ namespace myEllipse
         {
             rotateAngle = angle;
         }
+        public double getAngle()
+        {
+            return rotateAngle;
+        }
         public string shapeName => "Ellipse";
         public string shapeImage => "images/shapeEllipse.png";
 

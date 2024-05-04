@@ -42,7 +42,10 @@ namespace myHeart
         {
             rotateAngle = angle;
         }
-
+        public double getAngle()
+        {
+            return rotateAngle;
+        }
         public string shapeName => "Heart";
         public string shapeImage => "images/shapeHeart.png";
 

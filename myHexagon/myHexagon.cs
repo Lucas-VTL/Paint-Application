@@ -38,6 +38,10 @@ namespace myHexagon
         {
             rotateAngle = angle;
         }
+        public double getAngle()
+        {
+            return rotateAngle;
+        }
 
         public string shapeName => "Hexagon";
         public string shapeImage => "images/shapeHexagon.png";

@@ -38,6 +38,10 @@ namespace myShiftArrow
         {
             rotateAngle = angle;
         }
+        public double getAngle()
+        {
+            return rotateAngle;
+        }
         public string shapeName => "ShiftArrow";
         public string shapeImage => "";
 

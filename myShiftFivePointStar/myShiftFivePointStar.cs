@@ -38,7 +38,10 @@ namespace myShiftFivePointStar
         {
             rotateAngle = angle;
         }
-
+        public double getAngle()
+        {
+            return rotateAngle;
+        }
         public string shapeName => "ShiftFivePointStar";
         public string shapeImage => "";
 

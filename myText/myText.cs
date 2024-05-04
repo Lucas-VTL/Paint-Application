@@ -51,6 +51,10 @@ namespace myText
         {
             rotateAngle = angle;
         }
+        public double getAngle()
+        {
+            return rotateAngle;
+        }
         public string shapeName => "Text";
         public string shapeImage => "";
 

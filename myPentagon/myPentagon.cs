@@ -41,6 +41,10 @@ namespace myPentagon
         {
             rotateAngle = angle;
         }
+        public double getAngle()
+        {
+            return rotateAngle;
+        }
         public string shapeName => "Pentagon";
         public string shapeImage => "images/shapePentagon.png";
 
