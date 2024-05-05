@@ -4,7 +4,9 @@ using myStroke;
 using myWidthness;
 using System.Data;
 using System.IO;
+using System.Net;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
@@ -21,6 +23,7 @@ using ListView = System.Windows.Controls.ListView;
 using ListViewItem = System.Windows.Controls.ListViewItem;
 using MessageBox = System.Windows.MessageBox;
 using MouseEventArgs = System.Windows.Input.MouseEventArgs;
+using Path = System.IO.Path;
 using Point = System.Windows.Point;
 using TextBox = System.Windows.Controls.TextBox;
 
@@ -762,6 +765,8 @@ namespace Paint_Application
                 drawSurface.Add((IShape)selectedShape.Clone());
                 toolUndoButton.Opacity = 1;
                 toolRedoButton.Opacity = 0.3;
+
+                toolFileExportButton.Opacity = 1;
                 recoverList.Clear();
             }
 
@@ -1630,6 +1635,14 @@ namespace Paint_Application
                     toolVerticalButton.Opacity = 0.3;
                 }
             }
+
+            if ((e.Key == Key.S) && (System.Windows.Forms.Control.ModifierKeys & Keys.Control) == Keys.Control)
+            {
+                if (toolFileExportButton.Opacity != 0.3)
+                {
+                    dialogBorder.Visibility = Visibility.Visible;
+                }
+            }
         }
 
         private void WindowKeyUp(object sender, KeyEventArgs e)
@@ -2327,6 +2340,225 @@ namespace Paint_Application
                         item.setEdit(false);
                         drawArea.Children.Add(item.convertShapeType());
                     }
+                }
+            }
+        }
+
+        private void toolFileImportButtonClick(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog ofd = new OpenFileDialog();
+            ofd.Title = "Chọn bản lưu game để bắt đầu tải game";
+            ofd.Filter = "txt files (*.txt)|*.txt|All files (*.*)|*.*";
+            ofd.ShowDialog();
+            string filePath = ofd.FileName;
+
+            if (!filePath.Equals(""))
+            {
+                if (File.Exists(filePath))
+                {
+                    string[] fileLines = File.ReadAllLines(filePath);
+
+                    if (fileLines.Length == 0)
+                    {
+                        MessageBox.Show("Bản lưu trống. Vui lòng chọn bản lưu khác", "Bản lưu không hợp lệ", MessageBoxButton.OK, MessageBoxImage.Error);
+                        return;
+                    }
+
+                    if (fileLines[0].Equals("The Paint Application - Võ Tấn Lộc (21127101) - Nguyễn Thái Đan Sâm (21127414)"))
+                    {
+                        layerList.Clear();
+                        string name = "";
+                        List<IShape> surface = new List<IShape>();
+
+                        for (int i = 1; i < fileLines.Length; i++)
+                        {
+                            if (!string.IsNullOrEmpty(fileLines[i]))
+                            {
+                                if (fileLines[i].Contains("Layer"))
+                                {
+                                    name = fileLines[i];
+                                } else
+                                {
+                                    IShape shape = null;
+                                    string[] data = fileLines[i].Split(";");
+
+                                    for (int j = 0; j < allShapeList.Count; j++)
+                                    {
+                                        if (allShapeList[j].shapeName.Equals(data[0]))
+                                        {
+                                            shape = (IShape)allShapeList[j].Clone();
+                                            break;
+                                        }
+                                    }
+                                    shape.addStartPoint(new Point(double.Parse(data[1]), double.Parse(data[2])));
+                                    shape.addEndPoint(new Point(double.Parse(data[3]), double.Parse(data[4])));
+
+                                    for (int j = 0; j < widthnessList.Count; j++)
+                                    {
+                                        if (widthnessList[j].widthnessName.Equals(data[5]))
+                                        {
+                                            shape.addWidthness((IWidthness)widthnessList[j].Clone());
+                                            break;
+                                        }
+                                    }
+
+                                    for (int j = 0; j < strokeList.Count; j++)
+                                    {
+                                        if (strokeList[j].strokeName.Equals(data[6]))
+                                        {
+                                            shape.addStrokeStyle((IStroke)strokeList[j].Clone());
+                                            break;
+                                        }
+                                    }
+
+                                    for (int j = 0; j < colorList.Count; j++)
+                                    {
+                                        if (colorList[j].colorName.Equals(data[7]))
+                                        {
+                                            shape.addColor((IColor)colorList[j].Clone());
+                                            break;
+                                        }
+                                    }
+
+                                    surface.Add(shape);
+                                }
+                            } else
+                            {
+                                layerList.Add(new Layer{ layerName = name, drawSurface = surface});
+                                name = "";
+                                surface = new List<IShape>();
+                            }
+                        }
+
+                        layerListView.ItemsSource = "";
+                        layerListView.ItemsSource = layerList;
+                        layerListView.SelectedIndex = 0;
+                        currentLayerIndex = 0;
+
+                        drawArea.Children.Clear();
+                        drawBackGround.Children.Clear();
+                        drawSurface.Clear();
+
+                        Layer layer = (Layer)layerListView.SelectedItems[0];
+                        List<IShape> subDrawSurface = layer.drawSurface;
+                        drawSurface.AddRange(subDrawSurface);
+
+                        foreach (var item in drawSurface)
+                        {
+                            item.setEdit(false);
+                            drawArea.Children.Add(item.convertShapeType());
+                        }
+                    }
+                    else
+                    {
+                        MessageBox.Show("Bản lưu không đúng định dạng của chương trình. Vui lòng chọn bản lưu khác", "Bản lưu không hợp lệ", MessageBoxButton.OK, MessageBoxImage.Error);
+                        return;
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("File không tồn tại. Vui lòng kiểm tra lại", "File không tồn tại", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
+            }
+        }
+
+        private void toolFileExportButtonMouseEnter(object sender, MouseEventArgs e)
+        {
+            if (toolFileExportButton.Opacity != 0.3)
+            {
+                toolFileExportButton.Cursor = Cursors.Hand;
+            } else
+            {
+                toolFileExportButton.Cursor = null;
+            }
+        }
+
+        private void toolFileExportButtonMouseLeave(object sender, MouseEventArgs e)
+        {
+            toolFileExportButton.Cursor = null;
+        }
+
+        private void toolFileExportButtonClick(object sender, RoutedEventArgs e)
+        {
+            if (toolFileExportButton.Opacity != 0.3)
+            {
+                dialogBorder.Visibility = Visibility.Visible;
+            }
+        }
+
+        private void closeDialogButtonClick(object sender, RoutedEventArgs e)
+        {
+            dialogBorder.Visibility = Visibility.Collapsed;
+        }
+
+        private void fileNameTextBoxKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                string FileName = fileNameTextBox.Text;
+
+                if (!FileName.Equals(""))
+                {
+                    var dialog = new Ookii.Dialogs.Wpf.VistaFolderBrowserDialog();
+                    string folderPath = "";
+
+                    if (dialog.ShowDialog(this).GetValueOrDefault())
+                    {
+                        folderPath = dialog.SelectedPath;
+                    }
+
+                    if (!folderPath.Equals(""))
+                    {
+                        folderPath = Path.Combine(folderPath, FileName + ".txt");
+                        if (!File.Exists(folderPath))
+                        {
+                            var myfile = File.Create(folderPath);
+                            myfile.Close();
+
+                            StreamWriter streamWriter = new StreamWriter(folderPath);
+
+                            streamWriter.WriteLine("The Paint Application - Võ Tấn Lộc (21127101) - Nguyễn Thái Đan Sâm (21127414)");
+
+                            for (int i = 0; i < layerList.Count; i++)
+                            {
+                                streamWriter.WriteLine(layerList[i].layerName);
+                                for (int j = 0; j < layerList[i].drawSurface.Count; j++)
+                                {
+                                    if (!layerList[i].drawSurface[j].shapeName.Equals("Text") && !layerList[i].drawSurface[j].shapeName.Equals("Free Line"))
+                                    {
+                                        string data = layerList[i].drawSurface[j].shapeName + ";" +
+                                            layerList[i].drawSurface[j].getStartPoint().X + ";" + layerList[i].drawSurface[j].getStartPoint().Y + ";" +
+                                            layerList[i].drawSurface[j].getEndPoint().X + ";" + layerList[i].drawSurface[j].getEndPoint().Y + ";" 
+                                            + layerList[i].drawSurface[j].getWidthness().widthnessName + ";"
+                                            + layerList[i].drawSurface[j].getStrokeStyle().strokeName + ";"
+                                            + layerList[i].drawSurface[j].getColor().colorName;
+                                        streamWriter.WriteLine(data);
+                                    }
+                                }
+                                streamWriter.WriteLine();
+                            }
+                            streamWriter.Close();
+
+                            MessageBoxResult result = MessageBox.Show("Lưu bản vẽ thành công", "Lưu thành công", MessageBoxButton.OK, MessageBoxImage.Information);
+
+                            if (result == MessageBoxResult.OK)
+                            {
+                                dialogBorder.Visibility = Visibility.Collapsed;
+                                fileTitleName.Text = FileName;
+                            }
+                        }
+                        else
+                        {
+                            MessageBox.Show("Tên file đã tồn tại trên hệ thống. Vui lòng nhập lại", "Tên file đã tồn tại", MessageBoxButton.OK, MessageBoxImage.Error);
+                            return;
+                        }
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Vui lòng nhập tên file để bắt đầu quá trình lưu game", "Tên file không hợp lệ", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
                 }
             }
         }

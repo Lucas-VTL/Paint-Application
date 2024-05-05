@@ -83,81 +83,185 @@
             </Setter>
         </Style>
     </Window.Resources>
-    <Grid Background="White">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="0.3*"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="5*"/>
-        </Grid.RowDefinitions>
-        <DockPanel Grid.Row="0" Background="Lavender" Panel.ZIndex="1">
-            <StackPanel DockPanel.Dock="Left" Orientation="Horizontal" HorizontalAlignment="Left">
-                <Image Source="images/window-icon.png" Margin="10 5"/>
-                <TextBlock FontFamily="fonts/#Lobster" FontSize="22" Text="Paint Application" VerticalAlignment="Center"/>
-            </StackPanel>
-            <StackPanel DockPanel.Dock="Right" Orientation="Horizontal" HorizontalAlignment="Right">
-                <Button Name="minimizeButton" Style="{StaticResource minimizeButton}" Click="minimizeButtonClick"/>
-                <Button Name="closeButton" Style="{StaticResource closeWindowButton}" Margin="10 5" Click="closeButtonClick"/>
-            </StackPanel>
-        </DockPanel>
-        <Grid Grid.Row="1" Background="LavenderBlush" PreviewMouseUp="toolBarMouseUp" Panel.ZIndex="1">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="0.4*"/>
-                <ColumnDefinition Width="0.6*"/>
-                <ColumnDefinition Width="0.8*"/>
-                <ColumnDefinition Width="0.3*"/>
-                <ColumnDefinition Width="0.55*"/>
-                <ColumnDefinition Width="0.8*"/>
-                <ColumnDefinition Width="0.4*"/>
-            </Grid.ColumnDefinitions>
-            <Border Grid.Column="0" BorderBrush="LightGray" BorderThickness="0 0 2 0">
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="3*"/>
-                        <RowDefinition Height="*"/>
-                    </Grid.RowDefinitions>
-                    <Grid Grid.Row="0">
-                        <StackPanel Name="selecionStackpanel" Cursor="Hand" MouseLeftButtonDown="selecionStackpanelMouseLeftButtonDown">
-                            <Image Name="selectionImage" Source="images/rec-selection.png" Width="50" Height="50" Margin="10"/>
-                            <Grid Height="30">
-                                <Button Name="selectionButton" Style="{StaticResource buttonStyle}" Width="120" Height="10" Opacity="0.5" Cursor="Hand" Click="selectionButtonClick" VerticalAlignment="Top">
+    <Grid>
+        <Grid Background="White">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="0.3*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="5*"/>
+            </Grid.RowDefinitions>
+            <DockPanel Grid.Row="0" Background="Lavender" Panel.ZIndex="1">
+                <StackPanel DockPanel.Dock="Left" Orientation="Horizontal" HorizontalAlignment="Left">
+                    <Image Source="images/window-icon.png" Margin="10 5"/>
+                    <TextBlock FontFamily="fonts/#Lobster" FontSize="22" Text="Paint Application" VerticalAlignment="Center"/>
+                </StackPanel>
+                <StackPanel DockPanel.Dock="Right" Orientation="Horizontal" HorizontalAlignment="Right">
+                    <TextBlock x:Name="fileTitleName" FontFamily="fonts/#Signika" FontSize="16" Text="Untitle" Margin="10 5" VerticalAlignment="Center"/>
+                    <Button Name="minimizeButton" Style="{StaticResource minimizeButton}" Margin="10 5" Click="minimizeButtonClick"/>
+                    <Button Name="closeButton" Style="{StaticResource closeWindowButton}" Margin="10 5" Click="closeButtonClick"/>
+                </StackPanel>
+            </DockPanel>
+            <Grid Grid.Row="1" Background="LavenderBlush" PreviewMouseUp="toolBarMouseUp" Panel.ZIndex="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="0.4*"/>
+                    <ColumnDefinition Width="0.6*"/>
+                    <ColumnDefinition Width="0.8*"/>
+                    <ColumnDefinition Width="0.3*"/>
+                    <ColumnDefinition Width="0.55*"/>
+                    <ColumnDefinition Width="0.8*"/>
+                    <ColumnDefinition Width="0.4*"/>
+                </Grid.ColumnDefinitions>
+                <Border Grid.Column="0" BorderBrush="LightGray" BorderThickness="0 0 2 0">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="3*"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <Grid Grid.Row="0">
+                            <StackPanel Name="selecionStackpanel" Cursor="Hand" MouseLeftButtonDown="selecionStackpanelMouseLeftButtonDown">
+                                <Image Name="selectionImage" Source="images/rec-selection.png" Width="50" Height="50" Margin="10"/>
+                                <Grid Height="30">
+                                    <Button Name="selectionButton" Style="{StaticResource buttonStyle}" Width="120" Height="10" Opacity="0.5" Cursor="Hand" Click="selectionButtonClick" VerticalAlignment="Top">
+                                        <Button.Content>
+                                            <Image Name="selectionButtonContent" Source="images/arrow-down.png"/>
+                                        </Button.Content>
+                                    </Button>
+                                    <ComboBox Name="selectionCombobox" Width="120" Height="15" Visibility="Hidden" VerticalAlignment="Top" SelectionChanged="selectionComboboxSelectionChanged">
+                                        <ComboBoxItem>
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="*"/>
+                                                    <ColumnDefinition Width="2*"/>
+                                                </Grid.ColumnDefinitions>
+                                                <Image Grid.Column="0" Source="images/rec-selection.png" Width="30" Height="30" Margin="5"/>
+                                                <TextBlock Grid.Column="1" FontFamily="fonts/#Signika" Text="Rectangle" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                            </Grid>
+                                        </ComboBoxItem>
+                                        <ComboBoxItem>
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="*"/>
+                                                    <ColumnDefinition Width="2*"/>
+                                                </Grid.ColumnDefinitions>
+                                                <Image Grid.Column="0" Source="images/free-selection.png" Width="30" Height="30" Margin="5"/>
+                                                <TextBlock Grid.Column="1" FontFamily="fonts/#Signika" Text="Free-form" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                            </Grid>
+                                        </ComboBoxItem>
+                                        <ComboBoxItem>
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="*"/>
+                                                    <ColumnDefinition Width="2*"/>
+                                                </Grid.ColumnDefinitions>
+                                                <Image Grid.Column="0" Source="images/all-selection.png" Width="30" Height="30" Margin="5"/>
+                                                <TextBlock Grid.Column="1" FontFamily="fonts/#Signika" Text="Select all" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                            </Grid>
+                                        </ComboBoxItem>
+                                        <ComboBox.ItemContainerStyle>
+                                            <Style TargetType="ComboBoxItem">
+                                                <EventSetter Event="PreviewMouseLeftButtonDown" Handler="selectionComboboxPreviewMouseLeftButtonDown"/>
+                                                <Setter Property="Background" Value="Transparent"/>
+                                                <Setter Property="Cursor" Value="Hand"/>
+                                                <Setter Property="Template">
+                                                    <Setter.Value>
+                                                        <ControlTemplate TargetType="{x:Type ComboBoxItem}">
+                                                            <Grid Background="Transparent">
+                                                                <ContentPresenter/>
+                                                            </Grid>
+                                                        </ControlTemplate>
+                                                    </Setter.Value>
+                                                </Setter>
+                                                <Style.Triggers>
+                                                    <Trigger Property="IsMouseOver" Value="True">
+                                                        <Setter Property="Template">
+                                                            <Setter.Value>
+                                                                <ControlTemplate TargetType="ComboBoxItem">
+                                                                    <Grid Background="Gainsboro">
+                                                                        <ContentPresenter/>
+                                                                    </Grid>
+                                                                </ControlTemplate>
+                                                            </Setter.Value>
+                                                        </Setter>
+                                                    </Trigger>
+                                                    <Trigger Property="IsSelected" Value="True">
+                                                        <Setter Property="Template">
+                                                            <Setter.Value>
+                                                                <ControlTemplate TargetType="ComboBoxItem">
+                                                                    <Grid Background="WhiteSmoke">
+                                                                        <ContentPresenter/>
+                                                                    </Grid>
+                                                                </ControlTemplate>
+                                                            </Setter.Value>
+                                                        </Setter>
+                                                    </Trigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </ComboBox.ItemContainerStyle>
+                                    </ComboBox>
+                                </Grid>
+                            </StackPanel>
+                            <Border Name="selectionBorder" CornerRadius="10" BorderBrush="CornflowerBlue" BorderThickness="2" Width="60" Height="80" Opacity="0"/>
+                        </Grid>
+                        <TextBlock Grid.Row="1" FontSize="15" FontFamily="fonts/#Signika" Text="Selection" VerticalAlignment="Center" HorizontalAlignment="Center" Opacity="0.5"/>
+                    </Grid>
+                </Border>
+                <Border Grid.Column="1" BorderBrush="LightGray" BorderThickness="0 0 2 0">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="3*"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <Grid Grid.Row="0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <Grid Grid.Row="0" Grid.Column="0">
+                                <Button Name="textButton" Style="{StaticResource buttonStyle}" Cursor="Hand" Click="textButtonClick">
                                     <Button.Content>
-                                        <Image Name="selectionButtonContent" Source="images/arrow-down.png"/>
+                                        <Image Source="images/textChoosing.png" Width="20" Height="20"/>
                                     </Button.Content>
                                 </Button>
-                                <ComboBox Name="selectionCombobox" Width="120" Height="15" Visibility="Hidden" VerticalAlignment="Top" SelectionChanged="selectionComboboxSelectionChanged">
-                                    <ComboBoxItem>
-                                        <Grid>
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="*"/>
-                                                <ColumnDefinition Width="2*"/>
-                                            </Grid.ColumnDefinitions>
-                                            <Image Grid.Column="0" Source="images/rec-selection.png" Width="30" Height="30" Margin="5"/>
-                                            <TextBlock Grid.Column="1" FontFamily="fonts/#Signika" Text="Rectangle" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                        </Grid>
-                                    </ComboBoxItem>
-                                    <ComboBoxItem>
-                                        <Grid>
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="*"/>
-                                                <ColumnDefinition Width="2*"/>
-                                            </Grid.ColumnDefinitions>
-                                            <Image Grid.Column="0" Source="images/free-selection.png" Width="30" Height="30" Margin="5"/>
-                                            <TextBlock Grid.Column="1" FontFamily="fonts/#Signika" Text="Free-form" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                        </Grid>
-                                    </ComboBoxItem>
-                                    <ComboBoxItem>
-                                        <Grid>
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="*"/>
-                                                <ColumnDefinition Width="2*"/>
-                                            </Grid.ColumnDefinitions>
-                                            <Image Grid.Column="0" Source="images/all-selection.png" Width="30" Height="30" Margin="5"/>
-                                            <TextBlock Grid.Column="1" FontFamily="fonts/#Signika" Text="Select all" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                        </Grid>
-                                    </ComboBoxItem>
+                                <Border Name="textBorder" CornerRadius="5" BorderBrush="CornflowerBlue" BorderThickness="2" Width="35" Height="35" Opacity="0"/>
+                            </Grid>
+                            <Grid Grid.Row="0" Grid.Column="1">
+                                <Button Name="textBoldButton" Style="{StaticResource buttonStyle}" Cursor="Hand" Click="textBoldButtonClick">
+                                    <Button.Content>
+                                        <Image Source="images/textBold.png" Width="20" Height="20"/>
+                                    </Button.Content>
+                                </Button>
+                                <Border Name="textBoldBorder" CornerRadius="5" BorderBrush="CornflowerBlue" BorderThickness="2" Width="35" Height="35" Opacity="0"/>
+                            </Grid>
+                            <Grid Grid.Row="0" Grid.Column="2">
+                                <Button Name="textItalicButton" Style="{StaticResource buttonStyle}" Cursor="Hand" Click="textItalicButtonClick">
+                                    <Button.Content>
+                                        <Image Source="images/textItalic.png" Width="20" Height="20"/>
+                                    </Button.Content>
+                                </Button>
+                                <Border Name="textItalicBorder" CornerRadius="5" BorderBrush="CornflowerBlue" BorderThickness="2" Width="35" Height="35" Opacity="0"/>
+                            </Grid>
+                            <Grid Grid.Row="1" Grid.Column="0">
+                                <Button Name="fontSizeButton" Style="{StaticResource buttonStyle}" Cursor="Hand" Click="fontSizeButtonClick">
+                                    <Button.Content>
+                                        <Image Source="images/textSize.png" Width="20" Height="20"/>
+                                    </Button.Content>
+                                </Button>
+                                <ComboBox Name="textFontCombobox" Visibility="Hidden" Width="160" ScrollViewer.VerticalScrollBarVisibility="Hidden" Margin="-25 0 0 0" SelectionChanged="textFontComboboxSelectionChanged">
+                                    <ComboBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <Border BorderBrush="{x:Null}" Height="40">
+                                                <TextBlock Margin="5" Text="{Binding fontName}" FontFamily="{Binding fontName}" VerticalAlignment="Center"/>
+                                            </Border>
+                                        </DataTemplate>
+                                    </ComboBox.ItemTemplate>
                                     <ComboBox.ItemContainerStyle>
                                         <Style TargetType="ComboBoxItem">
-                                            <EventSetter Event="PreviewMouseLeftButtonDown" Handler="selectionComboboxPreviewMouseLeftButtonDown"/>
+                                            <EventSetter Event="PreviewMouseLeftButtonDown" Handler="textFontComboboxPreviewMouseLeftButtonDown"/>
                                             <Setter Property="Background" Value="Transparent"/>
                                             <Setter Property="Cursor" Value="Hand"/>
                                             <Setter Property="Template">
@@ -197,432 +301,63 @@
                                     </ComboBox.ItemContainerStyle>
                                 </ComboBox>
                             </Grid>
-                        </StackPanel>
-                        <Border Name="selectionBorder" CornerRadius="10" BorderBrush="CornflowerBlue" BorderThickness="2" Width="60" Height="80" Opacity="0"/>
-                    </Grid>
-                    <TextBlock Grid.Row="1" FontSize="15" FontFamily="fonts/#Signika" Text="Selection" VerticalAlignment="Center" HorizontalAlignment="Center" Opacity="0.5"/>
-                </Grid>
-            </Border>
-            <Border Grid.Column="1" BorderBrush="LightGray" BorderThickness="0 0 2 0">
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="3*"/>
-                        <RowDefinition Height="*"/>
-                    </Grid.RowDefinitions>
-                    <Grid Grid.Row="0">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="*"/>
-                        </Grid.ColumnDefinitions>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="*"/>
-                            <RowDefinition Height="*"/>
-                        </Grid.RowDefinitions>
-                        <Grid Grid.Row="0" Grid.Column="0">
-                            <Button Name="textButton" Style="{StaticResource buttonStyle}" Cursor="Hand" Click="textButtonClick">
+                            <Button Name="textFontButton" Grid.Row="1" Grid.Column="1" Style="{StaticResource buttonStyle}" Cursor="Hand" Click="textFontButtonClick">
                                 <Button.Content>
-                                    <Image Source="images/textChoosing.png" Width="20" Height="20"/>
+                                    <Image Source="images/textFont.png" Width="20" Height="20"/>
                                 </Button.Content>
                             </Button>
-                            <Border Name="textBorder" CornerRadius="5" BorderBrush="CornflowerBlue" BorderThickness="2" Width="35" Height="35" Opacity="0"/>
-                        </Grid>
-                        <Grid Grid.Row="0" Grid.Column="1">
-                            <Button Name="textBoldButton" Style="{StaticResource buttonStyle}" Cursor="Hand" Click="textBoldButtonClick">
+                            <Button Name="textBackgroundButton" Grid.Row="1" Grid.Column="2" Style="{StaticResource buttonStyle}" Cursor="Hand" Click="textBackgroundButtonClick">
                                 <Button.Content>
-                                    <Image Source="images/textBold.png" Width="20" Height="20"/>
+                                    <Image Name="textBackgroundImage" Source="images/textBackground.png" Width="30" Height="30"/>
                                 </Button.Content>
                             </Button>
-                            <Border Name="textBoldBorder" CornerRadius="5" BorderBrush="CornflowerBlue" BorderThickness="2" Width="35" Height="35" Opacity="0"/>
-                        </Grid>
-                        <Grid Grid.Row="0" Grid.Column="2">
-                            <Button Name="textItalicButton" Style="{StaticResource buttonStyle}" Cursor="Hand" Click="textItalicButtonClick">
-                                <Button.Content>
-                                    <Image Source="images/textItalic.png" Width="20" Height="20"/>
-                                </Button.Content>
-                            </Button>
-                            <Border Name="textItalicBorder" CornerRadius="5" BorderBrush="CornflowerBlue" BorderThickness="2" Width="35" Height="35" Opacity="0"/>
-                        </Grid>
-                        <Grid Grid.Row="1" Grid.Column="0">
-                            <Button Name="fontSizeButton" Style="{StaticResource buttonStyle}" Cursor="Hand" Click="fontSizeButtonClick">
-                                <Button.Content>
-                                    <Image Source="images/textSize.png" Width="20" Height="20"/>
-                                </Button.Content>
-                            </Button>
-                            <ComboBox Name="textFontCombobox" Visibility="Hidden" Width="160" ScrollViewer.VerticalScrollBarVisibility="Hidden" Margin="-25 0 0 0" SelectionChanged="textFontComboboxSelectionChanged">
-                                <ComboBox.ItemTemplate>
-                                    <DataTemplate>
-                                        <Border BorderBrush="{x:Null}" Height="40">
-                                            <TextBlock Margin="5" Text="{Binding fontName}" FontFamily="{Binding fontName}" VerticalAlignment="Center"/>
-                                        </Border>
-                                    </DataTemplate>
-                                </ComboBox.ItemTemplate>
-                                <ComboBox.ItemContainerStyle>
-                                    <Style TargetType="ComboBoxItem">
-                                        <EventSetter Event="PreviewMouseLeftButtonDown" Handler="textFontComboboxPreviewMouseLeftButtonDown"/>
-                                        <Setter Property="Background" Value="Transparent"/>
-                                        <Setter Property="Cursor" Value="Hand"/>
-                                        <Setter Property="Template">
-                                            <Setter.Value>
-                                                <ControlTemplate TargetType="{x:Type ComboBoxItem}">
-                                                    <Grid Background="Transparent">
-                                                        <ContentPresenter/>
-                                                    </Grid>
-                                                </ControlTemplate>
-                                            </Setter.Value>
-                                        </Setter>
-                                        <Style.Triggers>
-                                            <Trigger Property="IsMouseOver" Value="True">
-                                                <Setter Property="Template">
-                                                    <Setter.Value>
-                                                        <ControlTemplate TargetType="ComboBoxItem">
-                                                            <Grid Background="Gainsboro">
-                                                                <ContentPresenter/>
-                                                            </Grid>
-                                                        </ControlTemplate>
-                                                    </Setter.Value>
-                                                </Setter>
-                                            </Trigger>
-                                            <Trigger Property="IsSelected" Value="True">
-                                                <Setter Property="Template">
-                                                    <Setter.Value>
-                                                        <ControlTemplate TargetType="ComboBoxItem">
-                                                            <Grid Background="WhiteSmoke">
-                                                                <ContentPresenter/>
-                                                            </Grid>
-                                                        </ControlTemplate>
-                                                    </Setter.Value>
-                                                </Setter>
-                                            </Trigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </ComboBox.ItemContainerStyle>
-                            </ComboBox>
-                        </Grid>
-                        <Button Name="textFontButton" Grid.Row="1" Grid.Column="1" Style="{StaticResource buttonStyle}" Cursor="Hand" Click="textFontButtonClick">
-                            <Button.Content>
-                                <Image Source="images/textFont.png" Width="20" Height="20"/>
-                            </Button.Content>
-                        </Button>
-                        <Button Name="textBackgroundButton" Grid.Row="1" Grid.Column="2" Style="{StaticResource buttonStyle}" Cursor="Hand" Click="textBackgroundButtonClick">
-                            <Button.Content>
-                                <Image Name="textBackgroundImage" Source="images/textBackground.png" Width="30" Height="30"/>
-                            </Button.Content>
-                        </Button>
-                    </Grid>
-                    <Grid Grid.Row="1">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="175*"/>
-                            <ColumnDefinition Width="26*"/>
-                        </Grid.ColumnDefinitions>
-                        <TextBlock FontSize="15" FontFamily="fonts/#Signika" Text="Text" VerticalAlignment="Center" HorizontalAlignment="Left" Opacity="0.5" Margin="87,0,0,0"/>
-                        <StackPanel Name="fontSizeStackpanel" HorizontalAlignment="Left" Orientation="Horizontal" Margin="4,0,0,0" Visibility="Collapsed">
-                            <Border Width="50" Height="22" BorderBrush="Black" BorderThickness="1 1 0 1">
-                                <TextBox Name="fontSizeTextbox" Height="22" Text="12" VerticalAlignment="Center" VerticalContentAlignment="Center" FontFamily="fonts/#Signika" KeyDown="fontSizeTextboxKeyDown"/>
-                            </Border>
-                            <Grid Height="22" Width="12" HorizontalAlignment="Right">
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="*"/>
-                                    <RowDefinition Height="*"/>
-                                </Grid.RowDefinitions>
-                                <Border Grid.Row="0" BorderBrush="Black" BorderThickness="1">
-                                    <Button Cursor="Hand" Click="increaseFontSizeClick">
-                                        <Button.Content>
-                                            <Image Source="images/arrow-up.png"/>
-                                        </Button.Content>
-                                    </Button>
-                                </Border>
-                                <Border Grid.Row="1" BorderBrush="Black" BorderThickness="1 0 1 1">
-                                    <Button Cursor="Hand" Click="decreaseFontSizeClick">
-                                        <Button.Content>
-                                            <Image Source="images/arrow-down.png"/>
-                                        </Button.Content>
-                                    </Button>
-                                </Border>
-                            </Grid>
-                        </StackPanel>
-                        <Button Name="textBackgroundCustom" HorizontalAlignment="Left" Cursor="Hand" Style="{StaticResource buttonStyle}" Margin="153,0,0,0" Visibility="Hidden" Click="textBackGroundCustomClick" Grid.ColumnSpan="2">
-                            <Button.Content>
-                                <Border Name="textBackgroundBorder" Width="30" Height="22" Background="White" CornerRadius="5"/>
-                            </Button.Content>
-                        </Button>
-                    </Grid>
-                </Grid>
-            </Border>
-            <Border Grid.Column="2" BorderBrush="LightGray" BorderThickness="0 0 2 0">
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="3*"/>
-                        <RowDefinition Height="*"/>
-                    </Grid.RowDefinitions>
-                    <ListView Name="shapeListview" Grid.Row="0" Background="Transparent" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Hidden" BorderThickness="0">
-                        <ListView.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <WrapPanel/>
-                            </ItemsPanelTemplate>
-                        </ListView.ItemsPanel>
-                        <ListView.ItemTemplate>
-                            <DataTemplate>
-                                <Image Source="{Binding shapeImage}" Width="25" Height="25" Margin="4 8"/>
-                            </DataTemplate>
-                        </ListView.ItemTemplate>
-                        <ListView.ItemContainerStyle>
-                            <Style TargetType="{x:Type ListViewItem}">
-                                <EventSetter Event="PreviewMouseLeftButtonDown" Handler="shapeListviewPreviewMouseButtonDown"/>
-                                <EventSetter Event="PreviewMouseRightButtonDown" Handler="shapeListviewPreviewMouseButtonDown"/>
-                                <Setter Property="Cursor" Value="Hand"/>
-                                <Setter Property="Background" Value="Transparent"/>
-                                <Setter Property="Template">
-                                    <Setter.Value>
-                                        <ControlTemplate TargetType="ListViewItem">
-                                            <WrapPanel>
-                                                <ContentPresenter Margin="5 1"/>
-                                            </WrapPanel>
-                                        </ControlTemplate>
-                                    </Setter.Value>
-                                </Setter>
-                                <Style.Triggers>
-                                    <Trigger Property="IsSelected" Value="True">
-                                        <Setter Property="Template">
-                                            <Setter.Value>
-                                                <ControlTemplate TargetType="ListBoxItem">
-                                                    <Border CornerRadius="5" BorderBrush="CornflowerBlue" BorderThickness="2" Width="35" Height="35" Margin="4 0">
-                                                        <ContentPresenter Margin="-4 -8"/>
-                                                    </Border>
-                                                </ControlTemplate>
-                                            </Setter.Value>
-                                        </Setter>
-                                    </Trigger>
-                                </Style.Triggers>
-                            </Style>
-                        </ListView.ItemContainerStyle>
-                    </ListView>
-                    <TextBlock Grid.Row="1" FontSize="15" FontFamily="fonts/#Signika" Text="Shape" VerticalAlignment="Center" HorizontalAlignment="Center" Opacity="0.5"/>
-                </Grid>
-            </Border>
-            <Border Grid.Column="3" BorderBrush="LightGray" BorderThickness="0 0 2 0">
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="3*"/>
-                        <RowDefinition Height="*"/>
-                    </Grid.RowDefinitions>
-                    <Grid Grid.Row="0">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="*"/>
-                            <RowDefinition Height="*"/>
-                            <RowDefinition Height="*"/>
-                        </Grid.RowDefinitions>
-                        <Grid Grid.Row="0">
-                            <Button Name="styleWidthButton" Cursor="Hand" Style="{StaticResource buttonStyle}" Margin="5 0 0 0" Click="styleWidthButtonClick">
-                                <Button.Content>
-                                    <StackPanel Orientation="Horizontal">
-                                        <Image Name="styleWidthImage" Source="images/styleBaseLine.png" Width="65" Height="30" Margin="0 20 5 0"/>
-                                        <Image Source="images/styleWidth.png" Width="20" Height="20"/>
-                                    </StackPanel>
-                                </Button.Content>
-                            </Button>
-                            <ComboBox Name="styleWidthCombobox" Visibility="Hidden" SelectionChanged="styleWidthComboboxSelectionChanged">
-                                <ComboBox.ItemTemplate>
-                                    <DataTemplate>
-                                        <StackPanel Orientation="Horizontal" Height="40">
-                                            <Image Source="{Binding widthnessImage}" Width="60" Margin="5 0 0 0"/>
-                                            <TextBlock Text="{Binding widthnessName}" FontFamily="fonts/#Signika" VerticalAlignment="Center" Margin="5 0"/>
-                                        </StackPanel>
-                                    </DataTemplate>
-                                </ComboBox.ItemTemplate>
-                                <ComboBox.ItemContainerStyle>
-                                    <Style TargetType="ComboBoxItem">
-                                        <EventSetter Event="PreviewMouseLeftButtonDown" Handler="styleWidthComboboxPreviewMouseLeftButtonDown"/>
-                                        <Setter Property="Background" Value="Transparent"/>
-                                        <Setter Property="Cursor" Value="Hand"/>
-                                        <Setter Property="Template">
-                                            <Setter.Value>
-                                                <ControlTemplate TargetType="{x:Type ComboBoxItem}">
-                                                    <Grid Background="Transparent">
-                                                        <ContentPresenter/>
-                                                    </Grid>
-                                                </ControlTemplate>
-                                            </Setter.Value>
-                                        </Setter>
-                                        <Style.Triggers>
-                                            <Trigger Property="IsMouseOver" Value="True">
-                                                <Setter Property="Template">
-                                                    <Setter.Value>
-                                                        <ControlTemplate TargetType="ComboBoxItem">
-                                                            <Grid Background="Gainsboro">
-                                                                <ContentPresenter/>
-                                                            </Grid>
-                                                        </ControlTemplate>
-                                                    </Setter.Value>
-                                                </Setter>
-                                            </Trigger>
-                                            <Trigger Property="IsSelected" Value="True">
-                                                <Setter Property="Template">
-                                                    <Setter.Value>
-                                                        <ControlTemplate TargetType="ComboBoxItem">
-                                                            <Grid Background="WhiteSmoke">
-                                                                <ContentPresenter/>
-                                                            </Grid>
-                                                        </ControlTemplate>
-                                                    </Setter.Value>
-                                                </Setter>
-                                            </Trigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </ComboBox.ItemContainerStyle>
-                            </ComboBox>
                         </Grid>
                         <Grid Grid.Row="1">
-                            <Button Name="styleStrokeButton" Cursor="Hand" Style="{StaticResource buttonStyle}" Margin="5 0 0 0" Click="styleStrokeButtonClick">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="175*"/>
+                                <ColumnDefinition Width="26*"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock FontSize="15" FontFamily="fonts/#Signika" Text="Text" VerticalAlignment="Center" HorizontalAlignment="Left" Opacity="0.5" Margin="87,0,0,0"/>
+                            <StackPanel Name="fontSizeStackpanel" HorizontalAlignment="Left" Orientation="Horizontal" Margin="4,0,0,0" Visibility="Collapsed">
+                                <Border Width="50" Height="22" BorderBrush="Black" BorderThickness="1 1 0 1">
+                                    <TextBox Name="fontSizeTextbox" Height="22" Text="12" VerticalAlignment="Center" VerticalContentAlignment="Center" FontFamily="fonts/#Signika" KeyDown="fontSizeTextboxKeyDown"/>
+                                </Border>
+                                <Grid Height="22" Width="12" HorizontalAlignment="Right">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*"/>
+                                        <RowDefinition Height="*"/>
+                                    </Grid.RowDefinitions>
+                                    <Border Grid.Row="0" BorderBrush="Black" BorderThickness="1">
+                                        <Button Cursor="Hand" Click="increaseFontSizeClick">
+                                            <Button.Content>
+                                                <Image Source="images/arrow-up.png"/>
+                                            </Button.Content>
+                                        </Button>
+                                    </Border>
+                                    <Border Grid.Row="1" BorderBrush="Black" BorderThickness="1 0 1 1">
+                                        <Button Cursor="Hand" Click="decreaseFontSizeClick">
+                                            <Button.Content>
+                                                <Image Source="images/arrow-down.png"/>
+                                            </Button.Content>
+                                        </Button>
+                                    </Border>
+                                </Grid>
+                            </StackPanel>
+                            <Button Name="textBackgroundCustom" HorizontalAlignment="Left" Cursor="Hand" Style="{StaticResource buttonStyle}" Margin="153,0,0,0" Visibility="Hidden" Click="textBackGroundCustomClick" Grid.ColumnSpan="2">
                                 <Button.Content>
-                                    <StackPanel Orientation="Horizontal">
-                                        <Image Name="styleStrokeImage" Source="images/styleBaseLine.png" Width="65" Height="30" Margin="0 20 5 0"/>
-                                        <Image Source="images/styleStroke.png" Width="20" Height="20"/>
-                                    </StackPanel>
+                                    <Border Name="textBackgroundBorder" Width="30" Height="22" Background="White" CornerRadius="5"/>
                                 </Button.Content>
                             </Button>
-                            <ComboBox Name="styleStrokeCombobox" Visibility="Hidden" SelectionChanged="styleStrokeComboboxSelectionChanged">
-                                <ComboBox.ItemTemplate>
-                                    <DataTemplate>
-                                        <Image Source="{Binding strokeImage}" Width="80" Height="20" Margin="5"/>
-                                    </DataTemplate>
-                                </ComboBox.ItemTemplate>
-                                <ComboBox.ItemContainerStyle>
-                                    <Style TargetType="ComboBoxItem">
-                                        <EventSetter Event="PreviewMouseLeftButtonDown" Handler="styleStrokeComboboxPreviewMouseLeftButtonDown"/>
-                                        <Setter Property="Background" Value="Transparent"/>
-                                        <Setter Property="Cursor" Value="Hand"/>
-                                        <Setter Property="Template">
-                                            <Setter.Value>
-                                                <ControlTemplate TargetType="{x:Type ComboBoxItem}">
-                                                    <Grid Background="Transparent">
-                                                        <ContentPresenter/>
-                                                    </Grid>
-                                                </ControlTemplate>
-                                            </Setter.Value>
-                                        </Setter>
-                                        <Style.Triggers>
-                                            <Trigger Property="IsMouseOver" Value="True">
-                                                <Setter Property="Template">
-                                                    <Setter.Value>
-                                                        <ControlTemplate TargetType="ComboBoxItem">
-                                                            <Grid Background="Gainsboro">
-                                                                <ContentPresenter/>
-                                                            </Grid>
-                                                        </ControlTemplate>
-                                                    </Setter.Value>
-                                                </Setter>
-                                            </Trigger>
-                                            <Trigger Property="IsSelected" Value="True">
-                                                <Setter Property="Template">
-                                                    <Setter.Value>
-                                                        <ControlTemplate TargetType="ComboBoxItem">
-                                                            <Grid Background="WhiteSmoke">
-                                                                <ContentPresenter/>
-                                                            </Grid>
-                                                        </ControlTemplate>
-                                                    </Setter.Value>
-                                                </Setter>
-                                            </Trigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </ComboBox.ItemContainerStyle>
-                            </ComboBox>
-                        </Grid>
-                        <Grid Grid.Row="2">
-                            <Button Name="styleFillButton" Cursor="Hand" Style="{StaticResource buttonStyle}" Margin="5 0 0 0" Click="styleFillButtonClick"  Opacity="0.3">
-                                <Button.Content>
-                                    <StackPanel Orientation="Horizontal">
-                                        <Image Source="images/styleFillLine.png" Width="65" Height="20" Margin="0 10 5 0"/>
-                                        <Image Source="images/styleFill.png" Width="20" Height="20"/>
-                                    </StackPanel>
-                                </Button.Content>
-                            </Button>
-
                         </Grid>
                     </Grid>
-                    <TextBlock Grid.Row="1" FontSize="15" FontFamily="fonts/#Signika" Text="Style" VerticalAlignment="Center" HorizontalAlignment="Center" Opacity="0.5"/>
-                </Grid>
-            </Border>
-            <Border Grid.Column="4" BorderBrush="LightGray" BorderThickness="0 0 2 0">
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="3*"/>
-                        <RowDefinition Height="*"/>
-                    </Grid.RowDefinitions>
-                    <Grid Grid.Row="0">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="*"/>
-                        </Grid.ColumnDefinitions>
+                </Border>
+                <Border Grid.Column="2" BorderBrush="LightGray" BorderThickness="0 0 2 0">
+                    <Grid>
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="3*"/>
                             <RowDefinition Height="*"/>
                         </Grid.RowDefinitions>
-                        <Grid Grid.Row="0" Grid.Column="0">
-                            <Button Name="toolMouseButton" Cursor="Hand" Style="{StaticResource buttonStyle}" Click="toolMouseButtonClick" >
-                                <Button.Content>
-                                    <Image Source="images/toolMouse.png" Width="25" Height="25"/>
-                                </Button.Content>
-                            </Button>
-                            <Border Name="toolMouseBorder" CornerRadius="5" BorderBrush="CornflowerBlue" BorderThickness="2" Width="35" Height="35" Opacity="1"/>
-                        </Grid>
-                        <Grid Grid.Row="0" Grid.Column="1">
-                            <Button Name="toolEraseButton" Cursor="Hand" Style="{StaticResource buttonStyle}" Click="toolEraseButtonClick">
-                                <Button.Content>
-                                    <Image Source="images/toolErase.png" Width="25" Height="25"/>
-                                </Button.Content>
-                            </Button>
-                            <Border Name="toolEraseBorder" CornerRadius="5" BorderBrush="CornflowerBlue" BorderThickness="2" Width="35" Height="35" Opacity="0"/>
-                        </Grid>
-                        <Button Grid.Row="1" Grid.Column="0" Cursor="Hand" Style="{StaticResource buttonStyle}">
-                            <Button.Content>
-                                <Image Source="images/toolFileImport.png" Width="25" Height="25"/>
-                            </Button.Content>
-                        </Button>
-                        <Button Grid.Row="1" Grid.Column="1" Cursor="Hand" Style="{StaticResource buttonStyle}">
-                            <Button.Content>
-                                <Image Source="images/toolFileExport.png" Width="25" Height="25"/>
-                            </Button.Content>
-                        </Button>
-                        <Button Name="toolUndoButton" Grid.Row="0" Grid.Column="2" Style="{StaticResource buttonStyle}" Opacity="0.3" MouseEnter="toolUndoButtonMouseEnter" MouseLeave="toolUndoButtonMouseLeave" Click="toolUndoButtonClick">
-                            <Button.Content>
-                                <Image Source="images/toolUndo.png" Width="25" Height="25"/>
-                            </Button.Content>
-                        </Button>
-                        <Button Name="toolRedoButton" Grid.Row="0" Grid.Column="3" Style="{StaticResource buttonStyle}" Opacity="0.3" MouseEnter="toolRedoButtonMouseEnter" MouseLeave="toolRedoButtonMouseLeave" Click="toolRedoButtonClick">
-                            <Button.Content>
-                                <Image Source="images/toolRedo.png" Width="25" Height="25"/>
-                            </Button.Content>
-                        </Button>
-                        <Button Name="toolHorizontalButton" Grid.Row="1" Grid.Column="2" Style="{StaticResource buttonStyle}" Opacity="0.3" MouseEnter="toolHorizontalButtonMouseEnter" MouseLeave="toolHorizontalButtonMouseLeave" Click="toolHorizontalButtonClick">
-                            <Button.Content>
-                                <Image Source="images/toolHorizontal.png" Width="25" Height="25"/>
-                            </Button.Content>
-                        </Button>
-                        <Button Name="toolVerticalButton"  Grid.Row="1" Grid.Column="3" Style="{StaticResource buttonStyle}" Opacity="0.3" MouseEnter="toolVerticalButtonMouseEnter" MouseLeave="toolVerticalButtonMouseLeave" Click="toolVerticalButtonClick">
-                            <Button.Content>
-                                <Image Source="images/toolVertical.png" Width="25" Height="25"/>
-                            </Button.Content>
-                        </Button>
-                    </Grid>
-                    <TextBlock Grid.Row="1" FontSize="15" FontFamily="fonts/#Signika" Text="Tool" VerticalAlignment="Center" HorizontalAlignment="Center" Opacity="0.5"/>
-                </Grid>
-            </Border>
-            <Border Grid.Column="5" BorderBrush="LightGray" BorderThickness="0 0 2 0">
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="3*"/>
-                        <RowDefinition Height="*"/>
-                    </Grid.RowDefinitions>
-                    <Grid Grid.Row="0">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="4*"/>
-                            <ColumnDefinition Width="*"/>
-                        </Grid.ColumnDefinitions>
-                        <ListView Name="colorListview" Grid.Column="0" Background="Transparent" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Hidden" BorderThickness="0">
+                        <ListView Name="shapeListview" Grid.Row="0" Background="Transparent" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Hidden" BorderThickness="0">
                             <ListView.ItemsPanel>
                                 <ItemsPanelTemplate>
                                     <WrapPanel/>
@@ -630,19 +365,13 @@
                             </ListView.ItemsPanel>
                             <ListView.ItemTemplate>
                                 <DataTemplate>
-                                    <Border Width="25" Height="25" CornerRadius="25" Margin="3 8.3" BorderThickness="1" BorderBrush="Black">
-                                        <Border.Style>
-                                            <Style TargetType="Border">
-                                                <Setter Property="Background" Value="{Binding colorValue}"/>
-                                            </Style>
-                                        </Border.Style>
-                                    </Border>
+                                    <Image Source="{Binding shapeImage}" Width="25" Height="25" Margin="4 8"/>
                                 </DataTemplate>
                             </ListView.ItemTemplate>
                             <ListView.ItemContainerStyle>
                                 <Style TargetType="{x:Type ListViewItem}">
-                                    <EventSetter Event="PreviewMouseLeftButtonDown" Handler="colorListviewPreviewMouseButtonDown"/>
-                                    <EventSetter Event="PreviewMouseRightButtonDown" Handler="colorListviewPreviewMouseButtonDown"/>
+                                    <EventSetter Event="PreviewMouseLeftButtonDown" Handler="shapeListviewPreviewMouseButtonDown"/>
+                                    <EventSetter Event="PreviewMouseRightButtonDown" Handler="shapeListviewPreviewMouseButtonDown"/>
                                     <Setter Property="Cursor" Value="Hand"/>
                                     <Setter Property="Background" Value="Transparent"/>
                                     <Setter Property="Template">
@@ -659,8 +388,8 @@
                                             <Setter Property="Template">
                                                 <Setter.Value>
                                                     <ControlTemplate TargetType="ListBoxItem">
-                                                        <Border CornerRadius="5" BorderBrush="CornflowerBlue" BorderThickness="2" Width="35" Height="35" Margin="3 0">
-                                                            <ContentPresenter Margin="-4 -7"/>
+                                                        <Border CornerRadius="5" BorderBrush="CornflowerBlue" BorderThickness="2" Width="35" Height="35" Margin="4 0">
+                                                            <ContentPresenter Margin="-4 -8"/>
                                                         </Border>
                                                     </ControlTemplate>
                                                 </Setter.Value>
@@ -670,94 +399,379 @@
                                 </Style>
                             </ListView.ItemContainerStyle>
                         </ListView>
-                        <Button Name="customColorButton" Grid.Column="1" Style="{StaticResource buttonStyle}" Cursor="Hand" Margin="-5 0 0 0" Click="customColorButtonClick">
+                        <TextBlock Grid.Row="1" FontSize="15" FontFamily="fonts/#Signika" Text="Shape" VerticalAlignment="Center" HorizontalAlignment="Center" Opacity="0.5"/>
+                    </Grid>
+                </Border>
+                <Border Grid.Column="3" BorderBrush="LightGray" BorderThickness="0 0 2 0">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="3*"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <Grid Grid.Row="0">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <Grid Grid.Row="0">
+                                <Button Name="styleWidthButton" Cursor="Hand" Style="{StaticResource buttonStyle}" Margin="5 0 0 0" Click="styleWidthButtonClick">
+                                    <Button.Content>
+                                        <StackPanel Orientation="Horizontal">
+                                            <Image Name="styleWidthImage" Source="images/styleBaseLine.png" Width="65" Height="30" Margin="0 20 5 0"/>
+                                            <Image Source="images/styleWidth.png" Width="20" Height="20"/>
+                                        </StackPanel>
+                                    </Button.Content>
+                                </Button>
+                                <ComboBox Name="styleWidthCombobox" Visibility="Hidden" SelectionChanged="styleWidthComboboxSelectionChanged">
+                                    <ComboBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <StackPanel Orientation="Horizontal" Height="40">
+                                                <Image Source="{Binding widthnessImage}" Width="60" Margin="5 0 0 0"/>
+                                                <TextBlock Text="{Binding widthnessName}" FontFamily="fonts/#Signika" VerticalAlignment="Center" Margin="5 0"/>
+                                            </StackPanel>
+                                        </DataTemplate>
+                                    </ComboBox.ItemTemplate>
+                                    <ComboBox.ItemContainerStyle>
+                                        <Style TargetType="ComboBoxItem">
+                                            <EventSetter Event="PreviewMouseLeftButtonDown" Handler="styleWidthComboboxPreviewMouseLeftButtonDown"/>
+                                            <Setter Property="Background" Value="Transparent"/>
+                                            <Setter Property="Cursor" Value="Hand"/>
+                                            <Setter Property="Template">
+                                                <Setter.Value>
+                                                    <ControlTemplate TargetType="{x:Type ComboBoxItem}">
+                                                        <Grid Background="Transparent">
+                                                            <ContentPresenter/>
+                                                        </Grid>
+                                                    </ControlTemplate>
+                                                </Setter.Value>
+                                            </Setter>
+                                            <Style.Triggers>
+                                                <Trigger Property="IsMouseOver" Value="True">
+                                                    <Setter Property="Template">
+                                                        <Setter.Value>
+                                                            <ControlTemplate TargetType="ComboBoxItem">
+                                                                <Grid Background="Gainsboro">
+                                                                    <ContentPresenter/>
+                                                                </Grid>
+                                                            </ControlTemplate>
+                                                        </Setter.Value>
+                                                    </Setter>
+                                                </Trigger>
+                                                <Trigger Property="IsSelected" Value="True">
+                                                    <Setter Property="Template">
+                                                        <Setter.Value>
+                                                            <ControlTemplate TargetType="ComboBoxItem">
+                                                                <Grid Background="WhiteSmoke">
+                                                                    <ContentPresenter/>
+                                                                </Grid>
+                                                            </ControlTemplate>
+                                                        </Setter.Value>
+                                                    </Setter>
+                                                </Trigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </ComboBox.ItemContainerStyle>
+                                </ComboBox>
+                            </Grid>
+                            <Grid Grid.Row="1">
+                                <Button Name="styleStrokeButton" Cursor="Hand" Style="{StaticResource buttonStyle}" Margin="5 0 0 0" Click="styleStrokeButtonClick">
+                                    <Button.Content>
+                                        <StackPanel Orientation="Horizontal">
+                                            <Image Name="styleStrokeImage" Source="images/styleBaseLine.png" Width="65" Height="30" Margin="0 20 5 0"/>
+                                            <Image Source="images/styleStroke.png" Width="20" Height="20"/>
+                                        </StackPanel>
+                                    </Button.Content>
+                                </Button>
+                                <ComboBox Name="styleStrokeCombobox" Visibility="Hidden" SelectionChanged="styleStrokeComboboxSelectionChanged">
+                                    <ComboBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <Image Source="{Binding strokeImage}" Width="80" Height="20" Margin="5"/>
+                                        </DataTemplate>
+                                    </ComboBox.ItemTemplate>
+                                    <ComboBox.ItemContainerStyle>
+                                        <Style TargetType="ComboBoxItem">
+                                            <EventSetter Event="PreviewMouseLeftButtonDown" Handler="styleStrokeComboboxPreviewMouseLeftButtonDown"/>
+                                            <Setter Property="Background" Value="Transparent"/>
+                                            <Setter Property="Cursor" Value="Hand"/>
+                                            <Setter Property="Template">
+                                                <Setter.Value>
+                                                    <ControlTemplate TargetType="{x:Type ComboBoxItem}">
+                                                        <Grid Background="Transparent">
+                                                            <ContentPresenter/>
+                                                        </Grid>
+                                                    </ControlTemplate>
+                                                </Setter.Value>
+                                            </Setter>
+                                            <Style.Triggers>
+                                                <Trigger Property="IsMouseOver" Value="True">
+                                                    <Setter Property="Template">
+                                                        <Setter.Value>
+                                                            <ControlTemplate TargetType="ComboBoxItem">
+                                                                <Grid Background="Gainsboro">
+                                                                    <ContentPresenter/>
+                                                                </Grid>
+                                                            </ControlTemplate>
+                                                        </Setter.Value>
+                                                    </Setter>
+                                                </Trigger>
+                                                <Trigger Property="IsSelected" Value="True">
+                                                    <Setter Property="Template">
+                                                        <Setter.Value>
+                                                            <ControlTemplate TargetType="ComboBoxItem">
+                                                                <Grid Background="WhiteSmoke">
+                                                                    <ContentPresenter/>
+                                                                </Grid>
+                                                            </ControlTemplate>
+                                                        </Setter.Value>
+                                                    </Setter>
+                                                </Trigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </ComboBox.ItemContainerStyle>
+                                </ComboBox>
+                            </Grid>
+                            <Grid Grid.Row="2">
+                                <Button Name="styleFillButton" Cursor="Hand" Style="{StaticResource buttonStyle}" Margin="5 0 0 0" Click="styleFillButtonClick"  Opacity="0.3">
+                                    <Button.Content>
+                                        <StackPanel Orientation="Horizontal">
+                                            <Image Source="images/styleFillLine.png" Width="65" Height="20" Margin="0 10 5 0"/>
+                                            <Image Source="images/styleFill.png" Width="20" Height="20"/>
+                                        </StackPanel>
+                                    </Button.Content>
+                                </Button>
+
+                            </Grid>
+                        </Grid>
+                        <TextBlock Grid.Row="1" FontSize="15" FontFamily="fonts/#Signika" Text="Style" VerticalAlignment="Center" HorizontalAlignment="Center" Opacity="0.5"/>
+                    </Grid>
+                </Border>
+                <Border Grid.Column="4" BorderBrush="LightGray" BorderThickness="0 0 2 0">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="3*"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <Grid Grid.Row="0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <Grid Grid.Row="0" Grid.Column="0">
+                                <Button Name="toolMouseButton" Cursor="Hand" Style="{StaticResource buttonStyle}" Click="toolMouseButtonClick" >
+                                    <Button.Content>
+                                        <Image Source="images/toolMouse.png" Width="25" Height="25"/>
+                                    </Button.Content>
+                                </Button>
+                                <Border Name="toolMouseBorder" CornerRadius="5" BorderBrush="CornflowerBlue" BorderThickness="2" Width="35" Height="35" Opacity="1"/>
+                            </Grid>
+                            <Grid Grid.Row="0" Grid.Column="1">
+                                <Button Name="toolEraseButton" Cursor="Hand" Style="{StaticResource buttonStyle}" Click="toolEraseButtonClick">
+                                    <Button.Content>
+                                        <Image Source="images/toolErase.png" Width="25" Height="25"/>
+                                    </Button.Content>
+                                </Button>
+                                <Border Name="toolEraseBorder" CornerRadius="5" BorderBrush="CornflowerBlue" BorderThickness="2" Width="35" Height="35" Opacity="0"/>
+                            </Grid>
+                            <Button x:Name="toolFileImportButton" Grid.Row="1" Grid.Column="0" Style="{StaticResource buttonStyle}" Cursor="Hand" Click="toolFileImportButtonClick">
+                                <Button.Content>
+                                    <Image Source="images/toolFileImport.png" Width="25" Height="25"/>
+                                </Button.Content>
+                            </Button>
+                            <Button Name="toolFileExportButton" Grid.Row="1" Grid.Column="1" Style="{StaticResource buttonStyle}" Opacity="0.3" MouseEnter="toolFileExportButtonMouseEnter" MouseLeave="toolFileExportButtonMouseLeave" Click="toolFileExportButtonClick">
+                                <Button.Content>
+                                    <Image Source="images/toolFileExport.png" Width="25" Height="25"/>
+                                </Button.Content>
+                            </Button>
+                            <Button Name="toolUndoButton" Grid.Row="0" Grid.Column="2" Style="{StaticResource buttonStyle}" Opacity="0.3" MouseEnter="toolUndoButtonMouseEnter" MouseLeave="toolUndoButtonMouseLeave" Click="toolUndoButtonClick">
+                                <Button.Content>
+                                    <Image Source="images/toolUndo.png" Width="25" Height="25"/>
+                                </Button.Content>
+                            </Button>
+                            <Button Name="toolRedoButton" Grid.Row="0" Grid.Column="3" Style="{StaticResource buttonStyle}" Opacity="0.3" MouseEnter="toolRedoButtonMouseEnter" MouseLeave="toolRedoButtonMouseLeave" Click="toolRedoButtonClick">
+                                <Button.Content>
+                                    <Image Source="images/toolRedo.png" Width="25" Height="25"/>
+                                </Button.Content>
+                            </Button>
+                            <Button Name="toolHorizontalButton" Grid.Row="1" Grid.Column="2" Style="{StaticResource buttonStyle}" Opacity="0.3" MouseEnter="toolHorizontalButtonMouseEnter" MouseLeave="toolHorizontalButtonMouseLeave" Click="toolHorizontalButtonClick">
+                                <Button.Content>
+                                    <Image Source="images/toolHorizontal.png" Width="25" Height="25"/>
+                                </Button.Content>
+                            </Button>
+                            <Button Name="toolVerticalButton"  Grid.Row="1" Grid.Column="3" Style="{StaticResource buttonStyle}" Opacity="0.3" MouseEnter="toolVerticalButtonMouseEnter" MouseLeave="toolVerticalButtonMouseLeave" Click="toolVerticalButtonClick">
+                                <Button.Content>
+                                    <Image Source="images/toolVertical.png" Width="25" Height="25"/>
+                                </Button.Content>
+                            </Button>
+                        </Grid>
+                        <TextBlock Grid.Row="1" FontSize="15" FontFamily="fonts/#Signika" Text="Tool" VerticalAlignment="Center" HorizontalAlignment="Center" Opacity="0.5"/>
+                    </Grid>
+                </Border>
+                <Border Grid.Column="5" BorderBrush="LightGray" BorderThickness="0 0 2 0">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="3*"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <Grid Grid.Row="0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="4*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <ListView Name="colorListview" Grid.Column="0" Background="Transparent" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Hidden" BorderThickness="0">
+                                <ListView.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <WrapPanel/>
+                                    </ItemsPanelTemplate>
+                                </ListView.ItemsPanel>
+                                <ListView.ItemTemplate>
+                                    <DataTemplate>
+                                        <Border Width="25" Height="25" CornerRadius="25" Margin="3 8.3" BorderThickness="1" BorderBrush="Black">
+                                            <Border.Style>
+                                                <Style TargetType="Border">
+                                                    <Setter Property="Background" Value="{Binding colorValue}"/>
+                                                </Style>
+                                            </Border.Style>
+                                        </Border>
+                                    </DataTemplate>
+                                </ListView.ItemTemplate>
+                                <ListView.ItemContainerStyle>
+                                    <Style TargetType="{x:Type ListViewItem}">
+                                        <EventSetter Event="PreviewMouseLeftButtonDown" Handler="colorListviewPreviewMouseButtonDown"/>
+                                        <EventSetter Event="PreviewMouseRightButtonDown" Handler="colorListviewPreviewMouseButtonDown"/>
+                                        <Setter Property="Cursor" Value="Hand"/>
+                                        <Setter Property="Background" Value="Transparent"/>
+                                        <Setter Property="Template">
+                                            <Setter.Value>
+                                                <ControlTemplate TargetType="ListViewItem">
+                                                    <WrapPanel>
+                                                        <ContentPresenter Margin="5 1"/>
+                                                    </WrapPanel>
+                                                </ControlTemplate>
+                                            </Setter.Value>
+                                        </Setter>
+                                        <Style.Triggers>
+                                            <Trigger Property="IsSelected" Value="True">
+                                                <Setter Property="Template">
+                                                    <Setter.Value>
+                                                        <ControlTemplate TargetType="ListBoxItem">
+                                                            <Border CornerRadius="5" BorderBrush="CornflowerBlue" BorderThickness="2" Width="35" Height="35" Margin="3 0">
+                                                                <ContentPresenter Margin="-4 -7"/>
+                                                            </Border>
+                                                        </ControlTemplate>
+                                                    </Setter.Value>
+                                                </Setter>
+                                            </Trigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </ListView.ItemContainerStyle>
+                            </ListView>
+                            <Button Name="customColorButton" Grid.Column="1" Style="{StaticResource buttonStyle}" Cursor="Hand" Margin="-5 0 0 0" Click="customColorButtonClick">
+                                <Button.Content>
+                                    <Grid>
+                                        <Image Source="images/colorCustom.png" Width="55" Height="55"/>
+                                        <Border BorderBrush="Black" BorderThickness="1" CornerRadius="40" Width="44" Height="44"/>
+                                    </Grid>
+                                </Button.Content>
+                            </Button>
+                        </Grid>
+                        <TextBlock Grid.Row="2" FontSize="15" FontFamily="fonts/#Signika" Text="Color" VerticalAlignment="Center" HorizontalAlignment="Center" Opacity="0.5"/>
+                    </Grid>
+                </Border>
+                <Border Grid.Column="6" BorderBrush="LightGray" BorderThickness="0 0 2 0">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="3*"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <Button Name="layerButton" Grid.Row="0"  Cursor="Hand" Style="{StaticResource buttonStyle}" Click="layerButtonClick">
                             <Button.Content>
-                                <Grid>
-                                    <Image Source="images/colorCustom.png" Width="55" Height="55"/>
-                                    <Border BorderBrush="Black" BorderThickness="1" CornerRadius="40" Width="44" Height="44"/>
-                                </Grid>
+                                <Image Source="images/layers.png" Width="45" Height="45"/>
                             </Button.Content>
                         </Button>
+                        <TextBlock Grid.Row="1" FontSize="15" FontFamily="fonts/#Signika" Text="Layers" VerticalAlignment="Center" HorizontalAlignment="Center" Opacity="0.5"/>
                     </Grid>
-                    <TextBlock Grid.Row="2" FontSize="15" FontFamily="fonts/#Signika" Text="Color" VerticalAlignment="Center" HorizontalAlignment="Center" Opacity="0.5"/>
-                </Grid>
-            </Border>
-            <Border Grid.Column="6" BorderBrush="LightGray" BorderThickness="0 0 2 0">
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="3*"/>
-                        <RowDefinition Height="*"/>
-                    </Grid.RowDefinitions>
-                    <Button Name="layerButton" Grid.Row="0"  Cursor="Hand" Style="{StaticResource buttonStyle}" Click="layerButtonClick">
-                        <Button.Content>
-                            <Image Source="images/layers.png" Width="45" Height="45"/>
-                        </Button.Content>
-                    </Button>
-                    <TextBlock Grid.Row="1" FontSize="15" FontFamily="fonts/#Signika" Text="Layers" VerticalAlignment="Center" HorizontalAlignment="Center" Opacity="0.5"/>
-                </Grid>
-            </Border>
+                </Border>
+            </Grid>
+            <Grid Grid.Row="2">
+                <Canvas Name="drawArea"/>
+                <Canvas Name="drawBackGround" Background="Transparent" MouseLeftButtonDown="drawAreaMouseLeftButtonDown" MouseMove="drawAreaMouseMove" MouseLeftButtonUp="drawAreaMouseLeftButtonUp" MouseRightButtonUp="drawBackGroundMouseRightButtonUp"/>
+                <ListView Name="layerListView" Background="CornflowerBlue" Width="135" Height="520" HorizontalAlignment="Right" VerticalAlignment="Top" Visibility="Collapsed" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Hidden" SelectionChanged="layerListViewSelectionChanged">
+                    <ListView.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <StackPanel Orientation="Vertical"/>
+                        </ItemsPanelTemplate>
+                    </ListView.ItemsPanel>
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Width="120" Height="30" Text="{Binding layerName}" FontFamily="fonts/#Signika" FontSize="20" TextAlignment="Center"/>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                    <ListView.ItemContainerStyle>
+                        <Style TargetType="{x:Type ListViewItem}">
+                            <Setter Property="Cursor" Value="Hand"/>
+                            <Setter Property="Margin" Value="5"/>
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="ListViewItem">
+                                        <ContentPresenter/>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                            <Style.Triggers>
+                                <Trigger Property="IsSelected" Value="True">
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="ListBoxItem">
+                                                <Grid Background="LightPink">
+                                                    <ContentPresenter/>
+                                                </Grid>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Trigger>
+                                <Trigger Property="IsSelected" Value="False">
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="ListBoxItem">
+                                                <Grid Background="White">
+                                                    <ContentPresenter/>
+                                                </Grid>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </ListView.ItemContainerStyle>
+                </ListView>
+                <Button Name="newLayerButton" Style="{StaticResource buttonStyle}" Background="CornflowerBlue" Width="135" Height="80" VerticalAlignment="Bottom" HorizontalAlignment="Right" Visibility="Collapsed" Click="newLayerButtonClick">
+                    <Button.Content>
+                        <TextBlock Text="+" Cursor="Hand" Width="120" Height="60" Background="White" Margin="5" FontFamily="fonts/#Signika" FontSize="50" TextAlignment="Center" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                    </Button.Content>
+                </Button>
+                <StackPanel Name="layerInformStackPanel" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="10" Orientation="Horizontal" Visibility="Collapsed">
+                    <TextBlock Text="Current Drawing Layer: " FontFamily="fonts/#Signika" FontSize="20" TextAlignment="Center"/>
+                    <TextBlock Name="layerInformTextBlock" FontFamily="fonts/#Signika" FontSize="20" TextAlignment="Center"/>
+                </StackPanel>
+            </Grid>
         </Grid>
-        <Grid Grid.Row="2">
-            <Canvas Name="drawArea"/>
-            <Canvas Name="drawBackGround" Background="Transparent" MouseLeftButtonDown="drawAreaMouseLeftButtonDown" MouseMove="drawAreaMouseMove" MouseLeftButtonUp="drawAreaMouseLeftButtonUp" MouseRightButtonUp="drawBackGroundMouseRightButtonUp"/>
-            <ListView Name="layerListView" Background="CornflowerBlue" Width="135" Height="520" HorizontalAlignment="Right" VerticalAlignment="Top" Visibility="Collapsed" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Hidden" SelectionChanged="layerListViewSelectionChanged">
-                <ListView.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <StackPanel Orientation="Vertical"/>
-                    </ItemsPanelTemplate>
-                </ListView.ItemsPanel>
-                <ListView.ItemTemplate>
-                    <DataTemplate>
-                        <TextBlock Width="120" Height="30" Text="{Binding layerName}" FontFamily="fonts/#Signika" FontSize="20" TextAlignment="Center"/>
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-                <ListView.ItemContainerStyle>
-                    <Style TargetType="{x:Type ListViewItem}">
-                        <Setter Property="Cursor" Value="Hand"/>
-                        <Setter Property="Margin" Value="5"/>
-                        <Setter Property="Template">
-                            <Setter.Value>
-                                <ControlTemplate TargetType="ListViewItem">
-                                    <ContentPresenter/>
-                                </ControlTemplate>
-                            </Setter.Value>
-                        </Setter>
-                        <Style.Triggers>
-                            <Trigger Property="IsSelected" Value="True">
-                                <Setter Property="Template">
-                                    <Setter.Value>
-                                        <ControlTemplate TargetType="ListBoxItem">
-                                            <Grid Background="LightPink">
-                                                <ContentPresenter/>
-                                            </Grid>
-                                        </ControlTemplate>
-                                    </Setter.Value>
-                                </Setter>
-                            </Trigger>
-                            <Trigger Property="IsSelected" Value="False">
-                                <Setter Property="Template">
-                                    <Setter.Value>
-                                        <ControlTemplate TargetType="ListBoxItem">
-                                            <Grid Background="White">
-                                                <ContentPresenter/>
-                                            </Grid>
-                                        </ControlTemplate>
-                                    </Setter.Value>
-                                </Setter>
-                            </Trigger>
-                        </Style.Triggers>
-                    </Style>
-                </ListView.ItemContainerStyle>
-            </ListView>
-            <Button Name="newLayerButton" Style="{StaticResource buttonStyle}" Background="CornflowerBlue" Width="135" Height="80" VerticalAlignment="Bottom" HorizontalAlignment="Right" Visibility="Collapsed" Click="newLayerButtonClick">
-                <Button.Content>
-                    <TextBlock Text="+" Cursor="Hand" Width="120" Height="60" Background="White" Margin="5" FontFamily="fonts/#Signika" FontSize="50" TextAlignment="Center" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                </Button.Content>
-            </Button>
-            <StackPanel Name="layerInformStackPanel" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="10" Orientation="Horizontal" Visibility="Collapsed">
-                <TextBlock Text="Current Drawing Layer: " FontFamily="fonts/#Signika" FontSize="20" TextAlignment="Center"/>
-                <TextBlock Name="layerInformTextBlock" FontFamily="fonts/#Signika" FontSize="20" TextAlignment="Center"/>
-            </StackPanel>
-        </Grid>
+        <Border Name="dialogBorder" CornerRadius="20" Background="LavenderBlush" Width="300" Height="100" Visibility="Collapsed">
+            <DockPanel>
+                <Grid DockPanel.Dock="Top">
+                    <TextBlock Text="Input your file name" FontFamily="fonts/#Signika" FontSize="20" Margin="15" HorizontalAlignment="Left"/>
+                    <Button Name="closeDialogButton" Style="{StaticResource closeWindowButton}" HorizontalContentAlignment="Right" Margin="15" Click="closeDialogButtonClick"/>
+                </Grid>
+                <Border CornerRadius="10" Width="200" Height="30" Background="White">
+                    <TextBox Name="fileNameTextBox" Width="180" Height="20" FontFamily="fonts/#Signika" FontSize="15" BorderThickness="0" KeyDown="fileNameTextBoxKeyDown"></TextBox>
+                </Border>
+            </DockPanel>
+        </Border>
     </Grid>
 </Window>

@@ -46,7 +46,10 @@ namespace myText
         private bool isFlipHorizontally;
         private bool isFlipVertically;
         private double rotateAngle = 0;
-
+        public IWidthness getWidthness() { return null; }
+        public IStroke getStrokeStyle() { return null; }
+        public IColor getColor() { return colorValue; }
+        public List<Point> getPointList() { return null; }
         public void setAngle(double angle)
         {
             rotateAngle = angle;

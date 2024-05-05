@@ -34,7 +34,10 @@ namespace myShiftRhombus
         private bool isFlipHorizontally;
         private bool isFlipVertically;
         private double rotateAngle = 0;
-
+        public IWidthness getWidthness() { return widthness; }
+        public IStroke getStrokeStyle() { return strokeStyle; }
+        public IColor getColor() { return colorValue; }
+        public List<Point> getPointList() { return null; }
         public void setAngle(double angle)
         {
             rotateAngle = angle;

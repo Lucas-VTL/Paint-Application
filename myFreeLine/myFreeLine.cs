@@ -51,6 +51,10 @@ namespace myFreeLine
         public void setFlipHorizontally(bool flipHorizontally) {}
         public void setFlipVertically(bool flipVertically) {}
         public void setAngle(double angle) { }
+        public IWidthness getWidthness() { return null; }
+        public IStroke getStrokeStyle() { return null; }
+        public IColor getColor() { return null; }
+        public List<Point> getPointList() { return list; }
         public double getAngle()
         {
             return 0;

@@ -23,7 +23,10 @@ namespace myShiftLine
         private Grid EditGrid;
         private Button StartButton;
         private Button EndButton;
-
+        public IWidthness getWidthness() { return widthness; }
+        public IStroke getStrokeStyle() { return strokeStyle; }
+        public IColor getColor() { return colorValue; }
+        public List<Point> getPointList() { return null; }
         public string shapeName => "ShiftLine";
         public string shapeImage => "";
 

@@ -48,6 +48,10 @@ namespace myShape
         bool getFlipVertically();
         void setAngle(double angle);
         double getAngle();
+        IWidthness getWidthness();
+        IStroke getStrokeStyle();
+        IColor getColor();
+        List<Point> getPointList();
         UIElement convertShapeType();
         string shapeName { get;}
         string shapeImage { get;}

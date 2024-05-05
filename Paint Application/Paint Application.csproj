@@ -88,6 +88,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Ookii.Dialogs.Wpf" Version="5.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Resource Include="images\styleFill.png" />
     <Resource Include="images\styleFillLine.png" />
     <Resource Include="images\toolHorizontal.png" />
