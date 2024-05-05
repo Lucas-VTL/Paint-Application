@@ -220,6 +220,29 @@ namespace myHeart
                 };
             }
 
+            if (isFlipHorizontally && !isFlipVertically)
+            {
+                element.RenderTransformOrigin = new Point(0.5, 0.5);
+                element.RenderTransform = new ScaleTransform(-1, 1);
+
+                Canvas.SetLeft(element, left);
+            }
+            else if (!isFlipHorizontally && isFlipVertically)
+            {
+                element.RenderTransformOrigin = new Point(0.5, 0.5);
+                element.RenderTransform = new ScaleTransform(1, -1);
+
+                Canvas.SetTop(element, top);
+            }
+            else if (isFlipHorizontally && isFlipVertically)
+            {
+                element.RenderTransformOrigin = new Point(0.5, 0.5);
+                element.RenderTransform = new ScaleTransform(-1, -1);
+
+                Canvas.SetLeft(element, left);
+                Canvas.SetTop(element, top);
+            }
+
             if (isEdit)
             {
                 Canvas canvas = new Canvas();
@@ -308,29 +331,6 @@ namespace myHeart
                 RotateButton.Background = Brushes.White;
                 Canvas.SetLeft(RotateButton, left + (width / 2) - 10);
                 Canvas.SetTop(RotateButton, top - 40);
-
-                if (isFlipHorizontally && !isFlipVertically)
-                {
-                    element.RenderTransformOrigin = new Point(0.5, 0.5);
-                    element.RenderTransform = new ScaleTransform(-1, 1);
-
-                    Canvas.SetLeft(element, left);
-                }
-                else if (!isFlipHorizontally && isFlipVertically)
-                {
-                    element.RenderTransformOrigin = new Point(0.5, 0.5);
-                    element.RenderTransform = new ScaleTransform(1, -1);
-
-                    Canvas.SetTop(element, top);
-                }
-                else if (isFlipHorizontally && isFlipVertically)
-                {
-                    element.RenderTransformOrigin = new Point(0.5, 0.5);
-                    element.RenderTransform = new ScaleTransform(-1, -1);
-
-                    Canvas.SetLeft(element, left);
-                    Canvas.SetTop(element, top);
-                }
 
                 canvas.Children.Add(rectangle);
                 canvas.Children.Add(element);

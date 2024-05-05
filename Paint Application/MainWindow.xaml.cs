@@ -1217,6 +1217,8 @@ namespace Paint_Application
                     newTextBox.LostFocus += newTextBoxLostFocus;
 
                     layerList[currentLayerIndex].drawSurface.Add(newText);
+                    drawSurface.Add(newText);
+
                     selectedShape = null;
                 }
 
@@ -2269,9 +2271,11 @@ namespace Paint_Application
                 if (layerList[currentLayerIndex].drawSurface[editShapeIndex].getFlipHorizontally())
                 {
                     layerList[currentLayerIndex].drawSurface[editShapeIndex].setFlipHorizontally(false);
+                    drawSurface[editShapeIndex].setFlipHorizontally(false);
                 } else
                 {
                     layerList[currentLayerIndex].drawSurface[editShapeIndex].setFlipHorizontally(true);
+                    drawSurface[editShapeIndex].setFlipHorizontally(true);
                 }
 
                 redrawCanvasAfterEdit();
@@ -2285,9 +2289,11 @@ namespace Paint_Application
                 if (layerList[currentLayerIndex].drawSurface[editShapeIndex].getFlipVertically())
                 {
                     layerList[currentLayerIndex].drawSurface[editShapeIndex].setFlipVertically(false);
+                    drawSurface[editShapeIndex].setFlipVertically(false);
                 } else
                 {
                     layerList[currentLayerIndex].drawSurface[editShapeIndex].setFlipVertically(true);
+                    drawSurface[editShapeIndex].setFlipVertically(true);
                 }
 
                 redrawCanvasAfterEdit();
