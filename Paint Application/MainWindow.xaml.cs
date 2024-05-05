@@ -2,6 +2,7 @@
 using myShape;
 using myStroke;
 using myWidthness;
+using System.Data;
 using System.IO;
 using System.Reflection;
 using System.Text.RegularExpressions;
@@ -18,6 +19,7 @@ using Cursors = System.Windows.Input.Cursors;
 using KeyEventArgs = System.Windows.Input.KeyEventArgs;
 using ListView = System.Windows.Controls.ListView;
 using ListViewItem = System.Windows.Controls.ListViewItem;
+using MessageBox = System.Windows.MessageBox;
 using MouseEventArgs = System.Windows.Input.MouseEventArgs;
 using Point = System.Windows.Point;
 using TextBox = System.Windows.Controls.TextBox;
@@ -116,6 +118,7 @@ namespace Paint_Application
         //List drawSurface giúp lưu trữ các nét vẽ trên 1 bề mặt
         private List<Layer> layerList = new List<Layer>();
         private int currentLayerIndex;
+        private List<IShape> drawSurface = new List<IShape>();
 
         //List recoverList giúp lưu trữ lại các nét vẽ đã bị xóa hoặc undo
         private List<IShape> recoverList = new List<IShape>();
@@ -223,10 +226,10 @@ namespace Paint_Application
             drawArea.Children.Clear();
             drawBackGround.Children.Clear();
 
-            for (int i = 0; i < layerList[currentLayerIndex].drawSurface.Count; i++)
+            for (int i = 0; i < drawSurface.Count; i++)
             {
-                layerList[currentLayerIndex].drawSurface[i].setEdit(false);
-                drawArea.Children.Add(layerList[currentLayerIndex].drawSurface[i].convertShapeType());
+                drawSurface[i].setEdit(false);
+                drawArea.Children.Add(drawSurface[i].convertShapeType());
             }
 
             toolHorizontalButton.Opacity = 0.3;
@@ -279,10 +282,10 @@ namespace Paint_Application
             drawArea.Children.Clear();
             drawBackGround.Children.Clear();
 
-            for (int i = 0; i < layerList[currentLayerIndex].drawSurface.Count; i++)
+            for (int i = 0; i < drawSurface.Count; i++)
             {
-                layerList[currentLayerIndex].drawSurface[i].setEdit(false);
-                drawArea.Children.Add(layerList[currentLayerIndex].drawSurface[i].convertShapeType());
+                drawSurface[i].setEdit(false);
+                drawArea.Children.Add(drawSurface[i].convertShapeType());
             }
 
             toolHorizontalButton.Opacity = 0.3;
@@ -318,10 +321,10 @@ namespace Paint_Application
             drawArea.Children.Clear();
             drawBackGround.Children.Clear();
 
-            for (int i = 0; i < layerList[currentLayerIndex].drawSurface.Count; i++)
+            for (int i = 0; i < drawSurface.Count; i++)
             {
-                layerList[currentLayerIndex].drawSurface[i].setEdit(false);
-                drawArea.Children.Add(layerList[currentLayerIndex].drawSurface[i].convertShapeType());
+                drawSurface[i].setEdit(false);
+                drawArea.Children.Add(drawSurface[i].convertShapeType());
             }
 
             toolHorizontalButton.Opacity = 0.3;
@@ -380,10 +383,10 @@ namespace Paint_Application
             drawArea.Children.Clear();
             drawBackGround.Children.Clear();
 
-            for (int i = 0; i < layerList[currentLayerIndex].drawSurface.Count; i++)
+            for (int i = 0; i < drawSurface.Count; i++)
             {
-                layerList[currentLayerIndex].drawSurface[i].setEdit(false);
-                drawArea.Children.Add(layerList[currentLayerIndex].drawSurface[i].convertShapeType());
+                drawSurface[i].setEdit(false);
+                drawArea.Children.Add(drawSurface[i].convertShapeType());
             }
 
             toolHorizontalButton.Opacity = 0.3;
@@ -405,10 +408,10 @@ namespace Paint_Application
             drawArea.Children.Clear();
             drawBackGround.Children.Clear();
 
-            for (int i = 0; i < layerList[currentLayerIndex].drawSurface.Count; i++)
+            for (int i = 0; i < drawSurface.Count; i++)
             {
-                layerList[currentLayerIndex].drawSurface[i].setEdit(false);
-                drawArea.Children.Add(layerList[currentLayerIndex].drawSurface[i].convertShapeType());
+                drawSurface[i].setEdit(false);
+                drawArea.Children.Add(drawSurface[i].convertShapeType());
             }
 
             toolHorizontalButton.Opacity = 0.3;
@@ -432,10 +435,10 @@ namespace Paint_Application
             drawArea.Children.Clear();
             drawBackGround.Children.Clear();
 
-            for (int i = 0; i < layerList[currentLayerIndex].drawSurface.Count; i++)
+            for (int i = 0; i < drawSurface.Count; i++)
             {
-                layerList[currentLayerIndex].drawSurface[i].setEdit(false);
-                drawArea.Children.Add(layerList[currentLayerIndex].drawSurface[i].convertShapeType());
+                drawSurface[i].setEdit(false);
+                drawArea.Children.Add(drawSurface[i].convertShapeType());
             }
 
             toolHorizontalButton.Opacity = 0.3;
@@ -470,10 +473,10 @@ namespace Paint_Application
             drawArea.Children.Clear();
             drawBackGround.Children.Clear();
 
-            for (int i = 0; i < layerList[currentLayerIndex].drawSurface.Count; i++)
+            for (int i = 0; i < drawSurface.Count; i++)
             {
-                layerList[currentLayerIndex].drawSurface[i].setEdit(false);
-                drawArea.Children.Add(layerList[currentLayerIndex].drawSurface[i].convertShapeType());
+                drawSurface[i].setEdit(false);
+                drawArea.Children.Add(drawSurface[i].convertShapeType());
             }
 
             toolHorizontalButton.Opacity = 0.3;
@@ -542,10 +545,10 @@ namespace Paint_Application
             drawArea.Children.Clear();
             drawBackGround.Children.Clear();
 
-            for (int i = 0; i < layerList[currentLayerIndex].drawSurface.Count; i++)
+            for (int i = 0; i < drawSurface.Count; i++)
             {
-                layerList[currentLayerIndex].drawSurface[i].setEdit(false);
-                drawArea.Children.Add(layerList[currentLayerIndex].drawSurface[i].convertShapeType());
+                drawSurface[i].setEdit(false);
+                drawArea.Children.Add(drawSurface[i].convertShapeType());
             }
 
             toolHorizontalButton.Opacity = 0.3;
@@ -635,10 +638,10 @@ namespace Paint_Application
             drawArea.Children.Clear();
             drawBackGround.Children.Clear();
 
-            for (int i = 0; i < layerList[currentLayerIndex].drawSurface.Count; i++)
+            for (int i = 0; i < drawSurface.Count; i++)
             {
-                layerList[currentLayerIndex].drawSurface[i].setEdit(false);
-                drawArea.Children.Add(layerList[currentLayerIndex].drawSurface[i].convertShapeType());
+                drawSurface[i].setEdit(false);
+                drawArea.Children.Add(drawSurface[i].convertShapeType());
             }
 
             toolHorizontalButton.Opacity = 0.3;
@@ -684,10 +687,10 @@ namespace Paint_Application
             drawArea.Children.Clear();
             drawBackGround.Children.Clear();
 
-            for (int i = 0; i < layerList[currentLayerIndex].drawSurface.Count; i++)
+            for (int i = 0; i < drawSurface.Count; i++)
             {
-                layerList[currentLayerIndex].drawSurface[i].setEdit(false);
-                drawArea.Children.Add(layerList[currentLayerIndex].drawSurface[i].convertShapeType());
+                drawSurface[i].setEdit(false);
+                drawArea.Children.Add(drawSurface[i].convertShapeType());
             }
 
             toolHorizontalButton.Opacity = 0.3;
@@ -739,10 +742,10 @@ namespace Paint_Application
             drawArea.Children.Clear();
             drawBackGround.Children.Clear();
 
-            for (int i = 0; i < layerList[currentLayerIndex].drawSurface.Count; i++)
+            for (int i = 0; i < drawSurface.Count; i++)
             {
-                layerList[currentLayerIndex].drawSurface[i].setEdit(false);
-                drawArea.Children.Add(layerList[currentLayerIndex].drawSurface[i].convertShapeType());
+                drawSurface[i].setEdit(false);
+                drawArea.Children.Add(drawSurface[i].convertShapeType());
             }
 
             toolHorizontalButton.Opacity = 0.3;
@@ -756,6 +759,7 @@ namespace Paint_Application
             if (selectedShape != null)
             {
                 layerList[currentLayerIndex].drawSurface.Add((IShape)selectedShape.Clone());
+                drawSurface.Add((IShape)selectedShape.Clone());
                 toolUndoButton.Opacity = 1;
                 toolRedoButton.Opacity = 0.3;
                 recoverList.Clear();
@@ -806,7 +810,7 @@ namespace Paint_Application
                 endPoint = e.GetPosition(drawArea);
                 drawArea.Children.Clear();
 
-                foreach (var item in layerList[currentLayerIndex].drawSurface)
+                foreach (var item in drawSurface)
                 {
                     drawArea.Children.Add(item.convertShapeType());
                 }
@@ -886,8 +890,8 @@ namespace Paint_Application
                     switch (editType)
                     {
                         case "Left Top Editting":
-                            oldX = layerList[currentLayerIndex].drawSurface[editShapeIndex].getEndPoint().X;
-                            oldY = layerList[currentLayerIndex].drawSurface[editShapeIndex].getEndPoint().Y;
+                            oldX = drawSurface[editShapeIndex].getEndPoint().X;
+                            oldY = drawSurface[editShapeIndex].getEndPoint().Y;
 
                             newX = oldX - 20;
                             newY = oldY - 20;
@@ -897,21 +901,21 @@ namespace Paint_Application
 
                             if (!outRangeX && !outRangeY)
                             {
-                                layerList[currentLayerIndex].drawSurface[editShapeIndex].addStartPoint(point);
+                                drawSurface[editShapeIndex].addStartPoint(point);
                             } else if (outRangeX && !outRangeY)
                             {
-                                layerList[currentLayerIndex].drawSurface[editShapeIndex].addStartPoint(new Point(newX, point.Y));
+                                drawSurface[editShapeIndex].addStartPoint(new Point(newX, point.Y));
                             } else if (!outRangeX && outRangeY)
                             {
-                                layerList[currentLayerIndex].drawSurface[editShapeIndex].addStartPoint(new Point(point.X, newY));
+                                drawSurface[editShapeIndex].addStartPoint(new Point(point.X, newY));
                             } else
                             {
-                                layerList[currentLayerIndex].drawSurface[editShapeIndex].addStartPoint(new Point(newX, newY));
+                                drawSurface[editShapeIndex].addStartPoint(new Point(newX, newY));
                             }
                             break;
                         case "Right Bottom Editting":
-                            oldX = layerList[currentLayerIndex].drawSurface[editShapeIndex].getStartPoint().X;
-                            oldY = layerList[currentLayerIndex].drawSurface[editShapeIndex].getStartPoint().Y;
+                            oldX = drawSurface[editShapeIndex].getStartPoint().X;
+                            oldY = drawSurface[editShapeIndex].getStartPoint().Y;
 
                             newX = oldX + 20;
                             newY = oldY + 20;
@@ -921,24 +925,24 @@ namespace Paint_Application
 
                             if (!outRangeX && !outRangeY)
                             {
-                                layerList[currentLayerIndex].drawSurface[editShapeIndex].addEndPoint(point);
+                                drawSurface[editShapeIndex].addEndPoint(point);
                             }
                             else if (outRangeX && !outRangeY)
                             {
-                                layerList[currentLayerIndex].drawSurface[editShapeIndex].addEndPoint(new Point(newX, point.Y));
+                                drawSurface[editShapeIndex].addEndPoint(new Point(newX, point.Y));
                             }
                             else if (!outRangeX && outRangeY)
                             {
-                                layerList[currentLayerIndex].drawSurface[editShapeIndex].addEndPoint(new Point(point.X, newY));
+                                drawSurface[editShapeIndex].addEndPoint(new Point(point.X, newY));
                             }
                             else
                             {
-                                layerList[currentLayerIndex].drawSurface[editShapeIndex].addEndPoint(new Point(newX, newY));
+                                drawSurface[editShapeIndex].addEndPoint(new Point(newX, newY));
                             }
                             break;
                         case "Right Top Editting":
-                            oldX = layerList[currentLayerIndex].drawSurface[editShapeIndex].getStartPoint().X;
-                            oldY = layerList[currentLayerIndex].drawSurface[editShapeIndex].getEndPoint().Y;
+                            oldX = drawSurface[editShapeIndex].getStartPoint().X;
+                            oldY = drawSurface[editShapeIndex].getEndPoint().Y;
 
                             newX = oldX + 20;
                             newY = oldY - 20;
@@ -948,28 +952,28 @@ namespace Paint_Application
 
                             if (!outRangeX && !outRangeY)
                             {
-                                layerList[currentLayerIndex].drawSurface[editShapeIndex].addStartPoint(new Point(layerList[currentLayerIndex].drawSurface[editShapeIndex].getStartPoint().X, point.Y));
-                                layerList[currentLayerIndex].drawSurface[editShapeIndex].addEndPoint(new Point(point.X, layerList[currentLayerIndex].drawSurface[editShapeIndex].getEndPoint().Y));
+                                drawSurface[editShapeIndex].addStartPoint(new Point(drawSurface[editShapeIndex].getStartPoint().X, point.Y));
+                                drawSurface[editShapeIndex].addEndPoint(new Point(point.X, drawSurface[editShapeIndex].getEndPoint().Y));
                             }
                             else if (outRangeX && !outRangeY)
                             {
-                                layerList[currentLayerIndex].drawSurface[editShapeIndex].addStartPoint(new Point(layerList[currentLayerIndex].drawSurface[editShapeIndex].getStartPoint().X, point.Y));
-                                layerList[currentLayerIndex].drawSurface[editShapeIndex].addEndPoint(new Point(newX, layerList[currentLayerIndex].drawSurface[editShapeIndex].getEndPoint().Y));
+                                drawSurface[editShapeIndex].addStartPoint(new Point(drawSurface[editShapeIndex].getStartPoint().X, point.Y));
+                                drawSurface[editShapeIndex].addEndPoint(new Point(newX, drawSurface[editShapeIndex].getEndPoint().Y));
                             }
                             else if (!outRangeX && outRangeY)
                             {
-                                layerList[currentLayerIndex].drawSurface[editShapeIndex].addStartPoint(new Point(layerList[currentLayerIndex].drawSurface[editShapeIndex].getStartPoint().X, newY));
-                                layerList[currentLayerIndex].drawSurface[editShapeIndex].addEndPoint(new Point(point.X, layerList[currentLayerIndex].drawSurface[editShapeIndex].getEndPoint().Y));
+                                drawSurface[editShapeIndex].addStartPoint(new Point(drawSurface[editShapeIndex].getStartPoint().X, newY));
+                                drawSurface[editShapeIndex].addEndPoint(new Point(point.X, drawSurface[editShapeIndex].getEndPoint().Y));
                             }
                             else
                             {
-                                layerList[currentLayerIndex].drawSurface[editShapeIndex].addStartPoint(new Point(layerList[currentLayerIndex].drawSurface[editShapeIndex].getStartPoint().X, newY));
-                                layerList[currentLayerIndex].drawSurface[editShapeIndex].addEndPoint(new Point(newX, layerList[currentLayerIndex].drawSurface[editShapeIndex].getEndPoint().Y));
+                                drawSurface[editShapeIndex].addStartPoint(new Point(drawSurface[editShapeIndex].getStartPoint().X, newY));
+                                drawSurface[editShapeIndex].addEndPoint(new Point(newX, drawSurface[editShapeIndex].getEndPoint().Y));
                             }
                             break;
                         case "Left Bottom Editting":
-                            oldX = layerList[currentLayerIndex].drawSurface[editShapeIndex].getEndPoint().X;
-                            oldY = layerList[currentLayerIndex].drawSurface[editShapeIndex].getStartPoint().Y;
+                            oldX = drawSurface[editShapeIndex].getEndPoint().X;
+                            oldY = drawSurface[editShapeIndex].getStartPoint().Y;
 
                             newX = oldX - 20;
                             newY = oldY + 20;
@@ -979,82 +983,82 @@ namespace Paint_Application
 
                             if (!outRangeX && !outRangeY)
                             {
-                                layerList[currentLayerIndex].drawSurface[editShapeIndex].addStartPoint(new Point(point.X, layerList[currentLayerIndex].drawSurface[editShapeIndex].getStartPoint().Y));
-                                layerList[currentLayerIndex].drawSurface[editShapeIndex].addEndPoint(new Point(layerList[currentLayerIndex].drawSurface[editShapeIndex].getEndPoint().X, point.Y));
+                                drawSurface[editShapeIndex].addStartPoint(new Point(point.X, drawSurface[editShapeIndex].getStartPoint().Y));
+                                drawSurface[editShapeIndex].addEndPoint(new Point(drawSurface[editShapeIndex].getEndPoint().X, point.Y));
                             }
                             else if (outRangeX && !outRangeY)
                             {
-                                layerList[currentLayerIndex].drawSurface[editShapeIndex].addStartPoint(new Point(newX, layerList[currentLayerIndex].drawSurface[editShapeIndex].getStartPoint().Y));
-                                layerList[currentLayerIndex].drawSurface[editShapeIndex].addEndPoint(new Point(layerList[currentLayerIndex].drawSurface[editShapeIndex].getEndPoint().X, point.Y));
+                                drawSurface[editShapeIndex].addStartPoint(new Point(newX, drawSurface[editShapeIndex].getStartPoint().Y));
+                                drawSurface[editShapeIndex].addEndPoint(new Point(drawSurface[editShapeIndex].getEndPoint().X, point.Y));
                             }
                             else if (!outRangeX && outRangeY)
                             {
-                                layerList[currentLayerIndex].drawSurface[editShapeIndex].addStartPoint(new Point(point.X, layerList[currentLayerIndex].drawSurface[editShapeIndex].getStartPoint().Y));
-                                layerList[currentLayerIndex].drawSurface[editShapeIndex].addEndPoint(new Point(layerList[currentLayerIndex].drawSurface[editShapeIndex].getEndPoint().X, newY));
+                                drawSurface[editShapeIndex].addStartPoint(new Point(point.X, drawSurface[editShapeIndex].getStartPoint().Y));
+                                drawSurface[editShapeIndex].addEndPoint(new Point(drawSurface[editShapeIndex].getEndPoint().X, newY));
                             }
                             else
                             {
-                                layerList[currentLayerIndex].drawSurface[editShapeIndex].addStartPoint(new Point(newX, layerList[currentLayerIndex].drawSurface[editShapeIndex].getStartPoint().Y));
-                                layerList[currentLayerIndex].drawSurface[editShapeIndex].addEndPoint(new Point(layerList[currentLayerIndex].drawSurface[editShapeIndex].getEndPoint().X, newY));
+                                drawSurface[editShapeIndex].addStartPoint(new Point(newX, drawSurface[editShapeIndex].getStartPoint().Y));
+                                drawSurface[editShapeIndex].addEndPoint(new Point(drawSurface[editShapeIndex].getEndPoint().X, newY));
                             }
                             break;
                         case "Left Center Editting":
-                            oldX = layerList[currentLayerIndex].drawSurface[editShapeIndex].getEndPoint().X;
+                            oldX = drawSurface[editShapeIndex].getEndPoint().X;
                             newX = oldX - 20;
 
                             if (point.X + 20 > oldX) { outRangeX = true; }
 
                             if (!outRangeX)
                             {
-                                layerList[currentLayerIndex].drawSurface[editShapeIndex].addStartPoint(new Point(point.X, layerList[currentLayerIndex].drawSurface[editShapeIndex].getStartPoint().Y));
+                                drawSurface[editShapeIndex].addStartPoint(new Point(point.X, drawSurface[editShapeIndex].getStartPoint().Y));
                             } else
                             {
-                                layerList[currentLayerIndex].drawSurface[editShapeIndex].addStartPoint(new Point(newX, layerList[currentLayerIndex].drawSurface[editShapeIndex].getStartPoint().Y));
+                                drawSurface[editShapeIndex].addStartPoint(new Point(newX, drawSurface[editShapeIndex].getStartPoint().Y));
                             }
                             break;
                         case "Right Center Editting":
-                            oldX = layerList[currentLayerIndex].drawSurface[editShapeIndex].getStartPoint().X;
+                            oldX = drawSurface[editShapeIndex].getStartPoint().X;
                             newX = oldX + 20;
 
                             if (point.X - 20 < oldX) { outRangeX = true; }
 
                             if (!outRangeX)
                             {
-                                layerList[currentLayerIndex].drawSurface[editShapeIndex].addEndPoint(new Point(point.X, layerList[currentLayerIndex].drawSurface[editShapeIndex].getEndPoint().Y));
+                                drawSurface[editShapeIndex].addEndPoint(new Point(point.X, drawSurface[editShapeIndex].getEndPoint().Y));
                             }
                             else
                             {
-                                layerList[currentLayerIndex].drawSurface[editShapeIndex].addEndPoint(new Point(newX, layerList[currentLayerIndex].drawSurface[editShapeIndex].getEndPoint().Y));
+                                drawSurface[editShapeIndex].addEndPoint(new Point(newX, drawSurface[editShapeIndex].getEndPoint().Y));
                             }
                             break;
                         case "Top Center Editting":
-                            oldY = layerList[currentLayerIndex].drawSurface[editShapeIndex].getEndPoint().Y;
+                            oldY = drawSurface[editShapeIndex].getEndPoint().Y;
                             newY = oldY - 20;
 
                             if (point.Y + 20 > oldY) { outRangeY = true; }
 
                             if (!outRangeY)
                             {
-                                layerList[currentLayerIndex].drawSurface[editShapeIndex].addStartPoint(new Point(layerList[currentLayerIndex].drawSurface[editShapeIndex].getStartPoint().X, point.Y));
+                                drawSurface[editShapeIndex].addStartPoint(new Point(drawSurface[editShapeIndex].getStartPoint().X, point.Y));
                             }
                             else
                             {
-                                layerList[currentLayerIndex].drawSurface[editShapeIndex].addStartPoint(new Point(layerList[currentLayerIndex].drawSurface[editShapeIndex].getStartPoint().X, newY));
+                                drawSurface[editShapeIndex].addStartPoint(new Point(drawSurface[editShapeIndex].getStartPoint().X, newY));
                             }
                             break;
                         case "Bottom Center Editting":
-                            oldY = layerList[currentLayerIndex].drawSurface[editShapeIndex].getStartPoint().Y;
+                            oldY = drawSurface[editShapeIndex].getStartPoint().Y;
                             newY = oldY + 20;
 
                             if (point.Y - 20 < oldY) { outRangeY = true; }
 
                             if (!outRangeY)
                             {
-                                layerList[currentLayerIndex].drawSurface[editShapeIndex].addEndPoint(new Point(layerList[currentLayerIndex].drawSurface[editShapeIndex].getEndPoint().X, point.Y));
+                                drawSurface[editShapeIndex].addEndPoint(new Point(drawSurface[editShapeIndex].getEndPoint().X, point.Y));
                             }
                             else
                             {
-                                layerList[currentLayerIndex].drawSurface[editShapeIndex].addEndPoint(new Point(layerList[currentLayerIndex].drawSurface[editShapeIndex].getEndPoint().X, newY));
+                                drawSurface[editShapeIndex].addEndPoint(new Point(drawSurface[editShapeIndex].getEndPoint().X, newY));
                             }
                             break;
                         case "Move Editting":
@@ -1064,14 +1068,14 @@ namespace Paint_Application
                             double newEndX = point.X - movingEndX;
                             double newEndY = point.Y - movingEndY;
 
-                            layerList[currentLayerIndex].drawSurface[editShapeIndex].addStartPoint(new Point(newStartX, newStartY));
-                            layerList[currentLayerIndex].drawSurface[editShapeIndex].addEndPoint(new Point(newEndX, newEndY));
+                            drawSurface[editShapeIndex].addStartPoint(new Point(newStartX, newStartY));
+                            drawSurface[editShapeIndex].addEndPoint(new Point(newEndX, newEndY));
                             break;
                         case "Start Point Editting":
-                            layerList[currentLayerIndex].drawSurface[editShapeIndex].addStartPoint(point);
+                            drawSurface[editShapeIndex].addStartPoint(point);
                             break;
                         case "End Point Editting":
-                            layerList[currentLayerIndex].drawSurface[editShapeIndex].addEndPoint(point);
+                            drawSurface[editShapeIndex].addEndPoint(point);
                             break;
                     }
 
@@ -1100,10 +1104,7 @@ namespace Paint_Application
 
             layerListView.Visibility = Visibility.Collapsed;
             newLayerButton.Visibility = Visibility.Collapsed;
-
-            layerListView.ItemsSource = "";
-            layerListView.ItemsSource = layerList;
-            layerListView.SelectedIndex = currentLayerIndex;
+            layerInformStackPanel.Visibility = Visibility.Collapsed;
 
             if (isFunctionSelected)
             {
@@ -1179,10 +1180,10 @@ namespace Paint_Application
                     drawArea.Children.Clear();
                     drawBackGround.Children.Clear();
 
-                    for (int i = 0; i < layerList[currentLayerIndex].drawSurface.Count; i++)
+                    for (int i = 0; i < drawSurface.Count; i++)
                     {
-                        layerList[currentLayerIndex].drawSurface[i].setEdit(false);
-                        drawArea.Children.Add(layerList[currentLayerIndex].drawSurface[i].convertShapeType());
+                        drawSurface[i].setEdit(false);
+                        drawArea.Children.Add(drawSurface[i].convertShapeType());
                     }
 
                     toolHorizontalButton.Opacity = 0.3;
@@ -1213,11 +1214,11 @@ namespace Paint_Application
             editType = "Move Editting";
             movingPoint = e.GetPosition(drawArea);
 
-            movingStartX = movingPoint.X - layerList[currentLayerIndex].drawSurface[editShapeIndex].getStartPoint().X;
-            movingStartY = movingPoint.Y - layerList[currentLayerIndex].drawSurface[editShapeIndex].getStartPoint().Y;
+            movingStartX = movingPoint.X - drawSurface[editShapeIndex].getStartPoint().X;
+            movingStartY = movingPoint.Y - drawSurface[editShapeIndex].getStartPoint().Y;
 
-            movingEndX = movingPoint.X - layerList[currentLayerIndex].drawSurface[editShapeIndex].getEndPoint().X;
-            movingEndY = movingPoint.Y - layerList[currentLayerIndex].drawSurface[editShapeIndex].getEndPoint().Y;
+            movingEndX = movingPoint.X - drawSurface[editShapeIndex].getEndPoint().X;
+            movingEndY = movingPoint.Y - drawSurface[editShapeIndex].getEndPoint().Y;
         }
         private void BottomCenterButtonPreviewMouseRightButtonDown(object sender, MouseButtonEventArgs e)
         {
@@ -1476,10 +1477,10 @@ namespace Paint_Application
                     drawArea.Children.Clear();
                     drawBackGround.Children.Clear();
 
-                    for (int i = 0; i < layerList[currentLayerIndex].drawSurface.Count; i++)
+                    for (int i = 0; i < drawSurface.Count; i++)
                     {
-                        layerList[currentLayerIndex].drawSurface[i].setEdit(false);
-                        drawArea.Children.Add(layerList[currentLayerIndex].drawSurface[i].convertShapeType());
+                        drawSurface[i].setEdit(false);
+                        drawArea.Children.Add(drawSurface[i].convertShapeType());
                     }
 
                     toolHorizontalButton.Opacity = 0.3;
@@ -1504,10 +1505,10 @@ namespace Paint_Application
                     drawArea.Children.Clear();
                     drawBackGround.Children.Clear();
 
-                    for (int i = 0; i < layerList[currentLayerIndex].drawSurface.Count; i++)
+                    for (int i = 0; i < drawSurface.Count; i++)
                     {
-                        layerList[currentLayerIndex].drawSurface[i].setEdit(false);
-                        drawArea.Children.Add(layerList[currentLayerIndex].drawSurface[i].convertShapeType());
+                        drawSurface[i].setEdit(false);
+                        drawArea.Children.Add(drawSurface[i].convertShapeType());
                     }
 
                     toolHorizontalButton.Opacity = 0.3;
@@ -1522,25 +1523,48 @@ namespace Paint_Application
                 }
             }
 
-            if (e.Key == Key.Delete && editShapeIndex != -1)
+            if (e.Key == Key.Delete)
             {
-                layerList[currentLayerIndex].drawSurface.RemoveAt(editShapeIndex);
-
-                drawArea.Children.Clear();
-                drawBackGround.Children.Clear();
-
-                for (int i = 0; i < layerList[currentLayerIndex].drawSurface.Count; i++)
+                if (editShapeIndex != -1)
                 {
-                    layerList[currentLayerIndex].drawSurface[i].setEdit(false);
-                    drawArea.Children.Add(layerList[currentLayerIndex].drawSurface[i].convertShapeType());
+                    layerList[currentLayerIndex].drawSurface.RemoveAt(editShapeIndex);
+
+                    drawArea.Children.Clear();
+                    drawBackGround.Children.Clear();
+
+                    for (int i = 0; i < drawSurface.Count; i++)
+                    {
+                        drawSurface[i].setEdit(false);
+                        drawArea.Children.Add(drawSurface[i].convertShapeType());
+                    }
+
+                    toolHorizontalButton.Opacity = 0.3;
+                    toolVerticalButton.Opacity = 0.3;
+
+                    if (layerList[currentLayerIndex].drawSurface.Count == 0)
+                    {
+                        toolUndoButton.Opacity = 0.3;
+                    }
+
+                    return;
                 }
 
-                toolHorizontalButton.Opacity = 0.3;
-                toolVerticalButton.Opacity = 0.3;
-
-                if (layerList[currentLayerIndex].drawSurface.Count == 0)
+                if (layerListView.Visibility == Visibility.Visible)
                 {
-                    toolUndoButton.Opacity = 0.3;
+                    if (layerList.Count > 1) 
+                    {
+                        layerList.RemoveAt(currentLayerIndex);
+                        currentLayerIndex = 0;
+                        layerListView.ItemsSource = "";
+                        layerListView.ItemsSource = layerList;
+                        layerListView.SelectedIndex = currentLayerIndex;
+                    } else
+                    {
+                        MessageBox.Show("This is the last layer. Cannot delete", "Unable to delete", MessageBoxButton.OK, MessageBoxImage.Error);
+                        layerButton.Focusable = false;
+;                   }
+
+                    return;
                 }
             }
 
@@ -1577,10 +1601,10 @@ namespace Paint_Application
                     drawArea.Children.Clear();
                     drawBackGround.Children.Clear();
 
-                    for (int i = 0; i < layerList[currentLayerIndex].drawSurface.Count; i++)
+                    for (int i = 0; i < drawSurface.Count; i++)
                     {
-                        layerList[currentLayerIndex].drawSurface[i].setEdit(false);
-                        drawArea.Children.Add(layerList[currentLayerIndex].drawSurface[i].convertShapeType());
+                        drawSurface[i].setEdit(false);
+                        drawArea.Children.Add(drawSurface[i].convertShapeType());
                     }
 
                     toolHorizontalButton.Opacity = 0.3;
@@ -1596,10 +1620,10 @@ namespace Paint_Application
                     drawArea.Children.Clear();
                     drawBackGround.Children.Clear();
 
-                    for (int i = 0; i < layerList[currentLayerIndex].drawSurface.Count; i++)
+                    for (int i = 0; i < drawSurface.Count; i++)
                     {
-                        layerList[currentLayerIndex].drawSurface[i].setEdit(false);
-                        drawArea.Children.Add(layerList[currentLayerIndex].drawSurface[i].convertShapeType());
+                        drawSurface[i].setEdit(false);
+                        drawArea.Children.Add(drawSurface[i].convertShapeType());
                     }
 
                     toolHorizontalButton.Opacity = 0.3;
@@ -1664,10 +1688,10 @@ namespace Paint_Application
             drawArea.Children.Clear();
             drawBackGround.Children.Clear();
 
-            for (int i = 0; i < layerList[currentLayerIndex].drawSurface.Count; i++)
+            for (int i = 0; i < drawSurface.Count; i++)
             {
-                layerList[currentLayerIndex].drawSurface[i].setEdit(false);
-                drawArea.Children.Add(layerList[currentLayerIndex].drawSurface[i].convertShapeType());
+                drawSurface[i].setEdit(false);
+                drawArea.Children.Add(drawSurface[i].convertShapeType());
             }
 
             toolHorizontalButton.Opacity = 0.3;
@@ -1689,10 +1713,10 @@ namespace Paint_Application
             drawArea.Children.Clear();
             drawBackGround.Children.Clear();
 
-            for (int i = 0; i < layerList[currentLayerIndex].drawSurface.Count; i++)
+            for (int i = 0; i < drawSurface.Count; i++)
             {
-                layerList[currentLayerIndex].drawSurface[i].setEdit(false);
-                drawArea.Children.Add(layerList[currentLayerIndex].drawSurface[i].convertShapeType());
+                drawSurface[i].setEdit(false);
+                drawArea.Children.Add(drawSurface[i].convertShapeType());
             }
 
             toolHorizontalButton.Opacity = 0.3;
@@ -1707,10 +1731,10 @@ namespace Paint_Application
             drawArea.Children.Clear();
             drawBackGround.Children.Clear();
 
-            for (int i = 0; i < layerList[currentLayerIndex].drawSurface.Count; i++)
+            for (int i = 0; i < drawSurface.Count; i++)
             {
-                layerList[currentLayerIndex].drawSurface[i].setEdit(false);
-                drawArea.Children.Add(layerList[currentLayerIndex].drawSurface[i].convertShapeType());
+                drawSurface[i].setEdit(false);
+                drawArea.Children.Add(drawSurface[i].convertShapeType());
             }
 
             toolHorizontalButton.Opacity = 0.3;
@@ -1832,10 +1856,10 @@ namespace Paint_Application
                 drawArea.Children.Clear();
                 drawBackGround.Children.Clear();
 
-                for (int i = 0; i < layerList[currentLayerIndex].drawSurface.Count; i++)
+                for (int i = 0; i < drawSurface.Count; i++)
                 {
-                    layerList[currentLayerIndex].drawSurface[i].setEdit(false);
-                    drawArea.Children.Add(layerList[currentLayerIndex].drawSurface[i].convertShapeType());
+                    drawSurface[i].setEdit(false);
+                    drawArea.Children.Add(drawSurface[i].convertShapeType());
                 }
 
                 toolHorizontalButton.Opacity = 0.3;
@@ -1860,10 +1884,10 @@ namespace Paint_Application
                 drawArea.Children.Clear();
                 drawBackGround.Children.Clear();
 
-                for (int i = 0; i < layerList[currentLayerIndex].drawSurface.Count; i++)
+                for (int i = 0; i < drawSurface.Count; i++)
                 {
-                    layerList[currentLayerIndex].drawSurface[i].setEdit(false);
-                    drawArea.Children.Add(layerList[currentLayerIndex].drawSurface[i].convertShapeType());
+                    drawSurface[i].setEdit(false);
+                    drawArea.Children.Add(drawSurface[i].convertShapeType());
                 }
 
                 toolHorizontalButton.Opacity = 0.3;
@@ -1914,10 +1938,10 @@ namespace Paint_Application
             drawArea.Children.Clear();
             drawBackGround.Children.Clear();
 
-            for (int i = 0; i < layerList[currentLayerIndex].drawSurface.Count; i++)
+            for (int i = 0; i < drawSurface.Count; i++)
             {
-                layerList[currentLayerIndex].drawSurface[i].setEdit(false);
-                drawArea.Children.Add(layerList[currentLayerIndex].drawSurface[i].convertShapeType());
+                drawSurface[i].setEdit(false);
+                drawArea.Children.Add(drawSurface[i].convertShapeType());
             }
 
             toolHorizontalButton.Opacity = 0.3;
@@ -1990,13 +2014,13 @@ namespace Paint_Application
             double minDistance = -1;
             int index =  -1;
 
-            for (int i = 0; i < layerList[currentLayerIndex].drawSurface.Count; i++)
+            for (int i = 0; i < drawSurface.Count; i++)
             {
-                if (!layerList[currentLayerIndex].drawSurface[i].shapeName.Equals("Free Line"))
+                if (!drawSurface[i].shapeName.Equals("Free Line"))
                 {
-                    if (isPointInsideShape(layerList[currentLayerIndex].drawSurface[i], point))
+                    if (isPointInsideShape(drawSurface[i], point))
                     {
-                        double distance = calculateDistance(layerList[currentLayerIndex].drawSurface[i].getCenterPoint(), point);
+                        double distance = calculateDistance(drawSurface[i].getCenterPoint(), point);
                         if (minDistance != -1)
                         {
                             if (distance < minDistance)
@@ -2107,24 +2131,24 @@ namespace Paint_Application
             drawArea.Children.Clear();
             drawBackGround.Children.Clear();
 
-            for (int i = 0; i < layerList[currentLayerIndex].drawSurface.Count; i++)
+            for (int i = 0; i < drawSurface.Count; i++)
             {
                 if (i == editShapeIndex)
                 {
-                    layerList[currentLayerIndex].drawSurface[i].setEdit(true);
-                    drawBackGround.Children.Add(layerList[currentLayerIndex].drawSurface[i].convertShapeType());
-                    if (layerList[currentLayerIndex].drawSurface[i].shapeName.Equals("Line") || layerList[currentLayerIndex].drawSurface[i].shapeName.Equals("ShiftLine"))
+                    drawSurface[i].setEdit(true);
+                    drawBackGround.Children.Add(drawSurface[i].convertShapeType());
+                    if (drawSurface[i].shapeName.Equals("Line") || drawSurface[i].shapeName.Equals("ShiftLine"))
                     {
-                        if (layerList[currentLayerIndex].drawSurface[i].shapeName.Equals("ShiftLine"))
+                        if (drawSurface[i].shapeName.Equals("ShiftLine"))
                         {
-                            Point oldStartPoint = layerList[currentLayerIndex].drawSurface[i].getStartPoint();
-                            Point oldEndPoint = layerList[currentLayerIndex].drawSurface[i].getEndPoint();
+                            Point oldStartPoint = drawSurface[i].getStartPoint();
+                            Point oldEndPoint = drawSurface[i].getEndPoint();
 
                             for (int j = 0; j < allShapeList.Count; j++)
                             {
                                 if (allShapeList[j].shapeName.Equals("Line"))
                                 {
-                                    layerList[currentLayerIndex].drawSurface.RemoveAt(i);
+                                    drawSurface.RemoveAt(i);
 
                                     IShape newLine = (IShape)allShapeList[j].Clone();
                                     newLine.addStartPoint(oldStartPoint);
@@ -2135,17 +2159,17 @@ namespace Paint_Application
                                     newLine.setShapeFill(isShapeFill);
                                     newLine.setEdit(true);
 
-                                    layerList[currentLayerIndex].drawSurface.Insert(i, newLine);
+                                    drawSurface.Insert(i, newLine);
 
-                                    drawBackGround.Children.Add(layerList[currentLayerIndex].drawSurface[i].convertShapeType());
+                                    drawBackGround.Children.Add(drawSurface[i].convertShapeType());
                                     break;
                                 }
                             }
                         }
 
-                        EditGrid = layerList[currentLayerIndex].drawSurface[i].getEditGrid();
-                        StartButton = layerList[currentLayerIndex].drawSurface[i].getStartButton();
-                        EndButton = layerList[currentLayerIndex].drawSurface[i].getEndButton();
+                        EditGrid = drawSurface[i].getEditGrid();
+                        StartButton = drawSurface[i].getStartButton();
+                        EndButton = drawSurface[i].getEndButton();
 
                         EditGrid.Cursor = Cursors.SizeAll;
                         StartButton.Cursor = Cursors.SizeNS;
@@ -2162,16 +2186,16 @@ namespace Paint_Application
                     }
                     else
                     {
-                        EditGrid = layerList[currentLayerIndex].drawSurface[i].getEditGrid();
-                        LeftTopButton = layerList[currentLayerIndex].drawSurface[i].getLeftTopButton();
-                        RightTopButton = layerList[currentLayerIndex].drawSurface[i].getRightTopButton();
-                        LeftBottomButton = layerList[currentLayerIndex].drawSurface[i].getLeftBottomButton();
-                        RightBottomButton = layerList[currentLayerIndex].drawSurface[i].getRightBottomButton();
-                        LeftCenterButton = layerList[currentLayerIndex].drawSurface[i].getLeftCenterButton();
-                        RightCenterButton = layerList[currentLayerIndex].drawSurface[i].getRightCenterButton();
-                        TopCenterButton = layerList[currentLayerIndex].drawSurface[i].getTopCenterButton();
-                        BottomCenterButton = layerList[currentLayerIndex].drawSurface[i].getBottomCenterButton();
-                        RotateButton = layerList[currentLayerIndex].drawSurface[i].getRotateButton();
+                        EditGrid = drawSurface[i].getEditGrid();
+                        LeftTopButton = drawSurface[i].getLeftTopButton();
+                        RightTopButton = drawSurface[i].getRightTopButton();
+                        LeftBottomButton = drawSurface[i].getLeftBottomButton();
+                        RightBottomButton = drawSurface[i].getRightBottomButton();
+                        LeftCenterButton = drawSurface[i].getLeftCenterButton();
+                        RightCenterButton = drawSurface[i].getRightCenterButton();
+                        TopCenterButton = drawSurface[i].getTopCenterButton();
+                        BottomCenterButton = drawSurface[i].getBottomCenterButton();
+                        RotateButton = drawSurface[i].getRotateButton();
 
                         EditGrid.Cursor = Cursors.SizeAll;
                         LeftTopButton.Cursor = Cursors.SizeNWSE;
@@ -2217,8 +2241,8 @@ namespace Paint_Application
                 }
                 else
                 {
-                    layerList[currentLayerIndex].drawSurface[i].setEdit(false);
-                    drawArea.Children.Add(layerList[currentLayerIndex].drawSurface[i].convertShapeType());
+                    drawSurface[i].setEdit(false);
+                    drawArea.Children.Add(drawSurface[i].convertShapeType());
                 }
             }
         }
@@ -2229,10 +2253,27 @@ namespace Paint_Application
             {
                 layerListView.Visibility = Visibility.Collapsed;
                 newLayerButton.Visibility = Visibility.Collapsed;
+                layerInformStackPanel.Visibility = Visibility.Collapsed;
             } else if (layerListView.Visibility == Visibility.Collapsed)
             {
                 layerListView.Visibility = Visibility.Visible;
                 newLayerButton.Visibility = Visibility.Visible;
+                layerInformStackPanel.Visibility = Visibility.Visible;
+
+                drawArea.Children.Clear();
+                drawBackGround.Children.Clear();
+
+                for (int i = 0; i < drawSurface.Count; i++)
+                {
+                    drawSurface[i].setEdit(false);
+                    drawArea.Children.Add(drawSurface[i].convertShapeType());
+                }
+
+                toolHorizontalButton.Opacity = 0.3;
+                toolVerticalButton.Opacity = 0.3;
+
+                isEditting = false;
+                editShapeIndex = -1;
             }
         }
 
@@ -2249,32 +2290,42 @@ namespace Paint_Application
         {
             if (layerListView.SelectedIndex != -1)
             {
+                layerInformTextBlock.Text = "Layer " + (layerListView.SelectedIndex + 1).ToString();
+
                 if (layerListView.SelectedItems.Count == 1)
                 {
                     currentLayerIndex = layerListView.SelectedIndex;
 
                     drawArea.Children.Clear();
                     drawBackGround.Children.Clear();
+                    drawSurface.Clear();
 
-                    foreach (var item in layerList[currentLayerIndex].drawSurface)
+                    Layer layer = (Layer)layerListView.SelectedItems[0];
+                    List<IShape> subDrawSurface = layer.drawSurface;
+                    drawSurface.AddRange(subDrawSurface);
+
+                    foreach (var item in drawSurface)
                     {
+                        item.setEdit(false);
                         drawArea.Children.Add(item.convertShapeType());
                     }
                 } else
                 {
                     drawArea.Children.Clear();
                     drawBackGround.Children.Clear();
+                    drawSurface.Clear();
 
                     for (int i = 0; i < layerListView.SelectedItems.Count; i++)
                     {
                         Layer layer = (Layer)layerListView.SelectedItems[i];
-                        int index = Int32.Parse(layer.layerName.Split()[1]) - 1;
-                        List<IShape> drawSurface = layer.drawSurface;
+                        List<IShape> subDrawSurface = layer.drawSurface;
+                        drawSurface.AddRange(subDrawSurface);
+                    }
 
-                        foreach (var item in drawSurface)
-                        {
-                            drawArea.Children.Add(item.convertShapeType());
-                        }
+                    foreach (var item in drawSurface)
+                    {
+                        item.setEdit(false);
+                        drawArea.Children.Add(item.convertShapeType());
                     }
                 }
             }

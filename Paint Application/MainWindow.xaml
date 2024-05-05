@@ -751,9 +751,13 @@
             </ListView>
             <Button Name="newLayerButton" Style="{StaticResource buttonStyle}" Background="CornflowerBlue" Width="135" Height="80" VerticalAlignment="Bottom" HorizontalAlignment="Right" Visibility="Collapsed" Click="newLayerButtonClick">
                 <Button.Content>
-                    <TextBlock Text="+" Cursor="Hand" Width="120" Height="80" Background="White" Margin="5" FontFamily="fonts/#Signika" FontSize="60" TextAlignment="Center" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                    <TextBlock Text="+" Cursor="Hand" Width="120" Height="60" Background="White" Margin="5" FontFamily="fonts/#Signika" FontSize="50" TextAlignment="Center" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                 </Button.Content>
             </Button>
+            <StackPanel Name="layerInformStackPanel" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="10" Orientation="Horizontal" Visibility="Collapsed">
+                <TextBlock Text="Current Drawing Layer: " FontFamily="fonts/#Signika" FontSize="20" TextAlignment="Center"/>
+                <TextBlock Name="layerInformTextBlock" FontFamily="fonts/#Signika" FontSize="20" TextAlignment="Center"/>
+            </StackPanel>
         </Grid>
     </Grid>
 </Window>
