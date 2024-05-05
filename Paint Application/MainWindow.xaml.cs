@@ -830,6 +830,7 @@ namespace Paint_Application
                 if (!checkIfDrawSurfaceEmpty(layerList[currentLayerIndex].drawSurface))
                 {
                     layerList[currentLayerIndex].drawSurface.Add(newFreeLine);
+                    drawSurface.Add(newFreeLine);
 
                     toolUndoButton.Opacity = 1;
                     toolRedoButton.Opacity = 0.3;
@@ -1539,6 +1540,7 @@ namespace Paint_Application
                 {
                     recoverList.Add(layerList[currentLayerIndex].drawSurface[layerList[currentLayerIndex].drawSurface.Count - 1]);
                     layerList[currentLayerIndex].drawSurface.RemoveAt(layerList[currentLayerIndex].drawSurface.Count - 1);
+                    drawSurface.RemoveAt(drawSurface.Count - 1);
 
                     drawArea.Children.Clear();
                     drawBackGround.Children.Clear();
@@ -1555,7 +1557,7 @@ namespace Paint_Application
                     toolHorizontalButton.Opacity = 0.3;
                     toolVerticalButton.Opacity = 0.3;
 
-                    if (layerList[currentLayerIndex].drawSurface.Count == 0)
+                    if (checkIfDrawSurfaceEmpty(layerList[currentLayerIndex].drawSurface))
                     {
                         toolUndoButton.Opacity = 0.3;
                     }
@@ -1569,6 +1571,7 @@ namespace Paint_Application
                 if (toolRedoButton.Opacity != 0.3)
                 {
                     layerList[currentLayerIndex].drawSurface.Add(recoverList[recoverList.Count - 1]);
+                    drawSurface.Add(recoverList[recoverList.Count - 1]);
                     recoverList.RemoveAt(recoverList.Count - 1);
 
                     drawArea.Children.Clear();
@@ -1600,6 +1603,7 @@ namespace Paint_Application
                 if (editShapeIndex != -1)
                 {
                     layerList[currentLayerIndex].drawSurface.RemoveAt(editShapeIndex);
+                    drawSurface.RemoveAt(editShapeIndex);
 
                     drawArea.Children.Clear();
                     drawBackGround.Children.Clear();
@@ -1781,6 +1785,8 @@ namespace Paint_Application
 
                     toolHorizontalButton.Opacity = 0.3;
                     toolVerticalButton.Opacity = 0.3;
+
+                    return;
                 }
 
                 if (listNewShape.Count > 0) 
@@ -2046,6 +2052,7 @@ namespace Paint_Application
             {
                 recoverList.Add(layerList[currentLayerIndex].drawSurface[layerList[currentLayerIndex].drawSurface.Count - 1]);
                 layerList[currentLayerIndex].drawSurface.RemoveAt(layerList[currentLayerIndex].drawSurface.Count - 1);
+                drawSurface.RemoveAt(drawSurface.Count - 1);
 
                 drawArea.Children.Clear();
                 drawBackGround.Children.Clear();
@@ -2076,6 +2083,8 @@ namespace Paint_Application
             if (toolRedoButton.Opacity != 0.3)
             {
                 layerList[currentLayerIndex].drawSurface.Add(recoverList[recoverList.Count - 1]);
+                drawSurface.Add(recoverList[recoverList.Count - 1]);
+                
                 recoverList.RemoveAt(recoverList.Count - 1);
 
                 drawArea.Children.Clear();
