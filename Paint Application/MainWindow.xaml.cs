@@ -58,6 +58,7 @@ namespace Paint_Application
         private bool isShapeFill = false;
         private bool isTextOpen = false;
         private bool isEditting = false;
+        private bool isSelecting = false;
 
         //Lưu giữ điểm bắt đầu và kết thúc của nét vẽ
         Point startPoint;
@@ -67,7 +68,9 @@ namespace Paint_Application
         IColor customColor;
         IShape freeLine;
         IShape text;
-        IShape newShape = null;
+        IShape selection;
+        IShape newShape;
+        List<IShape> listNewShape;
 
         //List border giúp xác định các border khi người dùng chọn vào các function
         private List<Border> function = new List<Border>();
@@ -167,7 +170,7 @@ namespace Paint_Application
                 {
                     if ((type.IsClass) && (typeof(IShape).IsAssignableFrom(type)))
                     {
-                        if (!type.Name.Contains("Shift") && !type.Name.Equals("myFreeLine") && !type.Name.Equals("myText"))
+                        if (!type.Name.Contains("Shift") && !type.Name.Equals("myFreeLine") && !type.Name.Equals("myText") && !type.Name.Equals("myRectangleSelection"))
                         {
                             shapeList.Add((IShape)Activator.CreateInstance(type)!);
                         }
@@ -180,6 +183,11 @@ namespace Paint_Application
                         if (type.Name.Equals("myText"))
                         {
                             text = (IShape)Activator.CreateInstance(type)!;
+                        }
+
+                        if (type.Name.Equals("myRectangleSelection"))
+                        {
+                            selection = (IShape)Activator.CreateInstance(type)!;
                         }
 
                         allShapeList.Add((IShape)Activator.CreateInstance(type)!);
@@ -229,6 +237,9 @@ namespace Paint_Application
             drawArea.Children.Clear();
             drawBackGround.Children.Clear();
 
+            editShapeIndex = -1;
+            isEditting = false;
+
             for (int i = 0; i < drawSurface.Count; i++)
             {
                 drawSurface[i].setEdit(false);
@@ -258,6 +269,13 @@ namespace Paint_Application
                 }
             }
 
+            if (index == 0)
+            {
+                isSelecting = true;
+            } else {
+                isSelecting = false;
+            }
+
             if (index == 1)
             {
                 isTextOpen = true;
@@ -284,6 +302,9 @@ namespace Paint_Application
 
             drawArea.Children.Clear();
             drawBackGround.Children.Clear();
+
+            editShapeIndex = -1;
+            isEditting = false;
 
             for (int i = 0; i < drawSurface.Count; i++)
             {
@@ -323,6 +344,9 @@ namespace Paint_Application
 
             drawArea.Children.Clear();
             drawBackGround.Children.Clear();
+
+            editShapeIndex = -1;
+            isEditting = false;
 
             for (int i = 0; i < drawSurface.Count; i++)
             {
@@ -386,6 +410,9 @@ namespace Paint_Application
             drawArea.Children.Clear();
             drawBackGround.Children.Clear();
 
+            editShapeIndex = -1;
+            isEditting = false;
+
             for (int i = 0; i < drawSurface.Count; i++)
             {
                 drawSurface[i].setEdit(false);
@@ -410,6 +437,9 @@ namespace Paint_Application
 
             drawArea.Children.Clear();
             drawBackGround.Children.Clear();
+
+            editShapeIndex = -1;
+            isEditting = false;
 
             for (int i = 0; i < drawSurface.Count; i++)
             {
@@ -437,6 +467,9 @@ namespace Paint_Application
 
             drawArea.Children.Clear();
             drawBackGround.Children.Clear();
+
+            editShapeIndex = -1;
+            isEditting = false;
 
             for (int i = 0; i < drawSurface.Count; i++)
             {
@@ -475,6 +508,9 @@ namespace Paint_Application
 
             drawArea.Children.Clear();
             drawBackGround.Children.Clear();
+
+            editShapeIndex = -1;
+            isEditting = false;
 
             for (int i = 0; i < drawSurface.Count; i++)
             {
@@ -547,6 +583,9 @@ namespace Paint_Application
 
             drawArea.Children.Clear();
             drawBackGround.Children.Clear();
+
+            editShapeIndex = -1;
+            isEditting = false;
 
             for (int i = 0; i < drawSurface.Count; i++)
             {
@@ -641,6 +680,9 @@ namespace Paint_Application
             drawArea.Children.Clear();
             drawBackGround.Children.Clear();
 
+            editShapeIndex = -1;
+            isEditting = false;
+
             for (int i = 0; i < drawSurface.Count; i++)
             {
                 drawSurface[i].setEdit(false);
@@ -689,6 +731,9 @@ namespace Paint_Application
 
             drawArea.Children.Clear();
             drawBackGround.Children.Clear();
+
+            editShapeIndex = -1;
+            isEditting = false;
 
             for (int i = 0; i < drawSurface.Count; i++)
             {
@@ -745,6 +790,9 @@ namespace Paint_Application
             drawArea.Children.Clear();
             drawBackGround.Children.Clear();
 
+            editShapeIndex = -1;
+            isEditting = false;
+
             for (int i = 0; i < drawSurface.Count; i++)
             {
                 drawSurface[i].setEdit(false);
@@ -761,13 +809,16 @@ namespace Paint_Application
 
             if (selectedShape != null)
             {
-                layerList[currentLayerIndex].drawSurface.Add((IShape)selectedShape.Clone());
-                drawSurface.Add((IShape)selectedShape.Clone());
-                toolUndoButton.Opacity = 1;
-                toolRedoButton.Opacity = 0.3;
+                if (!selectedShape.shapeName.Equals("Rectangle Selection"))
+                {
+                    layerList[currentLayerIndex].drawSurface.Add((IShape)selectedShape.Clone());
+                    drawSurface.Add((IShape)selectedShape.Clone());
+                    toolUndoButton.Opacity = 1;
+                    toolRedoButton.Opacity = 0.3;
 
-                toolFileExportButton.Opacity = 1;
-                recoverList.Clear();
+                    toolFileExportButton.Opacity = 1;
+                    recoverList.Clear();
+                }
             }
 
             if (selectedShape == null && isToolEraseOpen)
@@ -1168,6 +1219,11 @@ namespace Paint_Application
                     layerList[currentLayerIndex].drawSurface.Add(newText);
                     selectedShape = null;
                 }
+
+                if (isSelecting)
+                {
+                    selectedShape = selection;
+                }
             }
             else
             {
@@ -1184,6 +1240,9 @@ namespace Paint_Application
                 {
                     drawArea.Children.Clear();
                     drawBackGround.Children.Clear();
+
+                    editShapeIndex = -1;
+                    isEditting = false;
 
                     for (int i = 0; i < drawSurface.Count; i++)
                     {
@@ -1482,6 +1541,9 @@ namespace Paint_Application
                     drawArea.Children.Clear();
                     drawBackGround.Children.Clear();
 
+                    editShapeIndex = -1;
+                    isEditting = false;
+
                     for (int i = 0; i < drawSurface.Count; i++)
                     {
                         drawSurface[i].setEdit(false);
@@ -1510,6 +1572,9 @@ namespace Paint_Application
                     drawArea.Children.Clear();
                     drawBackGround.Children.Clear();
 
+                    editShapeIndex = -1;
+                    isEditting = false;
+
                     for (int i = 0; i < drawSurface.Count; i++)
                     {
                         drawSurface[i].setEdit(false);
@@ -1536,6 +1601,9 @@ namespace Paint_Application
 
                     drawArea.Children.Clear();
                     drawBackGround.Children.Clear();
+
+                    editShapeIndex = -1;
+                    isEditting = false;
 
                     for (int i = 0; i < drawSurface.Count; i++)
                     {
@@ -1578,13 +1646,38 @@ namespace Paint_Application
                 if (editShapeIndex != -1)
                 {
                     newShape = null;
-                    newShape = (IShape)layerList[currentLayerIndex].drawSurface[editShapeIndex].Clone();
+                    newShape = (IShape)drawSurface[editShapeIndex].Clone();
 
                     double distanceX = Math.Abs(newShape.getStartPoint().X - newShape.getEndPoint().X);
                     double distanceY = Math.Abs(newShape.getStartPoint().Y - newShape.getEndPoint().Y);
 
                     newShape.addStartPoint(new Point(0, 0));
                     newShape.addEndPoint(new Point(distanceX, distanceY));
+                }
+
+                if (selectedShape != null)
+                {
+                    if (selectedShape.shapeName.Equals("Rectangle Selection"))
+                    {
+                        List<int> listIndices = getShapeInsideRectangle(selectedShape);
+                        listNewShape = new List<IShape>();
+
+                        for (int i = 0; i < listIndices.Count; i++)
+                        {
+                            newShape = null;
+                            newShape = (IShape)drawSurface[listIndices[i]].Clone();
+
+                            double distanceX = Math.Abs(newShape.getStartPoint().X - newShape.getEndPoint().X);
+                            double distanceY = Math.Abs(newShape.getStartPoint().Y - newShape.getEndPoint().Y);
+
+                            newShape.addStartPoint(new Point(0, 0));
+                            newShape.addEndPoint(new Point(distanceX, distanceY));
+
+                            listNewShape.Add(newShape);
+                        }
+                    }
+
+                    newShape = null;
                 }
             }
 
@@ -1593,7 +1686,7 @@ namespace Paint_Application
                 if (editShapeIndex != -1)
                 {
                     newShape = null;
-                    newShape = (IShape)layerList[currentLayerIndex].drawSurface[editShapeIndex].Clone();
+                    newShape = (IShape)drawSurface[editShapeIndex].Clone();
 
                     double distanceX = Math.Abs(newShape.getStartPoint().X - newShape.getEndPoint().X);
                     double distanceY = Math.Abs(newShape.getStartPoint().Y - newShape.getEndPoint().Y);
@@ -1601,10 +1694,13 @@ namespace Paint_Application
                     newShape.addStartPoint(new Point(0, 0));
                     newShape.addEndPoint(new Point(distanceX, distanceY));
 
-                    layerList[currentLayerIndex].drawSurface.RemoveAt(editShapeIndex);
+                    drawSurface.RemoveAt(editShapeIndex);
 
                     drawArea.Children.Clear();
                     drawBackGround.Children.Clear();
+
+                    editShapeIndex = -1;
+                    isEditting = false;
 
                     for (int i = 0; i < drawSurface.Count; i++)
                     {
@@ -1615,6 +1711,51 @@ namespace Paint_Application
                     toolHorizontalButton.Opacity = 0.3;
                     toolVerticalButton.Opacity = 0.3;
                 }
+
+                if (selectedShape != null)
+                {
+                    if (selectedShape.shapeName.Equals("Rectangle Selection"))
+                    {
+                        List<int> listIndices = getShapeInsideRectangle(selectedShape);
+                        listNewShape = new List<IShape>();
+
+                        for (int i = 0; i < listIndices.Count; i++)
+                        {
+                            newShape = null;
+                            newShape = (IShape)drawSurface[listIndices[i]].Clone();
+
+                            double distanceX = Math.Abs(newShape.getStartPoint().X - newShape.getEndPoint().X);
+                            double distanceY = Math.Abs(newShape.getStartPoint().Y - newShape.getEndPoint().Y);
+
+                            newShape.addStartPoint(new Point(0, 0));
+                            newShape.addEndPoint(new Point(distanceX, distanceY));
+
+                            listNewShape.Add(newShape);
+                        }
+
+                        for (int i = listIndices.Count - 1; i >= 0; i--)
+                        {
+                            drawSurface.RemoveAt(listIndices[i]);
+                        }
+                    }
+
+                    drawArea.Children.Clear();
+                    drawBackGround.Children.Clear();
+
+                    editShapeIndex = -1;
+                    isEditting = false;
+
+                    for (int i = 0; i < drawSurface.Count; i++)
+                    {
+                        drawSurface[i].setEdit(false);
+                        drawArea.Children.Add(drawSurface[i].convertShapeType());
+                    }
+
+                    toolHorizontalButton.Opacity = 0.3;
+                    toolVerticalButton.Opacity = 0.3;
+
+                    newShape = null;
+                }
             }
 
             if ((e.Key == Key.V) && (System.Windows.Forms.Control.ModifierKeys & Keys.Control) == Keys.Control)
@@ -1622,8 +1763,37 @@ namespace Paint_Application
                 if (newShape != null)
                 {
                     layerList[currentLayerIndex].drawSurface.Add(newShape);
+                    drawSurface.Add(newShape);
+
                     drawArea.Children.Clear();
                     drawBackGround.Children.Clear();
+
+                    editShapeIndex = -1;
+                    isEditting = false;
+
+                    for (int i = 0; i < drawSurface.Count; i++)
+                    {
+                        drawSurface[i].setEdit(false);
+                        drawArea.Children.Add(drawSurface[i].convertShapeType());
+                    }
+
+                    toolHorizontalButton.Opacity = 0.3;
+                    toolVerticalButton.Opacity = 0.3;
+                }
+
+                if (listNewShape.Count > 0) 
+                {
+                    for (int i = 0; i < listNewShape.Count; i++)
+                    {
+                        layerList[currentLayerIndex].drawSurface.Add(listNewShape[i]);
+                        drawSurface.Add(listNewShape[i]);
+                    }
+
+                    drawArea.Children.Clear();
+                    drawBackGround.Children.Clear();
+
+                    editShapeIndex = -1;
+                    isEditting = false;
 
                     for (int i = 0; i < drawSurface.Count; i++)
                     {
@@ -1701,6 +1871,9 @@ namespace Paint_Application
             drawArea.Children.Clear();
             drawBackGround.Children.Clear();
 
+            editShapeIndex = -1;
+            isEditting = false;
+
             for (int i = 0; i < drawSurface.Count; i++)
             {
                 drawSurface[i].setEdit(false);
@@ -1726,6 +1899,9 @@ namespace Paint_Application
             drawArea.Children.Clear();
             drawBackGround.Children.Clear();
 
+            editShapeIndex = -1;
+            isEditting = false;
+
             for (int i = 0; i < drawSurface.Count; i++)
             {
                 drawSurface[i].setEdit(false);
@@ -1743,6 +1919,9 @@ namespace Paint_Application
 
             drawArea.Children.Clear();
             drawBackGround.Children.Clear();
+
+            editShapeIndex = -1;
+            isEditting = false;
 
             for (int i = 0; i < drawSurface.Count; i++)
             {
@@ -1869,6 +2048,9 @@ namespace Paint_Application
                 drawArea.Children.Clear();
                 drawBackGround.Children.Clear();
 
+                editShapeIndex = -1;
+                isEditting = false;
+
                 for (int i = 0; i < drawSurface.Count; i++)
                 {
                     drawSurface[i].setEdit(false);
@@ -1896,6 +2078,9 @@ namespace Paint_Application
 
                 drawArea.Children.Clear();
                 drawBackGround.Children.Clear();
+
+                editShapeIndex = -1;
+                isEditting = false;
 
                 for (int i = 0; i < drawSurface.Count; i++)
                 {
@@ -1950,6 +2135,9 @@ namespace Paint_Application
 
             drawArea.Children.Clear();
             drawBackGround.Children.Clear();
+
+            editShapeIndex = -1;
+            isEditting = false;
 
             for (int i = 0; i < drawSurface.Count; i++)
             {
@@ -2276,6 +2464,9 @@ namespace Paint_Application
                 drawArea.Children.Clear();
                 drawBackGround.Children.Clear();
 
+                editShapeIndex = -1;
+                isEditting = false;
+
                 for (int i = 0; i < drawSurface.Count; i++)
                 {
                     drawSurface[i].setEdit(false);
@@ -2317,6 +2508,9 @@ namespace Paint_Application
                     List<IShape> subDrawSurface = layer.drawSurface;
                     drawSurface.AddRange(subDrawSurface);
 
+                    editShapeIndex = -1;
+                    isEditting = false;
+
                     foreach (var item in drawSurface)
                     {
                         item.setEdit(false);
@@ -2327,6 +2521,9 @@ namespace Paint_Application
                     drawArea.Children.Clear();
                     drawBackGround.Children.Clear();
                     drawSurface.Clear();
+
+                    editShapeIndex = -1;
+                    isEditting = false;
 
                     for (int i = 0; i < layerListView.SelectedItems.Count; i++)
                     {
@@ -2351,6 +2548,7 @@ namespace Paint_Application
             ofd.Filter = "txt files (*.txt)|*.txt|All files (*.*)|*.*";
             ofd.ShowDialog();
             string filePath = ofd.FileName;
+            string FileName = (filePath.Split("\\")[filePath.Split("\\").Length - 1]).Split(".")[0];
 
             if (!filePath.Equals(""))
             {
@@ -2443,11 +2641,16 @@ namespace Paint_Application
                         List<IShape> subDrawSurface = layer.drawSurface;
                         drawSurface.AddRange(subDrawSurface);
 
+                        editShapeIndex = -1;
+                        isEditting = false;
+
                         foreach (var item in drawSurface)
                         {
                             item.setEdit(false);
                             drawArea.Children.Add(item.convertShapeType());
                         }
+
+                        fileTitleName.Text = FileName;
                     }
                     else
                     {
@@ -2561,6 +2764,46 @@ namespace Paint_Application
                     return;
                 }
             }
+        }
+
+        private List<int> getShapeInsideRectangle(IShape selectionRectangle)
+        {
+            List<int> listIndices = new List<int>();
+
+            double startSelectionX = selectionRectangle.getStartPoint().X;
+            double startSelectionY = selectionRectangle.getStartPoint().Y;
+
+            double endSelectionX = selectionRectangle.getEndPoint().X;
+            double endSelectionY = selectionRectangle.getEndPoint().Y;
+
+            for (int i  = 0; i < drawSurface.Count; i++)
+            {
+                double startPointX = drawSurface[i].getStartPoint().X;
+                double startPointY = drawSurface[i].getStartPoint().Y;
+
+                double endPointX = drawSurface[i].getEndPoint().X;
+                double endPointY = drawSurface[i].getEndPoint().Y;
+
+                bool insideStartPoint = false;
+                bool insideEndPoint = false;
+
+                if (startPointX > startSelectionX && startPointY > startSelectionY)
+                {
+                    insideStartPoint = true;
+                }
+
+                if (endPointX < endSelectionX && endPointY < endSelectionY)
+                {
+                    insideEndPoint = true;
+                }
+
+                if (insideStartPoint && insideEndPoint)
+                {
+                    listIndices.Add(i);
+                }
+            }
+
+            return listIndices;
         }
     }
 }

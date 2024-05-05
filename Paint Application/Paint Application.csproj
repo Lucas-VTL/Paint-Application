@@ -200,6 +200,7 @@
 		<ProjectReference Include="..\myShiftTriangle\myShiftTriangle.csproj" />
 		<ProjectReference Include="..\myFreeLine\myFreeLine.csproj" />
 		<ProjectReference Include="..\myText\myText.csproj" />
+		<ProjectReference Include="..\myRectangleSelection\myRectangleSelection.csproj" />
 	
         <ProjectReference Include="..\myWidthness\myWidthness.csproj" />
         <ProjectReference Include="..\my1PixelWidthness\my1PixelWidthness.csproj" />
